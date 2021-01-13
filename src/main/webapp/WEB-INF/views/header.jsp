@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<div class="jumbotron" style="background-color: white; margin-bottom: 0; height:150px;">
+<div class="jumbotron" style="background-color: white; margin-bottom: 0; height:150px; padding: 20px 0;">
   <img src="resources/images/logo_tp_final01.png" style="width: 177px;
    height: 80px;
     margin-left: auto;
