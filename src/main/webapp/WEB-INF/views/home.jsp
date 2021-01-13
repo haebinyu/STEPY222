@@ -18,7 +18,7 @@
 	<jsp:include page="header.jsp" />
 </header>
 <section>
-<a href="#">새로운 여행</a>
+<a href="./pMakePlanFrm">새로운 여행</a>
 </section>
 <footer>
 	<jsp:include page="footer.jsp" />
