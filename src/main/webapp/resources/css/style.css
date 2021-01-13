@@ -22,3 +22,11 @@ body {
   padding: 0 15px;
 }
 
+mg {
+   width: 177px;
+   height: 80px;
+   margin: 10px auto;
+}
+h1 {
+   text-align: center;
+}
