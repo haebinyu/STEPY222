@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 맵퍼로 xml과 연결시킬 dao는 이름이 같아야 함 / 단, 맵퍼를 사용하려면 마이바티스 DOCTYPE을 통한 임포트가 필요 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- DOCTYPE을 통해 맵퍼 기능 활성화 완료, DAO파일 스캔 '네임스페이스' 속성값=스캔 대상 클래스 이름 -->
+<mapper namespace="com.bob.stepy.dao.AdminDao">
+	<!-- 로그인시 비밀번호 구하기 SELECT -->
+	<!-- id값은 DAO클래스에서의 메소드명과 통일 파라미터,리절트 타입도 DAO 클래스에서 지정했던 타입과 맞춤 -->
+	<select id="getPwd" parameterType="String"
+		resultType="String">
+		<!-- 파라미터되는 id를 따라 패스워드 SELECT -->
+		SELECT M_PWD FROM M WHERE M_ID=#{m_id}
+	</select>
+
+	<!-- 사용자에게만 필요한 정보들만 담은 뷰를 SELECT ID,이름,포인트,등급만 담긴 뷰(MINFO)를 SELECT함 -->
+	<select id="getMemberInfo" parameterType="String"
+		resultType="com.bob.stepy.dto.MemberDto">
+		SELECT * FROM M WHERE M_ID=#{m_id}
+	</select>
+</mapper>

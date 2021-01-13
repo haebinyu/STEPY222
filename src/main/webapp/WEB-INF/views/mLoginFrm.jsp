@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +20,19 @@
 	</header>
 	<main class="container">
 
-		<a href="./pMakePlanFrm">새로운 여행</a>
+		<div class="container mt-4 center-block text-center"
+			style="margin-top: 50px; max-width: 600px; background-color:#4375d9; color:white;">
+			<h1>Log In</h1>
+		</div>
+		<div
+			class="container mt-4 center-block text-dark text-center"
+			style="max-width: 600px;background-color:#F5F5F5;"><br>
+			<form action="mLoginProc" method="post">
+				<input stype="text" name="m_id" autofocus placeholder="아이디"><br><br>
+				<input type="password" name="m_pwd" placeholder="비밀번호"><br><br>
+				<input type="submit" value="로그인">
+			</form><br>
+		</div>
 
 	</main>
 	<footer>
