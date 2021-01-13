@@ -13,46 +13,47 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
 </head>
-<body style="height: 100%;">
+<body>
 
-	<header style="height: 13%; min-height: 13%; line-height: 13%;">
+	<header>
 		<jsp:include page="header.jsp" />
 	</header>
 
-	<section>
-		<div class="row" style="text-align: center; margin-left: 19%; margin-top: 25px;">
+	<main role="main" class="container">
+		<div class="row"
+			style="text-align: center; margin-left: 19%; margin-top: 25px;">
 			<div class="col-sm-9" style="background-color: pink; height: 200px;">
 				<h2>여행일정</h2>
 				<div class="row" style="margin-left: 28%;">
-					<div class="col-xs-8 col-sm-2" style="background-color: yellow; height: 100px; margin-right: 200px;
-															border-radius: 50%;">
-					Level 2: .col-xs-8 .col-sm-6</div>
-					<div class="col-xs-4 col-sm-2" style="background-color: green; height: 100px; border-radius: 50%;">
-					Level 2: .col-xs-4 .col-sm-6</div>
+					<div class="col-xs-8 col-sm-2"
+						style="background-color: yellow; height: 100px; margin-right: 200px; border-radius: 50%;">
+						Level 2: .col-xs-8 .col-sm-6</div>
+					<div class="col-xs-4 col-sm-2"
+						style="background-color: green; height: 100px; border-radius: 50%;">
+						Level 2: .col-xs-4 .col-sm-6</div>
 				</div>
 			</div>
 		</div>
-		<div class="row" style="text-align: center; background-color: yellow; margin-top:25px; width: 40%;
-								margin-left: 30%; margin-bottom: 25px; height: 200px; padding-top: 50px;">
+		<div class="row"
+			style="text-align: center; background-color: yellow; margin-top: 25px; width: 40%; margin-left: 30%; margin-bottom: 25px; height: 200px; padding-top: 50px;">
 			<h1>1111111</h1>
 		</div>
-		<div class="row" style="text-align: center; margin-left: 19%; margin-top: 25px;">
+		<div class="row"
+			style="text-align: center; margin-left: 19%; margin-top: 25px;">
 			<div class="col-sm-9" style="background-color: pink; height: 300px;">
 				<h2>여행일정</h2>
 				<div class="row" style="margin-left: 5%;">
-					<div class="col-xs-8 col-sm-2" style="background-color: yellow; height: 200px; margin-right: 70px;
-															width: 230px;">
-					Level 2: .col-xs-8 .col-sm-6</div>
-					<div class="col-xs-4 col-sm-2" style="background-color: green; height: 200px;
-															margin-right: 70px; width: 230px;">
-					Level 2: .col-xs-4 .col-sm-6</div>
-					<div class="col-xs-4 col-sm-2" style="background-color: green; height:200px;
-															width: 230px;">
-					Level 2: .col-xs-4 .col-sm-6</div>
+					<div class="col-xs-8 col-sm-2"
+						style="background-color: yellow; height: 200px; margin-right: 70px; width: 230px;">
+						Level 2: .col-xs-8 .col-sm-6</div>
+					<div class="col-xs-4 col-sm-2"
+						style="background-color: green; height: 200px; margin-right: 70px; width: 230px;">
+						Level 2: .col-xs-4 .col-sm-6</div>
+
 				</div>
 			</div>
 		</div>
-	</section>
+	</main>
 
 	<footer>
 		<jsp:include page="footer.jsp" />
