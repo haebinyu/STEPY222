@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-<title>Home</title>
+<meta charset="UTF-8">
+<title>새로운 일정 만들기</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -12,15 +12,14 @@
 <link href="resources/css/style.css" rel="stylesheet">
 </head>
 <body>
-
 <header>
-	<jsp:include page="header.jsp" />
+<jsp:include page="header.jsp"/>
 </header>
 <section>
-<a href="./pMakePlanFrm">새로운 여행</a>
+
 </section>
 <footer>
-	<jsp:include page="footer.jsp" />
+<jsp:include page="footer.jsp"/>
 </footer>
 </body>
 </html>
