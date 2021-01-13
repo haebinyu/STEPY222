@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<div class="jumbotron" style="background-color: #4375d9; margin-bottom: 0; height:150px;">
-  <h1 class="text-center" style="color: white;">STEPY</h1>
+<div class="jumbotron" style="background-color: white; margin-bottom: 0; height:150px;">
+  <img src="resources/images/logo_tp_final01.png" style="width: 177px;
+   height: 80px;
+    margin-left: auto;
+  margin-right: auto;
+  display: block;">
 </div>
 <nav class="navbar navbar-default" style="background-color: #4375d9;; border: none;;">
   <div class="container">
