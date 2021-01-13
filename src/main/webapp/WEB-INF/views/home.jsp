@@ -18,8 +18,8 @@
 	<header style="height: 13%; min-height: 13%; line-height: 13%;">
 		<jsp:include page="header.jsp" />
 	</header>
-
-	<section style="height: 82%;">
+<main role="main" class="container">
+	<section>
 		<div class="row" style="text-align: center; margin-left: 19%; margin-top: 25px;">
 			<div class="col-sm-9" style="background-color: pink; height: 200px;">
 				<h2>여행일정</h2>
@@ -53,8 +53,8 @@
 			</div>
 		</div>
 	</section>
-
-	<footer style="height: 5%;">
+</main>
+	<footer>
 		<jsp:include page="footer.jsp" />
 	</footer>
 </body>
