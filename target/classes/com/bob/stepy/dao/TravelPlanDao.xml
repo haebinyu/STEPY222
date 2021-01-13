@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.bob.stepy.dao.TravelPlanDao">
+	<insert id="pRegPlan" parameterType="com.bob.stepy.dto.TravelPlanDto">
+		INSERT INTO T
+		VALUES (TRAVELPLAN_SEQ.NEXTVAL,#{t_planname},#{t_id},#{t_spot},#{t_stdate},#{t_bkdate},#{t_member1},#{t_member2},#{t_member3},#{t_member4},#{t_member5})
+	</insert>
+</mapper>

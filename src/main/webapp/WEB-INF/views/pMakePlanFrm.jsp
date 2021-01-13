@@ -27,8 +27,8 @@ jQuery.browser = {};
 })();
 </script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-   <!-- datepicker 한국어로 -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
+<!-- datepicker 한국어로 -->
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
 </head>
 <body>
 <header>
@@ -42,6 +42,14 @@ jQuery.browser = {};
 				<div class="party-list col-sm-4 col-xs-12">
 				<div class="reader">
 				<p class="reader-name"><img src="resources/images/flag.png" height="15"> session.로그인아이디(추가예정)</p>
+				<input type="hidden" value="user01" name="t_id">
+				</div>
+				<div id="hidden-member">
+					<input type="hidden" name="t_member1">
+					<input type="hidden" name="t_member2">
+					<input type="hidden" name="t_member3">
+					<input type="hidden" name="t_member4">
+					<input type="hidden" name="t_member5">
 				</div>
 				<div id="party-member">
 					
@@ -54,13 +62,13 @@ jQuery.browser = {};
 				<div class="form-group">
 				   <label for="t_planname" class="col-sm-2 control-label">여행이름</label>
 				   <div class="col-sm-10">
-				     <input type="text" class="form-control" id="t_planname" placeholder="이번 여행의 이름을 입력해주세요!" required>
+				     <input type="text" class="form-control" id="t_planname" name="t_planname" placeholder="이번 여행의 이름을 입력해주세요!" required>
 				   </div>
 				 </div>
 				  <div class="form-group">
 				    <label for="t_spot" class="col-sm-2 control-label">여행지역</label>
 				    <div class="col-sm-10">
-				      <select class="form-control" id="t_spot">
+				      <select class="form-control" id="t_spot" name="t_spot">
 						  <option>서울</option>
 						  <option>인천</option>
 						  <option>강릉/속초</option>
@@ -74,13 +82,13 @@ jQuery.browser = {};
 				  <div class="form-group">
 				    <label for="t_stdate" class="col-sm-2 control-label">출발 일자</label>
 				    <div class="col-sm-10">
-				      <input type="text" class="form-control" id="t_stdate" required placeholder="출발 일자를 선택하세요">
+				      <input type="text" class="form-control" id="t_stdate" name="t_stdate" required placeholder="출발 일자를 선택하세요">
 				    </div>
 				  </div>
 				   <div class="form-group">
 				    <label for="t_bkdate" class="col-sm-2 control-label">도착 일자</label>
 				    <div class="col-sm-10">
-				      <input type="text" class="form-control" id="t_bkdate" required placeholder="도착 일자를 선택하세요">
+				      <input type="text" class="form-control" id="t_bkdate" name="t_bkdate" required placeholder="도착 일자를 선택하세요">
 				    </div>
 				  </div>
 				  <div class="form-group">
@@ -111,17 +119,20 @@ function addParty(){
 		var html = '<div class="form-group" onclick="delMember()">' + 
 	    '<label for="t_member' + memberCnt + '" class="col-sm-3 control-label">' +
 		'<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>' + ' 멤버' + memberCnt + '</label>' +
-	    '<div class="col-sm-9"><input type="text" class="form-control" id="t_member' + memberCnt + '" placeholder="아이디를 입력하세요"></div></div>'
+	    '<div class="col-sm-9"><input type="text" class="form-control" id="t_member' + memberCnt + '" name="t_member' + memberCnt + '" placeholder="아이디를 입력하세요"></div></div>'
 	    
 		$("#party-member").append(html);
+	    $("#hidden-member>input:first-child").remove();// 가장 처음 요소 삭제
 		memberCnt++; // 생성된 멤버 카운트 증가
 	}
 }
 function delParty(){
 	console.log("delParty()");
+	var html = '<input type="hidden" name="t_member' + (memberCnt - 1) + '">'
 	
 	if(memberCnt > 1){ // 생성된 멤버가 있는 경우 실행
 		$("#party-member>div:last-child").remove(); // 가장 마지막 입력 요소제거
+		$("#hidden-member").prepend(html)
 		memberCnt--; // 멤버 카운트 감소
 	}
 	else { // 생성된 멤버가 없는 경우 경고창

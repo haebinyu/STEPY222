@@ -1,7 +1,5 @@
 package com.bob.stepy.dto;
 
-import java.sql.Timestamp;
-
 import lombok.Data;
 
 @Data
