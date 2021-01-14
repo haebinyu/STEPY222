@@ -24,18 +24,32 @@ public class TravelPlanController {
 	
 	@GetMapping("pMakePlanFrm")
 	public String pMakePlanFrm() {
-		log.info("pMakePlanFrm() - 페이지 이동");
+		log.info("controller - pMakePlanFrm()");
 		
 		return "pMakePlanFrm";
 	}
 	
 	@PostMapping("pRegPlan")
-	public ModelAndView pRegPlan(TravelPlanDto plan) {
-		log.info("pRegPlan() - controller");
+	public ModelAndView pRegPlan(TravelPlanDto plan, RedirectAttributes rttr) {
+		log.info("controller - pRegPlan()");
 		
-		mv = tServ.pRegPlan(plan);
+		return tServ.pRegPlan(plan, rttr);
+	}
+	
+	@GetMapping("pPlanList")
+	public ModelAndView pPlanList(String id) {
+		log.info("controller - pPlanList()");
+		//여행 정보 가져오기
+		mv = tServ.pPlanList(id);
 		
 		return mv;
+	}
+	
+	@GetMapping("pPlanFrm")
+	public ModelAndView pPlanFrm(int planNum) {
+		log.info("controller - pPlanFrm()");
+		
+		return tServ.pPlanFrm(planNum);
 	}
 	
 }

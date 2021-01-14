@@ -16,3 +16,10 @@
 .del-party-btn:hover { background-color: #d9534f; color: white; }
 .add-plan-btn { transition: all 0.2s; }
 .add-plan-btn:hover { background-color: #4375d9; color: white; }
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
+	background-color: #4375d9;
+}
+.nav-pills { margin-bottom: 20px; }
+th { text-align: center; }
+td { text-align: center; }

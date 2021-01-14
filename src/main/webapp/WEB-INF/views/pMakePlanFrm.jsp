@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
 <!-- jQuery UI 라이브러리 js파일 -->
 <script>
+
 jQuery.browser = {};
 (function () {
     jQuery.browser.msie = false;
@@ -25,6 +26,16 @@ jQuery.browser = {};
         jQuery.browser.version = RegExp.$1;
     }
 })();
+
+$(function() {
+	var chk = "${msg}";
+	console.log(chk);
+
+	if(chk != ""){
+		alert(chk);
+		location.reload(true);
+	}
+});
 </script>
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <!-- datepicker 한국어로 -->
@@ -116,10 +127,10 @@ function addParty(){
 		alert("멤버는 5명 까지만 추가 가능합니다!")
 	}
 	else{ // 새로운 멤버 아이디 입력창 생성
-		var html = '<div class="form-group" onclick="delMember()">' + 
+		var html = '<div class="form-group">' + 
 	    '<label for="t_member' + memberCnt + '" class="col-sm-3 control-label">' +
 		'<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>' + ' 멤버' + memberCnt + '</label>' +
-	    '<div class="col-sm-9"><input type="text" class="form-control" id="t_member' + memberCnt + '" name="t_member' + memberCnt + '" placeholder="아이디를 입력하세요"></div></div>'
+	    '<div class="col-sm-9"><input type="text" class="form-control" id="t_member' + memberCnt + '" name="t_member' + memberCnt + '" placeholder="아이디를 입력하세요" required></div></div>'
 	    
 		$("#party-member").append(html);
 	    $("#hidden-member>input:first-child").remove();// 가장 처음 요소 삭제
@@ -132,7 +143,7 @@ function delParty(){
 	
 	if(memberCnt > 1){ // 생성된 멤버가 있는 경우 실행
 		$("#party-member>div:last-child").remove(); // 가장 마지막 입력 요소제거
-		$("#hidden-member").prepend(html)
+		$("#hidden-member").prepend(html) // 요소 처음부터 추가
 		memberCnt--; // 멤버 카운트 감소
 	}
 	else { // 생성된 멤버가 없는 경우 경고창

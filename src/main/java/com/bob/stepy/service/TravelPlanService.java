@@ -1,5 +1,9 @@
 package com.bob.stepy.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +29,8 @@ public class TravelPlanService {
 	
 	//여행 일정 등록
 	@Transactional
-	public ModelAndView pRegPlan(TravelPlanDto plan) {
-		log.info("pRegPlan() - service");
-		String view = null;
-		String msg = null;
+	public ModelAndView pRegPlan(TravelPlanDto plan, RedirectAttributes rttr) {
+		log.info("service - pRegPlan()");
 		
 		mv = new ModelAndView();
 		
@@ -48,11 +50,84 @@ public class TravelPlanService {
 			mv.addObject("member4", plan.getT_member4());
 			mv.addObject("member5", plan.getT_member5());
 			
+			//시작일과 종료일의 차이 계산
+			long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
+			mv.addObject("days", days);
+			
 			mv.setViewName("pPlanFrm");
 		} catch (Exception e) {
-			e.printStackTrace();
-			mv.setViewName("pMakePlanFrm");
+			//e.printStackTrace();
+			mv.setViewName("redirect:pMakePlanFrm");
+			rttr.addFlashAttribute("msg", "아이디를 확인해주세요!");
 		}
+		
+		return mv;
+	}
+	
+	//날짜 차이 계산
+	public long getTime(String start, String end) {
+		long days = 0;
+		
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			//날짜를 Date형으로 변환
+			Date startDate = format.parse(start);
+			Date endDate = format.parse(end);
+			
+			//두 날짜간의 차이(1970년 기준 00:00:00부터 몇 초가 흘렀는지)
+			long calDate = startDate.getTime() - endDate.getTime();
+			
+			//(일*시*분*초) = 일수
+			days = calDate / (24*60*60*1000);
+			//절대값 변환
+			days = Math.abs(days);
+			
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
+		
+		return days;
+	}
+
+	//여행 일정 가져오기
+	public ModelAndView pPlanList(String id) {
+		log.info("service - pPlanList() - id: " + id);
+		mv = new ModelAndView();
+		
+		List<TravelPlanDto> planList = tDao.getPlanList(id);
+		
+		//여행 일정 모델에 추가
+		mv.addObject("planList", planList);
+		
+		mv.setViewName("pPlanList");
+		
+		return mv;
+	}
+
+	public ModelAndView pPlanFrm(int planNum) {
+		log.info("service - pPlanFrm() - planNum : " + planNum);
+		
+		mv = new ModelAndView();
+		
+		TravelPlanDto plan = tDao.getPlan(planNum);
+		
+		mv.addObject("planNum", plan.getT_plannum());
+		mv.addObject("planName", plan.getT_planname());
+		mv.addObject("leader", plan.getT_id());
+		mv.addObject("spot", plan.getT_spot());
+		mv.addObject("start", plan.getT_stdate());
+		mv.addObject("end", plan.getT_bkdate());
+		mv.addObject("member1", plan.getT_member1());
+		mv.addObject("member2", plan.getT_member2());
+		mv.addObject("member3", plan.getT_member3());
+		mv.addObject("member4", plan.getT_member4());
+		mv.addObject("member5", plan.getT_member5());
+		
+		//시작일과 종료일의 차이 계산
+		long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
+		mv.addObject("days", days);
+		
+		mv.setViewName("pPlanFrm");
 		
 		return mv;
 	}
