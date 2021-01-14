@@ -22,6 +22,7 @@ public class TravelPlanController {
 	
 	ModelAndView mv;
 	
+	//여행 일정 만들기 페이지 이동
 	@GetMapping("pMakePlanFrm")
 	public String pMakePlanFrm() {
 		log.info("controller - pMakePlanFrm()");
@@ -29,6 +30,7 @@ public class TravelPlanController {
 		return "pMakePlanFrm";
 	}
 	
+	//여행 일정 등록
 	@PostMapping("pRegPlan")
 	public ModelAndView pRegPlan(TravelPlanDto plan, RedirectAttributes rttr) {
 		log.info("controller - pRegPlan()");
@@ -36,6 +38,7 @@ public class TravelPlanController {
 		return tServ.pRegPlan(plan, rttr);
 	}
 	
+	//여행 목록 페이지 이동
 	@GetMapping("pPlanList")
 	public ModelAndView pPlanList(String id) {
 		log.info("controller - pPlanList()");
@@ -45,11 +48,28 @@ public class TravelPlanController {
 		return mv;
 	}
 	
+	//여행 내용 페이지 이동
 	@GetMapping("pPlanFrm")
 	public ModelAndView pPlanFrm(int planNum) {
 		log.info("controller - pPlanFrm()");
 		
 		return tServ.pPlanFrm(planNum);
+	}
+	
+	//가계부 페이지 이동
+	@GetMapping("pHouseholdFrm")
+	public String pHouseholdFrm(int planNum) {
+		log.info("controller - pHouseholdFrm()");
+		
+		return "pHouseholdFrm";
+	}
+	
+	//체크리스트 페이지 이동
+	@GetMapping("pCheckSupFrm")
+	public String pCheckSupFrm(int planNum) {
+		log.info("controller - pCheckSupFrm()");
+		
+		return "pCheckSupFrm";
 	}
 	
 }

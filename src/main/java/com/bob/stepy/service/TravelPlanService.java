@@ -2,7 +2,9 @@ package com.bob.stepy.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dao.TravelPlanDao;
+import com.bob.stepy.dto.AccompanyPlanDto;
 import com.bob.stepy.dto.TravelPlanDto;
 
 import lombok.extern.java.Log;
@@ -31,14 +34,16 @@ public class TravelPlanService {
 	@Transactional
 	public ModelAndView pRegPlan(TravelPlanDto plan, RedirectAttributes rttr) {
 		log.info("service - pRegPlan()");
+		long planNum = System.currentTimeMillis();
 		
 		mv = new ModelAndView();
 		
 		try {
+			plan.setT_plannum(planNum);
 			tDao.pRegPlan(plan);
 			
 			
-			mv.addObject("planNum", plan.getT_plannum());
+			mv.addObject("planNum", planNum);
 			mv.addObject("planName", plan.getT_planname());
 			mv.addObject("leader", plan.getT_id());
 			mv.addObject("spot", plan.getT_spot());
@@ -54,9 +59,19 @@ public class TravelPlanService {
 			long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
 			mv.addObject("days", days);
 			
+			AccompanyPlanDto acPlan = new AccompanyPlanDto();
+			
+			for(int i = 1; i <= days; i++) {
+				acPlan.setAp_plannum(planNum);
+				acPlan.setAp_mid(plan.getT_id());
+				acPlan.setAp_day(i);
+				
+				tDao.regPlanContents(acPlan);
+			}
+			
 			mv.setViewName("pPlanFrm");
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			mv.setViewName("redirect:pMakePlanFrm");
 			rttr.addFlashAttribute("msg", "아이디를 확인해주세요!");
 		}
@@ -89,7 +104,7 @@ public class TravelPlanService {
 		return days;
 	}
 
-	//여행 일정 가져오기
+	//여행 일정 목록 가져오기
 	public ModelAndView pPlanList(String id) {
 		log.info("service - pPlanList() - id: " + id);
 		mv = new ModelAndView();
@@ -104,6 +119,7 @@ public class TravelPlanService {
 		return mv;
 	}
 
+	//여행 일정 내용 가져오기
 	public ModelAndView pPlanFrm(int planNum) {
 		log.info("service - pPlanFrm() - planNum : " + planNum);
 		
@@ -126,6 +142,9 @@ public class TravelPlanService {
 		//시작일과 종료일의 차이 계산
 		long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
 		mv.addObject("days", days);
+		
+		//세션에 현재 여행 번호 저장
+		session.setAttribute("curPlan", planNum);
 		
 		mv.setViewName("pPlanFrm");
 		

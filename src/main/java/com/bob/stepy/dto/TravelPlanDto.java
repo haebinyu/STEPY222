@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class TravelPlanDto {
-	private int t_plannum;
+	private long t_plannum;
 	private String t_planname;
 	private String t_id;
 	private String t_spot;
