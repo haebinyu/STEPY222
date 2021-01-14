@@ -23,6 +23,7 @@
 		<a href="./pMakePlanFrm">새로운 여행</a>
 		<a href="./pPlanList?id=user01">내 여행</a>
 		<a href="./searchFrm">검색</a>
+		<a href="./aLoginFrm">어드민 전용</a>
 
 	</main>
 	<footer>
