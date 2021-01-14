@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+li.sideBar_title {
+	border-bottom: 3px solid #4375d9;
+}
+
+div.sidebar {
+	padding: 0;
+	border-right: 3px solid #4375d9;
+	border-collapse: collapse;
+}
