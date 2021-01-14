@@ -37,36 +37,20 @@ form.form-horizontal>h3 {
 		<jsp:include page="header.jsp" />
 	</header>
 	<main class="container">
-		<form class="form-horizontal" action="aHome" method="post">
-			<h3>확인을 위해 다시 로그인 해주세요</h3>
-			<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">아이디</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputId" name="m_id"
-						placeholder="아이디" required>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputPassword3" class="col-sm-2 control-label">비밀번호</label>
-				<div class="col-sm-10">
-					<input type="password" class="form-control" id="inputPwd"
-						name="m_pwd" placeholder="비밀번호" required>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<div class="checkbox">
-						<label> <input type="checkbox">아이디 저장하기
-						</label>
-					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Sign in</button>
-				</div>
-			</div>
-		</form>
+		<div class="container mt-4 center-block text-center"
+			style="margin-top: 50px; max-width: 600px; background-color:#4375d9; color:white;">
+			<h1>Log In</h1>
+		</div>
+		<div
+			class="container mt-4 center-block text-dark text-center"
+			style="max-width: 600px;background-color:#F5F5F5;"><br>
+			<form action="aHome" method="post">
+				<input type="text" name="m_id" autofocus placeholder="아이디"><br><br>
+				<input type="password" name="m_pwd" placeholder="비밀번호"><br><br>
+				<input type="submit" value="로그인">
+			</form><br>
+		</div>
+
 	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />
