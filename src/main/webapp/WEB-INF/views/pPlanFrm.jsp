@@ -57,18 +57,21 @@ console.log(days)
 			<div class="dayList-sub">
 				<div class="page-header">
 				  <h1>DAY ${daycnt}</h1>
-				</div>				
+				</div>
+			<c:set var="planCnt" value="1"/>		
 			<c:forEach var="list" items="${day}">
 				<c:if test="${!empty list.ap_contents && list.ap_day == daycnt}">
 					<div class="panel panel-default">
 					  <div class="panel-body">
 					  <span class="glyphicon glyphicon-map-marker" aria-hidden="true">&nbsp;&nbsp;${list.ap_contents}</span>
+					  <div class="dayDelBtn pull-right" title="일정 삭제" onclick="location.href='delAccompanyPlan?planNum=${curPlan}&day=${daycnt}&num=${planCnt}'"><img src="resources/images/remove.png"></div>
 					  </div>
 					</div>
+					<c:set var="planCnt" value="${planCnt + 1}"/>
 				</c:if>
 			</c:forEach>
 			<input class="btn btn-default btn-lg btn-block add-day-plan-btn" id="add-day-plan-btn" type="button" value="일정추가" 
-			onclick="location.href='pStoreSearch?day=${daycnt}'">
+			onclick="location.href='pStoreSearch?day=${daycnt}&planCnt=${planCnt}'">
 			<c:set var="daycnt" value="${daycnt + 1}"/>
 			
 			</div>
@@ -81,13 +84,4 @@ console.log(days)
 <jsp:include page="footer.jsp"/>
 </footer>
 </body>
-<script type="text/javascript">
-window.onbeforeunload = function(){
-	var planNum = '<%=session.getAttribute("curPlan")%>'
-	console.log(planNum);
-	var url = "pPlanFrm?planNum=" + planNum;
-	console.log(url);
-	location.href="pPlanList";
-}
-</script>
 </html>

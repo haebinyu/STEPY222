@@ -2,7 +2,9 @@ package com.bob.stepy.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -164,7 +166,7 @@ public class TravelPlanService {
 	}
 
 	//장소 검색 페이지 이동
-	public ModelAndView pStoreSearch(int day) {
+	public ModelAndView pStoreSearch(long day, long planCnt) {
 		log.info("service - pStoreSearch");
 		
 		mv = new ModelAndView();
@@ -172,9 +174,11 @@ public class TravelPlanService {
 		List<StoreDto> sList = tDao.getStoreList();
 		mv.addObject("sList", sList);
 		mv.addObject("day", day);
+		mv.addObject("planCnt", planCnt);
 		
 		return mv;
 	}
+	
 	//여행 내용 등록
 	@Transactional
 	public String RegAccompanyPlan(AccompanyPlanDto acPlan, RedirectAttributes rttr) {
@@ -182,10 +186,33 @@ public class TravelPlanService {
 		
 		try {
 			//여행 내용 등록
-			tDao.RegAccompanyPlan(acPlan);
+			tDao.regAccompanyPlan(acPlan);
 			
 			//목록 다시 불러오기
 			//mv = pPlanFrm(acPlan.getAp_plannum());
+			
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
+		
+		return "redirect:pPlanFrm?planNum=0";
+	}
+
+	//여행 내용 삭제
+	@Transactional
+	public String delAccompanyPlan(long planNum, long day, long num, RedirectAttributes rttr) {
+		log.info("service - delAccompanyPlan");
+		String view = null;
+		
+		Map<String, Long> apMap = new HashMap<String, Long>();
+		apMap.put("planNum", planNum);
+		apMap.put("day", day);
+		apMap.put("num", num);
+		try {
+			//데이터 삭제
+			tDao.delAccompanyPlan(apMap);
+			//남은 데이터 카운트 정렬
+			tDao.reduceNumCnt(apMap);
 			
 		} catch (Exception e) {
 			//e.printStackTrace();

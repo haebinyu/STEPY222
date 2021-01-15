@@ -75,10 +75,10 @@ public class TravelPlanController {
 	
 	//장소 검색 페이지 이동
 	@GetMapping("pStoreSearch")
-	public ModelAndView pStoreSearch(int day) {
+	public ModelAndView pStoreSearch(long day, long planCnt) {
 		log.info("controller - pStoreSearch()");
 		
-		return tServ.pStoreSearch(day);
+		return tServ.pStoreSearch(day, planCnt);
 	}
 	
 	//여행 내용 등록
@@ -89,4 +89,11 @@ public class TravelPlanController {
 		return tServ.RegAccompanyPlan(acPlan, rttr);
 	}
 	
+	//여행 내용 삭제
+	@GetMapping("delAccompanyPlan")
+	public String delAccompanyPlan(long planNum, long day, long num, RedirectAttributes rttr) {
+		log.info("controller - delAccompanyPlan - planNum : " + planNum + ", day : " + day + ", num : " + num);
+		
+		return tServ.delAccompanyPlan(planNum, day, num, rttr);
+	}
 }

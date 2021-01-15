@@ -38,8 +38,20 @@
 	<select id="getStoreList" resultType="com.bob.stepy.dto.StoreDto">
 		SELECT S_NUM, S_NAME FROM S
 	</select>
-	<insert id="RegAccompanyPlan" parameterType="com.bob.stepy.dto.AccompanyPlanDto">
+	<!-- 여행 내용 등록 -->
+	<insert id="regAccompanyPlan" parameterType="com.bob.stepy.dto.AccompanyPlanDto">
 		INSERT INTO AP
-		VALUES (#{ap_plannum},#{ap_mid},#{ap_day},#{ap_contents})
+		VALUES (#{ap_plannum},#{ap_mid},#{ap_day},#{ap_plancnt}, #{ap_contents})
 	</insert>
+	<!-- 여행 내용 삭제 -->
+	<delete id="delAccompanyPlan" parameterType="HashMap">
+		DELETE FROM AP
+		WHERE AP_PLANNUM=#{planNum} AND AP_DAY=#{day} AND AP_PLANCNT=#{num}
+	</delete>
+	<!-- 여행 번호 카운트 정렬 -->
+	<update id="reduceNumCnt" parameterType="HashMap">
+		UPDATE AP
+		SET AP_PLANCNT=AP_PLANCNT-1
+		WHERE AP_PLANNUM=#{planNum} AND AP_DAY=#{day} AND AP_PLANCNT>#{num}
+	</update>
 </mapper>

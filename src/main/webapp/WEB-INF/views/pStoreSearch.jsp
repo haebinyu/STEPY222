@@ -46,10 +46,11 @@
 		<ul class="list-group">
 			<c:forEach var="sList" items="${sList}">
 				  <li class="list-group-item storeBox">
-					<form action="RegAccompanyPlan" method="get" id="apFrm">
+					<form action="RegAccompanyPlan" method="get" class="apFrm">
 						<input type="hidden" name="ap_plannum" value="${curPlan}">
 						<input type="hidden" name="ap_mid" value="user01">
 						<input type="hidden" name="ap_day" value="${day}">
+						<input type="hidden" name="ap_plancnt" value="${planCnt}">
 						<input type="hidden" name="ap_contents" value="${sList.s_name}">
 					    <div class="storeName">${sList.s_name} <input class="choiceBtn" type="submit" value="선택"></div>
 					</form>

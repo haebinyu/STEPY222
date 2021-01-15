@@ -1,6 +1,7 @@
 package com.bob.stepy.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.bob.stepy.dto.AccompanyPlanDto;
 import com.bob.stepy.dto.StoreDto;
@@ -22,5 +23,9 @@ public interface TravelPlanDao {
 	//가게 정보 가져오기
 	public List<StoreDto> getStoreList();
 	//여행 내용 등록
-	public void RegAccompanyPlan(AccompanyPlanDto acPlan);
+	public void regAccompanyPlan(AccompanyPlanDto acPlan);
+	//여행 내용 삭제
+	public void delAccompanyPlan(Map<String, Long> apMap);
+	//여행 번호 카운트 정렬
+	public void reduceNumCnt(Map<String, Long> apMap);
 }
