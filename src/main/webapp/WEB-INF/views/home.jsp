@@ -19,9 +19,12 @@
 		<jsp:include page="header.jsp" />
 	</header>
 	<main class="container">
-
-		<a href="./pMakePlanFrm">새로운 여행</a>
-
+	<ul>
+		<li><a href="./pMakePlanFrm">새로운 여행</a></li>
+		<li><a href="./pPlanList?id=user01">내 여행</a></li>
+		<li><a href="./searchFrm">검색</a></li>
+		<li><a href="./aLoginFrm">어드민 전용</a></li>
+	</ul>
 	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />

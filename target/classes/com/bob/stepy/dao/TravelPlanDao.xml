@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.bob.stepy.dao.TravelPlanDao">
+	<!-- 여행 일정 등록 -->
+	<insert id="pRegPlan" parameterType="com.bob.stepy.dto.TravelPlanDto">
+		INSERT INTO T
+		VALUES (#{t_plannum},#{t_planname},#{t_id},#{t_spot},#{t_stdate},#{t_bkdate},#{t_member1},#{t_member2},#{t_member3},#{t_member4},#{t_member5})
+	</insert>
+	<!-- 여행 일정 리스트 가져오기 -->
+	<select id="getPlanList" parameterType="String" resultType="com.bob.stepy.dto.TravelPlanDto">
+		SELECT * FROM T
+		WHERE T_ID=#{id}
+	</select>
+	<!-- 여행 일정 정보 가져오기 -->
+	<select id="getPlan" parameterType="int" resultType="com.bob.stepy.dto.TravelPlanDto">
+		SELECT * FROM T
+		WHERE T_PLANNUM=#{planNum}
+	</select>
+	<!-- 여행 일정 내용 등록하기 -->
+	<insert id="regPlanContents" parameterType="com.bob.stepy.dto.AccompanyPlanDto">
+		INSERT INTO AP (AP_PLANNUM, AP_MID, AP_DAY)
+		VALUES (#{ap_plannum},#{ap_mid},#{ap_day})
+	</insert>
+	<!-- 여행 일정 내용 가져오기 -->
+	<select id="getPlanContents" parameterType="int" resultType="com.bob.stepy.dto.AccompanyPlanDto">
+		SELECT * FROM AP
+		WHERE AP_PLANNUM=#{planNum}
+	</select>
+</mapper>

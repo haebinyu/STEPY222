@@ -5,37 +5,50 @@
 <head>
 <meta charset="UTF-8">
 <title>Welcome Travelers!</title>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
+<script type="text/javascript">
+	$(document).ready(function() {
+		var msg = "${msg}";
+
+		if (msg != "") {
+			alert(msg);//msg 메시지를  alert출력
+			//현재 페이지를 리로드, 새로고침해 현재 페이지를 초기화
+			location.reload(true);
+		}
+	});
+</script>
+<style type="text/css">
+form.form-horizontal>h3 {
+	margin-top: 10px;
+	font-weight: bolder;
+	text-align: center;
+}
+</style>
 </head>
 <body>
-
 	<header>
 		<jsp:include page="header.jsp" />
 	</header>
 	<main class="container">
-
 		<div class="container mt-4 center-block text-center"
 			style="margin-top: 50px; max-width: 600px; background-color:#4375d9; color:white;">
 			<h1>Log In</h1>
 		</div>
 		<div
 			class="container mt-4 center-block text-dark text-center"
-			style="max-width: 600px;background-color:#F5F5F5;"><br><br>
-			<form action="mLoginProc" method="post">
-				ID : <input type="text" name="m_id" autofocus placeholder="아이디"><br><br>
-				Pass : <input type="password" name="m_pwd" placeholder="비밀번호"><br><br>
+			style="max-width: 600px;background-color:#F5F5F5;"><br>
+			<form action="aHome" method="post">
+				<input type="text" name="m_id" autofocus placeholder="아이디"><br><br>
+				<input type="password" name="m_pwd" placeholder="비밀번호"><br><br>
 				<input type="submit" value="로그인">
-			</form><br><br>
-			<a href="./kakaoLogin">
-
-			<img src=resources/images/kakao_login_medium_wide.png></a>
-			<br><br>
+			</form><br>
 		</div>
 
 	</main>

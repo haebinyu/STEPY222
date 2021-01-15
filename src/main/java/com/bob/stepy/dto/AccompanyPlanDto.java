@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class AccompanyPlanDto {
-	private int ap_num;
+	private long ap_plannum;
 	private String ap_mid;
-	private int ap_plannum;
+	private long ap_day;
+	private String ap_contents;
 }

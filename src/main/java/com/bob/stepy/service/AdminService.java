@@ -3,7 +3,6 @@ package com.bob.stepy.service;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,22 +23,32 @@ public class AdminService {
 		//목적지가 담길 String view
 		String view =null;
 
+		String id = member.getM_id();
+
 		//파라미터받은 DTO내의 m_id를 기반으로 DB에서 SELECT로 비밀번호 가져오기
-		String pw = aDao.getPwd(member.getM_id());
+		String pw = aDao.getPwd(id);
 		if (pw != null) {
 			//가져온 아이디가 있다면 pw에 데이터 들어감
 			//사용자가 입력한 값이 있는 DTO의 m_pwd와 DB에서 가져온 m_pwd를 대조
 			//이 둘이 일치한다면 아이디와 비밀번호가 모두 맞음
+
 			if (pw.equals(member.getM_pwd()) ) {
 				//ID도 PW도 맞는 사용자이므로 화면에 출력할 해당 사용자 정보를 가져오기
 				//사용자 정보를 다시 가져옴 (getMemberInfo)
 				//DTO에서 @data 어노테이션으로 인해 자동으로 세트되어있음
-				member = aDao.getMemberInfo(member.getM_id());
 
-				//회원정보는 다른 페이지들에서도 돌려 쓰므로 세션에 DTO째로 등록
-				session.setAttribute("mb", member);
-				view = "redirect:aHome";
+				if(id.equals("admin")) {
+					member = aDao.getMemberInfo(member.getM_id());
+
+					//회원정보는 다른 페이지들에서도 돌려 쓰므로 세션에 DTO째로 등록
+					session.setAttribute("mb", member);
+					view = "aHome";
+				} else {
+					view = "redirect:aLoginFrm";
+					rttr.addFlashAttribute("msg", "접속 권한이 없습니다");
+				}
 			}//ID도 PW도 맞는 경우의 if 끝
+
 			else {
 				//ID는 맞았으나 비밀번호를 틀린 경우
 				//로그인 페이지로 돌아감, 보여줄 메시지를 리다이렉트의 플래시 어트리뷰트에 등록
@@ -59,7 +68,7 @@ public class AdminService {
 		}
 		//'list'를 받는 대상은 페이지가 아닌
 		//보드 컨트롤의 list맵핑 메소드가 받아
-		//컨트롤러-컨트롤러 연계 처리도 가능함
+		//컨트롤러-컨트롤러 연계 처리도 가능함	
 		return view;
 	}
 

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Welcome Travelers!</title>
+<title>Insert title here</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script
@@ -21,22 +21,22 @@
 	<main class="container">
 
 		<div class="container mt-4 center-block text-center"
-			style="margin-top: 50px; max-width: 600px; background-color:#4375d9; color:white;">
-			<h1>Log In</h1>
+			style="margin-top: 50px; max-width: 600px; background-color: #4375d9; color: white;">
+			<h1>Join STEPY</h1>
 		</div>
-		<div
-			class="container mt-4 center-block text-dark text-center"
-			style="max-width: 600px;background-color:#F5F5F5;"><br><br>
+		<div class="container mt-4 center-block text-dark text-center"
+			style="max-width: 600px; background-color: #F5F5F5;">
+			<br>
+			<br>
 			<form action="mLoginProc" method="post">
-				ID : <input type="text" name="m_id" autofocus placeholder="아이디"><br><br>
-				Pass : <input type="password" name="m_pwd" placeholder="비밀번호"><br><br>
-				<input type="submit" value="로그인">
-			</form><br><br>
-			<a href="./kakaoLogin">
-
-			<img src=resources/images/kakao_login_medium_wide.png></a>
-			<br><br>
+				<input type="text" name="m_id" autofocus placeholder="아이디"><br>
+				<br> <input type="password" name="m_pwd" placeholder="비밀번호"><br>
+				<br> <input type="submit" value="로그인">
+			</form>
+			<br>
+			<br>
 		</div>
+
 
 	</main>
 	<footer>
