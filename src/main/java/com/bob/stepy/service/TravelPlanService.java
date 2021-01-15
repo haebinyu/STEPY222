@@ -2,9 +2,7 @@ package com.bob.stepy.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dao.TravelPlanDao;
 import com.bob.stepy.dto.AccompanyPlanDto;
+import com.bob.stepy.dto.StoreDto;
 import com.bob.stepy.dto.TravelPlanDto;
 
 import lombok.extern.java.Log;
@@ -30,7 +29,7 @@ public class TravelPlanService {
 	
 	ModelAndView mv;
 	
-	//여행 일정 등록
+	//여행 등록
 	@Transactional
 	public ModelAndView pRegPlan(TravelPlanDto plan, RedirectAttributes rttr) {
 		log.info("service - pRegPlan()");
@@ -42,7 +41,7 @@ public class TravelPlanService {
 			plan.setT_plannum(planNum);
 			tDao.pRegPlan(plan);
 			
-			
+			/*
 			mv.addObject("planNum", planNum);
 			mv.addObject("planName", plan.getT_planname());
 			mv.addObject("leader", plan.getT_id());
@@ -54,6 +53,9 @@ public class TravelPlanService {
 			mv.addObject("member3", plan.getT_member3());
 			mv.addObject("member4", plan.getT_member4());
 			mv.addObject("member5", plan.getT_member5());
+			*/
+			
+			mv.addObject("plan", plan);
 			
 			//시작일과 종료일의 차이 계산
 			long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
@@ -66,9 +68,10 @@ public class TravelPlanService {
 				acPlan.setAp_mid(plan.getT_id());
 				acPlan.setAp_day(i);
 				
+				//초기 여행 일정 설정
 				tDao.regPlanContents(acPlan);
 			}
-			
+			session.setAttribute("curPlan", planNum);
 			mv.setViewName("pPlanFrm");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,7 +107,7 @@ public class TravelPlanService {
 		return days;
 	}
 
-	//여행 일정 목록 가져오기
+	//여행 목록 가져오기
 	public ModelAndView pPlanList(String id) {
 		log.info("service - pPlanList() - id: " + id);
 		mv = new ModelAndView();
@@ -120,34 +123,74 @@ public class TravelPlanService {
 	}
 
 	//여행 일정 내용 가져오기
-	public ModelAndView pPlanFrm(int planNum) {
+	public ModelAndView pPlanFrm(long planNum) {
 		log.info("service - pPlanFrm() - planNum : " + planNum);
+		
+		
+		long num = (planNum == 0)? (long)session.getAttribute("curPlan") : planNum;
 		
 		mv = new ModelAndView();
 		
-		TravelPlanDto plan = tDao.getPlan(planNum);
+		TravelPlanDto plan = tDao.getPlan(num);
 		
-		mv.addObject("planNum", plan.getT_plannum());
-		mv.addObject("planName", plan.getT_planname());
-		mv.addObject("leader", plan.getT_id());
-		mv.addObject("spot", plan.getT_spot());
-		mv.addObject("start", plan.getT_stdate());
-		mv.addObject("end", plan.getT_bkdate());
-		mv.addObject("member1", plan.getT_member1());
-		mv.addObject("member2", plan.getT_member2());
-		mv.addObject("member3", plan.getT_member3());
-		mv.addObject("member4", plan.getT_member4());
-		mv.addObject("member5", plan.getT_member5());
+		
+		mv.addObject("plan", plan);
 		
 		//시작일과 종료일의 차이 계산
 		long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
 		mv.addObject("days", days);
 		
+		//여행일별로 데이터 저장
+		//Map<String, Long> planContentsMap = new HashMap<String, Long>();
+		
+		//for(long i = 1; i <= days; i++) {
+		//	planContentsMap.put("planNum", planNum);
+		//	planContentsMap.put("days", i);
+			
+			List<AccompanyPlanDto> planContentsList = tDao.getPlanContents(num);
+			mv.addObject("day", planContentsList);
+		//}
+		
 		//세션에 현재 여행 번호 저장
-		session.setAttribute("curPlan", planNum);
+		session.setAttribute("curPlan", num);
+		
+		//가게 목록 불러오기
+				List<StoreDto> sList = tDao.getStoreList();
+				mv.addObject("sList", sList);
 		
 		mv.setViewName("pPlanFrm");
 		
 		return mv;
+	}
+
+	//장소 검색 페이지 이동
+	public ModelAndView pStoreSearch(int day) {
+		log.info("service - pStoreSearch");
+		
+		mv = new ModelAndView();
+		//가게 목록 불러오기
+		List<StoreDto> sList = tDao.getStoreList();
+		mv.addObject("sList", sList);
+		mv.addObject("day", day);
+		
+		return mv;
+	}
+	//여행 내용 등록
+	@Transactional
+	public String RegAccompanyPlan(AccompanyPlanDto acPlan, RedirectAttributes rttr) {
+		log.info("service - RegAccompanyPlan");
+		
+		try {
+			//여행 내용 등록
+			tDao.RegAccompanyPlan(acPlan);
+			
+			//목록 다시 불러오기
+			//mv = pPlanFrm(acPlan.getAp_plannum());
+			
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
+		
+		return "redirect:pPlanFrm?planNum=0";
 	}
 }

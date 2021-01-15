@@ -15,18 +15,31 @@
 		WHERE T_ID=#{id}
 	</select>
 	<!-- 여행 일정 정보 가져오기 -->
-	<select id="getPlan" parameterType="int" resultType="com.bob.stepy.dto.TravelPlanDto">
+	<select id="getPlan" parameterType="long" resultType="com.bob.stepy.dto.TravelPlanDto">
 		SELECT * FROM T
 		WHERE T_PLANNUM=#{planNum}
 	</select>
-	<!-- 여행 일정 내용 등록하기 -->
+	<!-- 여행 일정 설정하기 -->
 	<insert id="regPlanContents" parameterType="com.bob.stepy.dto.AccompanyPlanDto">
 		INSERT INTO AP (AP_PLANNUM, AP_MID, AP_DAY)
 		VALUES (#{ap_plannum},#{ap_mid},#{ap_day})
 	</insert>
+	<!-- 여행 전체 일수 가져오기 -->
+	<select id="getTravelDays" parameterType="long" resultType="int">
+		SELECT DISTINCT COUNT(AP_DAY) FROM AP
+		WHERE AP_PLANNUM=#{planNum}
+	</select>
 	<!-- 여행 일정 내용 가져오기 -->
-	<select id="getPlanContents" parameterType="int" resultType="com.bob.stepy.dto.AccompanyPlanDto">
+	<select id="getPlanContents" parameterType="long" resultType="com.bob.stepy.dto.AccompanyPlanDto">
 		SELECT * FROM AP
 		WHERE AP_PLANNUM=#{planNum}
 	</select>
+	<!-- 가게 정보 가져오기 -->
+	<select id="getStoreList" resultType="com.bob.stepy.dto.StoreDto">
+		SELECT S_NUM, S_NAME FROM S
+	</select>
+	<insert id="RegAccompanyPlan" parameterType="com.bob.stepy.dto.AccompanyPlanDto">
+		INSERT INTO AP
+		VALUES (#{ap_plannum},#{ap_mid},#{ap_day},#{ap_contents})
+	</insert>
 </mapper>
