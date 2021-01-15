@@ -24,7 +24,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right" id="headnavfont">
         <li><a href="./mLoginFrm" style="color:white;">로그인</a></li>
-        <li><a href="#" style="color:white;">회원가입</a></li>
+        <li><a href="./mJoinFrm" style="color:white;">회원가입</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.containe -->
