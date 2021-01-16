@@ -57,22 +57,6 @@ public class TravelPlanController {
 		return tServ.pPlanFrm(planNum);
 	}
 	
-	//가계부 페이지 이동
-	@GetMapping("pHouseholdFrm")
-	public String pHouseholdFrm(long planNum) {
-		log.info("controller - pHouseholdFrm()");
-		
-		return "pHouseholdFrm";
-	}
-	
-	//체크리스트 페이지 이동
-	@GetMapping("pCheckSupFrm")
-	public String pCheckSupFrm(long planNum) {
-		log.info("controller - pCheckSupFrm()");
-		
-		return "pCheckSupFrm";
-	}
-	
 	//장소 검색 페이지 이동
 	@GetMapping("pStoreSearch")
 	public ModelAndView pStoreSearch(long day, long planCnt) {
@@ -95,5 +79,29 @@ public class TravelPlanController {
 		log.info("controller - delAccompanyPlan - planNum : " + planNum + ", day : " + day + ", num : " + num);
 		
 		return tServ.delAccompanyPlan(planNum, day, num, rttr);
+	}
+	
+	//가계부 페이지 이동
+	@GetMapping("pHouseholdFrm")
+	public ModelAndView pHouseholdFrm(long planNum) {
+		log.info("controller - pHouseholdFrm()");
+		
+		return tServ.pHouseholdFrm(planNum);
+	}
+	
+	//가계부 내용 작성 페이지 이동
+	@GetMapping("pWriteHousehold")
+	public ModelAndView pWriteHousehold(long householdCnt) {
+		log.info("controller - pWriteHousehold() - householdCnt : " + householdCnt);
+		
+		return tServ.pWriteHousehold(householdCnt);
+	}
+	
+	//체크리스트 페이지 이동
+	@GetMapping("pCheckSupFrm")
+	public String pCheckSupFrm(long planNum) {
+		log.info("controller - pCheckSupFrm()");
+		
+		return "pCheckSupFrm";
 	}
 }

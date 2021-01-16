@@ -6,7 +6,7 @@
 <mapper namespace="com.bob.stepy.dao.TravelPlanDao">
 	<!-- 여행 일정 등록 -->
 	<insert id="pRegPlan" parameterType="com.bob.stepy.dto.TravelPlanDto">
-		INSERT INTO T
+		INSERT INTO T (T_PLANNUM,T_PLANNAME,T_ID,T_SPOT,T_STDATE,T_BKDATE,T_MEMBER1,T_MEMBER2,T_MEMBER3,T_MEMBER4,T_MEMBER5)
 		VALUES (#{t_plannum},#{t_planname},#{t_id},#{t_spot},#{t_stdate},#{t_bkdate},#{t_member1},#{t_member2},#{t_member3},#{t_member4},#{t_member5})
 	</insert>
 	<!-- 여행 일정 리스트 가져오기 -->

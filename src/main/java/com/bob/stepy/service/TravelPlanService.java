@@ -124,10 +124,9 @@ public class TravelPlanService {
 		return mv;
 	}
 
-	//여행 일정 내용 가져오기
+	//일정 페이지 이동
 	public ModelAndView pPlanFrm(long planNum) {
 		log.info("service - pPlanFrm() - planNum : " + planNum);
-		
 		
 		long num = (planNum == 0)? (long)session.getAttribute("curPlan") : planNum;
 		
@@ -220,4 +219,37 @@ public class TravelPlanService {
 		
 		return "redirect:pPlanFrm?planNum=0";
 	}
+	
+	//가계부 페이지 이동
+	public ModelAndView pHouseholdFrm(long planNum) {
+		log.info("service - pHouseholdFrm() - planNum : " + planNum);
+		
+		long num = (planNum == 0)? (long)session.getAttribute("curPlan") : planNum;
+		
+		mv = new ModelAndView();
+		
+		TravelPlanDto plan = tDao.getPlan(num);
+		
+		
+		mv.addObject("plan", plan);
+		
+		//시작일과 종료일의 차이 계산
+		long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
+		mv.addObject("days", days);
+		
+		mv.setViewName("pHouseholdFrm");
+		
+		return mv;
+	}
+
+	//가계부 내용 작성페이지 이동
+	public ModelAndView pWriteHousehold(long householdCnt) {
+		log.info("service - pWriteHousehold() - householdCnt : " + householdCnt);
+		
+		mv.addObject("householdCnt", householdCnt);
+		mv.setViewName("pWriteHousehold");
+		
+		return mv;
+	}
+
 }

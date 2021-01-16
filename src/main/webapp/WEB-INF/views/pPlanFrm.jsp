@@ -13,10 +13,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
 <link href="resources/css/style_hj.css" rel="stylesheet">
-<script type="text/javascript">
-var days = ${days}
-console.log(days)
-</script>
 </head>
 <body>
 <header>
