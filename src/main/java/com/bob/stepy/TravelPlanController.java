@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bob.stepy.dto.AccompanyPlanDto;
 import com.bob.stepy.dto.TravelPlanDto;
 import com.bob.stepy.service.TravelPlanService;
 
@@ -22,7 +23,7 @@ public class TravelPlanController {
 	
 	ModelAndView mv;
 	
-	//여행 일정 만들기 페이지 이동
+	//여행 만들기 페이지 이동
 	@GetMapping("pMakePlanFrm")
 	public String pMakePlanFrm() {
 		log.info("controller - pMakePlanFrm()");
@@ -30,7 +31,7 @@ public class TravelPlanController {
 		return "pMakePlanFrm";
 	}
 	
-	//여행 일정 등록
+	//여행 등록
 	@PostMapping("pRegPlan")
 	public ModelAndView pRegPlan(TravelPlanDto plan, RedirectAttributes rttr) {
 		log.info("controller - pRegPlan()");
@@ -48,28 +49,59 @@ public class TravelPlanController {
 		return mv;
 	}
 	
-	//여행 내용 페이지 이동
+	//일정 페이지 이동
 	@GetMapping("pPlanFrm")
-	public ModelAndView pPlanFrm(int planNum) {
+	public ModelAndView pPlanFrm(long planNum) {
 		log.info("controller - pPlanFrm()");
 		
 		return tServ.pPlanFrm(planNum);
 	}
 	
+	//장소 검색 페이지 이동
+	@GetMapping("pStoreSearch")
+	public ModelAndView pStoreSearch(long day, long planCnt) {
+		log.info("controller - pStoreSearch()");
+		
+		return tServ.pStoreSearch(day, planCnt);
+	}
+	
+	//여행 내용 등록
+	@GetMapping("RegAccompanyPlan")
+	public String RegAccompanyPlan(AccompanyPlanDto acPlan, RedirectAttributes rttr) {
+		log.info("controller - RegAccompanyPlan");
+		
+		return tServ.RegAccompanyPlan(acPlan, rttr);
+	}
+	
+	//여행 내용 삭제
+	@GetMapping("delAccompanyPlan")
+	public String delAccompanyPlan(long planNum, long day, long num, RedirectAttributes rttr) {
+		log.info("controller - delAccompanyPlan - planNum : " + planNum + ", day : " + day + ", num : " + num);
+		
+		return tServ.delAccompanyPlan(planNum, day, num, rttr);
+	}
+	
 	//가계부 페이지 이동
 	@GetMapping("pHouseholdFrm")
-	public String pHouseholdFrm(int planNum) {
+	public ModelAndView pHouseholdFrm(long planNum) {
 		log.info("controller - pHouseholdFrm()");
 		
-		return "pHouseholdFrm";
+		return tServ.pHouseholdFrm(planNum);
+	}
+	
+	//가계부 내용 작성 페이지 이동
+	@GetMapping("pWriteHousehold")
+	public ModelAndView pWriteHousehold(long householdCnt) {
+		log.info("controller - pWriteHousehold() - householdCnt : " + householdCnt);
+		
+		return tServ.pWriteHousehold(householdCnt);
 	}
 	
 	//체크리스트 페이지 이동
 	@GetMapping("pCheckSupFrm")
-	public String pCheckSupFrm(int planNum) {
+	public String pCheckSupFrm(long planNum) {
 		log.info("controller - pCheckSupFrm()");
 		
 		return "pCheckSupFrm";
 	}
-	
 }

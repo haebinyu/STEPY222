@@ -15,4 +15,5 @@ public class TravelPlanDto {
 	private String t_member3;
 	private String t_member4;
 	private String t_member5;
+	private long t_budget;
 }

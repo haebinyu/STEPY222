@@ -124,7 +124,7 @@ function addParty(){
 	console.log(memberCnt);
 	
 	if(memberCnt >= 6){ // 6명 이상 추가시 경고창
-		alert("멤버는 5명 까지만 추가 가능합니다!")
+		alert("일행은 5명 까지만 추가 가능합니다!")
 	}
 	else{ // 새로운 멤버 아이디 입력창 생성
 		var html = '<div class="form-group">' + 
@@ -147,7 +147,7 @@ function delParty(){
 		memberCnt--; // 멤버 카운트 감소
 	}
 	else { // 생성된 멤버가 없는 경우 경고창
-		alert("삭제할 멤버가 없습니다!")
+		alert("삭제할 일행이 없습니다!")
 	}
 }
 </script>

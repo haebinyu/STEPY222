@@ -6,7 +6,7 @@
 <mapper namespace="com.bob.stepy.dao.TravelPlanDao">
 	<!-- 여행 일정 등록 -->
 	<insert id="pRegPlan" parameterType="com.bob.stepy.dto.TravelPlanDto">
-		INSERT INTO T
+		INSERT INTO T (T_PLANNUM,T_PLANNAME,T_ID,T_SPOT,T_STDATE,T_BKDATE,T_MEMBER1,T_MEMBER2,T_MEMBER3,T_MEMBER4,T_MEMBER5)
 		VALUES (#{t_plannum},#{t_planname},#{t_id},#{t_spot},#{t_stdate},#{t_bkdate},#{t_member1},#{t_member2},#{t_member3},#{t_member4},#{t_member5})
 	</insert>
 	<!-- 여행 일정 리스트 가져오기 -->
@@ -15,18 +15,43 @@
 		WHERE T_ID=#{id}
 	</select>
 	<!-- 여행 일정 정보 가져오기 -->
-	<select id="getPlan" parameterType="int" resultType="com.bob.stepy.dto.TravelPlanDto">
+	<select id="getPlan" parameterType="long" resultType="com.bob.stepy.dto.TravelPlanDto">
 		SELECT * FROM T
 		WHERE T_PLANNUM=#{planNum}
 	</select>
-	<!-- 여행 일정 내용 등록하기 -->
+	<!-- 여행 일정 설정하기 -->
 	<insert id="regPlanContents" parameterType="com.bob.stepy.dto.AccompanyPlanDto">
 		INSERT INTO AP (AP_PLANNUM, AP_MID, AP_DAY)
 		VALUES (#{ap_plannum},#{ap_mid},#{ap_day})
 	</insert>
+	<!-- 여행 전체 일수 가져오기 -->
+	<select id="getTravelDays" parameterType="long" resultType="int">
+		SELECT DISTINCT COUNT(AP_DAY) FROM AP
+		WHERE AP_PLANNUM=#{planNum}
+	</select>
 	<!-- 여행 일정 내용 가져오기 -->
-	<select id="getPlanContents" parameterType="int" resultType="com.bob.stepy.dto.AccompanyPlanDto">
+	<select id="getPlanContents" parameterType="long" resultType="com.bob.stepy.dto.AccompanyPlanDto">
 		SELECT * FROM AP
 		WHERE AP_PLANNUM=#{planNum}
 	</select>
+	<!-- 가게 정보 가져오기 -->
+	<select id="getStoreList" resultType="com.bob.stepy.dto.StoreDto">
+		SELECT S_NUM, S_NAME FROM S
+	</select>
+	<!-- 여행 내용 등록 -->
+	<insert id="regAccompanyPlan" parameterType="com.bob.stepy.dto.AccompanyPlanDto">
+		INSERT INTO AP
+		VALUES (#{ap_plannum},#{ap_mid},#{ap_day},#{ap_plancnt}, #{ap_contents})
+	</insert>
+	<!-- 여행 내용 삭제 -->
+	<delete id="delAccompanyPlan" parameterType="HashMap">
+		DELETE FROM AP
+		WHERE AP_PLANNUM=#{planNum} AND AP_DAY=#{day} AND AP_PLANCNT=#{num}
+	</delete>
+	<!-- 여행 번호 카운트 정렬 -->
+	<update id="reduceNumCnt" parameterType="HashMap">
+		UPDATE AP
+		SET AP_PLANCNT=AP_PLANCNT-1
+		WHERE AP_PLANNUM=#{planNum} AND AP_DAY=#{day} AND AP_PLANCNT>#{num}
+	</update>
 </mapper>
