@@ -2,16 +2,20 @@ package com.bob.stepy.service;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bob.stepy.dao.MemberDao;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.MemberKaKaoTokenDto;
 import com.bob.stepy.dto.MemberKakaoProfileDto;
@@ -25,32 +29,35 @@ public class MemberService {
 	static String restApi = "3a7921c9c86e805003cd07a8e548f149";
 	static String redirect_uri= "http://localhost/stepy/kakaoLogInProc";
 	
-	public String logInProc(MemberDto mDto, RedirectAttributes rttr) {
-		
-
-		return null;
-	}
-
-	// join stepy
-	public void mJoinProc(MemberDto member, RedirectAttributes rttr) {
-		
-		
-	}
+	@Autowired
+	private MemberDao mDao;
+	@Autowired
+	private HttpSession session;
 	
-	public String mLoginProc(MemberDto member, RedirectAttributes rttr) {
-		
-				
-		return null; 
-	}
-	
+
 	
 	
 
-	//kakaoApi_______________
+	
+
+
+	
+
+	//_______________
 	
 	
-	public MemberDto mKakaoLogInProc(String code,HttpSession session) {
+	
+	public String mKakaoAutho() {
 		
+		String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" + "client_id=" + restApi + "&redirect_uri=" + redirect_uri + "&response_type=code"; 
+		return kakaoUrl;
+	}
+
+	
+	
+	public String mKakaoLogInProc(String code,RedirectAttributes rttr) {
+		
+		String path;
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add( "Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -94,11 +101,14 @@ public class MemberService {
 		//retrieve user info from kakao server by Post Method
 		MemberDto member = mKakaoProfileRequest(tokenDto);
 		
-		return member;
+		session.setAttribute("member", member);
+		
+		return "redirect:/";
 	}
 	
 	
 	public MemberDto mKakaoProfileRequest(MemberKaKaoTokenDto tokenDto) {
+		
 		
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -132,6 +142,7 @@ public class MemberService {
 					e.printStackTrace();
 				}
 				
+				
 				System.out.println("kakao Id : "+kakaoProfileDto.getId());
 				System.out.println("kakao email : "+kakaoProfileDto.getKakao_account().getEmail());
 				System.out.println("The format of user id fot stepy is "+kakaoProfileDto.getKakao_account().getEmail()+"_"+kakaoProfileDto.getId());
@@ -139,24 +150,141 @@ public class MemberService {
 				System.out.println("Nickname and user name have the same value for deafult set");
 				
 				MemberDto memberDto = new MemberDto();
-				memberDto.setM_id(kakaoProfileDto.getKakao_account().getEmail()+"_"+kakaoProfileDto.getId());
-				memberDto.setM_email(kakaoProfileDto.getKakao_account().getEmail());
-				memberDto.setM_name(kakaoProfileDto.getKakao_account().getProfile().getNickname());
-				memberDto.setM_nickname(kakaoProfileDto.getKakao_account().getProfile().getNickname());
-				memberDto.setM_pwd("mustbekeptwithoutanyleak11!!");//default password for users who logged in from kakaotalk
-				System.out.println(memberDto);
+				String idPreCheck = kakaoProfileDto.getKakao_account().getEmail()+"_"+kakaoProfileDto.getId();
+				String dbCheckResult = mIdDuplicationCheck(idPreCheck);
 				
+				
+				if(dbCheckResult == "0") {
+					memberDto.setM_id(kakaoProfileDto.getKakao_account().getEmail()+"_"+kakaoProfileDto.getId());
+					memberDto.setM_email(kakaoProfileDto.getKakao_account().getEmail());
+					memberDto.setM_name(kakaoProfileDto.getKakao_account().getProfile().getNickname());
+					memberDto.setM_nickname(kakaoProfileDto.getKakao_account().getProfile().getNickname());
+					memberDto.setM_pwd("mustbekeptwithoutanyleak11!!");//default password for users who logged in from kakaotalk
+					//System.out.println(memberDto);
+					
+					try {
+						mJoinProc(memberDto);
+						//memberDto = mDao.getMemeberInfo(memberDto.getM_id());
+						System.out.println("This is if version of memberDto "+memberDto);
+					}catch(Exception e){
+						System.out.println("mKakaoProfileRequest Member insult failure" );
+					}
+					
+				}
+				else {
+					
+						memberDto = mDao.getMemeberInfo(idPreCheck);
+						System.out.println("this is else version of memberDto "+memberDto);
+				}
+
 				//response가 아닌 memberDto 를 보낸다.
 		return memberDto;
 	}
 	
+
+
+
+	// _________kakao
+	
+	
+	// join stepy
+	@Transactional
+	public String mJoinProc(MemberDto member) {
+		
+		String path = null;
+		String actualpwd;
+		String realaddr = null;
+		
+		BCryptPasswordEncoder pwdEncrypt = new BCryptPasswordEncoder();
+		
+		actualpwd = pwdEncrypt.encode(member.getM_pwd());
+		member.setM_pwd(actualpwd);
+		
+		
+		if(member.getAddress_without_specific() != "" && member.getAddress_without_specific() != null ) {
+			if(member.getAddress_with_specific() !="") {
+				realaddr = member.getAddress_without_specific() +" "+ member.getAddress_with_specific();
+				member.setM_addr(realaddr);
+			}
+			else if(member.getAddress_with_specific()== ""){
+				realaddr = member.getAddress_without_specific();
+				member.setM_addr(realaddr);
+			}
+		}
+		
+		try {
+			mDao.memberInsert(member);
+			path="redirect:/";
+			System.out.println(member);
+		}catch(Exception e) {
+			path="redirect:mJoinFrm";
+			e.printStackTrace();
+		}
+
+		return path;
+	}
+	
+	
+	
+	public String mIdDuplicationCheck(String tempid) {
+		
+		String msg;
+		
+		int i = mDao.duplicationCheck(tempid);
+		if (i == 1) {
+			msg="1";
+					//"이미 존재하는 아이디입니다. 다른 아이디를 선택해주세요 (already existing id. select another, please)";
+		}else {
+			msg = "0";
+					//"사용가능한 아이디입니다. (usable id)";
+		}
+		
+		return msg;
+		
+	}
 	
 
-	
-	public String kakaoAutho(HttpSession session) {
+	public String mLoginProc(MemberDto member) {
 		
-		String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" + "client_id=" + restApi + "&redirect_uri=" + redirect_uri + "&response_type=code"; 
-		return kakaoUrl;
+		String path;
+		String encryptPass = mDao.getEncryptizedPass(member.getM_id());
+		
+		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+		
+		if(encryptPass != null) {
+			if(pwdEncoder.matches(member.getM_pwd(), encryptPass)) {
+				
+				member = mDao.getMemeberInfo(member.getM_id());
+				session.setAttribute("member", member);
+				path = "redirect:/";
+				System.out.println("login success, "+member);
+			}else {
+				// right id, but pass typo
+				path="redirect:mLoginFrm";
+			}
+			
+		}else {
+			//no memberinfo exist
+			path="redirect:mLoginFrm";
+		}
+		
+		return path; 
 	}
+	
+	
+	
+	
+	public String mLogoutProc() {
+		
+		session.invalidate();
+		
+		return "home";
+	}
+
+
+
+	
+	
+	
 
 }
