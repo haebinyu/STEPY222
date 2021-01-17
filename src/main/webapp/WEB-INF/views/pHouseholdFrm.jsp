@@ -34,27 +34,45 @@
 	<div class="contents-box">
 		<h2>예산 : ${plan.t_budget}</h2>
 		<div class="dayList">
-			<c:set var="daycnt" value="1"/>
+			<c:set var="daycnt" value="0"/>
 			<c:set var="daynum" value="${days}"/>
 			<c:forEach begin="1" end="${daynum + 1}">
 			<div class="dayList-sub">
-				<div class="page-header">
-				  <h1>DAY ${daycnt}</h1>
-				</div>
+				<c:choose>
+					<c:when test="${daycnt == 0}">
+					<div class="page-header">
+					  <h1>여행 준비</h1>
+					</div>
+					</c:when>
+					<c:when test="${daycnt > 0}">
+					<div class="page-header">
+					  <h1>DAY ${daycnt}</h1>
+					</div>
+					</c:when>
+				</c:choose>
 			<c:set var="householdCnt" value="1"/>		
-			<c:forEach var="list" items="${day}">
-				<c:if test="${!empty list.ap_contents && list.ap_day == daycnt}">
+			<c:forEach var="list" items="${hList}">
+				<c:if test="${list.h_day == daycnt}">
 					<div class="panel panel-default">
 					  <div class="panel-body">
-					  <span class="glyphicon glyphicon-map-marker" aria-hidden="true">&nbsp;&nbsp;${list.ap_contents}</span>
-					  <div class="dayDelBtn pull-right" title="일정 삭제" onclick="location.href='delAccompanyPlan?planNum=${curPlan}&day=${daycnt}&num=${planCnt}'"><img src="resources/images/remove.png"></div>
+					  	<div class="h-category-box">${list.h_category}</div>
+					 	<div class="h-contents-box">${list.h_contents}</div>
+					 	<div class="h-cost-box">${list.h_cost}</div>
+					 	<c:choose>
+					 		<c:when test="${empty list.h_sname}">
+					 			<div class="h-sname-box"><span class="glyphicon glyphicon-map-marker" aria-hidden="true">&nbsp;-</span></div>
+					 		</c:when>
+					 		<c:when test="${!empty list.h_sname}">
+					 			<div class="h-sname-box"><span class="glyphicon glyphicon-map-marker" aria-hidden="true">&nbsp;${list.h_sname}</span></div>
+					 		</c:when>
+					 	</c:choose>
 					  </div>
 					</div>
 					<c:set var="householdCnt" value="${householdCnt + 1}"/>
 				</c:if>
 			</c:forEach>
 			<input class="btn btn-default btn-lg btn-block add-day-plan-btn" id="add-day-plan-btn" type="button" value="비용추가" 
-			onclick="location.href='pWriteHousehold?householdCnt=${householdCnt}'">
+			onclick="location.href='pWriteHousehold?householdCnt=${householdCnt}&days=${days}'">
 			<c:set var="daycnt" value="${daycnt + 1}"/>
 			
 			</div>
@@ -75,4 +93,17 @@
 <jsp:include page="footer.jsp"/>
 </footer>
 </body>
+<script type="text/javascript">
+//금액 콤마 표시
+$(function(){
+	var beforeCost = $(".h-cost-box");
+	//console.log(cost);
+	for(var i = 0; i < beforeCost.length; i++){
+		console.log(beforeCost[i].innerText);
+		var cost = beforeCost[i].innerText.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
+		console.log(cost);
+		beforeCost[i].innerHTML = "&#8361; " + cost;
+	}
+})
+</script>
 </html>

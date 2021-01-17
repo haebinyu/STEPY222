@@ -29,20 +29,12 @@
 	  <h1 class="text-center">장소 검색</h1>
 	</div>
 	<div class="search-box col-sm-offset-3 col-sm-6">
-		<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>
-				<div class="input-group">
-				  <span class="input-group-addon" id="sizing-addon2">검색</span>
-				  <input type="text" class="form-control" placeholder="가고싶은 장소를 검색해보세요" aria-describedby="sizing-addon2" 
-				  id="storeSearch" onkeyup="search()">
+		
+				<div class="search-box">
+					<input type="text" class="search-bar" placeholder="장소를 검색해보세요" id="storeSearch" onkeyup="search()">
 				</div>
-				</th>
-			</tr>
-		</thead>
-		</table>
-		<div class="store-list-box">
+			
+		<div class="add-store-box">
 		<ul class="list-group">
 			<c:forEach var="sList" items="${sList}">
 				  <li class="list-group-item storeBox">
@@ -76,7 +68,7 @@ function search(){
 	
 	for(var i = 0; i < storeList.length; i++){
 		//입력한 단어가 포함된 가게들은 표시
-		if(storeList[i].innerHTML.includes(searchText)){
+		if(storeList[i].innerText.includes(searchText)){
 			storeBox[i].style.display="block";
 		}
 		//포함된 단어가 없으면 숨김 처리

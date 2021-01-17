@@ -6,8 +6,8 @@
 <mapper namespace="com.bob.stepy.dao.TravelPlanDao">
 	<!-- 여행 일정 등록 -->
 	<insert id="pRegPlan" parameterType="com.bob.stepy.dto.TravelPlanDto">
-		INSERT INTO T (T_PLANNUM,T_PLANNAME,T_ID,T_SPOT,T_STDATE,T_BKDATE,T_MEMBER1,T_MEMBER2,T_MEMBER3,T_MEMBER4,T_MEMBER5)
-		VALUES (#{t_plannum},#{t_planname},#{t_id},#{t_spot},#{t_stdate},#{t_bkdate},#{t_member1},#{t_member2},#{t_member3},#{t_member4},#{t_member5})
+		INSERT INTO T
+		VALUES (#{t_plannum},#{t_planname},#{t_id},#{t_spot},#{t_stdate},#{t_bkdate},#{t_member1},#{t_member2},#{t_member3},#{t_member4},#{t_member5},DEFAULT)
 	</insert>
 	<!-- 여행 일정 리스트 가져오기 -->
 	<select id="getPlanList" parameterType="String" resultType="com.bob.stepy.dto.TravelPlanDto">
@@ -54,4 +54,14 @@
 		SET AP_PLANCNT=AP_PLANCNT-1
 		WHERE AP_PLANNUM=#{planNum} AND AP_DAY=#{day} AND AP_PLANCNT>#{num}
 	</update>
+	<!-- 가계부 내용 등록 -->
+	<insert id="regHousehold" parameterType="com.bob.stepy.dto.HouseholdDto">
+		INSERT INTO H
+		VALUES (#{h_plannum},#{h_day},#{h_cnt},#{h_mid},#{h_cost},#{h_category},#{h_contents},#{h_sname})
+	</insert>
+	<!-- 가계부 내용 가져오기 -->
+	<select id="getHouseholdContents" resultType="com.bob.stepy.dto.HouseholdDto">
+		SELECT * FROM H
+		WHERE H_PLANNUM=#{planNum}
+	</select>
 </mapper>

@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dto.AccompanyPlanDto;
+import com.bob.stepy.dto.HouseholdDto;
 import com.bob.stepy.dto.TravelPlanDto;
 import com.bob.stepy.service.TravelPlanService;
 
@@ -91,10 +92,18 @@ public class TravelPlanController {
 	
 	//가계부 내용 작성 페이지 이동
 	@GetMapping("pWriteHousehold")
-	public ModelAndView pWriteHousehold(long householdCnt) {
-		log.info("controller - pWriteHousehold() - householdCnt : " + householdCnt);
+	public ModelAndView pWriteHousehold(long householdCnt, long days) {
+		log.info("controller - pWriteHousehold() - householdCnt : " + householdCnt + ", days : " + days);
 		
-		return tServ.pWriteHousehold(householdCnt);
+		return tServ.pWriteHousehold(householdCnt, days);
+	}
+	
+	//가계부 내용 등록
+	@GetMapping("regHousehold")
+	public String regHousehold(HouseholdDto household, RedirectAttributes rttr) {
+		log.info("controller - regHousehold()");
+		
+		return tServ.regHousehold(household, rttr);
 	}
 	
 	//체크리스트 페이지 이동

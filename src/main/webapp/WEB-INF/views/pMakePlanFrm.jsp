@@ -47,13 +47,18 @@ $(function() {
 </header>
 <section>
 <div class="container">
+	<button class="btn btn-default btn-lg" type="button" onclick="location.href='./'" style="margin-bottom: 20px; ">
+	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"> 메인으로&nbsp;</span>
+	</button>
 	<div class="contents-box">
 		<div class="row">
 			<form class="form-horizontal" action="pRegPlan" method="post">
 				<div class="party-list col-sm-4 col-xs-12">
 				<div class="reader">
+				<!-- 로그인 세션 추가시 변경할것 -->
 				<p class="reader-name"><img src="resources/images/flag.png" height="15"> session.로그인아이디(추가예정)</p>
 				<input type="hidden" value="user01" name="t_id">
+				<!--  -->
 				</div>
 				<div id="hidden-member">
 					<input type="hidden" name="t_member1">
