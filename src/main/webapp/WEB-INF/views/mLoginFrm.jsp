@@ -28,10 +28,27 @@
 			class="container mt-4 center-block text-dark text-center"
 			style="max-width: 600px;background-color:#F5F5F5;"><br><br>
 			<form action="mLoginProc" method="post">
-				ID : <input type="text" name="m_id" autofocus placeholder="아이디"><br><br>
-				Pass : <input type="password" name="m_pwd" placeholder="비밀번호"><br><br>
-				<input type="submit" value="로그인">
+			
+			<div class="form-group row">
+					<label for="checkid" class="col-sm-2 col-form-label">아이디</label>
+					<div class="col-sm-8">
+						<input type="text" name="m_id" class="form-control" placeholder="id입력" id="checkid" required>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="inputPassword3" class="col-sm-2 col-form-label">비밀번호</label>
+					<div class="col-sm-8">
+						<input type="password" name="m_pwd" class="form-control" id="inputPassword3"
+							placeholder="비밀번호" required
+						>
+					</div>
+				</div>
+			
+				<button type="submit" class="btn btn-primary">로그인</button>
+				
 			</form><br><br>
+			
 			<a href="./kakaoLogin">
 
 			<img src=resources/images/kakao_login_medium_wide.png></a>

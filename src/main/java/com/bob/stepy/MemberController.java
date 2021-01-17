@@ -32,8 +32,19 @@ public class MemberController {
 	@Autowired
 	private MemberService mServ;
 	
+	@GetMapping("mLogoutProc")
+	public String mLogoutProc() {
 	
+		return mServ.mLogoutProc();
+	}
 	
+	@PostMapping("mLoginProc")
+	public String mLoginProc(MemberDto member, RedirectAttributes rttr) {
+		logger.info("mLoginProc()");
+		
+		String path = mServ.mLoginProc(member);
+		return path;
+	}
 	
 	@GetMapping("mLoginFrm")
 	public String mLoginFrm() {
@@ -42,12 +53,31 @@ public class MemberController {
 		return "mLoginFrm";
 	}
 	
-	@PostMapping("mLoginProc")
-	public String mLoginProc(MemberDto mDto, RedirectAttributes rttr) {
-		logger.info("mLoginProc()");
+
+	@GetMapping(value = "mIdDuplicationCheck", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String mIdDuplicationCheck(String tempid) {
 		
-		return null;
+		logger.info("mIdDuplicationCheck()");
+		
+		System.out.println(tempid);
+		String id = mServ.mIdDuplicationCheck(tempid);
+		System.out.println(id);
+		
+		return id;
 	}
+	
+	
+	
+	@PostMapping("mJoinProc")
+	public String mJoinProc(MemberDto member) {
+		logger.info("mJoinProc()");
+		
+		String path = mServ.mJoinProc(member);
+		
+		return path;
+	}
+	
 	
 	@GetMapping("mJoinFrm")
 	public String mJoinFrm() {
@@ -56,21 +86,22 @@ public class MemberController {
 		return "mJoinFrm";
 	}
 	
+	
 	@GetMapping("kakaoLogin")
-	public String getAuthorizationUrl(HttpSession session) { 
-		String kakaoUrl = mServ.kakaoAutho(session);
+	public String mGetAuthorizationUrl(RedirectAttributes rttr) { 
+		
+		String kakaoUrl = mServ.mKakaoAutho();
+		
 		return "redirect:"+kakaoUrl; 
 		}
 
 
-	@ResponseBody
 	@GetMapping(value = "kakaoLogInProc", produces = "application/json; charset=utf8")
-	public MemberDto kakaoLogInProc(String code,HttpSession session) {
+	public String kakaoLogInProc(String code,RedirectAttributes rttr) {
 
-		MemberDto member = mServ.mKakaoLogInProc(code,session);
-		
-		
-		return member;
+		String path = mServ.mKakaoLogInProc(code,rttr);
+	
+		return path;
 	}
 	
 	
