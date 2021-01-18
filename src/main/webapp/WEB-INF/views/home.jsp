@@ -28,6 +28,7 @@
 		<!--  -->
 		<li><a href="./searchFrm">검색</a></li>
 		<li><a href="./aLoginFrm">어드민 전용</a></li>
+		<li><a href="./stHome">사장님 페이지</a></li>
 	</ul>
 	</main>
 	<footer>
