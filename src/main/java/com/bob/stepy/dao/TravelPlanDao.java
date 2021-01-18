@@ -41,4 +41,8 @@ public interface TravelPlanDao {
 	public void reduceHouseholdCnt(Map<String, Long> hMap);
 	//가계부 내용 삭제
 	public void delHousehold(Map<String, Long> hMap);
+	//예산 등록
+	public void pRegBudget(Map<String, Long> rbMap);
+	//예산 전체 조회
+	public long getBalance(long planNum);
 }

@@ -89,6 +89,66 @@ td { text-align: center; }
 .h-sname-box { margin-top: 10px; }
 .h-list:hover { cursor: pointer; background: #eee; }
 
+/* 예산 및 지출 확인 창 */
+.balance-wrap {
+	position: fixed;
+	top: 50%;
+	transform: translateY(-50%);
+	left: -300px;
+	height: 350px;
+	transition: all 0.5s;
+}
+.balance-contents {
+	border: 1px solid #ddd;
+	border-left: none;
+	border-radius: 0 8px 8px 0;
+	width: 300px;
+	height: 350px;
+	float: left;
+	background: white;
+}
+.balance-toggle {
+	border: 1px solid #ddd;
+	border-radius: 0 8px 8px 0;
+	width: 40px;
+	height: 200px;
+	float: left;
+	border-left: none;
+	margin: 75px 0;
+	background: white;
+}
+.glyphicon-chevron-right {
+	line-height: 200px;
+	text-align: center;
+	width: 40px;
+	cursor: pointer;
+	transition: all 0.5s;
+}
+.input-budget {
+	font-size: 40px;
+	text-align: right;
+	padding: 30px 20px;
+	margin-bottom: 5px;
+}
+.balance-area {
+	padding: 0 20px; 
+}
+.balance-spent {
+	margin: 25px 0;
+	padding: 0 10px;
+}
+.balance-result {
+	background: #4375d9;
+	color: white;
+	border-radius: 5px;
+	padding: 0 10px;
+}
+.br {
+	height: 50px;
+	line-height: 50px;
+
+}
+
 /* 가계부 수정 페이지 */
 .del-household-btn { transition: all 0.2s; }
 .del-household-btn:hover { background-color: #d9534f; color: white; }
@@ -153,6 +213,9 @@ td { text-align: center; }
 		height: 600px;
 		background: #fff;
 		z-index: 2;
+	}
+	.dayList {
+		margin: 0;
 	}
 }
 

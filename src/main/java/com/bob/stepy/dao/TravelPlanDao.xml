@@ -94,4 +94,16 @@
 		DELETE H
 		WHERE H_PLANNUM=#{planNum} AND H_DAY=#{curDay} AND H_CNT=#{householdCnt}
 	</delete>
+	<!-- 예산 등록 -->
+	<update id="pRegBudget">
+		UPDATE T
+		SET T_BUDGET=#{budget}
+		WHERE T_PLANNUM=#{planNum}
+	</update>
+	<!-- 예산 조회 -->
+	<select id="getBalance" parameterType="long" resultType="long">
+		SELECT H_TOTALCOST
+		FROM B
+		WHERE H_PLANNUM=#{planNum}
+	</select>
 </mapper>

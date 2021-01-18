@@ -1,5 +1,8 @@
 package com.bob.stepy;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -136,5 +139,14 @@ public class TravelPlanController {
 		log.info("controller - pCheckSupFrm()");
 		
 		return "pCheckSupFrm";
+	}
+	
+	//예산 입력
+	@GetMapping(value = "pRegBudget", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public Map<String, Long> pRegBudget(long planNum, long budget){
+		log.info("controller - tServ.pRegBudget() - planNum : " + planNum + ", budget : " + budget);
+		
+		return tServ.pRegBudget(planNum, budget);
 	}
 }

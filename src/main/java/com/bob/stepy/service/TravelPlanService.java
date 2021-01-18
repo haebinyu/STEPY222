@@ -363,4 +363,24 @@ public class TravelPlanService {
 		return view;
 	}
 
+	public Map<String, Long> pRegBudget(long planNum, long budget) {
+		log.info("service - pRegBudget() - planNum : " + planNum + ", budget : " + budget);
+		Map<String, Long> rbMap = new HashMap<String, Long>();
+		rbMap.put("planNum", planNum);
+		rbMap.put("budget", budget);
+		
+		try {
+			//예산 등록
+			tDao.pRegBudget(rbMap);
+			//여행 정보 다시불러오기
+			long totalCost = tDao.getBalance(planNum);
+			rbMap.put("totalCost", totalCost);
+			rbMap.put("balance", (budget - totalCost));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return rbMap;
+	}
+
 }
