@@ -31,7 +31,7 @@
 				<h1 class="text-center">내용 수정</h1>
 			</div>
 			<div class="contents-box">
-				<form action="ModHousehold" onsubmit="return changeCostFormat()">
+				<form action="modHousehold" onsubmit="return changeCostFormat()">
 				<input type="hidden" name="h_plannum" value="${curPlan}">
 				<input type="hidden" name="h_curday" value="${dayCnt}">
 				<input type="hidden" name="h_cnt" value="${contents.h_cnt}">
@@ -87,8 +87,11 @@
 						</div>
 					</div>
 					<div class="row btn-box">
-						<div class="form-group col-sm-offset-3  col-sm-6">
+						<div class="form-group col-sm-offset-3  col-sm-3">
 							<button class="btn btn-default btn-lg btn-block submit-cost-btn" type="submit">수정완료</button>
+						</div>
+						<div class="form-group col-sm-3">
+							<input type="button" class="btn btn-default btn-lg btn-block del-household-btn" value="삭제" onclick="delCheck()"/>
 						</div>
 					</div>
 					<div class="popup-wrap">
@@ -210,6 +213,13 @@ function afterSelect(){
 	$("#storeSearch").val("");
 	for(var i = 0; i < storeList.length; i++){
 		storeBox[i].style.display="none";
+	}
+}
+
+//삭제 확인 후 삭제
+function delCheck(){
+	if(confirm("삭제하시겠습니까?")){
+		location.href="delHousehold?planNum=${curPlan}&day=${dayCnt}&householdCnt=${contents.h_cnt}";
 	}
 }
 //팝업창 온오프

@@ -89,6 +89,9 @@ td { text-align: center; }
 .h-sname-box { margin-top: 10px; }
 .h-list:hover { cursor: pointer; background: #eee; }
 
+/* 가계부 수정 페이지 */
+.del-household-btn { transition: all 0.2s; }
+.del-household-btn:hover { background-color: #d9534f; color: white; }
 /* 팝업창 */
 /* 전체화면 테두리 */
 .popup-wrap {
@@ -150,9 +153,6 @@ td { text-align: center; }
 		height: 600px;
 		background: #fff;
 		z-index: 2;
-	}
-	#household-cost { 
-		font-size: 20px;
 	}
 }
 

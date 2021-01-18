@@ -310,8 +310,8 @@ public class TravelPlanService {
 	
 	//가계부 내용 수정
 	@Transactional
-	public String ModHousehold(HouseholdDto household, RedirectAttributes rttr) {
-		log.info("service - ModHousehold()");
+	public String modHousehold(HouseholdDto household, RedirectAttributes rttr) {
+		log.info("service - modHousehold()");
 		String view = null;
 		Map<String, Long> hMap = new HashMap<String, Long>();
 		hMap.put("planNum", household.getH_plannum());
@@ -323,6 +323,32 @@ public class TravelPlanService {
 			tDao.ModHousehold(household);
 			//남은 데이터 카운트 정렬
 			tDao.reduceHouseholdCnt(hMap);
+			view = "redirect:pHouseholdFrm?planNum=0";
+		} catch (Exception e) {
+			e.printStackTrace();
+			view = "redirect:pPlanFrm?planNum=0";
+		}
+		
+		return view;
+	}
+
+	//가계부 내용 삭제
+	@Transactional
+	public String delHousehold(long planNum, long day, long householdCnt, RedirectAttributes rttr) {
+		log.info("service - delHousehold()");
+		String view = null;
+		
+		Map<String, Long> hMap = new HashMap<String, Long>();
+		hMap.put("planNum", planNum);
+		hMap.put("curDay", day);
+		hMap.put("householdCnt", householdCnt);
+		
+		try {
+			//데이터 삭제
+			tDao.delHousehold(hMap);
+			//남은 데이터 카운트 정렬
+			tDao.reduceHouseholdCnt(hMap);
+			
 			view = "redirect:pHouseholdFrm?planNum=0";
 		} catch (Exception e) {
 			e.printStackTrace();

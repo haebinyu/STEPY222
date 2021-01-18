@@ -115,11 +115,19 @@ public class TravelPlanController {
 	}
 	
 	//가계부 내용 수정
-	@GetMapping("ModHousehold")
+	@GetMapping("modHousehold")
 	public String ModHousehold(HouseholdDto household, RedirectAttributes rttr) {
-		log.info("controller - ModHousehold()");
+		log.info("controller - modHousehold()");
 		
-		return tServ.ModHousehold(household, rttr);
+		return tServ.modHousehold(household, rttr);
+	}
+	
+	//가계부 내용 삭제
+	@GetMapping("delHousehold")
+	public String delHousehold(long planNum, long day, long householdCnt, RedirectAttributes rttr) {
+		log.info("contorller - delHousehold()");
+		
+		return tServ.delHousehold(planNum, day, householdCnt, rttr);
 	}
 	
 	//체크리스트 페이지 이동

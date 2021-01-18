@@ -83,6 +83,11 @@
 	<update id="reduceHouseholdCnt" parameterType="HashMap">
 		UPDATE H
 		SET H_CNT=H_CNT-1
-		WHERE H_PLANNUM=#{planNum} AND H_DAY=${curDay} AND H_CNT>${householdCnt}
+		WHERE H_PLANNUM=#{planNum} AND H_DAY=#{curDay} AND H_CNT>#{householdCnt}
 	</update>
+	<!-- 가계부 내용 삭제 -->
+	<delete id="delHousehold" parameterType="HashMap">
+		DELETE H
+		WHERE H_PLANNUM=#{planNum} AND H_DAY=#{curDay} AND H_CNT=#{householdCnt}
+	</delete>
 </mapper>
