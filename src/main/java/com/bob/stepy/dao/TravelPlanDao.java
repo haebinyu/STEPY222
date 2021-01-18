@@ -31,6 +31,12 @@ public interface TravelPlanDao {
 	public void reduceNumCnt(Map<String, Long> apMap);
 	//가계부 내용 등록
 	public void regHousehold(HouseholdDto household);
+	//가계부 목록 가져오기
+	public List<HouseholdDto> getHouseholdList(long planNum);
 	//가계부 내용 가져오기
-	public List<HouseholdDto> getHouseholdContents(long planNum);
+	public HouseholdDto getHouseholdContentes(Map<String, Long> hList);
+	//가계부 수정
+	public void ModHousehold(HouseholdDto household);
+	//가계부 내용 카운트 정렬
+	public void reduceHouseholdCnt(Map<String, Long> hMap);
 }
