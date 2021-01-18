@@ -102,12 +102,14 @@ public class MemberService {
 		MemberDto member = mKakaoProfileRequest(tokenDto);
 		
 		if(member.getM_email().equals("no_email_detected")) {
-			rttr.addAttribute("msg", "eamil 정보수집에 동의해주세요");
+			rttr.addFlashAttribute("msgforlogin", "eamil 정보수집에 동의해주세요");
+			//로그아웃처리 
+			
+			mKakaoDisconnect("disconnected id : " + tokenDto.getAccess_token());
 			return "redirect:mLoginFrm";
 		}
 		
 		session.setAttribute("member", member);
-		rttr.addAttribute("msg", "카카오 아이디로 로그인되었습니다 ");
 		
 		return "redirect:/";
 	}
@@ -197,6 +199,32 @@ public class MemberService {
 	}
 	
 
+	public void mKakaoDisconnect(String accessToken) {
+		
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", "Bearer "+accessToken);
+		
+		HttpEntity<MultiValueMap<String,String>> forDisconnection = 
+				new HttpEntity<>(headers);
+		
+		//request-Method:Post-And get Response Answer
+		ResponseEntity<String> response = rt.exchange(
+				//request
+				"https://kapi.kakao.com/v1/user/unlink",
+				//method
+				HttpMethod.POST,
+				//body entity, header entity
+				forDisconnection,
+				//response Type
+				String.class
+				);
+		
+		System.out.println(response.getBody());
+
+		
+		
+	}
 
 //_____________
 	

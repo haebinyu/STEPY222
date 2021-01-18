@@ -12,9 +12,9 @@ $(function(){
 		$(".bef").css("display","none");
 	}
 	
-	var msg = "${msg}"
-		if(msg != ""){
-			alert(msg);
+	var msgforlogin = "${msgforlogin}";
+		if(msgforlogin != ""){
+			alert(msgforlogin);
 		}
 
 });
