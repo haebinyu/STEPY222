@@ -13,6 +13,19 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
 
+    <script>
+$(function(){
+	
+	var memberinfo = "${member.m_nickname}"
+	if(memberinfo != ""){
+		console.log(memberinfo);
+		$("#mname").html(memberinfo);
+		$(".suc").css("display","block");
+		$(".bef").css("display","none");
+	}
+
+});
+</script>
 
 </head>
 <body>
