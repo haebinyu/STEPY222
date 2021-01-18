@@ -1,16 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-    <script>
+<script>
 $(function(){
 	
-	var memberinfo = "${member.m_nickname}"
+	var memberinfo = "${member.m_nickname}";
 	if(memberinfo != ""){
 		console.log(memberinfo);
 		$("#mname").html(memberinfo);
 		$(".suc").css("display","block");
 		$(".bef").css("display","none");
 	}
+	
+	var msg = "${msg}"
+		if(msg != ""){
+			alert(msg);
+		}
 
 });
 </script>

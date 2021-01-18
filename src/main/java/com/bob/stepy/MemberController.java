@@ -32,6 +32,14 @@ public class MemberController {
 	@Autowired
 	private MemberService mServ;
 	
+	
+	
+	@GetMapping("mMyPage")
+	public String mMyPage() {
+		
+		return "mMyPage";
+	}
+	
 	@GetMapping("mLogoutProc")
 	public String mLogoutProc() {
 	
@@ -87,14 +95,6 @@ public class MemberController {
 	}
 	
 	
-	@GetMapping("kakaoLogin")
-	public String mGetAuthorizationUrl(RedirectAttributes rttr) { 
-		
-		String kakaoUrl = mServ.mKakaoAutho();
-		
-		return "redirect:"+kakaoUrl; 
-		}
-
 
 	@GetMapping(value = "kakaoLogInProc", produces = "application/json; charset=utf8")
 	public String kakaoLogInProc(String code,RedirectAttributes rttr) {
@@ -104,5 +104,14 @@ public class MemberController {
 		return path;
 	}
 	
+	
+	@GetMapping("kakaoLogin")
+	public String mGetAuthorizationUrl(RedirectAttributes rttr) { 
+		
+		String kakaoUrl = mServ.mKakaoAutho();
+		
+		return "redirect:"+kakaoUrl; 
+		}
+
 	
 }
