@@ -305,6 +305,10 @@ public class TravelPlanService {
 		mv.addObject("contents", household);
 		mv.setViewName("pModHouseholdFrm");
 		
+		//가게 목록 불러오기
+		List<StoreDto> sList = tDao.getStoreList();
+		mv.addObject("sList", sList);
+		
 		return mv;
 	}
 	
@@ -313,6 +317,7 @@ public class TravelPlanService {
 	public String modHousehold(HouseholdDto household, RedirectAttributes rttr) {
 		log.info("service - modHousehold()");
 		String view = null;
+		
 		Map<String, Long> hMap = new HashMap<String, Long>();
 		hMap.put("planNum", household.getH_plannum());
 		hMap.put("curDay", household.getH_curday());
