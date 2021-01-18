@@ -20,6 +20,12 @@
 </header>
 <section>
 <div class="container">
+	<div>
+	<button class="btn btn-default btn-lg" type="button" onclick="location.href='./'">
+	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"> 메인으로&nbsp;</span>
+	</button>
+	<button class="btn btn-default btn-lg add-party-btn pull-right" type="button" onclick="location.href='./pMakePlanFrm'">새 여행 만들기</button>
+	</div>
 	<div class="page-header">
 	  <h1>내 여행 목록</h1>
 	</div>
@@ -34,14 +40,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="planList" items="${planList}">
-					<tr>
-						<td><a href="pPlanFrm?planNum=${planList.t_plannum}">${planList.t_planname}</a></td>
-						<td>${planList.t_spot}</td>
-						<td class="hidden-xs">${planList.t_stdate}</td>
-						<td class="hidden-xs">${planList.t_bkdate}</td>
-					</tr>
-				</c:forEach>
+				<c:choose>
+					<c:when test="${empty planList}">
+						<td colspan="4">계획된 여행이 없습니다. 새로운 여행을 준비해보세요</td>
+					</c:when>
+					<c:when test="${!empty planList}">
+						<c:forEach var="planList" items="${planList}">
+							<tr>
+								<td><a href="pPlanFrm?planNum=${planList.t_plannum}">${planList.t_planname}</a></td>
+								<td>${planList.t_spot}</td>
+								<td class="hidden-xs">${planList.t_stdate}</td>
+								<td class="hidden-xs">${planList.t_bkdate}</td>
+							</tr>
+						</c:forEach>
+					</c:when>
+				</c:choose>
 			</tbody>
 		</table>
 	</div>

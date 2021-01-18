@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dao.TravelPlanDao;
 import com.bob.stepy.dto.AccompanyPlanDto;
+import com.bob.stepy.dto.HouseholdDto;
 import com.bob.stepy.dto.StoreDto;
 import com.bob.stepy.dto.TravelPlanDto;
 
@@ -147,17 +148,18 @@ public class TravelPlanService {
 		//for(long i = 1; i <= days; i++) {
 		//	planContentsMap.put("planNum", planNum);
 		//	planContentsMap.put("days", i);
-			
-			List<AccompanyPlanDto> planContentsList = tDao.getPlanContents(num);
-			mv.addObject("day", planContentsList);
+		
+		//여행 내용 가져오기	
+		List<AccompanyPlanDto> planContentsList = tDao.getPlanContents(num);
+		mv.addObject("planContentsList", planContentsList);
 		//}
 		
 		//세션에 현재 여행 번호 저장
 		session.setAttribute("curPlan", num);
 		
 		//가게 목록 불러오기
-				List<StoreDto> sList = tDao.getStoreList();
-				mv.addObject("sList", sList);
+		List<StoreDto> sList = tDao.getStoreList();
+		mv.addObject("sList", sList);
 		
 		mv.setViewName("pPlanFrm");
 		
@@ -201,7 +203,6 @@ public class TravelPlanService {
 	@Transactional
 	public String delAccompanyPlan(long planNum, long day, long num, RedirectAttributes rttr) {
 		log.info("service - delAccompanyPlan");
-		String view = null;
 		
 		Map<String, Long> apMap = new HashMap<String, Long>();
 		apMap.put("planNum", planNum);
@@ -230,12 +231,15 @@ public class TravelPlanService {
 		
 		TravelPlanDto plan = tDao.getPlan(num);
 		
-		
 		mv.addObject("plan", plan);
 		
 		//시작일과 종료일의 차이 계산
 		long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
 		mv.addObject("days", days);
+		
+		//가계부 내용 가져오기
+		List<HouseholdDto> hList = tDao.getHouseholdContents(num);
+		mv.addObject("hList", hList);
 		
 		mv.setViewName("pHouseholdFrm");
 		
@@ -243,13 +247,41 @@ public class TravelPlanService {
 	}
 
 	//가계부 내용 작성페이지 이동
-	public ModelAndView pWriteHousehold(long householdCnt) {
-		log.info("service - pWriteHousehold() - householdCnt : " + householdCnt);
+	public ModelAndView pWriteHousehold(long householdCnt, long days) {
+		log.info("service - pWriteHousehold() - householdCnt : " + householdCnt + ", days : " + days);
+		
+		long num = (days == 0)? (long)session.getAttribute("curDays") : days;
+		session.setAttribute("cruDays", days);
 		
 		mv.addObject("householdCnt", householdCnt);
+		mv.addObject("days", num);
+		
+		//가게 목록 불러오기
+		List<StoreDto> sList = tDao.getStoreList();
+		mv.addObject("sList", sList);
+				
 		mv.setViewName("pWriteHousehold");
 		
 		return mv;
+	}
+
+	//가계부 내용 등록
+	@Transactional
+	public String regHousehold(HouseholdDto household, RedirectAttributes rttr) {
+		log.info("service - regHousehold()");
+		String view = null;
+	
+		try {
+			tDao.regHousehold(household);
+			view = "redirect:pHouseholdFrm?planNum=0";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			String cnt = Long.toString(household.getH_cnt());
+			view = "redirect:pWriteHousehold?householdCnt=" + cnt + "&days=0";
+		}
+		
+		return view;
 	}
 
 }

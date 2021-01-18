@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bob.stepy.dto.AccompanyPlanDto;
+import com.bob.stepy.dto.HouseholdDto;
 import com.bob.stepy.dto.StoreDto;
 import com.bob.stepy.dto.TravelPlanDto;
 
@@ -28,4 +29,8 @@ public interface TravelPlanDao {
 	public void delAccompanyPlan(Map<String, Long> apMap);
 	//여행 번호 카운트 정렬
 	public void reduceNumCnt(Map<String, Long> apMap);
+	//가계부 내용 등록
+	public void regHousehold(HouseholdDto household);
+	//가계부 내용 가져오기
+	public List<HouseholdDto> getHouseholdContents(long planNum);
 }

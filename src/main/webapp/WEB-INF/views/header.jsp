@@ -1,19 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-    <script>
-$(function(){
-	
-	var memberinfo = "${member.m_nickname}"
-	if(memberinfo != ""){
-		console.log(memberinfo);
-		$("#mname").html(memberinfo);
-		$(".suc").css("display","block");
-		$(".bef").css("display","none");
-	}
 
-});
-</script>
     
 <div class="jumbotron" style="background-color: white; margin-bottom: 0; height:150px; padding: 20px 0;">
   <a href="./"><img src="resources/images/logo_tp_final01.png" style="width: 177px;

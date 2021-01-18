@@ -101,12 +101,20 @@ public class MemberService {
 		//retrieve user info from kakao server by Post Method
 		MemberDto member = mKakaoProfileRequest(tokenDto);
 		
+		if(member.getM_email().equals("no_email_detected")) {
+			rttr.addAttribute("msg", "eamil 정보수집에 동의해주세요");
+			return "redirect:mLoginFrm";
+		}
+		
 		session.setAttribute("member", member);
+		rttr.addAttribute("msg", "카카오 아이디로 로그인되었습니다 ");
 		
 		return "redirect:/";
 	}
 	
 	
+	
+	@Transactional
 	public MemberDto mKakaoProfileRequest(MemberKaKaoTokenDto tokenDto) {
 		
 		
@@ -136,6 +144,9 @@ public class MemberService {
 				
 				try {
 					kakaoProfileDto = objectMapper.readValue(response.getBody(), MemberKakaoProfileDto.class);
+					System.out.println(kakaoProfileDto);
+					//여기서 myPage 썸네일 다운받고 설정하고. 
+					
 				} catch (JsonMappingException e) {
 					e.printStackTrace();
 				} catch (JsonProcessingException e) {
@@ -149,10 +160,15 @@ public class MemberService {
 				System.out.println("The format of user enamil for stepy is "+kakaoProfileDto.getKakao_account().getEmail());
 				System.out.println("Nickname and user name have the same value for deafult set");
 				
-				MemberDto memberDto = new MemberDto();
+				
 				String idPreCheck = kakaoProfileDto.getKakao_account().getEmail()+"_"+kakaoProfileDto.getId();
 				String dbCheckResult = mIdDuplicationCheck(idPreCheck);
+				MemberDto memberDto = new MemberDto();
 				
+				if(kakaoProfileDto.getKakao_account().getEmail() == "" || kakaoProfileDto.getKakao_account().getEmail() == null) {
+					memberDto.setM_email("no_email_detected");
+					return memberDto;
+				}
 				
 				if(dbCheckResult == "0") {
 					memberDto.setM_id(kakaoProfileDto.getKakao_account().getEmail()+"_"+kakaoProfileDto.getId());
@@ -172,7 +188,6 @@ public class MemberService {
 					
 				}
 				else {
-					
 						memberDto = mDao.getMemeberInfo(idPreCheck);
 						System.out.println("this is else version of memberDto "+memberDto);
 				}
@@ -183,8 +198,7 @@ public class MemberService {
 	
 
 
-
-	// _________kakao
+//_____________
 	
 	
 	// join stepy

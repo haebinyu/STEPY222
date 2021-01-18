@@ -55,7 +55,7 @@
 				  <h1>DAY ${daycnt}</h1>
 				</div>
 			<c:set var="planCnt" value="1"/>		
-			<c:forEach var="list" items="${day}">
+			<c:forEach var="list" items="${planContentsList}">
 				<c:if test="${!empty list.ap_contents && list.ap_day == daycnt}">
 					<div class="panel panel-default">
 					  <div class="panel-body">
