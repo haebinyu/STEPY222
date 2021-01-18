@@ -9,28 +9,63 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-	rel="stylesheet" crossorigin="anonymous"
-	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1">
-<title>Login</title>
+<title>STEPY 사장님</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<link href="resources/css/style2.css" rel="stylesheet">
+
+<script type="text/javascript">
+$(function(){
+	var chk = "${msg}";
+	if(chk != ""){
+		alert(chk);
+		location.reload(true);
+	}	
+});
+
+</script>
+
+<style type="text/css">
+.btn {
+	background-color: #4375D9;
+	color: white;
+	margin-top: 10px;
+	width: 100%;
+}
+.btn-color {
+	background-color: #F2b950;
+	margin-top: 0px;
+}
+.msg1 {
+	margin-top: 40px;
+}
+</style>
+
 </head>
 
 <body>
-<div class="container mt-4 center-block" style="width:500px;">
-	<form class="px-4 py-3" action="./login" method="post">
-		<div class="mb-3">
-			<label for="exampleDropdownFormEmail2" class="form-label">ID</label>
-			<input type="text" class="form-control" name="m_id" required
-				id="exampleDropdownFormEmail2" placeholder="ID" autofocus>
-		</div>
-		<div class="mb-3">
-			<label for="exampleDropdownFormPassword2" class="form-label">Password</label>
-			<input type="password" class="form-control" name="m_pwd" required
-				id="exampleDropdownFormPassword2" placeholder="Password">
-		</div>
-		<button type="submit" class="btn btn-primary">Login</button>
-	</form>
+	<header>
+		<jsp:include page="stHeader.jsp" />
+	</header>
+	
+	<!-- section -->
+	<div class="container center-block" style="width:400px;">
+		<form action="./stLoginProc" method="post">
+			<h3 class="text-left">사장님 로그인</h3>
+			<label for="exampleDropdownFormEmail2" class="form-label">사업자번호</label>
+			<input type="text" class="form-control" name="c_num" required id="exampleDropdownFormEmail2" autofocus>
+			<label for="exampleDropdownFormPassword2" class="form-label">비밀번호</label>
+			<input type="password" class="form-control" name="c_pwd" required id="exampleDropdownFormPassword2">
+			<button type="submit" class="btn">로그인</button>
+			<h6 class="text-right"><a href="./stFindPwdFrm">비밀번호 찾기</a></h6>		
+			<h6 class="text-center msg1">처음이신가요? 입점 신청 후 이용 바랍니다.</h6>
+			<button class="btn btn-color" onclick="location.href='./stJoinFrm'">입점 신청하기</button>			
+		</form>
 	</div>
-
+		
+	<footer>
+		<jsp:include page="stFooter.jsp" />
+	</footer>
 </body>
 </html>

@@ -36,7 +36,7 @@
 		<div class="dayList">
 			<c:set var="daycnt" value="0"/>
 			<c:set var="daynum" value="${days}"/>
-			<c:forEach begin="1" end="${daynum + 1}">
+			<c:forEach begin="1" end="${daynum + 2}">
 			<div class="dayList-sub">
 				<c:choose>
 					<c:when test="${daycnt == 0}">
@@ -54,7 +54,7 @@
 			<c:forEach var="list" items="${hList}">
 				<c:if test="${list.h_day == daycnt}">
 					<div class="panel panel-default">
-					  <div class="panel-body">
+					  <div class="panel-body h-list" onclick="location.href='pModHouseholdFrm?planNum=${curPlan}&days=${days}&dayCnt=${daycnt}&householdCnt=${householdCnt}'">
 					  	<div class="h-category-box">${list.h_category}</div>
 					 	<div class="h-contents-box">${list.h_contents}</div>
 					 	<div class="h-cost-box">${list.h_cost}</div>
@@ -72,7 +72,7 @@
 				</c:if>
 			</c:forEach>
 			<input class="btn btn-default btn-lg btn-block add-day-plan-btn" id="add-day-plan-btn" type="button" value="비용추가" 
-			onclick="location.href='pWriteHousehold?householdCnt=${householdCnt}&days=${days}'">
+			onclick="location.href='pWriteHousehold?householdCnt=${householdCnt}&days=${days}&dayCnt=${daycnt}'">
 			<c:set var="daycnt" value="${daycnt + 1}"/>
 			
 			</div>
@@ -105,5 +105,6 @@ $(function(){
 		beforeCost[i].innerHTML = "&#8361; " + cost;
 	}
 })
+
 </script>
 </html>

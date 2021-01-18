@@ -32,7 +32,7 @@
 	<!-- 여행 일정 내용 가져오기 -->
 	<select id="getPlanContents" parameterType="long" resultType="com.bob.stepy.dto.AccompanyPlanDto">
 		SELECT * FROM AP
-		WHERE AP_PLANNUM=#{planNum}
+		WHERE AP_PLANNUM=#{planNum} ORDER BY AP_PLANCNT
 	</select>
 	<!-- 가게 정보 가져오기 -->
 	<select id="getStoreList" resultType="com.bob.stepy.dto.StoreDto">
@@ -55,13 +55,43 @@
 		WHERE AP_PLANNUM=#{planNum} AND AP_DAY=#{day} AND AP_PLANCNT>#{num}
 	</update>
 	<!-- 가계부 내용 등록 -->
-	<insert id="regHousehold" parameterType="com.bob.stepy.dto.HouseholdDto">
+	<insert id="regHousehold" parameterType="com.bob.stepy.dto.HouseholdDto" useGeneratedKeys="true" keyProperty="h_changecnt">
+	<selectKey keyProperty="h_changecnt" resultType="long" order="BEFORE">
+		SELECT COUNT(*)+1 FROM H
+		WHERE H_PLANNUM=#{h_plannum} AND H_DAY=#{h_day}
+	</selectKey>
 		INSERT INTO H
-		VALUES (#{h_plannum},#{h_day},#{h_cnt},#{h_mid},#{h_cost},#{h_category},#{h_contents},#{h_sname})
+		VALUES (#{h_plannum},#{h_day},#{h_changecnt},#{h_mid},#{h_cost},#{h_category},#{h_contents},#{h_sname},DEFAULT,DEFAULT)
 	</insert>
-	<!-- 가계부 내용 가져오기 -->
-	<select id="getHouseholdContents" resultType="com.bob.stepy.dto.HouseholdDto">
+	<!-- 가계부 목록 가져오기 -->
+	<select id="getHouseholdList" resultType="com.bob.stepy.dto.HouseholdDto">
 		SELECT * FROM H
-		WHERE H_PLANNUM=#{planNum}
+		WHERE H_PLANNUM=#{planNum} ORDER BY H_CNT
 	</select>
+	<!-- 가계부 내용 가져오기 -->
+	<select id="getHouseholdContentes" parameterType="HashMap" resultType="com.bob.stepy.dto.HouseholdDto">
+		SELECT * FROM H
+		WHERE H_PLANNUM=#{planNum} AND H_DAY=#{day} AND H_CNT=#{householdCnt}
+	</select>
+	<!-- 가계부 내용 수정 -->
+	<update id="ModHousehold" parameterType="com.bob.stepy.dto.HouseholdDto" useGeneratedKeys="true" keyProperty="h_changecnt">
+	<selectKey keyProperty="h_changecnt" resultType="long" order="BEFORE">
+		SELECT COUNT(*)+1 FROM H
+		WHERE H_PLANNUM=#{h_plannum} AND H_DAY=#{h_day}
+	</selectKey>
+		UPDATE H
+		SET H_PLANNUM=#{h_plannum},H_DAY=#{h_day},H_CNT=#{h_changecnt},H_MID=#{h_mid},H_COST=#{h_cost},H_CATEGORY=#{h_category},H_CONTENTS=#{h_contents},H_SNAME=#{h_sname},H_CURDAY=DEFAULT,H_CHANGECNT=DEFAULT
+		WHERE H_PLANNUM=#{h_plannum} AND H_DAY=#{h_curday} AND H_CNT=#{h_cnt}
+	</update>
+	<!-- 가계부 내용 카운트 정렬 -->
+	<update id="reduceHouseholdCnt" parameterType="HashMap">
+		UPDATE H
+		SET H_CNT=H_CNT-1
+		WHERE H_PLANNUM=#{planNum} AND H_DAY=#{curDay} AND H_CNT>#{householdCnt}
+	</update>
+	<!-- 가계부 내용 삭제 -->
+	<delete id="delHousehold" parameterType="HashMap">
+		DELETE H
+		WHERE H_PLANNUM=#{planNum} AND H_DAY=#{curDay} AND H_CNT=#{householdCnt}
+	</delete>
 </mapper>

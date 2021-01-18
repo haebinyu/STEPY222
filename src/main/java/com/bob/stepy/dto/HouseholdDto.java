@@ -11,4 +11,6 @@ public class HouseholdDto {
 	private String h_category;
 	private String h_contents;
 	private String h_sname;
+	private long h_curday;
+	private long h_changecnt;
 }

@@ -92,10 +92,10 @@ public class TravelPlanController {
 	
 	//가계부 내용 작성 페이지 이동
 	@GetMapping("pWriteHousehold")
-	public ModelAndView pWriteHousehold(long householdCnt, long days) {
-		log.info("controller - pWriteHousehold() - householdCnt : " + householdCnt + ", days : " + days);
+	public ModelAndView pWriteHousehold(long householdCnt, long days, long dayCnt) {
+		log.info("controller - pWriteHousehold() - householdCnt : " + householdCnt + ", days : " + days + " , dayCnt : " + dayCnt);
 		
-		return tServ.pWriteHousehold(householdCnt, days);
+		return tServ.pWriteHousehold(householdCnt, days, dayCnt);
 	}
 	
 	//가계부 내용 등록
@@ -104,6 +104,30 @@ public class TravelPlanController {
 		log.info("controller - regHousehold()");
 		
 		return tServ.regHousehold(household, rttr);
+	}
+	
+	//가계부 수정 페이지 이동
+	@GetMapping("pModHouseholdFrm")
+	public ModelAndView pModHouseholdFrm(long planNum, long days, long dayCnt, long householdCnt) {
+		log.info("controller - pModHouseholdFrm()");
+		
+		return tServ.pModHouseholdFrm(planNum, days, dayCnt, householdCnt);
+	}
+	
+	//가계부 내용 수정
+	@GetMapping("modHousehold")
+	public String ModHousehold(HouseholdDto household, RedirectAttributes rttr) {
+		log.info("controller - modHousehold()");
+		
+		return tServ.modHousehold(household, rttr);
+	}
+	
+	//가계부 내용 삭제
+	@GetMapping("delHousehold")
+	public String delHousehold(long planNum, long day, long householdCnt, RedirectAttributes rttr) {
+		log.info("contorller - delHousehold()");
+		
+		return tServ.delHousehold(planNum, day, householdCnt, rttr);
 	}
 	
 	//체크리스트 페이지 이동

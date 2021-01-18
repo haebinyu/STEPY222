@@ -238,7 +238,7 @@ public class TravelPlanService {
 		mv.addObject("days", days);
 		
 		//가계부 내용 가져오기
-		List<HouseholdDto> hList = tDao.getHouseholdContents(num);
+		List<HouseholdDto> hList = tDao.getHouseholdList(num);
 		mv.addObject("hList", hList);
 		
 		mv.setViewName("pHouseholdFrm");
@@ -247,14 +247,17 @@ public class TravelPlanService {
 	}
 
 	//가계부 내용 작성페이지 이동
-	public ModelAndView pWriteHousehold(long householdCnt, long days) {
-		log.info("service - pWriteHousehold() - householdCnt : " + householdCnt + ", days : " + days);
+	public ModelAndView pWriteHousehold(long householdCnt, long days, long dayCnt) {
+		log.info("service - pWriteHousehold() - householdCnt : " + householdCnt + ", days : " + days  + " , dayCnt : " + dayCnt);
 		
 		long num = (days == 0)? (long)session.getAttribute("curDays") : days;
 		session.setAttribute("cruDays", days);
 		
+		mv = new ModelAndView();
+		
 		mv.addObject("householdCnt", householdCnt);
 		mv.addObject("days", num);
+		mv.addObject("dayCnt", dayCnt);
 		
 		//가게 목록 불러오기
 		List<StoreDto> sList = tDao.getStoreList();
@@ -279,6 +282,82 @@ public class TravelPlanService {
 			e.printStackTrace();
 			String cnt = Long.toString(household.getH_cnt());
 			view = "redirect:pWriteHousehold?householdCnt=" + cnt + "&days=0";
+		}
+		
+		return view;
+	}
+
+	//가계부 내용 수정 페이지 이동
+	public ModelAndView pModHouseholdFrm(long planNum, long days, long dayCnt, long householdCnt) {
+		log.info("service - pModHouseholdFrm()");
+		
+		mv = new ModelAndView();
+		
+		Map<String, Long> hList = new HashMap<String, Long>();
+		hList.put("planNum", planNum);
+		hList.put("day", dayCnt);
+		hList.put("householdCnt", householdCnt);
+		
+		HouseholdDto household = tDao.getHouseholdContentes(hList);
+		
+		mv.addObject("dayCnt", dayCnt);
+		mv.addObject("days", days);
+		mv.addObject("contents", household);
+		mv.setViewName("pModHouseholdFrm");
+		
+		//가게 목록 불러오기
+		List<StoreDto> sList = tDao.getStoreList();
+		mv.addObject("sList", sList);
+		
+		return mv;
+	}
+	
+	//가계부 내용 수정
+	@Transactional
+	public String modHousehold(HouseholdDto household, RedirectAttributes rttr) {
+		log.info("service - modHousehold()");
+		String view = null;
+		
+		Map<String, Long> hMap = new HashMap<String, Long>();
+		hMap.put("planNum", household.getH_plannum());
+		hMap.put("curDay", household.getH_curday());
+		hMap.put("householdCnt", household.getH_cnt());
+		
+		try {
+			//가계부 내용 수정
+			tDao.ModHousehold(household);
+			//남은 데이터 카운트 정렬
+			tDao.reduceHouseholdCnt(hMap);
+			view = "redirect:pHouseholdFrm?planNum=0";
+		} catch (Exception e) {
+			e.printStackTrace();
+			view = "redirect:pPlanFrm?planNum=0";
+		}
+		
+		return view;
+	}
+
+	//가계부 내용 삭제
+	@Transactional
+	public String delHousehold(long planNum, long day, long householdCnt, RedirectAttributes rttr) {
+		log.info("service - delHousehold()");
+		String view = null;
+		
+		Map<String, Long> hMap = new HashMap<String, Long>();
+		hMap.put("planNum", planNum);
+		hMap.put("curDay", day);
+		hMap.put("householdCnt", householdCnt);
+		
+		try {
+			//데이터 삭제
+			tDao.delHousehold(hMap);
+			//남은 데이터 카운트 정렬
+			tDao.reduceHouseholdCnt(hMap);
+			
+			view = "redirect:pHouseholdFrm?planNum=0";
+		} catch (Exception e) {
+			e.printStackTrace();
+			view = "redirect:pPlanFrm?planNum=0";
 		}
 		
 		return view;

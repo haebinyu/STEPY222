@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>가계부 내용 작성</title>
+<title>가계부 내용 수정</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script
@@ -28,12 +28,13 @@
 					목록으로&nbsp;</span>
 			</button>
 			<div class="page-header">
-				<h1 class="text-center">비용 추가</h1>
+				<h1 class="text-center">내용 수정</h1>
 			</div>
 			<div class="contents-box">
-				<form action="regHousehold" onsubmit="return changeCostFormat()">
+				<form action="modHousehold" onsubmit="return changeCostFormat()">
 				<input type="hidden" name="h_plannum" value="${curPlan}">
-				<input type="hidden" name="h_cnt" value="${householdCnt}">
+				<input type="hidden" name="h_curday" value="${dayCnt}">
+				<input type="hidden" name="h_cnt" value="${contents.h_cnt}">
 				<!-- 로그인 세션 추가시 변경할것 -->
 				<input type="hidden" name="h_mid" value="user01">
 				<!--  -->
@@ -70,31 +71,34 @@
 					<div class="row">
 						<div class="form-group col-sm-offset-3  col-sm-6">
 							<label for="household-contents">내용</label> 
-							<input type="text" class="form-control" name="h_contents" id="household-contents" placeholder="내용을 입력해주세요" onkeyup="lengthCheck()">
+							<input type="text" class="form-control" name="h_contents" id="household-contents" placeholder="내용을 입력해주세요" onkeyup="lengthCheck()" value="${contents.h_contents}">
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-sm-offset-3  col-sm-6">
 							<label for="household-cost">금액 입력</label> 
-							<input type="text" class="form-control" name="h_cost" id="household-cost" placeholder="금액을 입력해주세요" onkeyup="numberCheck(this)">
+							<input type="text" class="form-control" name="h_cost" id="household-cost" placeholder="금액을 입력해주세요" onkeyup="numberCheck(this)" value="${contents.h_cost}">
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-sm-offset-3  col-sm-6">
 							<label for="household-spot">장소 입력</label> 
-							<input type="text" class="form-control" name="h_sname" id="household-spot" placeholder="장소를 입력해주세요 (선택사항)" readonly>
+							<input type="text" class="form-control" name="h_sname" id="household-spot" placeholder="장소를 입력해주세요 (선택사항)" readonly value="${contents.h_sname}">
 						</div>
 					</div>
 					<div class="row btn-box">
-						<div class="form-group col-sm-offset-3  col-sm-6">
-							<button class="btn btn-default btn-lg btn-block submit-cost-btn" type="submit">입력완료</button>
+						<div class="form-group col-sm-offset-3  col-sm-3">
+							<button class="btn btn-default btn-lg btn-block submit-cost-btn" type="submit">수정완료</button>
+						</div>
+						<div class="form-group col-sm-3">
+							<input type="button" class="btn btn-default btn-lg btn-block del-household-btn" value="삭제" onclick="delCheck()"/>
 						</div>
 					</div>
 					<div class="popup-wrap">
 						<div class="popup-area">
 							<div class="popup-close"><img src="resources/images/close.png" width="15"></div>
 								<div class="search-box">
-									<input type="text" class="search-bar" placeholder="장소를 검색해보세요" id="storeSearch" onkeyup="search()">
+									<input type="text" class="search-bar" placeholder="장소를 검색해보세요" id="storeSearch" onkeyup="search()" value="${contents.h_sname}">
 								</div>
 								<div class="add-store-box">
 								<ul class="list-group">
@@ -118,14 +122,13 @@
 	</footer>
 </body>
 <script type="text/javascript">
+//셀렉트 박스 value값 선택
 $(function(){
-	//셀렉트 박스 value값 선택
 	//console.log(${contents.h_day});
-	$("#day-select").val("${dayCnt}").prop("selected",true);
-	//라디오 버튼 기본값 - 기타
-	$('input:radio[name="h_category"][value="기타"]').prop("checked",true);
+	$("#day-select").val("${contents.h_day}").prop("selected",true);
 });
-
+//라디오 버튼 value값 선택
+	$('input:radio[name="h_category"][value="${contents.h_category}"]').prop("checked",true);
 
 //내용 글자수 제한
 function lengthCheck(){
@@ -138,10 +141,10 @@ function lengthCheck(){
 	}
 }
 
-//금액 숫자 입력 제한, 콤마추가
+//금액 입력시 숫자 입력 제한, 콤마추가
 function numberCheck(inputFrm){
 	var cost = inputFrm.value;
-	//console.log(cost);
+	console.log(cost);
 	cost = cost.replace(/,/gi,"");
 	
 	var check = /^[0-9]*$/;
@@ -153,6 +156,15 @@ function numberCheck(inputFrm){
 		$(inputFrm).val(cost);
 	}
 }
+
+//금액 기본값 콤마 표시
+$(function(){
+	var beforeCost = $("#household-cost").val();
+	console.log(beforeCost);
+	var cost = beforeCost.replace(/\B(?=(\d{3})+(?!\d))/g,",");
+	console.log(cost);
+	$("#household-cost").val(cost);
+})
 
 //제출시 비용 형식 변환
 function changeCostFormat(){
@@ -201,6 +213,13 @@ function afterSelect(){
 	$("#storeSearch").val("");
 	for(var i = 0; i < storeList.length; i++){
 		storeBox[i].style.display="none";
+	}
+}
+
+//삭제 확인 후 삭제
+function delCheck(){
+	if(confirm("삭제하시겠습니까?")){
+		location.href="delHousehold?planNum=${curPlan}&day=${dayCnt}&householdCnt=${contents.h_cnt}";
 	}
 }
 //팝업창 온오프

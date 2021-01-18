@@ -4,5 +4,10 @@
 	
 <mapper namespace="com.bob.stepy.dao.StoreDao">
 
+<!-- 중복체크 -->
+	<select id="stIdCheck" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) FROM C WHERE C_NUM=#{c_num}
+	</select>
+
 
 </mapper>
