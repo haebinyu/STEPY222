@@ -48,6 +48,12 @@
 		DELETE FROM AP
 		WHERE AP_PLANNUM=#{planNum} AND AP_DAY=#{day} AND AP_PLANCNT=#{num}
 	</delete>
+	<!-- 여행 내용 수정 -->
+	<update id="pEditAccompanyPlan" parameterType="com.bob.stepy.dto.AccompanyPlanDto">
+		UPDATE AP
+		SET AP_CONTENTS=#{ap_contents}
+		WHERE AP_PLANNUM=#{ap_plannum} AND AP_DAY=#{ap_day} AND AP_PLANCNT=#{ap_plancnt}
+	</update>
 	<!-- 여행 번호 카운트 정렬 -->
 	<update id="reduceNumCnt" parameterType="HashMap">
 		UPDATE AP

@@ -72,7 +72,7 @@ public class TravelPlanController {
 	//여행 내용 등록
 	@GetMapping("RegAccompanyPlan")
 	public String RegAccompanyPlan(AccompanyPlanDto acPlan, RedirectAttributes rttr) {
-		log.info("controller - RegAccompanyPlan");
+		log.info("controller - RegAccompanyPlan()");
 		
 		return tServ.RegAccompanyPlan(acPlan, rttr);
 	}
@@ -80,9 +80,24 @@ public class TravelPlanController {
 	//여행 내용 삭제
 	@GetMapping("delAccompanyPlan")
 	public String delAccompanyPlan(long planNum, long day, long num, RedirectAttributes rttr) {
-		log.info("controller - delAccompanyPlan - planNum : " + planNum + ", day : " + day + ", num : " + num);
+		log.info("controller - delAccompanyPlan() - planNum : " + planNum + ", day : " + day + ", num : " + num);
 		
 		return tServ.delAccompanyPlan(planNum, day, num, rttr);
+	}
+	
+	//여행 내용 수정 페이지 이동
+	@GetMapping("pEditAccompanyPlanFrm")
+	public ModelAndView pEditAccompanyPlanFrm(long day, long planCnt) {
+		log.info("controller - editAccompanyPlanFrm() - day : " + day +  ", planCnt : " + planCnt);
+		
+		return tServ.pEditAccompanyPlanFrm(day, planCnt);
+	}
+	//여행 내용 수정
+	@GetMapping("pEditAccompanyPlan")
+	public String pEditAccompanyPlan(AccompanyPlanDto acPlan, RedirectAttributes rttr) {
+		log.info("controller - pEditAccompanyPlan()");
+		
+		return tServ.pEditAccompanyPlan(acPlan, rttr);
 	}
 	
 	//가계부 페이지 이동

@@ -27,6 +27,8 @@ public interface TravelPlanDao {
 	public void regAccompanyPlan(AccompanyPlanDto acPlan);
 	//여행 내용 삭제
 	public void delAccompanyPlan(Map<String, Long> apMap);
+	//여행 내용 수정
+	public void pEditAccompanyPlan(AccompanyPlanDto acPlan);
 	//여행 번호 카운트 정렬
 	public void reduceNumCnt(Map<String, Long> apMap);
 	//가계부 내용 등록

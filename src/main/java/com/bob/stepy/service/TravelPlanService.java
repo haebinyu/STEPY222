@@ -168,7 +168,7 @@ public class TravelPlanService {
 
 	//장소 검색 페이지 이동
 	public ModelAndView pStoreSearch(long day, long planCnt) {
-		log.info("service - pStoreSearch");
+		log.info("service - pStoreSearch()");
 		
 		mv = new ModelAndView();
 		//가게 목록 불러오기
@@ -183,7 +183,7 @@ public class TravelPlanService {
 	//여행 내용 등록
 	@Transactional
 	public String RegAccompanyPlan(AccompanyPlanDto acPlan, RedirectAttributes rttr) {
-		log.info("service - RegAccompanyPlan");
+		log.info("service - RegAccompanyPlan()");
 		
 		try {
 			//여행 내용 등록
@@ -202,7 +202,7 @@ public class TravelPlanService {
 	//여행 내용 삭제
 	@Transactional
 	public String delAccompanyPlan(long planNum, long day, long num, RedirectAttributes rttr) {
-		log.info("service - delAccompanyPlan");
+		log.info("service - delAccompanyPlan()");
 		
 		Map<String, Long> apMap = new HashMap<String, Long>();
 		apMap.put("planNum", planNum);
@@ -216,6 +216,27 @@ public class TravelPlanService {
 			
 		} catch (Exception e) {
 			//e.printStackTrace();
+		}
+		
+		return "redirect:pPlanFrm?planNum=0";
+	}
+	
+	//여행 내용 수정 페이지 이동
+	public ModelAndView pEditAccompanyPlanFrm(long day, long planCnt) {
+		log.info("service - pEditAccompanyPlanFrm()");
+		
+		return pStoreSearch(day, planCnt);
+	}
+	
+	//여행 내용 수정
+	@Transactional
+	public String pEditAccompanyPlan(AccompanyPlanDto acPlan, RedirectAttributes rttr) {
+		log.info("service - pEditAccompanyPlan()");
+		
+		try {
+			tDao.pEditAccompanyPlan(acPlan);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return "redirect:pPlanFrm?planNum=0";
