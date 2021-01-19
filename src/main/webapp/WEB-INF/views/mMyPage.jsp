@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +33,15 @@
 		</div>
 
 		<div class="col-sm-8 jumbotron" style="height:300px;">
-			<h2>반가워요 " ${member.m_nickname } "님!  새로운 여행을 떠나볼까요?</h2>
+			<div class="col-sm-10 container">
+			<h2>반가워요 " ${member.m_nickname } "님!</h2><br>
+			<h2>새로운 여행을 떠나볼까요?</h2>
+			</div>
+			
+			<div class="col-sm-2 container">
+			<!-- <img src="resources/profile/1595252064_img_640x640.jpg" style="height:110px; width:110px; border-radius: 50%;"> -->
+			</div>
+
 		</div>
 
 
