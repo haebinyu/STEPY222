@@ -20,7 +20,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-
+<link rel="stylesheet" href="resources/css/aListStyle.css">
 
 </head>
 <body>
@@ -31,8 +31,8 @@
 	<main class="container">
 		<jsp:include page="aSideBar.jsp" />
 		<jsp:include page="aCeoList.jsp">
-			<jsp:param value="승인 완료 업체 회원" name="type" />
-			<jsp:param value="2" name="typeNum" />
+			<jsp:param value="업체 회원 전체" name="type" />
+			<jsp:param value="1" name="typeNum" />
 		</jsp:include>
 	</main>
 	<footer>
