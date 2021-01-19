@@ -37,6 +37,8 @@ public class MemberController {
 	@GetMapping("mMyPage")
 	public String mMyPage() {
 		
+		mServ.mMyPage();
+		
 		return "mMyPage";
 	}
 	
