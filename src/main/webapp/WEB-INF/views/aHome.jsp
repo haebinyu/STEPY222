@@ -5,18 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>STEPY - 관리자 페이지</title>
-<!-- 스크립트 - jquery 임포트 -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- 합쳐지고 최소화된 최신 CSS
-부트스트랩 min 버전 임포트 -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-<!-- 스크립트 - 부트스트랩용 스크립트 임포트 -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	
+<link rel="stylesheet" href="resources/css/aHomeStyle.css">
 </head>
 <body>
 	<!-- header,footer는 공통 양식으로 include 처리 -->
@@ -24,8 +13,34 @@
 		<jsp:include page="header.jsp" />
 	</header>
 	<main class="container">
-	<jsp:include page="aSideBar.jsp" />
-	000
+		<div class="row">
+			<jsp:include page="aSideBar.jsp" />
+			<div class="aHome_area col-sm-3 col-md-10">
+				<div class="row">
+					<a class="aLink aMenu brMenu col-md-4" href="aMemberList">전체 회원<br>리스트
+						보기
+					</a> <a class="aLink aMenu brMenu col-md-4" href="aCeoList">전체 업체
+						회원<br>리스트 보기
+					</a>
+				</div>
+				<div class="row">
+					<a class="aLink aMenu brMenu col-md-4" href="aAuthList">승인 완료
+						업체 회원<br>리스트 보기
+					</a> <a class="aLink aMenu brMenu col-md-4" href="aPendingList">승인
+						대기 업체 회원<br>리스트 보기
+					</a>
+				</div>
+				<div class="row">
+					<a class="aLink aMenu nonBrMenu col-md-4" href="aGroupMailFrm">단체
+						메일 발송하기</a> <a class="aLink aMenu nonBrMenu col-md-4" href="aEvent">이벤트
+						관리 페이지</a>
+				</div>
+				<div class="row">
+					<a class="aLink aMenu nonBrMenu col-md-4" href="aReport">신고 관리
+						페이지</a> <a></a>
+				</div>
+			</div>
+		</div>
 	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />

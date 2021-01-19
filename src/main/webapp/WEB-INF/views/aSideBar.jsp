@@ -1,17 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <head>
-<link rel="stylesheet"
-	href="resources/css/aSideBarStyle.css">
+<link rel="stylesheet" href="resources/css/aSideBarStyle.css">
 </head>
 <div class="col-sm-3 col-md-2 sidebar">
 	<ul class="nav nav-sidebar">
-		<li class="active sideBar_title"><h2>관리자 메뉴</h2></li>
+		<li class="active sideBar_title">관리자 메뉴</li>
 		<li><a href="aMemberList">전체 회원<br>리스트 보기
 		</a></li>
-		<li><a href="aAuthList">승인된 업체<br>리스트 보기
+		<li><a href="aCeoList">전체 업체 회원<br>리스트 보기
 		</a></li>
-		<li><a href="aPendingList">승인 대기 업체<br>리스트 보기
+		<li><a href="aAuthList">승인 완료 업체 회원<br>리스트 보기
+		</a></li>
+		<li><a href="aPendingList">승인 대기 업체 회원<br>리스트 보기
 		</a></li>
 	</ul>
 	<ul class="nav nav-sidebar">
