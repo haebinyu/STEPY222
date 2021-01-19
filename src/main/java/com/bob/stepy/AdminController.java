@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dto.MemberDto;
@@ -14,6 +15,9 @@ import com.bob.stepy.service.AdminService;
 public class AdminController {
 	@Autowired
 	private AdminService aServ;
+
+	//모델 데이터,뷰네임을 동시에 기억
+	private ModelAndView mv;
 
 	@GetMapping("aLoginFrm")
 	public String adminLogin() {
@@ -28,40 +32,115 @@ public class AdminController {
 		System.out.println("결정된 view : "+view);
 		return view;
 	}
+
 	//전체 회원 페이지로 이동
 	@GetMapping("aMemberList")
-	public String allMemberList() {
+	public ModelAndView allMemberList(Integer pageNum) {
 		System.out.println("전체 회원 리스트 페이지로 이동");
-		return "aMemberList";
+
+		//파라미터된 pageNum이 있으면 해당 페이지를, 없다면 미리 설정해둔 1 페이지로 간주
+		//리턴되는 모델뷰에는 모델=회원 리스트mList+뷰=리스트 페이지를 동시에 담고 있음
+		mv = aServ.listSet(pageNum, 1);
+		return mv;
 	}
+
+	//전체 업체 회원 리스트 페이지로 이동
+	@GetMapping("aCeoList")
+	public ModelAndView ceoList(Integer pageNum) {
+		System.out.println("전체 업체 회원 리스트 페이지로 이동");
+
+		mv = aServ.listSet(pageNum, 2);
+		return mv;
+	}
+
 	//승인 완료 업소 리스트 페이지로 이동
 	@GetMapping("aAuthList")
-	public String authStoreList() {
-		System.out.println("승인 완료 업소 리스트 페이지로 이동");
-		return "aMemberList";
+	public ModelAndView authStoreList(Integer pageNum) {
+		System.out.println("승인 완료 업체 회원 리스트 페이지로 이동");
+
+		mv = aServ.listSet(pageNum, 3);
+		return mv;
 	}
 	//승인 대기 업소 리스트 페이지로 이동
 	@GetMapping("aPendingList")
-	public String pendingMemberList() {
-		System.out.println("승인 대기 업소 리스트 페이지로 이동");
-		return "aMemberList";
+	public ModelAndView pendingMemberList(Integer pageNum) {
+		System.out.println("승인 대기 업체 회원 리스트 페이지로 이동");
+
+		mv = aServ.listSet(pageNum, 4);
+		return mv;
 	}
+
+	//승인 완료로 업데이트하기 (UPDATE - 단일 레코드)
+	@GetMapping("aPermitStore")
+	public String permitStore (String c_num) {
+		String view = null;
+		view = aServ.aPertmitStore(c_num);
+		return view;
+	}
+
+	//선택한 회원의 데이터를 삭제하기 (일반) (DELETE - 단일 레코드)
+	@GetMapping("aDeleteMember")
+	public ModelAndView deleteMember (String m_id) {
+		mv = aServ.deleteSwitch(m_id, 1);
+		return mv;
+	}
+
+	//선택한 회원의 데이터를 삭제하기 (업체) (DELETE - 단일 레코드)
+	@GetMapping("aDeleteStore")
+	public ModelAndView  deleteStore (String c_num) {
+		mv = aServ.deleteSwitch(c_num, 2);
+		return mv;
+	}
+
+	//회원 관리 구역 끝//
+
 	//단체 메일 선택 페이지로 이동
 	@GetMapping("aGroupMailFrm")
 	public String aGroupMailFrm() {
 		System.out.println("단체 메일 선택 페이지로 이동");
-		return "aMemberList";
+		return "aGroupMailFrm";
 	}
+
+	@GetMapping("aGroupMail_M")
+	public String aGroupMail_M() {
+		System.out.println("단체 메일 작성_M");
+		return "aGroupMailFrm_M";		
+	}
+	@GetMapping("aGroupMail_C")
+	public String aGroupMail_C() {
+		System.out.println("단체 메일 작성_C");
+		return "aGroupMailFrm_C";		
+	}
+
+	//일반 회원,업체 회원 메일 발송 메소드 - 관련 API 사용
+	@PostMapping("aSendMemberMail")
+	public ModelAndView aSendMemberMail() {
+		return mv;
+	}
+	
+	@PostMapping("aSendStoreMail")
+	public ModelAndView aSendStoreMail() {
+		return mv;
+	}
+
+
+	//메일 관리 구역 끝//
+
 	//이벤트 관리 페이지로 이동
 	@GetMapping("aEvent")
 	public String aEvent() {
 		System.out.println("이벤트 관리 페이지로 이동");
-		return "aMemberList";
+		return "aEvent";
 	}
+
+	//이벤트 관리 구역 끝//
+
 	//신고 관리 페이지로 이동
 	@GetMapping("aReport")
 	public String aReport() {
 		System.out.println("신고 관리 페이지로 이동");
-		return "aMemberList";
+		return "aReport";
 	}
+
+	//신고 관리 구역 끝//
 }//컨트롤러 끝
