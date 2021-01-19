@@ -46,5 +46,5 @@ public interface TravelPlanDao {
 	//예산 등록
 	public void pRegBudget(Map<String, Long> rbMap);
 	//예산 전체 조회
-	public long getBalance(long planNum);
+	public Long getBalance(Long planNum);
 }

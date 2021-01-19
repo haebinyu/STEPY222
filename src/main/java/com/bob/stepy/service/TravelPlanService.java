@@ -394,9 +394,14 @@ public class TravelPlanService {
 			//예산 등록
 			tDao.pRegBudget(rbMap);
 			//여행 정보 다시불러오기
-			long totalCost = tDao.getBalance(planNum);
-			rbMap.put("totalCost", totalCost);
-			rbMap.put("balance", (budget - totalCost));
+			Long totalCost = tDao.getBalance(planNum);
+			if(totalCost == null) {
+				rbMap.put("totalCost", 0L);
+				rbMap.put("balance", budget);
+			} else {
+				rbMap.put("totalCost", totalCost);
+				rbMap.put("balance", (budget - totalCost));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

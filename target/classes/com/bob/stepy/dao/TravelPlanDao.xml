@@ -101,13 +101,13 @@
 		WHERE H_PLANNUM=#{planNum} AND H_DAY=#{curDay} AND H_CNT=#{householdCnt}
 	</delete>
 	<!-- 예산 등록 -->
-	<update id="pRegBudget">
+	<update id="pRegBudget" parameterType="HashMap">
 		UPDATE T
 		SET T_BUDGET=#{budget}
 		WHERE T_PLANNUM=#{planNum}
 	</update>
 	<!-- 예산 조회 -->
-	<select id="getBalance" parameterType="long" resultType="long">
+	<select id="getBalance" parameterType="Long" resultType="Long">
 		SELECT H_TOTALCOST
 		FROM B
 		WHERE H_PLANNUM=#{planNum}
