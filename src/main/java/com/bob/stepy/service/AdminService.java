@@ -1,7 +1,8 @@
 package com.bob.stepy.service;
 
-import java.util.List;
-
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dao.AdminDao;
+import com.bob.stepy.dto.EmailDto;
 import com.bob.stepy.dto.MemberDto;
-import com.bob.stepy.util.Paging;
+import com.bob.stepy.util.*;
 
 //서비스 클래스임을 인지하도록 어노테이션 처리
 @Service
@@ -180,11 +182,8 @@ public class AdminService {
 			int num2 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num2);
 
-			//DAO에서 SELECT처리후 결과물 레코드들을 리스트 mList에 누적해 리스트화
 			List<MemberDto> allCeoList = aDao.getAllCeoList(num2);
 
-			//정리된 리스트 sList1을 모델뷰에 똑같은 이름을 재사용해 통째로 등록
-			//모델은 리스트와 같은 객체도 기억 가능
 			mv.addObject("ceoList", allCeoList);
 
 			//페이징 처리 - 오브젝트 paging에
@@ -209,11 +208,8 @@ public class AdminService {
 			int num3 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num3);
 
-			//DAO에서 SELECT처리후 결과물 레코드들을 리스트 mList에 누적해 리스트화
 			List<MemberDto> approvedList = aDao.getApproveList(num3);
 
-			//정리된 리스트 sList1을 모델뷰에 똑같은 이름을 재사용해 통째로 등록
-			//모델은 리스트와 같은 객체도 기억 가능
 			mv.addObject("ceoList", approvedList);
 
 			//페이징 처리 - 오브젝트 paging에
@@ -313,7 +309,115 @@ public class AdminService {
 			break;
 		}
 
+		mv.setViewName(view);
 		return mv;
 	}
 
+	//메일 전송 처리
+	public void sendMail(EmailDto email) {
+		List<String> eMails = aDao.getMailList_M();
+		for (int i=0; i<eMails.size(); i++) {
+			System.out.println(eMails.get(i));			
+		}
+
+	}
+
+	public String mailSend
+	(EmailDto email, int mailType)
+			throws AddressException, MessagingException {
+		String resStr = "";
+		List<String> mailList = null;
+
+		// 네이버일 경우 smtp.naver.com을 입력
+		// Google일 경우 smtp.gmail.com을 입력
+		try {
+			String host = "smtp.naver.com";
+			final String username = "worldwar1914";
+			final String password = "1qw23er4";
+			int port=465; //포트번호
+
+			//메일 내용
+			//받는 사람의 메일주소들 가져오기
+			switch(mailType) {
+			case 1:
+				mailList = aDao.getMailList_M();
+				break;
+			case 2:
+				mailList = aDao.getMailList_C();
+				break;
+			}
+			System.out.println("DAO에서 이메일 리스트 가져오기 완료");
+
+			//메일리스트(M 또는 C에서 가져온 이메일 레코드 리스트)의 길이만큼만 반복해 수신자 목록에 추가
+			InternetAddress[] toAddr = new InternetAddress[mailList.size()];
+			for(int i=0; i<mailList.size(); i++) {
+				toAddr[i]= new InternetAddress(mailList.get(i));
+			}
+
+			//메일 제목
+			String subject = email.getSubject();
+
+			//메일 내용 가져와서 스트링버퍼에 옮겨 담기
+			StringBuffer sb = new StringBuffer();
+			String body = email.getMessage();
+			sb.append(body);
+
+			//어펜드로 종합된 버퍼들을 하나의 String으로 포장
+			String content = sb.toString();
+
+			// 정보를 담기 위한 객체 생성
+			Properties props = System.getProperties();
+			// SMTP 서버 정보 설정
+			props.put("mail.smtp.host", host);
+			props.put("mail.smtp.port", port);
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.ssl.enable", "true");
+			props.put("mail.smtp.ssl.trust", host);
+			System.out.println("props 설정 완료");
+
+			//Session 생성
+			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+				String un=username;
+				String pw=password;
+				protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+					return new javax.mail.PasswordAuthentication(un, pw);
+				}
+			});
+			session.setDebug(true);//for debug
+
+			// 메일 콘텐츠 설정
+			Multipart mParts = new MimeMultipart();
+			MimeBodyPart mTextPart = new MimeBodyPart();
+			MimeBodyPart mFilePart = null;
+
+			//MimeMessage 생성 - 메일의 각각의 요소를 기억
+			Message mimeMessage = new MimeMessage(session);
+
+			//발신자 세팅 , 보내는 사람의 이메일 주소를 한번 더 입력
+			mimeMessage.setFrom(new InternetAddress("worldwar1914@naver.com"));
+
+			//수신자 세팅 (배열도 가능)
+			mimeMessage.setRecipients(Message.RecipientType.TO, toAddr );
+
+			//제목 세팅
+			mimeMessage.setSubject(subject);
+
+			//멀티파트도 내용으로 기억가능, 멀티파트 mParts에 몰아 담기
+			mTextPart.setText(content);
+			mParts.addBodyPart(mTextPart);
+
+			mimeMessage.setContent(mParts); //내용 세팅
+
+			//mimeMessage.setFileName();//첨부파일명으로 쓰일 이름 세팅
+
+			System.out.println("메시지에 모든 요소 세팅 완료");
+
+			Transport.send(mimeMessage); //javax.mail.Transport.send() 이용
+
+			resStr = "메일 발송이 완료되었습니다";
+		} catch (AddressException e) {
+			resStr = "메일 발송에 실패했습니다";
+		}
+		return resStr;
+	}
 }//서비스 클래스 끝
