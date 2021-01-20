@@ -76,4 +76,12 @@
 		C_NUM=#{c_num}
 	</delete>
 
+	<select id="getMailList_M" resultType="String">
+		SELECT M_EMAIL from M
+	</select>
+
+	<select id="getMailList_C" resultType="String">
+		SELECT C_EMAIL from C
+	</select>
+
 </mapper>

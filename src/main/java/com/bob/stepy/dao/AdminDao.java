@@ -2,6 +2,7 @@ package com.bob.stepy.dao;
 
 import java.util.List;
 
+import com.bob.stepy.dto.EmailDto;
 import com.bob.stepy.dto.MemberDto;
 
 public interface AdminDao {
@@ -42,11 +43,11 @@ public interface AdminDao {
 	public int deleteMember(String m_id);
 	//업체 회원 삭제
 	public int deleteStore(String c_num);
-	
+
 	//단체 메일 발송용 이메일 칼럼만 조회하기
 	public List<String> getMailList_M ();
 	public List<String> getMailList_C ();
 
-	
+
 
 }//DAO 인터페이스 끝
