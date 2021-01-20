@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>STEPY - 관리자 페이지</title>
 <!-- 이벤트 페이지들 전용 스타일-->
-<link rel="stylesheet" href="resources/css/aEventListStyle.css">
+<link rel="stylesheet" href="resources/css/aEventWriteStyle.css">
 
 </head>
 <body>

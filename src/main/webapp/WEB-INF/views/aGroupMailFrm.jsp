@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>STEPY - 관리자 페이지</title>
-<link rel="stylesheet" href="resources/css/aGroupMail&Event&ReportStyle.css">
+<link rel="stylesheet"
+	href="resources/css/aGroupMail&Event&ReportStyle.css">
 </head>
 <body>
 	<!-- header,footer는 공통 양식으로 include 처리 -->
@@ -15,7 +16,7 @@
 	<main class="container">
 		<div class="row">
 			<jsp:include page="aSideBar.jsp" />
-			<div class="mailSelect col-sm-8">
+			<div class="mailSelect col-md-10 col-sm-9">
 				<div class="mailBtns">
 					<a class="mailBtn col-sm-3" href="aGroupMail_M">일반 회원</a>
 					<!--  -->
