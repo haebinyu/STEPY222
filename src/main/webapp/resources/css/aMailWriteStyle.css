@@ -19,6 +19,25 @@ legend {
 	font-weight: bold;
 }
 
+label {
+	background-color: #dddddd;
+	border-radius: 10px;
+	padding: 10px;
+	border: 1px solid #cccccc;
+}
+
+input[type=file] {
+	display: none !important;
+}
+
+input[type=text] {
+	width: 300px;
+}
+
+.tgt {
+	text-align: center;
+}
+
 input[type=submit] {
 	background-color: #62a5ff;
 }

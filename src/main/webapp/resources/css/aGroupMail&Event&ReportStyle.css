@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+.mailBtn, .eventBtn, .reportBtn {
+	width: 200px !important;
+	height: 200px;
+	vertical-align: middle;
+	text-align: center;
+	line-height: 200px;
+	border-radius: 50%;
+	font-size: 30px;
+	font-weight: bolder;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+
+.mailBtn, .eventBtn, .reportBtn {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+.mailBtn:hover, .eventBtn:hover, .reportBtn:hover {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+.mailBtn:nth-child(1) {
+	background-color: #6bb5fe;
+}
+
+.mailBtn:nth-child(2) {
+	background-color: #ffb877;
+}
+
+.mailBtn:nth-child(3) {
+	background-color: #42ffbd;
+	margin-right: 0;
+	margin-bottom: 0;
+}
