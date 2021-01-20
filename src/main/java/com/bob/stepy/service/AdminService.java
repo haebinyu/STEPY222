@@ -419,5 +419,7 @@ public class AdminService {
 			resStr = "메일 발송에 실패했습니다";
 		}
 		return resStr;
-	}
+	}//메일 발송 메소드 끝
+	
+	
 }//서비스 클래스 끝
