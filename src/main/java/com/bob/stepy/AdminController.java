@@ -1,12 +1,18 @@
 package com.bob.stepy;
 
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bob.stepy.dto.EmailDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.service.AdminService;
 
@@ -114,13 +120,27 @@ public class AdminController {
 
 	//일반 회원,업체 회원 메일 발송 메소드 - 관련 API 사용
 	@PostMapping("aSendMemberMail")
-	public ModelAndView aSendMemberMail() {
-		return mv;
+	public String aSendMemberMail
+	(EmailDto email, RedirectAttributes rttr)
+			throws AddressException, MessagingException {
+		System.out.println("메일 전송 서비스 실행");
+
+		String msg = aServ.mailSend(email, 1);
+		rttr.addFlashAttribute(msg);
+
+		return "redirect:aGroupMailFrm";
 	}
-	
+
 	@PostMapping("aSendStoreMail")
-	public ModelAndView aSendStoreMail() {
-		return mv;
+	public String aSendStoreMail
+	(EmailDto email, RedirectAttributes rttr)
+			throws AddressException, MessagingException {
+		System.out.println("메일 전송 서비스 실행");
+
+		String msg = aServ.mailSend(email, 2);
+		rttr.addFlashAttribute(msg);
+
+		return "redirect:aGroupMailFrm";
 	}
 
 
@@ -143,4 +163,6 @@ public class AdminController {
 	}
 
 	//신고 관리 구역 끝//
+
+
 }//컨트롤러 끝
