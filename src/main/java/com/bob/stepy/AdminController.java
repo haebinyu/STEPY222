@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dto.EmailDto;
+import com.bob.stepy.dto.EventDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.service.AdminService;
 
@@ -153,6 +154,28 @@ public class AdminController {
 		return "aEvent";
 	}
 
+	//이벤트 리스트 보기 - 복수 레코드 SELECT 필요
+	@GetMapping("aEventList")
+	public ModelAndView aEventList(Integer pagenum) {
+		mv = new ModelAndView();
+
+		return mv;
+	}
+
+	//이벤트 추가 페이지로 이동
+	@GetMapping("aEventWriteFrm")
+	public String aEventWriteFrm() {
+		return "aEventWriteFrm";
+	}
+
+	//이벤트 실제 추가 DB 연동 INSERT
+	@PostMapping("aEventWrite")
+	public String aEvnetWrite (EventDto aEvent) {
+		String resStr=null;
+
+		return resStr;
+	}
+
 	//이벤트 관리 구역 끝//
 
 	//신고 관리 페이지로 이동
@@ -160,6 +183,19 @@ public class AdminController {
 	public String aReport() {
 		System.out.println("신고 관리 페이지로 이동");
 		return "aReport";
+	}
+
+	@GetMapping("aReportStoreList")
+	public String aReportStoreList() {
+		return "aReportStoreList";
+	}
+	@GetMapping("aReportPostList")
+	public String aReportPostList() {
+		return "aReportPostList";
+	}
+	@GetMapping("aReportReplyList")
+	public String aReportReplyList() {
+		return "aReportReplyList";
 	}
 
 	//신고 관리 구역 끝//
