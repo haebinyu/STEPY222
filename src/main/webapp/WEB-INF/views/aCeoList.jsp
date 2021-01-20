@@ -20,10 +20,6 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 	}
 </script>
 </head>
-<%
-	String checkBtn = "<button>123</button>";
-%>
-
 <div class="list_area col-sm-3 col-md-10">
 	<table class="listTbl table-bordered table-hover table-striped">
 		<caption>

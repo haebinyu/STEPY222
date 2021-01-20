@@ -7,21 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>STEPY - 관리자 페이지</title>
-<!-- 스크립트 - jquery 임포트 -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<!-- 합쳐지고 최소화된 최신 CSS
-부트스트랩 min 버전 임포트 -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-<!-- 스크립트 - 부트스트랩용 스크립트 임포트 -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
 <link rel="stylesheet" href="resources/css/aListStyle.css">
-
 </head>
 <body>
 	<!-- header,footer는 공통 양식으로 include 처리 -->
@@ -55,7 +41,7 @@
 					필드 변수 이름==DTO 변수 이름==DB 칼럼 이름 통일 필수-->
 				<c:forEach var="mItem" items="${mList}">
 					<tr>
-						<td>${mItem.m_id}</td>
+						<td class="mid">${mItem.m_id}</td>
 						<td>${mItem.m_pwd}</td>
 						<td>${mItem.m_email}</td>
 						<td>${mItem.m_name}</td>
@@ -65,7 +51,7 @@
 						<td>${mItem.m_phone}</td>
 						<td>${mItem.m_addr}</td>
 						<td>
-							<button onclick="delConfirm('${mItem.m_id}');">추방하기</button>
+							<button class="check" onclick="delConfirm('${mItem.m_id}');">추방하기</button>
 						</td>
 					</tr>
 				</c:forEach>
@@ -91,6 +77,16 @@
 			location.href = "aDeleteMember?m_id=" + mId;
 		}
 		;
+	}
+
+	//admin은 추방될 수 없는 계정으로 판단하고 추방하기를 볼 수 없는 예외로 등록
+	mIds = document.getElementsByClassName("mid");
+	checks = document.getElementsByClassName("check");
+
+	for (var i = 0; i < mIds.length; i++) {
+		if (mIds[i].innerHTML == "admin") {
+			$(checks[i]).css("display", "none");
+		}
 	}
 </script>
 </html>

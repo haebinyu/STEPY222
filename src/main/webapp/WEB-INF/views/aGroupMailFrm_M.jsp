@@ -13,7 +13,10 @@
 		<jsp:include page="header.jsp" />
 	</header>
 	<main class="container">
-		<jsp:include page="aMailWriteFrm.jsp" />
+		<jsp:include page="aMailWriteFrm.jsp">
+			<jsp:param value="aSendMemberMail" name="action" />
+			<jsp:param value="일반" name="mail_tgt" />
+		</jsp:include>
 	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />

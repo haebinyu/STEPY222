@@ -8,7 +8,7 @@
 <!-- 스크립트 - jquery 임포트 -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	
+
 <!-- 합쳐지고 최소화된 최신 CSS
 부트스트랩 min 버전 임포트 -->
 <link rel="stylesheet"
@@ -18,6 +18,12 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<!-- 메일&이벤트&신고 공통 스타일 -->
+<link rel="stylesheet"
+	href="resources/css/aGroupMail&Event&ReportStyle.css">
+<!-- 이벤트 페이지들 전용 스타일-->
+<link rel="stylesheet" href="resources/css/aReportStyle.css">
+
 </head>
 <body>
 	<!-- header,footer는 공통 양식으로 include 처리 -->
@@ -25,8 +31,21 @@
 		<jsp:include page="header.jsp" />
 	</header>
 	<main class="container">
-		<jsp:include page="aSideBar.jsp" />
-		123
+		<div class="row">
+			<jsp:include page="aSideBar.jsp" />
+			<div class="mailSelect col-sm-8">
+				<div class="mailBtns">
+					<a class="reportBtn col-sm-3" href="aReportStoreList">신고된 회원 목록
+						보기 </a>
+					<!--  -->
+					<a class="reportBtn col-sm-3" href="aReportPostList">신고된 게시글 목록
+						보기 </a>
+					<!--  -->
+					<a class="reportBtn col-sm-3" href="aReportReplyList">신고된 댓글 목록
+						보기 </a>
+				</div>
+			</div>
+		</div>
 	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />
