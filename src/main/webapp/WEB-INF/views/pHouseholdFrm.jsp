@@ -72,7 +72,7 @@
 					<c:set var="householdCnt" value="${householdCnt + 1}"/>
 				</c:if>
 			</c:forEach>
-			<input class="btn btn-default btn-lg btn-block add-day-plan-btn" id="add-day-plan-btn" type="button" value="비용추가" 
+			<input class="btn btn-default btn-lg btn-block add-day-plan-btn" id="add-day-plan-btn" type="button" value="비용추가 +" 
 			onclick="location.href='pWriteHousehold?householdCnt=${householdCnt}&days=${days}&dayCnt=${daycnt}'">
 			<c:set var="daycnt" value="${daycnt + 1}"/>
 			
@@ -190,7 +190,7 @@ function budgetSubmit() {
 	//console.log(obj);
 	$.ajax({
 		url: "pRegBudget",
-		type: "get",
+		type: "post",
 		data: obj,
 		dataType: "json",
 		success: function(data){

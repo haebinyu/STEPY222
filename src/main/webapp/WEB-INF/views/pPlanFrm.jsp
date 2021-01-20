@@ -67,7 +67,7 @@
 					<c:set var="planCnt" value="${planCnt + 1}"/>
 				</c:if>
 			</c:forEach>
-			<input class="btn btn-default btn-lg btn-block add-day-plan-btn" id="add-day-plan-btn" type="button" value="일정추가" 
+			<input class="btn btn-default btn-lg btn-block add-day-plan-btn" id="add-day-plan-btn" type="button" value="일정추가 +" 
 			onclick="location.href='pStoreSearch?day=${daycnt}&planCnt=${planCnt}'">
 			<c:set var="daycnt" value="${daycnt + 1}"/>
 			

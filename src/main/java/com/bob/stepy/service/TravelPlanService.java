@@ -16,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dao.TravelPlanDao;
 import com.bob.stepy.dto.AccompanyPlanDto;
+import com.bob.stepy.dto.CheckListDto;
+import com.bob.stepy.dto.ChecklistViewDto;
 import com.bob.stepy.dto.HouseholdDto;
 import com.bob.stepy.dto.StoreDto;
 import com.bob.stepy.dto.TravelPlanDto;
@@ -384,6 +386,7 @@ public class TravelPlanService {
 		return view;
 	}
 
+	//예산 등록
 	public Map<String, Long> pRegBudget(long planNum, long budget) {
 		log.info("service - pRegBudget() - planNum : " + planNum + ", budget : " + budget);
 		Map<String, Long> rbMap = new HashMap<String, Long>();
@@ -409,4 +412,49 @@ public class TravelPlanService {
 		return rbMap;
 	}
 
+	//체크리스트 페이지로 이동
+	public ModelAndView pCheckSupFrm(long planNum) {
+		log.info("service - pCheckSupFrm() - planNum : " + planNum);
+
+		long num = (planNum == 0)? (long)session.getAttribute("curPlan") : planNum;
+		
+		mv = new ModelAndView();
+		//여행 정보 가져오기
+		TravelPlanDto plan = tDao.getPlan(num);
+		//체크리스트 내용 가져오기
+		List<CheckListDto> checklist = tDao.getCheckList(num);
+		//체크리스트 카테고리 개수 가져오기
+		int categoryNum = tDao.getCategoryNum(num);
+		//레이아웃 생성용 뷰 가져오기
+		List<ChecklistViewDto> cvList = tDao.getCV(num);
+		
+		mv.addObject("plan", plan);
+		mv.addObject("checklist", checklist);
+		mv.addObject("categoryNum", categoryNum);
+		mv.addObject("cvList", cvList);
+		
+		return mv;
+	}
+
+	//체크리스트 상태 변경
+	public CheckListDto pChangeCheck(long planNum, long category, long itemCnt, long check) {
+		log.info("service - pChangeCheck() - planNum : " + planNum + ", category : " + category + ", itemCnt : " + itemCnt + ", check : " + check);
+		String result = null;
+		
+		Map<String, Long> clMap = new HashMap<String, Long>();
+		clMap.put("planNum", planNum);
+		clMap.put("category", category);
+		clMap.put("itemCnt", itemCnt);
+		clMap.put("check", check);
+		try {
+			tDao.pChangeCheck(clMap);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		CheckListDto checklist = tDao.getACheck(clMap);
+		
+		return checklist;
+	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dto.AccompanyPlanDto;
+import com.bob.stepy.dto.CheckListDto;
 import com.bob.stepy.dto.HouseholdDto;
 import com.bob.stepy.dto.TravelPlanDto;
 import com.bob.stepy.service.TravelPlanService;
@@ -148,20 +149,29 @@ public class TravelPlanController {
 		return tServ.delHousehold(planNum, day, householdCnt, rttr);
 	}
 	
-	//체크리스트 페이지 이동
-	@GetMapping("pCheckSupFrm")
-	public String pCheckSupFrm(long planNum) {
-		log.info("controller - pCheckSupFrm()");
-		
-		return "pCheckSupFrm";
-	}
-	
 	//예산 입력
-	@GetMapping(value = "pRegBudget", produces = "application/json; charset=utf-8")
+	@PostMapping(value = "pRegBudget", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public Map<String, Long> pRegBudget(long planNum, long budget){
 		log.info("controller - tServ.pRegBudget() - planNum : " + planNum + ", budget : " + budget);
 		
 		return tServ.pRegBudget(planNum, budget);
+	}
+	
+	//체크리스트 페이지 이동
+	@GetMapping("pCheckSupFrm")
+	public ModelAndView pCheckSupFrm(long planNum) {
+		log.info("controller - pCheckSupFrm()");
+		
+		return tServ.pCheckSupFrm(planNum);
+	}
+	
+	//체크리스트 상태 변경
+	@PostMapping(value = "pChangeCheck", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public CheckListDto pChangeCheck(long planNum, long category, long itemCnt, long check) {
+		log.info("controller - pChangeCheck() - planNum : " + planNum + ", category : " + category + ", itemCnt : " + itemCnt + ", check : " + check);
+		
+		return tServ.pChangeCheck(planNum, category, itemCnt, check);
 	}
 }

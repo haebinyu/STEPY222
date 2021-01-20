@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.bob.stepy.dto.AccompanyPlanDto;
+import com.bob.stepy.dto.CheckListDto;
+import com.bob.stepy.dto.ChecklistViewDto;
 import com.bob.stepy.dto.HouseholdDto;
 import com.bob.stepy.dto.StoreDto;
 import com.bob.stepy.dto.TravelPlanDto;
@@ -47,4 +49,14 @@ public interface TravelPlanDao {
 	public void pRegBudget(Map<String, Long> rbMap);
 	//예산 전체 조회
 	public Long getBalance(Long planNum);
+	//체크리스트 내용 가져오기
+	public List<CheckListDto> getCheckList(long planNum);
+	//체크리스트 카테고리 개수 가져오기
+	public int getCategoryNum(long planNum);
+	//체크리스트 레이아웃 생성용 뷰 가져오기
+	public List<ChecklistViewDto> getCV(long planNum);
+	//체크리스트 상태 변경
+	public void pChangeCheck(Map<String, Long> clMap);
+	//체크리스트 특정 항목 가져오기
+	public CheckListDto getACheck(Map<String, Long> clMap);
 }

@@ -112,4 +112,31 @@
 		FROM B
 		WHERE H_PLANNUM=#{planNum}
 	</select>
+	<!-- 체크리스트 내용 가져오기 -->
+	<select id="getCheckList" parameterType="long" resultType="com.bob.stepy.dto.CheckListDto">
+		SELECT * FROM CL
+		WHERE CL_PLANNUM=#{planNum}
+	</select>
+	<!-- 체크리스트 카테고리 개수 가져오기 -->
+	<select id="getCategoryNum" parameterType="long" resultType="int">
+		SELECT COUNT(CL_CATEGORY)
+		FROM CV
+		WHERE CL_PLANNUM=#{planNum}
+	</select>
+	<!-- 체크리스트용 뷰 가져오기 -->
+	<select id="getCV" parameterType="long" resultType="com.bob.stepy.dto.ChecklistViewDto">
+		SELECT * FROM CV
+		WHERE CL_PLANNUM=#{planNum} ORDER BY CL_CATEGORY
+	</select>
+	<!-- 체크리스트 상태 변경 -->
+	<update id="pChangeCheck" parameterType="HashMap">
+		UPDATE CL
+		SET CL_CHECK=#{check}
+		WHERE CL_PLANNUM=#{planNum} AND CL_CATEGORY=#{category} AND CL_CNT=#{itemCnt}
+	</update>
+	<!-- 체크리스트 특정 항목 가져오기 -->
+	<select id="getACheck" parameterType="HashMap" resultType="com.bob.stepy.dto.CheckListDto">
+		SELECT * FROM CL
+		WHERE CL_PLANNUM=#{planNum} AND CL_CATEGORY=#{category} AND CL_CNT=#{itemCnt}
+	</select>
 </mapper>
