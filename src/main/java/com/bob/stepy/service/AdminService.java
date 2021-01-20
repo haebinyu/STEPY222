@@ -1,21 +1,30 @@
 package com.bob.stepy.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dao.AdminDao;
 import com.bob.stepy.dto.MemberDto;
+import com.bob.stepy.util.Paging;
 
 //서비스 클래스임을 인지하도록 어노테이션 처리
 @Service
 public class AdminService {
+	//DAO 임포트+와이어드
 	@Autowired
 	private AdminDao aDao;
 
-	//세션 객체
+	//특정 데이터들이 담길 모델뷰
+	private ModelAndView mv;
+
+	//세션 객체+와이어드
 	@Autowired
 	private HttpSession session;
 
@@ -70,6 +79,241 @@ public class AdminService {
 		//보드 컨트롤의 list맵핑 메소드가 받아
 		//컨트롤러-컨트롤러 연계 처리도 가능함	
 		return view;
+	}//어드민 전용 로그인 Proc 끝
+
+	//회원 전부 보기 리스트 SELECT
+	public ModelAndView getMemberList(Integer pageNum) {
+		//빈 모델뷰를 새로 만들어내 데이터 추가 대기 (데이터를 넣을 때 까지는 속이 빈 null상태)
+		mv= new ModelAndView();
+
+		//조건식 (식)? T일 때:F일 때
+		//들어온 pageNum이 null이 맞으면 T에 해당하는 1을
+		//숫자가 들어온 것이 있다면 F에 해당하는 자기 자신의 숫자를 대입
+		int num = (pageNum==null)? 1 : pageNum;
+		System.out.println("num : "+num);
+
+		//DAO에서 SELECT처리후 결과물 레코드들을 리스트 mList에 누적해 리스트화
+		List<MemberDto> mList = aDao.getMemberList(num);
+
+		//정리된 리스트 mList를 모델뷰에 똑같은 이름을 재사용해 통째로 등록
+		//모델은 리스트와 같은 객체도 기억 가능
+		mv.addObject("mList", mList);
+
+		//페이징 처리 - 오브젝트 paging에
+		//getPaging 메소드의 결과물 문자열들 삽입
+		//이 paging은 리스트 페이지에서
+		//EL {paging}을 통해 페이징 버튼들로 출력됨
+		mv.addObject("paging", getPaging(num));
+
+		//세션에 현재 페이지 번호(1,2,3,...) 기억시킴
+		session.setAttribute("pageNum", num);
+
+		//목적지 페이지를 모델뷰에 기억시킴
+		mv.setViewName("aMemberList");
+
+		//정리된 mv를 리턴시켜 컨트롤러에서 실제 이동 처리
+		return mv;
+	}//getBoardList 메소드 끝
+
+	private String getPaging(int num) {
+		//전체 글 개수 구하기(DB에서의 게시글 레코드 수량과 같음 - SELECT)
+		int maxNum = aDao.getBoardCnt();
+		//설정값(페이지 당 보여줄 글 개수, 한 페이지 그룹에 보여줄 페이지 수, 게시판 이름(A게시판,B게시판) 등) 각인
+		int pageCnt = 5;//한 페이지 그룹당 페이지 수
+		int listCnt = 10;//한 페이지당 게시글 수
+		String listName="list";//게시판 이름
+
+		//결정된 설정값들을 Paging 생성자에 파라미터해 값 세트
+		Paging paging = new Paging
+				(maxNum, num, listCnt,
+						pageCnt, listName);
+
+		//세트된 값을 바탕으로 페이징 메소드 실행
+		//리턴받은 String pagingHtml은 태그를 포함한 리스트 SELECT결과를 전부 합친 문장
+		String pagingHtml = paging.makePaing();
+
+		return pagingHtml;
+	}//getPaging 메소드 끝
+
+	//리스트 보기 통합 메소드(스위치 사용)
+	public ModelAndView listSet (Integer pageNum, Integer listSelect) {
+		mv = new ModelAndView();
+
+		switch (listSelect) {
+		case 1://일반회원 전체보기
+			//빈 모델뷰를 새로 만들어내 데이터 추가 대기 (데이터를 넣을 때 까지는 속이 빈 null상태)
+			mv= new ModelAndView();
+
+			//조건식 (식)? T일 때:F일 때
+			//들어온 pageNum이 null이 맞으면 T에 해당하는 1을
+			//숫자가 들어온 것이 있다면 F에 해당하는 자기 자신의 숫자를 대입
+			int num = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num);
+
+			//DAO에서 SELECT처리후 결과물 레코드들을 리스트 mList에 누적해 리스트화
+			List<MemberDto> mList = aDao.getMemberList(num);
+
+			//정리된 리스트 mList를 모델뷰에 똑같은 이름을 재사용해 통째로 등록
+			//모델은 리스트와 같은 객체도 기억 가능
+			mv.addObject("mList", mList);
+
+			//페이징 처리 - 오브젝트 paging에
+			//getPaging 메소드의 결과물 문자열들 삽입
+			//이 paging은 리스트 페이지에서
+			//EL {paging}을 통해 페이징 버튼들로 출력됨
+			mv.addObject("paging", getPaging(num));
+
+			//세션에 현재 페이지 번호(1,2,3,...) 기억시킴
+			session.setAttribute("pageNum", num);
+
+			//목적지 페이지를 모델뷰에 기억시킴
+			mv.setViewName("aMemberList");
+
+			break;
+		case 2://승인 완료,대기 여부 불문, 업체 회원 전부 보기
+			//빈 모델뷰를 새로 만들어내 데이터 추가 대기 (데이터를 넣을 때 까지는 속이 빈 null상태)
+			mv= new ModelAndView();
+
+			//조건식 (식)? T일 때:F일 때
+			//들어온 pageNum이 null이 맞으면 T에 해당하는 1을
+			//숫자가 들어온 것이 있다면 F에 해당하는 자기 자신의 숫자를 대입
+			int num2 = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num2);
+
+			//DAO에서 SELECT처리후 결과물 레코드들을 리스트 mList에 누적해 리스트화
+			List<MemberDto> allCeoList = aDao.getAllCeoList(num2);
+
+			//정리된 리스트 sList1을 모델뷰에 똑같은 이름을 재사용해 통째로 등록
+			//모델은 리스트와 같은 객체도 기억 가능
+			mv.addObject("ceoList", allCeoList);
+
+			//페이징 처리 - 오브젝트 paging에
+			//getPaging 메소드의 결과물 문자열들 삽입
+			//이 paging은 리스트 페이지에서
+			//EL {paging}을 통해 페이징 버튼들로 출력됨
+			mv.addObject("paging", getPaging(num2));
+
+			//세션에 현재 페이지 번호(1,2,3,...) 기억시킴
+			session.setAttribute("pageNum", num2);
+
+			//목적지 페이지를 모델뷰에 기억시킴
+			mv.setViewName("aAllCeoList");
+			break;
+		case 3://승인완료 업체보기
+			//빈 모델뷰를 새로 만들어내 데이터 추가 대기 (데이터를 넣을 때 까지는 속이 빈 null상태)
+			mv= new ModelAndView();
+
+			//조건식 (식)? T일 때:F일 때
+			//들어온 pageNum이 null이 맞으면 T에 해당하는 1을
+			//숫자가 들어온 것이 있다면 F에 해당하는 자기 자신의 숫자를 대입
+			int num3 = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num3);
+
+			//DAO에서 SELECT처리후 결과물 레코드들을 리스트 mList에 누적해 리스트화
+			List<MemberDto> approvedList = aDao.getApproveList(num3);
+
+			//정리된 리스트 sList1을 모델뷰에 똑같은 이름을 재사용해 통째로 등록
+			//모델은 리스트와 같은 객체도 기억 가능
+			mv.addObject("ceoList", approvedList);
+
+			//페이징 처리 - 오브젝트 paging에
+			//getPaging 메소드의 결과물 문자열들 삽입
+			//이 paging은 리스트 페이지에서
+			//EL {paging}을 통해 페이징 버튼들로 출력됨
+			mv.addObject("paging", getPaging(num3));
+
+			//세션에 현재 페이지 번호(1,num3,3,...) 기억시킴
+			session.setAttribute("pageNum", num3);
+
+			//목적지 페이지를 모델뷰에 기억시킴
+			mv.setViewName("aAuthList");
+
+			break;
+		case 4://승인대기 업체보기
+			//빈 모델뷰를 새로 만들어내 데이터 추가 대기 (데이터를 넣을 때 까지는 속이 빈 null상태)
+			mv= new ModelAndView();
+
+			//조건식 (식)? T일 때:F일 때
+			//들어온 pageNum이 null이 맞으면 T에 해당하는 1을
+			//숫자가 들어온 것이 있다면 F에 해당하는 자기 자신의 숫자를 대입
+			int num4 = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num4);
+
+			//DAO에서 SELECT처리후 결과물 레코드들을 리스트 mList에 누적해 리스트화
+			List<MemberDto> pendingList = aDao.getPendingList(num4);
+
+			//정리된 리스트 sList2를 모델뷰에 똑같은 이름을 재사용해 통째로 등록
+			//모델은 리스트와 같은 객체도 기억 가능
+			mv.addObject("ceoList", pendingList);
+
+			//페이징 처리 - 오브젝트 paging에
+			//getPaging 메소드의 결과물 문자열들 삽입
+			//이 paging은 리스트 페이지에서
+			//EL {paging}을 통해 페이징 버튼들로 출력됨
+			mv.addObject("paging", getPaging(num4));
+
+			//세션에 현재 페이지 번호(1,2,3,...) 기억시킴
+			session.setAttribute("pageNum", num4);
+
+			//목적지 페이지를 모델뷰에 기억시킴
+			mv.setViewName("aPendingList");
+
+			break;
+		}//스위치 끝
+
+		//스위치가 결정하고 데이터를 담아온 mv를 리턴해 각 스위치별 페이지로 이동
+		//모델에 담긴 리스트를 꺼내는건 각 페이지에서 EL로 처리함
+		return mv;
+	}//셀렉트 스위치 메소드 끝
+
+	//승인 요청 수락하기 UPATE 메소드
+	//DB를 고치는 작업이므로 트랜젝셔널 처리 추가
+	@Transactional
+	public String aPertmitStore(String c_num) {
+		//결과는 해당 리스트 페이지에서 볼 수 있으므로 결과 메시지 생략
+		String view = null;
+		int res = aDao.permitStore(c_num);
+		if (res > 0) {//UPDATE 처리시 res는 1이 됨 (executeQuery의 처리와 유사)
+			System.out.println("처리 결과 res : "+res);
+			//처리 성공으로 판단, 승인 리스트에서 찾게 함
+			view = "aAuthList";
+		} else {
+			System.out.println("처리 결과 res : "+res);
+			//처리 실패로 판단, 대기 리스트에서 찾게 함
+			view = "aPendingList";
+		}
+		return view;
 	}
 
-}
+	//삭제 스위치 (일반 회원, 업체 회원 통합 스위치)
+	public ModelAndView deleteSwitch(String id, int deleteSelect) {
+		String view = null;
+		int resInt = 0;
+		String resStr = null;
+		switch(deleteSelect) {
+		case 1:
+			resInt = aDao.deleteMember(id);
+			if (resInt >0) {
+				resStr = "삭제에 성공했습니다, 전체 회원 리스트로 이동합니다";				
+			} else {
+				resStr = "삭제에 실패했습니다, 전체 회원 리스트로 이동합니다";
+			}
+			mv.addObject("msg", resStr);
+			view = "redirect:getMemberList";
+			break;
+		case 2:
+			resInt = aDao.deleteStore(id);
+			if (resInt >0) {
+				resStr = "삭제에 성공했습니다, 전체 업체 회원 리스트로 이동합니다";				
+			} else {
+				resStr = "삭제에 실패했습니다, 전체 업체 회원 리스트로 이동합니다";
+			}
+			mv.addObject("msg", resStr);
+			view = "redirect:aAllCeoList";
+			break;
+		}
+
+		return mv;
+	}
+
+}//서비스 클래스 끝

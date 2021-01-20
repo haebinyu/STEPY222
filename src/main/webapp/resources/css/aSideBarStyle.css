@@ -1,11 +1,21 @@
 @charset "UTF-8";
 
-li.sideBar_title {
+.sideBar_title {
 	border-bottom: 3px solid #4375d9;
+	font-size: 24px;
+	text-align: center;
+	font-weight: bolder;
+	cursor: default;
 }
 
-div.sidebar {
+.sidebar {
 	padding: 0;
 	border-right: 3px solid #4375d9;
 	border-collapse: collapse;
+}
+
+@media screen and (max-width: 768px) {
+	.sidebar {
+		border-right: none;
+	}
 }

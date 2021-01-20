@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+textarea {
+	resize: none;
+}
+
+fieldset {
+	margin-bottom: 10px !important;
+}
+
+legend {
+	font-weight: bolder;
+}
+
+.mailBtn {
+	border: 2px solid #dddddd;
+	padding: 10px;
+	border-radius: 10px;
+	font-weight: bold;
+}
+
+input[type=submit] {
+	background-color: #62a5ff;
+}
+
+input[type=reset] {
+	background-color: #ff6a6a;
+}

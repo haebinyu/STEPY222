@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+th, td {
+	text-align: center !important;
+	padding: 3px !important;
+}
+
+div.list_area {
+	text-align: center;
+}
+
+table.listTbl {
+	margin: 0 auto;
+}
+
+caption {
+	text-align: center !important;
+	text-decoration: none;
+	color: #000000 !important;
+	font-size: 20px;
+	font-weight: bold;
+}
