@@ -3,6 +3,7 @@ package com.bob.stepy.dao;
 import java.util.List;
 
 import com.bob.stepy.dto.EmailDto;
+import com.bob.stepy.dto.EventDto;
 import com.bob.stepy.dto.MemberDto;
 
 public interface AdminDao {
@@ -24,8 +25,11 @@ public interface AdminDao {
 	//업체 목록 (승인 대기) 가져오기 (SELECT-복수 레코드)
 	public List<MemberDto> getPendingList(int num4);
 
-	//보드카운트 가져오기 - 각 리스트에 부가적으로 필요함
-	public int getBoardCnt();
+	//카운트 가져오기 - 각 리스트에 부가적으로 필요함
+	public int getMemberCnt();
+	public int getAllCeoCnt();
+	public int getApproveCeoCnt();
+	public int getPendingCeoCnt();
 
 	//업체 회원의 승인 요청 수락하기 (UPDATE-단일 레코드)
 	//UPDATE의 성공 여부만 알리면 되므로 리턴은 String으로 간주
@@ -47,6 +51,12 @@ public interface AdminDao {
 	//단체 메일 발송용 이메일 칼럼만 조회하기
 	public List<String> getMailList_M ();
 	public List<String> getMailList_C ();
+	
+	//이벤트 리스트 조회하기 (복수 레코드 SELECT)
+	//완성형 쿼리를 사용하므로 페이지 번호를 제외한 파라미터 불필요
+	//레코드의 데이터 전체가 필요하므로 데이터를 한 곳에 담은 DTO의 리스트로 리턴
+	public List<EventDto> getEventList (Integer pageNum);
+	public int getEventCnt();
 
 
 

@@ -53,8 +53,22 @@
 	</select>
 
 	<!-- 전체 개수 구하기, SELECT COUNT SELECT의 대상이 잡힐 때마다 카운트+1 처리 -->
-	<select id="getBoardCnt" resultType="Integer">
+	<select id="getMemberCnt" resultType="Integer">
 		SELECT COUNT(*) FROM M
+	</select>
+
+	<!-- 레코드 개수 구하기 - C 테이블 -->
+	<!-- 전체, 승인완료, 승인대기의 조건 3개가 독립적이므로 카운트 쿼리도 3개 -->
+	<select id="getAllCeoCnt" resultType="Integer">
+		SELECT COUNT(*) FROM C
+	</select>
+	<select id="getApproveCeoCnt" resultMap="Integer">
+		SELECT COUNT(*) FROM C
+		WHERE C_JOIN='approve'
+	</select>
+	<select id="getPendingCeoCnt" resultMap="Integer">
+		SELECT COUNT(*) FROM C
+		WHERE C_JOIN='pending'
 	</select>
 
 	<!-- pending(대기중) 상태의 업체 회원을 approve(허가) 상태로 업데이트 -->
@@ -82,6 +96,16 @@
 
 	<select id="getMailList_C" resultType="String">
 		SELECT C_EMAIL from C
+	</select>
+
+	<select id="getEventCnt" resultType="Integer">
+		SELECT COUNT(*) FROM C
+	</select>
+
+	<select id="getEventList" parameterType="Integer"
+		resultType="com.bob.stepy.dto.EventDto">
+		select * FROM E
+		ORDER BY E_NUM
 	</select>
 
 </mapper>
