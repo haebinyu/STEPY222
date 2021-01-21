@@ -23,7 +23,7 @@
 		resultType="com.bob.stepy.dto.MemberDto">
 		<!-- 미완성 요소가 필요없으므로 쿼리 그대로 등록 -->
 		SELECT * FROM M
-		ORDER BY M_NAME
+		ORDER BY M_ID
 	</select>
 
 	<!-- 회원 목록 가져오기 getMemberList -->
@@ -31,7 +31,7 @@
 		resultType="com.bob.stepy.dto.CeoDto">
 		<!-- 미완성 요소가 필요없으므로 쿼리 그대로 등록 -->
 		select * FROM C
-		ORDER BY C_NAME
+		ORDER BY C_NUM
 	</select>
 
 	<!-- 승인 완료 업체 목록 가져오기 1 getApproveList -->
@@ -98,14 +98,16 @@
 		SELECT C_EMAIL from C
 	</select>
 
-	<select id="getEventCnt" resultType="Integer">
-		SELECT COUNT(*) FROM C
-	</select>
 
 	<select id="getEventList" parameterType="Integer"
 		resultType="com.bob.stepy.dto.EventDto">
 		select * FROM E
 		ORDER BY E_NUM
 	</select>
+	<select id="getEventCnt" resultType="Integer">
+		SELECT COUNT(*) FROM E
+	</select>
+
+
 
 </mapper>

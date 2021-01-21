@@ -1,5 +1,6 @@
 package com.bob.stepy.service;
 
+import java.io.File;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -86,7 +87,7 @@ public class AdminService {
 		//전체 글 개수 구하기(DB에서의 게시글 레코드 수량과 같음 - SELECT)
 		int maxNum = 0;
 		String ttl = null;
-		
+
 		switch(listSelect) {
 		case 1://일반회원 카운트
 			maxNum = aDao.getMemberCnt();
@@ -117,7 +118,7 @@ public class AdminService {
 			ttl ="신고 리스트 - 댓글";
 			break;
 		}
-		
+
 		//설정값(페이지 당 보여줄 글 개수, 한 페이지 그룹에 보여줄 페이지 수, 게시판 이름(A게시판,B게시판) 등) 각인
 		int pageCnt = 5;//한 페이지 그룹당 페이지 수
 		int listCnt = 20;//한 페이지당 레코드 수
@@ -333,35 +334,33 @@ public class AdminService {
 	}
 
 	//삭제 스위치 (일반 회원, 업체 회원 통합 스위치)
-	public ModelAndView deleteSwitch(String id, int deleteSelect) {
+	public String deleteSwitch(String id, int deleteSelect) {
 		String view = null;
-		int resInt = 0;
-		String resStr = null;
+		int resInt = 0;//콘솔 확인용 INT
+		String resStr = null;//콘솔 확인용 STR
+
 		switch(deleteSelect) {
 		case 1:
 			resInt = aDao.deleteMember(id);
 			if (resInt >0) {
-				resStr = "삭제에 성공했습니다, 전체 회원 리스트로 이동합니다";				
+				resStr = "삭제 성공";				
 			} else {
-				resStr = "삭제에 실패했습니다, 전체 회원 리스트로 이동합니다";
+				resStr = "삭제 실패";
 			}
-			mv.addObject("msg", resStr);
-			view = "redirect:getMemberList";
+			view = "redirect:aMemberList";
 			break;
 		case 2:
 			resInt = aDao.deleteStore(id);
 			if (resInt >0) {
-				resStr = "삭제에 성공했습니다, 전체 업체 회원 리스트로 이동합니다";				
+				resStr = "삭제 성공";				
 			} else {
-				resStr = "삭제에 실패했습니다, 전체 업체 회원 리스트로 이동합니다";
+				resStr = "삭제 실패";
 			}
-			mv.addObject("msg", resStr);
-			view = "redirect:aAllCeoList";
+			view = "redirect:aCeoList";
 			break;
 		}
-
-		mv.setViewName(view);
-		return mv;
+		System.out.println(resStr);
+		return view;
 	}
 
 	//메일 전송 처리
@@ -382,9 +381,9 @@ public class AdminService {
 		// 네이버일 경우 smtp.naver.com을 입력
 		// Google일 경우 smtp.gmail.com을 입력
 		try {
-			String host = "smtp.gmail.com";
-			final String username = "stepy.tester@gmail.com";
-			final String password = "stepy1234";
+			String host = "smtp.gmail.com";//SMTP 호스트 서버
+			final String username = "stepy.tester@gmail.com";//발신자 계정 아이디
+			final String password = "stepy1234!";//발신자 계정 비밀번호
 			int port=587; //포트번호
 
 			//메일 내용
@@ -399,7 +398,7 @@ public class AdminService {
 			}
 			System.out.println("DAO에서 이메일 리스트 가져오기 완료");
 
-			//메일리스트(M 또는 C에서 가져온 이메일 레코드 리스트)의 길이만큼만 반복해 수신자 목록에 추가
+			//메일리스트(M 또는 C에서 가져온 이메일 레코드 리스트)의 길이만큼 반복해 수신자 목록에 추가
 			InternetAddress[] toAddr = new InternetAddress[mailList.size()];
 			for(int i=0; i<mailList.size(); i++) {
 				toAddr[i]= new InternetAddress(mailList.get(i));
@@ -418,12 +417,12 @@ public class AdminService {
 
 			// 정보를 담기 위한 객체 생성
 			Properties props = System.getProperties();
+
 			// SMTP 서버 정보 설정
-			props.put("mail.smtp.host", host);
-			props.put("mail.smtp.port", port);
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.ssl.enable", "true");
-			props.put("mail.smtp.ssl.trust", host);
+			props.put("mail.smtp.starttls.enable", "true");//TLS 설정 (네이버의 경우 SSL-465포트사용)
+			props.put("mail.smtp.host", host);//호스트 서버 세팅
+			props.put("mail.smtp.port", port);//호스트 포트 세팅
+			props.put("mail.smtp.auth", "true");//auth 설정
 			System.out.println("props 설정 완료");
 
 			//Session 생성

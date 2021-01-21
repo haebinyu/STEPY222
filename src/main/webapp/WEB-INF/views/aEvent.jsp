@@ -20,8 +20,8 @@
 	<main class="container">
 		<div class="row">
 			<jsp:include page="aSideBar.jsp" />
-			<div class="mailSelect col-md-10 col-sm-9">
-				<div class="mailBtns">
+			<div class="col-md-10 col-sm-9">
+				<div>
 					<a class="eventBtn col-sm-3" href="aEventList">진행중<br>이벤트
 					</a>
 					<!--  -->

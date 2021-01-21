@@ -16,8 +16,8 @@
 	<main class="container">
 		<div class="row">
 			<jsp:include page="aSideBar.jsp" />
-			<div class="mailSelect col-md-10 col-sm-9">
-				<div class="mailBtns">
+			<div class="col-md-10 col-sm-9">
+				<div>
 					<a class="mailBtn col-sm-3" href="aGroupMail_M">일반 회원</a>
 					<!--  -->
 					<a class="mailBtn col-sm-3" href="aGroupMail_C">업체 회원</a>

@@ -13,7 +13,6 @@
 	margin-bottom: 20px;
 }
 
-
 .mailBtn, .eventBtn, .reportBtn {
 	color: #ffffff;
 	text-decoration: none;
@@ -24,15 +23,15 @@
 	text-decoration: none;
 }
 
-.mailBtn:nth-child(1) {
+.mailBtn:nth-child(1){
 	background-color: #6bb5fe;
 }
 
-.mailBtn:nth-child(2) {
+.mailBtn:nth-child(2){
 	background-color: #ffb877;
 }
 
-.mailBtn:nth-child(3) {
+.mailBtn:nth-child(3){
 	background-color: #42ffbd;
 	margin-right: 0;
 	margin-bottom: 0;
