@@ -62,11 +62,11 @@
 	<select id="getAllCeoCnt" resultType="Integer">
 		SELECT COUNT(*) FROM C
 	</select>
-	<select id="getApproveCeoCnt" resultMap="Integer">
+	<select id="getApproveCeoCnt" resultType="Integer">
 		SELECT COUNT(*) FROM C
 		WHERE C_JOIN='approve'
 	</select>
-	<select id="getPendingCeoCnt" resultMap="Integer">
+	<select id="getPendingCeoCnt" resultType="Integer">
 		SELECT COUNT(*) FROM C
 		WHERE C_JOIN='pending'
 	</select>
