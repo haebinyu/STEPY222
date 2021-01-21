@@ -8,9 +8,7 @@
 <!-- 메일&이벤트&신고 공통 스타일 -->
 <link rel="stylesheet"
 	href="resources/css/aGroupMail&Event&ReportStyle.css">
-<!-- 이벤트 페이지들 전용 스타일-->
-<link rel="stylesheet"
-	href="resources/css/aGroupMail&Event&ReportStyle.css">
+<link rel="stylesheet" href="resources/css/aReport.css">
 
 </head>
 <body>
