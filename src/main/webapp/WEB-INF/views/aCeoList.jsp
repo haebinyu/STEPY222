@@ -120,5 +120,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 
 	//총 칼럼의 수만큼 colspan 속성 지정
 	var noData = document.getElementById("noData");
-	noData.setAttribute("colspan", tbl_cols);
+	if (noData != null) {
+		noData.setAttribute("colspan", tbl_cols);
+	}
 </script>
