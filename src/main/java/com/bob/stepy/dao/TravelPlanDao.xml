@@ -115,7 +115,7 @@
 	<!-- 체크리스트 내용 가져오기 -->
 	<select id="getCheckList" parameterType="long" resultType="com.bob.stepy.dto.CheckListDto">
 		SELECT * FROM CL
-		WHERE CL_PLANNUM=#{planNum}
+		WHERE CL_PLANNUM=#{planNum} ORDER BY CL_CATEGORY,CL_CNT
 	</select>
 	<!-- 체크리스트 카테고리 개수 가져오기 -->
 	<select id="getCategoryNum" parameterType="long" resultType="int">
@@ -139,4 +139,9 @@
 		SELECT * FROM CL
 		WHERE CL_PLANNUM=#{planNum} AND CL_CATEGORY=#{category} AND CL_CNT=#{itemCnt}
 	</select>
+	<!-- 준비물 추가하기 -->
+	<insert id="pAddCheckItem" parameterType="com.bob.stepy.dto.CheckListDto">
+		INSERT INTO CL
+		VALUES (#{cl_plannum},#{cl_category},#{cl_categoryname},#{cl_cnt},#{cl_item},DEFAULT)
+	</insert>
 </mapper>

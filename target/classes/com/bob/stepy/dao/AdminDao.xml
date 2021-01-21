@@ -7,8 +7,7 @@
 <mapper namespace="com.bob.stepy.dao.AdminDao">
 	<!-- 로그인시 비밀번호 구하기 SELECT -->
 	<!-- id값은 DAO클래스에서의 메소드명과 통일 파라미터,리절트 타입도 DAO 클래스에서 지정했던 타입과 맞춤 -->
-	<select id="getPwd" parameterType="String"
-		resultType="String">
+	<select id="getPwd" parameterType="String" resultType="String">
 		<!-- 파라미터되는 id를 따라 패스워드 SELECT -->
 		SELECT M_PWD FROM M WHERE M_ID=#{m_id}
 	</select>
@@ -18,4 +17,71 @@
 		resultType="com.bob.stepy.dto.MemberDto">
 		SELECT * FROM M WHERE M_ID=#{m_id}
 	</select>
+
+	<!-- 회원 목록 가져오기 getMemberList -->
+	<select id="getMemberList" parameterType="Integer"
+		resultType="com.bob.stepy.dto.MemberDto">
+		<!-- 미완성 요소가 필요없으므로 쿼리 그대로 등록 -->
+		SELECT * FROM M
+		ORDER BY M_NAME
+	</select>
+
+	<!-- 회원 목록 가져오기 getMemberList -->
+	<select id="getAllCeoList" parameterType="Integer"
+		resultType="com.bob.stepy.dto.CeoDto">
+		<!-- 미완성 요소가 필요없으므로 쿼리 그대로 등록 -->
+		select * FROM C
+		ORDER BY C_NAME
+	</select>
+
+	<!-- 승인 완료 업체 목록 가져오기 1 getApproveList -->
+	<!-- 단, '승인 완료' 조건이 붙으므로 승인 여부 칼럼인 c_join이 'approve'가 맞는 레코드만 조회 -->
+	<select id="getApproveList" parameterType="Integer"
+		resultType="com.bob.stepy.dto.CeoDto">
+		select * FROM C
+		WHERE C_JOIN='approve'
+		ORDER BY C_NUM
+	</select>
+
+	<!-- 승인 완료 업체 목록 가져오기 2 getAuthList -->
+	<!-- 단, '승인 대기'의 반대 조건이 붙으므로 승인 여부 칼럼인 c_join이 'pending'이 맞는 레코드만 조회 -->
+	<select id="getPendingList" parameterType="Integer"
+		resultType="com.bob.stepy.dto.CeoDto">
+		select * FROM C
+		WHERE C_JOIN='pending'
+		ORDER BY C_NUM
+	</select>
+
+	<!-- 전체 개수 구하기, SELECT COUNT SELECT의 대상이 잡힐 때마다 카운트+1 처리 -->
+	<select id="getBoardCnt" resultType="Integer">
+		SELECT COUNT(*) FROM M
+	</select>
+
+	<!-- pending(대기중) 상태의 업체 회원을 approve(허가) 상태로 업데이트 -->
+	<update id="permitStore" parameterType="String">
+		UPDATE C SET C_JOIN =
+		'approve'
+		WHERE C_NUM=#{c_num}
+	</update>
+
+	<delete id="deleteMember" parameterType="String">
+		DELETE FROM M
+		WHERE
+		M_ID=#{m_id}
+	</delete>
+
+	<delete id="deleteStore" parameterType="String">
+		DELETE FROM C
+		WHERE
+		C_NUM=#{c_num}
+	</delete>
+
+	<select id="getMailList_M" resultType="String">
+		SELECT M_EMAIL from M
+	</select>
+
+	<select id="getMailList_C" resultType="String">
+		SELECT C_EMAIL from C
+	</select>
+
 </mapper>

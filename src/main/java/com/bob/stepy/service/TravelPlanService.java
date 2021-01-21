@@ -457,4 +457,57 @@ public class TravelPlanService {
 		
 		return checklist;
 	}
+
+	//준비물 추가 페이지 이동
+	public ModelAndView pAddCheckItemFrm(long category, String categoryName, long itemCnt) {
+		log.info("service - pAddCheckItemFrm() - category : " + category + ", categoryName : " + categoryName + ", itemCnt : " + itemCnt);
+		
+		mv = new ModelAndView();
+		
+		mv.addObject("planNum", (long)session.getAttribute("curPlan"));
+		mv.addObject("category", category);
+		mv.addObject("categoryName", categoryName);
+		mv.addObject("itemCnt", itemCnt);
+		
+		mv.setViewName("pAddCheckItemFrm");
+		
+		return mv;
+	}
+
+	//준비물 추가
+	@Transactional
+	public String pAddCheckItem(long planNum, long category, String categoryName, long itemCnt, String itemName, RedirectAttributes rttr) {
+		log.info("service - pAddCheckItem() - planNum : " + ", category : " + category + ", categoryName : " + categoryName + ", itemCnt : " + itemCnt + ", itemName : " + itemName);
+
+		CheckListDto checklist = new CheckListDto();
+		checklist.setCl_plannum(planNum);
+		checklist.setCl_category(category);
+		checklist.setCl_categoryname(categoryName);
+		checklist.setCl_cnt(itemCnt);
+		checklist.setCl_item(itemName);
+		
+		mv = new ModelAndView();
+		
+		try {
+			tDao.pAddCheckItem(checklist);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		
+		return "redirect:pCheckSupFrm?planNum=0";
+	}
+
+	//카테고리 추가 페이지 이동
+	public ModelAndView pAddCheckCategoryFrm(long category) {
+		log.info("controller - pAddCheckCategoryFrm() - category : " + category);
+		
+		mv = new ModelAndView();
+		
+		mv.addObject("category", category);
+		mv.setViewName("pAddCheckCategoryFrm");
+		
+		return mv;
+	}
 }

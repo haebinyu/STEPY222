@@ -174,4 +174,28 @@ public class TravelPlanController {
 		
 		return tServ.pChangeCheck(planNum, category, itemCnt, check);
 	}
+	
+	//준비물 추가 페이지 이동
+	@GetMapping("pAddCheckItemFrm")
+	public ModelAndView pAddCheckItemFrm(long category, String categoryName, long itemCnt) {
+		log.info("controller - pAddCheckItemFrm() - category : " + category + ", categoryName : " + categoryName + ", itemCnt : " + itemCnt);
+		
+		return tServ.pAddCheckItemFrm(category, categoryName, itemCnt);
+	}
+	
+	//준비물 추가
+	@GetMapping("pAddCheckItem")
+	public String pAddCheckItem(long planNum, long category, String categoryName, long itemCnt, String itemName, RedirectAttributes rttr) {
+		log.info("controller - pAddCheckItem() - planNum : " + ", category : " + category + ", categoryName : " + categoryName + ", itemCnt : " + itemCnt + ", itemName : " + itemName);
+		
+		return tServ.pAddCheckItem(planNum, category, categoryName, itemCnt, itemName, rttr);
+	}
+	
+	//카테고리 추가 페이지 이동
+	@GetMapping("pAddCheckCategoryFrm")
+	public ModelAndView pAddCheckCategoryFrm(long category) {
+		log.info("controller - pAddCheckCategoryFrm() - category : " + category);
+		
+		return tServ.pAddCheckCategoryFrm(category);
+	}
 }

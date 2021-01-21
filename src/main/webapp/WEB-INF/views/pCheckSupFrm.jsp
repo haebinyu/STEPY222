@@ -12,7 +12,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
-<link href="resources/css/style_hj.css" rel="stylesheet">
+<link href="resources/css/style_hjk.css" rel="stylesheet">
 </head>
 <body>
 <header>
@@ -33,7 +33,7 @@
 	</ul>
 	<div class="contents-box">
 		<div class="dayList">
-			<c:set var="categoryNum" value="${categoryNum}"/>
+			${categoryNum}
 			<c:forEach var="cvList" items="${cvList}">
 				<div class="page-header">
 					<h1>${cvList.cl_categoryname}</h1>
@@ -78,10 +78,10 @@
 					  	</c:if>
 					</c:forEach>
 				</div>
-			<input class="btn btn-default btn-block btn-lg add-party-btn" type="button" value="준비물 추가 +">
+			<input class="btn btn-default btn-block btn-lg add-party-btn" type="button" value="준비물 추가 +" onclick="location.href='pAddCheckItemFrm?category=${cvList.cl_category}&categoryName=${cvList.cl_categoryname}&itemCnt=${itemCnt}'">
 			</c:forEach>
 			<div class="page-header"></div>
-			<input class="btn btn-default btn-block btn-lg add-party-btn" type="button" value="카테고리 추가 +">
+			<input class="btn btn-default btn-block btn-lg add-party-btn" type="button" value="카테고리 추가 +" onclick="location.href='pAddCheckCategoryFrm?category=${categoryNum + 1}'">
 	  </div>
 	</div>
 </div>

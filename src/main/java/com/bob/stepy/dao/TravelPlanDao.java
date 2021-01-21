@@ -59,4 +59,6 @@ public interface TravelPlanDao {
 	public void pChangeCheck(Map<String, Long> clMap);
 	//체크리스트 특정 항목 가져오기
 	public CheckListDto getACheck(Map<String, Long> clMap);
+	//준비물 추가하기
+	public void pAddCheckItem(CheckListDto checklist);
 }

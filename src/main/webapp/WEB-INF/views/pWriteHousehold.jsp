@@ -14,7 +14,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
-<link href="resources/css/style_hj.css" rel="stylesheet">
+<link href="resources/css/style_hjk.css" rel="stylesheet">
 </head>
 <body>
 	<header>
@@ -133,8 +133,8 @@ function lengthCheck(){
 	console.log(str);
 	
 	if(str.length > 50){
+		$("#household-contents").val(str.substring(0,50));
 		alert("내용은 50글자 까지만 입력 가능합니다");
-		$("#household-contents").val(str.substring(0,10));
 	}
 }
 
