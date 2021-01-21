@@ -34,6 +34,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				<th>닉네임</th>
 				<th>생년월일</th>
 				<th>승인</th>
+				<th>신고 수</th>
 				<th>회원 추방</th>
 			</tr>
 		</thead>
@@ -47,6 +48,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				<td>${cItem.c_phone}</td>
 				<td class="checkCell"><button class="check"
 						onclick="checkConfirm('${cItem.c_num}');">승인하기</button></td>
+				<td>${cItem.c_report }</td>
 				<td class="checkDel">
 					<button onclick="delConfirm('${cItem.c_num}');">추방하기</button>
 				</td>
@@ -54,7 +56,8 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		</c:forEach>
 		<c:if test="${empty ceoList }">
 			<tr>
-				<td colspan="8">승인 완료/대기 업체가 없습니다</td>
+				<!-- 칼럼의 수만큼 colspan -->
+				<td id="noData">승인 완료/대기 업체가 없습니다</td>
 			</tr>
 		</c:if>
 	</table>
@@ -105,4 +108,17 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		}
 		;
 	}
+
+	//칼럼의 수만큼 자동 colspan
+	var target = document.getElementsByTagName('th');
+	for (var i = 0; i < target.length; i++) {
+		target[i].setAttribute('class', 'tbl_col');
+	}
+
+	var tbl_cols_array = document.getElementsByClassName("tbl_col");
+	var tbl_cols = tbl_cols_array.length;//칼럼 배열의 길이=칼럼 수
+
+	//총 칼럼의 수만큼 colspan 속성 지정
+	var noData = document.getElementById("noData");
+	noData.setAttribute("colspan", tbl_cols);
 </script>
