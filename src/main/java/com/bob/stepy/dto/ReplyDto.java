@@ -12,4 +12,5 @@ public class ReplyDto {
 	private Timestamp r_date;
 	private String r_id;
 	private int r_pnum;
+	private int r_report;
 }
