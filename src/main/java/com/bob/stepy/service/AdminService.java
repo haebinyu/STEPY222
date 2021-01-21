@@ -86,6 +86,7 @@ public class AdminService {
 		//전체 글 개수 구하기(DB에서의 게시글 레코드 수량과 같음 - SELECT)
 		int maxNum = 0;
 		String ttl = null;
+		
 		switch(listSelect) {
 		case 1://일반회원 카운트
 			maxNum = aDao.getMemberCnt();
@@ -116,6 +117,7 @@ public class AdminService {
 			ttl ="신고 리스트 - 댓글";
 			break;
 		}
+		
 		//설정값(페이지 당 보여줄 글 개수, 한 페이지 그룹에 보여줄 페이지 수, 게시판 이름(A게시판,B게시판) 등) 각인
 		int pageCnt = 5;//한 페이지 그룹당 페이지 수
 		int listCnt = 20;//한 페이지당 레코드 수
@@ -380,10 +382,10 @@ public class AdminService {
 		// 네이버일 경우 smtp.naver.com을 입력
 		// Google일 경우 smtp.gmail.com을 입력
 		try {
-			String host = "smtp.naver.com";
-			final String username = "worldwar1914";
-			final String password = "1qw23er4";
-			int port=465; //포트번호
+			String host = "smtp.gmail.com";
+			final String username = "stepy.tester@gmail.com";
+			final String password = "stepy1234";
+			int port=587; //포트번호
 
 			//메일 내용
 			//받는 사람의 메일주소들 가져오기
@@ -443,7 +445,7 @@ public class AdminService {
 			Message mimeMessage = new MimeMessage(session);
 
 			//발신자 세팅 , 보내는 사람의 이메일 주소를 한번 더 입력
-			mimeMessage.setFrom(new InternetAddress("worldwar1914@naver.com"));
+			mimeMessage.setFrom(new InternetAddress("stepy.tester@gmail.com"));
 
 			//수신자 세팅 (배열도 가능)
 			mimeMessage.setRecipients(Message.RecipientType.TO, toAddr );
