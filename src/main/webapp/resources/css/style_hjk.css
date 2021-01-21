@@ -327,6 +327,13 @@ td { text-align: center; }
 .manual-input-title {
 	margin-top: 0;
 }
-.categoryName {
-	margin-top: 15px;
+#categoryName {
+	display: none;
+}
+#itemSelect {
+	background: white;
+	cursor: text;
+}
+.itemList {
+	display: none;
 }

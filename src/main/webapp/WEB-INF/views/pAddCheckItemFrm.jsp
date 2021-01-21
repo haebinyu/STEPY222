@@ -50,13 +50,13 @@
 			<input type="hidden" name="category" value="${category}">
 			<input type="hidden" name="categoryName" value="${categoryName}">
 			<input type="hidden" name="itemCnt" value="${itemCnt}">
-			<textarea class="form-control" rows="8" id="inputItem" name="itemName" placeholder="최대 20자까지 내용 입력" style="resize: none;" onkeyup="lengthCheck()"></textarea>
+			<textarea class="form-control" rows="8" id="inputItem" name="itemName" placeholder="내용을 입력해주세요 (최대 20자)" style="resize: none;" onkeyup="lengthCheck()"></textarea>
 			<div class="row" style="margin-top: 30px">
 				<div class="col-sm-6">
-					<input class="btn btn-default btn-block add-party-btn" type="button" value="취소">
+					<input class="btn btn-default btn-block del-party-btn" type="button" value="취소">
 				</div>
 				<div class="col-sm-6">
-					<input class="btn btn-default btn-block del-party-btn" type="submit" value="완료">
+					<input class="btn btn-default btn-block add-party-btn" type="submit" value="완료">
 				</div>
 			</div>
 			</form>

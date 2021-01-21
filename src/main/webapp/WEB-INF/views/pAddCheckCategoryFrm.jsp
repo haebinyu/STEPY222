@@ -29,16 +29,31 @@
 	  <h1 class="text-center">카테고리 추가</h1>
 	</div>
 	<div class="search-box col-sm-offset-3 col-sm-6">
-		<form>
-		<p><strong>카테고리</strong></p>
+		<form action="pAddCheckCategory">
+		<p><strong>카테고리 선택</strong></p>
+		<input type="hidden" name="cl_plannum" value="${curPlan}">
 		<input type="hidden" name="cl_category" value="${category}">
-		<select class="form-control" id="categorySelect" onchange="categoryChange()">
+		<input type="hidden" name="cl_cnt" value="1">
+		<input type="text" class="form-control" id="categoryName" placeholder="카테고리를 입력해주세요(최대 20자)" name="cl_categoryname" value="관광" required onkeyup="lengthCheck()">
+		<select class="form-control" id="categorySelect" onchange="categoryChange()" style="margin: 15px 0;">
 		  <option value="직접입력">직접 입력</option>
-		  <option value="교통" selected>교통</option>
-		  <option value="관광">관광</option>
+		  <option value="관광" selected>관광</option>
+		  <option value="교통">교통</option>
 		  <option value="숙소">숙소</option>
 		</select>
-		<input type="text" class="form-control" id="categoryName" placeholder="카테고리를 입력해주세요" name="cl_categoryname" value="교통">
+		<p><strong>준비물 선택</strong></p>
+		<div class="form-group">
+			<input type="text" class="form-control" name="cl_item" id="itemSelect" readonly placeholder="준비물을 선택하세요">
+			<ul class="list-group itemList">
+				<li class="list-group-item"><a href="#" id="manual-input" onclick="manualInput()">직접 입력</a></li>
+				<li class="list-group-item">상비약<img src="resources/images/plus.png" class="pull-right add-item" width="20" onclick="addItemClick('상비약')"></li>
+				<li class="list-group-item">충전기<img src="resources/images/plus.png" class="pull-right add-item" width="20" onclick="addItemClick('충전기')"></li>
+				<li class="list-group-item">신분증<img src="resources/images/plus.png" class="pull-right add-item" width="20" onclick="addItemClick('신분증')"></li>
+			</ul>
+		</div>
+		<div class="form-group">
+			<input class="btn btn-default btn-block add-day-plan-btn" type="submit" value="완료">
+		</div>
 		</form>
 	</div>
 	<div class="popup-wrap">
@@ -51,13 +66,13 @@
 				</div>
 			<div class="add-store-box">
 			<form action="pAddCheckItem">
-			<textarea class="form-control" rows="8" id="inputItem" name="itemName" placeholder="최대 20자까지 내용 입력" style="resize: none;" onkeyup="lengthCheck()"></textarea>
+			<textarea class="form-control" rows="8" id="inputItem" name="itemName" placeholder="내용을 입력해주세요 (최대 20자)" style="resize: none;" onkeyup="lengthCheck()"></textarea>
 			<div class="row" style="margin-top: 30px">
 				<div class="col-sm-6">
-					<input class="btn btn-default btn-block add-party-btn" type="button" value="취소">
+					<input class="btn btn-default btn-block del-party-btn" type="button" value="취소">
 				</div>
 				<div class="col-sm-6">
-					<input class="btn btn-default btn-block del-party-btn" type="submit" value="완료">
+					<input class="btn btn-default btn-block add-party-btn" type="button" value="완료" onclick="manualItemInput()">
 				</div>
 			</div>
 			</form>
@@ -72,6 +87,9 @@
 </footer>
 </body>
 <script type="text/javascript">
+//클릭 체크용 변수
+var click = 0;
+
 //내용 입력 글자수 제한
 function lengthCheck(){
 	var str = $("#categoryName").val();
@@ -85,8 +103,69 @@ function lengthCheck(){
 
 //카테고리 선택
 function categoryChange(){
+	//프리셋 선택시
 	var category = $("#categorySelect").val();
 	$("#categoryName").val(category);
+	console.log($("#categorySelect").val());
+	
+	//직접입력 선택시
+	if(category == "직접입력"){
+		$("#categoryName").css("display", "block");
+		$("#categoryName").val("");
+		$("#categoryName").focus();
+	}
+	if(category != "직접입력"){
+		$("#categoryName").css("display", "none");
+	}
+}
+
+$(function(){
+	
+	//준비물 선택 클릭
+	$("#itemSelect").click(function(){
+		if(click == 0){
+			$(".itemList").css("display", "block");
+			click = 1;
+			console.log(click);
+		}
+		else if(click == 1){
+			$(".itemList").css("display", "none");
+			click = 0;
+			console.log(click);
+		}
+	});
+	
+	//준비물 직접 입력시
+	$(".add-party-btn").click(function(){
+		var item = $("#inputItem").val();
+		//준비물 선택창에 전달
+		$("#itemSelect").val(item);
+		//팝업 닫기
+		$(".popup-wrap").css("opacity","0").css("visibility","hidden");
+		//준비물 리스트 닫기
+		$(".itemList").css("display", "none");
+		//클릭 카운트 초기화
+		click = 0;
+	});
+	
+	//취소 버튼 클릭
+	$(".del-party-btn").click(function(){
+		//팝업창 닫기
+		$(".popup-wrap").css("opacity","0").css("visibility","hidden");
+		//내용 초기화
+		$("#inputItem").val("");
+		//준비물 리스트 닫기
+		$(".itemList").css("display", "none");
+		//클릭카운트 초기화
+		click = 0;
+	});
+});
+
+//준비물 선택시
+function addItemClick(item){
+	$("#itemSelect").val(item);
+	$(".itemList").css("display", "none");
+	click = 0;
 }
 
 $(function(){

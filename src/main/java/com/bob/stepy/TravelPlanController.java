@@ -198,4 +198,12 @@ public class TravelPlanController {
 		
 		return tServ.pAddCheckCategoryFrm(category);
 	}
+	
+	//카테고리 추가
+	@GetMapping("pAddCheckCategory")
+	public String pAddCheckCategory(CheckListDto checklist, RedirectAttributes rttr) {
+		log.info("controller - pAddCheckCategory()");
+		
+		return tServ.pAddCheckCategory(checklist, rttr);
+	}
 }

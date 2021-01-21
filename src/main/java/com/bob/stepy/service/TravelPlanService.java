@@ -501,7 +501,7 @@ public class TravelPlanService {
 
 	//카테고리 추가 페이지 이동
 	public ModelAndView pAddCheckCategoryFrm(long category) {
-		log.info("controller - pAddCheckCategoryFrm() - category : " + category);
+		log.info("service - pAddCheckCategoryFrm() - category : " + category);
 		
 		mv = new ModelAndView();
 		
@@ -509,5 +509,24 @@ public class TravelPlanService {
 		mv.setViewName("pAddCheckCategoryFrm");
 		
 		return mv;
+	}
+
+	//카테고리 추가
+	@Transactional
+	public String pAddCheckCategory(CheckListDto checklist, RedirectAttributes rttr) {
+		log.info("service - pAddCheckCategory()");
+		String view = null;
+		
+		try {
+			tDao.pAddCheckItem(checklist);
+			
+			view = "redirect:pCheckSupFrm?planNum=0";
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			view = "redirect:pAddCheckCategoryFrm?category=" + checklist.getCl_category();
+		}
+		
+		return view;
 	}
 }
