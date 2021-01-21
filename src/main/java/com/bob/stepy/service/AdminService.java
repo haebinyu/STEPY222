@@ -12,8 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dao.AdminDao;
-import com.bob.stepy.dto.EmailDto;
-import com.bob.stepy.dto.MemberDto;
+import com.bob.stepy.dto.*;
 import com.bob.stepy.util.*;
 
 //서비스 클래스임을 인지하도록 어노테이션 처리
@@ -83,47 +82,44 @@ public class AdminService {
 		return view;
 	}//어드민 전용 로그인 Proc 끝
 
-	//회원 전부 보기 리스트 SELECT
-	public ModelAndView getMemberList(Integer pageNum) {
-		//빈 모델뷰를 새로 만들어내 데이터 추가 대기 (데이터를 넣을 때 까지는 속이 빈 null상태)
-		mv= new ModelAndView();
-
-		//조건식 (식)? T일 때:F일 때
-		//들어온 pageNum이 null이 맞으면 T에 해당하는 1을
-		//숫자가 들어온 것이 있다면 F에 해당하는 자기 자신의 숫자를 대입
-		int num = (pageNum==null)? 1 : pageNum;
-		System.out.println("num : "+num);
-
-		//DAO에서 SELECT처리후 결과물 레코드들을 리스트 mList에 누적해 리스트화
-		List<MemberDto> mList = aDao.getMemberList(num);
-
-		//정리된 리스트 mList를 모델뷰에 똑같은 이름을 재사용해 통째로 등록
-		//모델은 리스트와 같은 객체도 기억 가능
-		mv.addObject("mList", mList);
-
-		//페이징 처리 - 오브젝트 paging에
-		//getPaging 메소드의 결과물 문자열들 삽입
-		//이 paging은 리스트 페이지에서
-		//EL {paging}을 통해 페이징 버튼들로 출력됨
-		mv.addObject("paging", getPaging(num));
-
-		//세션에 현재 페이지 번호(1,2,3,...) 기억시킴
-		session.setAttribute("pageNum", num);
-
-		//목적지 페이지를 모델뷰에 기억시킴
-		mv.setViewName("aMemberList");
-
-		//정리된 mv를 리턴시켜 컨트롤러에서 실제 이동 처리
-		return mv;
-	}//getBoardList 메소드 끝
-
-	private String getPaging(int num) {
+	private String getPaging(int num, int listSelect) {
 		//전체 글 개수 구하기(DB에서의 게시글 레코드 수량과 같음 - SELECT)
-		int maxNum = aDao.getBoardCnt();
+		int maxNum = 0;
+		String ttl = null;
+		switch(listSelect) {
+		case 1://일반회원 카운트
+			maxNum = aDao.getMemberCnt();
+			ttl ="일반 회원 리스트";
+			break;
+		case 2://업체회원 카운트 - 전체
+			maxNum = aDao.getAllCeoCnt();
+			ttl ="업체 회원 리스트 - 전체";
+			break;
+		case 3://업체회원 카운트 - 완료
+			maxNum = aDao.getApproveCeoCnt();
+			ttl ="업체 회원 리스트 - 승인 완료";
+			break;
+		case 4://업체회원 카운트 - 대기
+			maxNum = aDao.getPendingCeoCnt();
+			ttl ="업체 회원 리스트 - 승인 대기";
+			break;
+		case 6://신고 리스트 카운트 - 회원
+			maxNum = aDao.getEventCnt();
+			ttl ="신고 리스트 - 회원";
+			break;
+		case 7://신고 리스트 카운트 - 게시글
+			maxNum = aDao.getEventCnt();
+			ttl ="신고 리스트 - 게시글";
+			break;
+		case 8://신고 리스트 카운트 - 댓글
+			maxNum = aDao.getEventCnt();
+			ttl ="신고 리스트 - 댓글";
+			break;
+		}
 		//설정값(페이지 당 보여줄 글 개수, 한 페이지 그룹에 보여줄 페이지 수, 게시판 이름(A게시판,B게시판) 등) 각인
 		int pageCnt = 5;//한 페이지 그룹당 페이지 수
-		int listCnt = 10;//한 페이지당 게시글 수
-		String listName="list";//게시판 이름
+		int listCnt = 20;//한 페이지당 레코드 수
+		String listName = ttl;//게시판 이름
 
 		//결정된 설정값들을 Paging 생성자에 파라미터해 값 세트
 		Paging paging = new Paging
@@ -163,7 +159,7 @@ public class AdminService {
 			//getPaging 메소드의 결과물 문자열들 삽입
 			//이 paging은 리스트 페이지에서
 			//EL {paging}을 통해 페이징 버튼들로 출력됨
-			mv.addObject("paging", getPaging(num));
+			mv.addObject("paging", getPaging(num,1));
 
 			//세션에 현재 페이지 번호(1,2,3,...) 기억시킴
 			session.setAttribute("pageNum", num);
@@ -190,7 +186,7 @@ public class AdminService {
 			//getPaging 메소드의 결과물 문자열들 삽입
 			//이 paging은 리스트 페이지에서
 			//EL {paging}을 통해 페이징 버튼들로 출력됨
-			mv.addObject("paging", getPaging(num2));
+			mv.addObject("paging", getPaging(num2,2));
 
 			//세션에 현재 페이지 번호(1,2,3,...) 기억시킴
 			session.setAttribute("pageNum", num2);
@@ -216,7 +212,7 @@ public class AdminService {
 			//getPaging 메소드의 결과물 문자열들 삽입
 			//이 paging은 리스트 페이지에서
 			//EL {paging}을 통해 페이징 버튼들로 출력됨
-			mv.addObject("paging", getPaging(num3));
+			mv.addObject("paging", getPaging(num3,3));
 
 			//세션에 현재 페이지 번호(1,num3,3,...) 기억시킴
 			session.setAttribute("pageNum", num3);
@@ -226,36 +222,89 @@ public class AdminService {
 
 			break;
 		case 4://승인대기 업체보기
-			//빈 모델뷰를 새로 만들어내 데이터 추가 대기 (데이터를 넣을 때 까지는 속이 빈 null상태)
 			mv= new ModelAndView();
 
-			//조건식 (식)? T일 때:F일 때
-			//들어온 pageNum이 null이 맞으면 T에 해당하는 1을
-			//숫자가 들어온 것이 있다면 F에 해당하는 자기 자신의 숫자를 대입
 			int num4 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num4);
 
-			//DAO에서 SELECT처리후 결과물 레코드들을 리스트 mList에 누적해 리스트화
 			List<MemberDto> pendingList = aDao.getPendingList(num4);
 
-			//정리된 리스트 sList2를 모델뷰에 똑같은 이름을 재사용해 통째로 등록
-			//모델은 리스트와 같은 객체도 기억 가능
 			mv.addObject("ceoList", pendingList);
 
-			//페이징 처리 - 오브젝트 paging에
-			//getPaging 메소드의 결과물 문자열들 삽입
-			//이 paging은 리스트 페이지에서
-			//EL {paging}을 통해 페이징 버튼들로 출력됨
-			mv.addObject("paging", getPaging(num4));
+			mv.addObject("paging", getPaging(num4,4));
 
-			//세션에 현재 페이지 번호(1,2,3,...) 기억시킴
 			session.setAttribute("pageNum", num4);
 
-			//목적지 페이지를 모델뷰에 기억시킴
 			mv.setViewName("aPendingList");
 
 			break;
+
+		case 5://이벤트 리스트 보기
+			mv= new ModelAndView();
+
+			int num5 = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num5);
+
+			List<EventDto> eventList = aDao.getEventList(num5);
+
+			mv.addObject("eList", eventList);
+
+			mv.addObject("paging", getPaging(num5,5));
+
+			session.setAttribute("pageNum", num5);
+
+			mv.setViewName("aPendingList");
+			break;
+		case 6 :
+			mv= new ModelAndView();
+
+			int num6 = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num6);
+
+			List<EventDto> reportList1 = aDao.getEventList(num6);
+
+			mv.addObject("eList", reportList1);
+
+			mv.addObject("paging", getPaging(num6,6));
+
+			session.setAttribute("pageNum", num6);
+
+			mv.setViewName("aPendingList");
+			break;
+		case 7 :
+			mv= new ModelAndView();
+
+			int num7 = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num7);
+
+			List<EventDto> reportList2 = aDao.getEventList(num7);
+
+			mv.addObject("eList", reportList2);
+
+			mv.addObject("paging", getPaging(num7,7));
+
+			session.setAttribute("pageNum", num7);
+
+			mv.setViewName("aPendingList");
+			break;
+		case 8 :
+			mv= new ModelAndView();
+
+			int num8 = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num8);
+
+			List<EventDto> reportList3 = aDao.getEventList(num8);
+
+			mv.addObject("rList", reportList3);
+
+			mv.addObject("paging", getPaging(num8,8));
+
+			session.setAttribute("pageNum", num8);
+
+			mv.setViewName("aPendingList");
+			break;
 		}//스위치 끝
+
 
 		//스위치가 결정하고 데이터를 담아온 mv를 리턴해 각 스위치별 페이지로 이동
 		//모델에 담긴 리스트를 꺼내는건 각 페이지에서 EL로 처리함
@@ -420,6 +469,6 @@ public class AdminService {
 		}
 		return resStr;
 	}//메일 발송 메소드 끝
-	
-	
+
+
 }//서비스 클래스 끝
