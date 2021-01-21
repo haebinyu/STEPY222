@@ -103,9 +103,17 @@ public class AdminService {
 			maxNum = aDao.getPendingCeoCnt();
 			ttl ="업체 회원 리스트 - 승인 대기";
 			break;
-		case 5://이벤트 카운트
+		case 6://신고 리스트 카운트 - 회원
 			maxNum = aDao.getEventCnt();
-			ttl ="이벤트 리스트";
+			ttl ="신고 리스트 - 회원";
+			break;
+		case 7://신고 리스트 카운트 - 게시글
+			maxNum = aDao.getEventCnt();
+			ttl ="신고 리스트 - 게시글";
+			break;
+		case 8://신고 리스트 카운트 - 댓글
+			maxNum = aDao.getEventCnt();
+			ttl ="신고 리스트 - 댓글";
 			break;
 		}
 		//설정값(페이지 당 보여줄 글 개수, 한 페이지 그룹에 보여줄 페이지 수, 게시판 이름(A게시판,B게시판) 등) 각인
@@ -237,9 +245,9 @@ public class AdminService {
 			int num5 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num5);
 
-			List<EventDto> EventList = aDao.getEventList(num5);
+			List<EventDto> eventList = aDao.getEventList(num5);
 
-			mv.addObject("eList", EventList);
+			mv.addObject("eList", eventList);
 
 			mv.addObject("paging", getPaging(num5,5));
 
@@ -248,13 +256,52 @@ public class AdminService {
 			mv.setViewName("aPendingList");
 			break;
 		case 6 :
+			mv= new ModelAndView();
 
+			int num6 = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num6);
+
+			List<EventDto> reportList1 = aDao.getEventList(num6);
+
+			mv.addObject("eList", reportList1);
+
+			mv.addObject("paging", getPaging(num6,6));
+
+			session.setAttribute("pageNum", num6);
+
+			mv.setViewName("aPendingList");
 			break;
 		case 7 :
+			mv= new ModelAndView();
 
+			int num7 = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num7);
+
+			List<EventDto> reportList2 = aDao.getEventList(num7);
+
+			mv.addObject("eList", reportList2);
+
+			mv.addObject("paging", getPaging(num7,7));
+
+			session.setAttribute("pageNum", num7);
+
+			mv.setViewName("aPendingList");
 			break;
 		case 8 :
+			mv= new ModelAndView();
 
+			int num8 = (pageNum==null)? 1 : pageNum;
+			System.out.println("num : "+num8);
+
+			List<EventDto> reportList3 = aDao.getEventList(num8);
+
+			mv.addObject("rList", reportList3);
+
+			mv.addObject("paging", getPaging(num8,8));
+
+			session.setAttribute("pageNum", num8);
+
+			mv.setViewName("aPendingList");
 			break;
 		}//스위치 끝
 
