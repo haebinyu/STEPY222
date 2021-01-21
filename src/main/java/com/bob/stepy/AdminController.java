@@ -156,9 +156,11 @@ public class AdminController {
 
 	//이벤트 리스트 보기 - 복수 레코드 SELECT 필요
 	@GetMapping("aEventList")
-	public ModelAndView aEventList(Integer pagenum) {
+	public ModelAndView aEventList(Integer pageNum) {
 		mv = new ModelAndView();
+		System.out.println("이벤트 리스트 페이지로 이동");
 
+		mv = aServ.listSet(pageNum, 5);
 		return mv;
 	}
 
@@ -186,16 +188,28 @@ public class AdminController {
 	}
 
 	@GetMapping("aReportStoreList")
-	public String aReportStoreList() {
-		return "aReportStoreList";
+	public ModelAndView aReportStoreList(Integer pageNum) {
+		mv = new ModelAndView();
+		System.out.println("이벤트 리스트 페이지로 이동");
+
+		mv = aServ.listSet(pageNum, 6);
+		return mv;
 	}
 	@GetMapping("aReportPostList")
-	public String aReportPostList() {
-		return "aReportPostList";
+	public ModelAndView aReportPostList(Integer pageNum) {
+		mv = new ModelAndView();
+		System.out.println("이벤트 리스트 페이지로 이동");
+
+		mv = aServ.listSet(pageNum, 7);
+		return mv;
 	}
 	@GetMapping("aReportReplyList")
-	public String aReportReplyList() {
-		return "aReportReplyList";
+	public ModelAndView aReportReplyList(Integer pageNum) {
+		mv = new ModelAndView();
+		System.out.println("이벤트 리스트 페이지로 이동");
+
+		mv = aServ.listSet(pageNum, 8);
+		return mv;
 	}
 
 	//신고 관리 구역 끝//
