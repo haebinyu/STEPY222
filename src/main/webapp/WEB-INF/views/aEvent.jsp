@@ -9,7 +9,7 @@
 <link rel="stylesheet"
 	href="resources/css/aGroupMail&Event&ReportStyle.css">
 <!-- 이벤트 페이지들 전용 스타일-->
-<link rel="stylesheet" href="resources/css/aEventStyle.css">
+<link rel="stylesheet" href="resources/css/aGroupMail&Event&ReportStyle.css">
 
 </head>
 <body>
