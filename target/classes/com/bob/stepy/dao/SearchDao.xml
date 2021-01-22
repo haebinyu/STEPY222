@@ -1,1 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace="com.bob.stepy.dao.SearchDao">
+
+<!-- 숙소 검색 -->
+<select id="searchHotel" parameterType="String" resultType="com.bob.stepy.dto.StoreDto">
+	SELECT * FROM S WHERE S_CATEGORY='숙박' AND
+		(S_NAME LIKE '%'||#{keyword}||'%' OR S_ADDR2 LIKE '%'||#{keyword}||'%'
+			OR S_ADDR3 LIKE '%'||#{keyword}||'%')
+</select>
+
+
+<!-- 음식점 검색 -->
+<select id="searchRestaurant" parameterType="String" resultType="com.bob.stepy.dto.StoreDto">
+	SELECT * FROM S WHERE S_CATEGORY='음식점' AND
+		(S_NAME LIKE '%'||#{keyword}||'%' OR S_ADDR2 LIKE '%'||#{keyword}||'%'
+			OR S_ADDR3 LIKE '%'||#{keyword}||'%')
+</select>
+
+
+<!-- 지역시설 검색 -->
+<select id="searchPlay" parameterType="String" resultType="com.bob.stepy.dto.StoreDto">
+	SELECT * FROM S WHERE S_CATEGORY='지역시설' AND
+		(S_NAME LIKE '%'||#{keyword}||'%' OR S_ADDR2 LIKE '%'||#{keyword}||'%'
+			OR S_ADDR3 LIKE '%'||#{keyword}||'%')
+</select>
+
+</mapper>

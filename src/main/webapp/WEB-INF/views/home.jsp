@@ -26,7 +26,7 @@
 		<!-- 로그인 세션 추가시 변경할것 -->
 		<li><a href="./pPlanList?id=user01">내 여행</a></li>
 		<!--  -->
-		<li><a href="./searchFrm">검색</a></li>
+		<li><a href="./sSearchFrm">검색</a></li>
 		<li><a href="./aLoginFrm">어드민 전용</a></li>
 		<li><a href="./stHome">사장님 페이지</a></li>
 	</ul>

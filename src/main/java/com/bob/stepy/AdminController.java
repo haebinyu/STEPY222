@@ -44,7 +44,6 @@ public class AdminController {
 	@GetMapping("aMemberList")
 	public ModelAndView allMemberList(Integer pageNum) {
 		System.out.println("전체 회원 리스트 페이지로 이동");
-
 		//파라미터된 pageNum이 있으면 해당 페이지를, 없다면 미리 설정해둔 1 페이지로 간주
 		//리턴되는 모델뷰에는 모델=회원 리스트mList+뷰=리스트 페이지를 동시에 담고 있음
 		mv = aServ.listSet(pageNum, 1);
@@ -55,7 +54,6 @@ public class AdminController {
 	@GetMapping("aCeoList")
 	public ModelAndView ceoList(Integer pageNum) {
 		System.out.println("전체 업체 회원 리스트 페이지로 이동");
-
 		mv = aServ.listSet(pageNum, 2);
 		return mv;
 	}
@@ -64,7 +62,6 @@ public class AdminController {
 	@GetMapping("aAuthList")
 	public ModelAndView authStoreList(Integer pageNum) {
 		System.out.println("승인 완료 업체 회원 리스트 페이지로 이동");
-
 		mv = aServ.listSet(pageNum, 3);
 		return mv;
 	}
@@ -72,7 +69,6 @@ public class AdminController {
 	@GetMapping("aPendingList")
 	public ModelAndView pendingMemberList(Integer pageNum) {
 		System.out.println("승인 대기 업체 회원 리스트 페이지로 이동");
-
 		mv = aServ.listSet(pageNum, 4);
 		return mv;
 	}
@@ -87,16 +83,36 @@ public class AdminController {
 
 	//선택한 회원의 데이터를 삭제하기 (일반) (DELETE - 단일 레코드)
 	@GetMapping("aDeleteMember")
-	public ModelAndView deleteMember (String m_id) {
-		mv = aServ.deleteSwitch(m_id, 1);
-		return mv;
+	public String deleteMember (String m_id) {
+
+		String view = aServ.deleteSwitch(m_id, 1);
+
+		return AfterDelete(1, view);
 	}
 
 	//선택한 회원의 데이터를 삭제하기 (업체) (DELETE - 단일 레코드)
 	@GetMapping("aDeleteStore")
-	public ModelAndView  deleteStore (String c_num) {
-		mv = aServ.deleteSwitch(c_num, 2);
-		return mv;
+	public String deleteStore (String c_num) {
+		String view = aServ.deleteSwitch(c_num, 2);
+		return AfterDelete(2, view);
+	}
+
+	//삭제 처리해도 URL에 파라미터가 남으므로 해당 파라미터를 지우기 위한 후처리 메소드
+	@PostMapping("AfterDelete")
+	public String AfterDelete (int deleteRes, String view_tgt) {
+		//어느 서비스에서 처리했는지 deleteRes에 따라 스위치로 분류한 후
+		//서비스에서 정한 view_tgt를 view에 대입
+		String view = null;
+		switch(deleteRes) {
+		case 1:
+			view = view_tgt;
+			break;
+		case 2:
+			view = view_tgt;
+			break;
+		}
+		//새로 view가 정해진 상태로 처리되므로 URL에서도 파라미터는 지워진 채로 새로 SELECT할 맵핑으로 이동
+		return view;
 	}
 
 	//회원 관리 구역 끝//

@@ -9,6 +9,10 @@
 <title>STEPY - 관리자 페이지</title>
 <link rel="stylesheet" href="resources/css/aListStyle.css">
 </head>
+<head>
+</head>
+<head>
+</head>
 <body>
 	<!-- header,footer는 공통 양식으로 include 처리 -->
 	<header>
