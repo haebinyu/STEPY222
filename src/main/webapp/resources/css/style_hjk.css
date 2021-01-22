@@ -67,6 +67,7 @@ td { text-align: center; }
     border-radius: 10px;
     border: none;
 }
+.storeBox { display: none; }
 
 /* 비용 추가 페이지 */
 .category-list-title { display: block; }
@@ -338,3 +339,41 @@ td { text-align: center; }
 }
 .page-header:hover .dayDelBtn { opacity: 1; visibility: visible; }
 .page-header:hover .dayEditBtn { opacity: 1; visibility: visible; }
+
+/* 초대 알림용 스타일 */
+.invite-alert-btn {
+	width: 50px;
+	position: fixed;
+	right: 50px;
+	bottom: 60px;
+	cursor: pointer;
+	background: white;
+}
+.invite-alert {
+	position: fixed;
+	right: 50px;
+	bottom: 60px;
+	border: 1px solid #aaa;
+	width: 300px;
+	height: 150px;
+	border-radius: 8px;
+	background: white;
+	padding: 15px 30px;
+	z-index: 1;
+	transition: all 0.2s;
+	opacity: 0;
+	visibility: hidden;
+}
+.invite-select-box {
+	margin-top: 15px;
+}
+.close-btn {
+	position: fixed;
+	right: 65px;
+	bottom: 180px;
+	z-index: 2;
+	cursor: pointer;
+	transition: all 0.2s;
+	opacity: 0;
+	visibility: hidden;
+}

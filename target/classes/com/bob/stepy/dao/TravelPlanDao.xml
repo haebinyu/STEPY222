@@ -12,7 +12,7 @@
 	<!-- 여행 일정 리스트 가져오기 -->
 	<select id="getPlanList" parameterType="String" resultType="com.bob.stepy.dto.TravelPlanDto">
 		SELECT * FROM T
-		WHERE T_ID=#{id}
+		WHERE T_ID=#{id} OR T_MEMBER1=#{id} OR T_MEMBER2=#{id} OR T_MEMBER3=#{id} OR T_MEMBER4=#{id} OR T_MEMBER5=#{id}
 	</select>
 	<!-- 여행 일정 정보 가져오기 -->
 	<select id="getPlan" parameterType="long" resultType="com.bob.stepy.dto.TravelPlanDto">
@@ -139,6 +139,15 @@
 		SELECT * FROM CL
 		WHERE CL_PLANNUM=#{planNum} AND CL_CATEGORY=#{category} AND CL_CNT=#{itemCnt}
 	</select>
+	<!-- 가입시 준비물 초기 등록 -->
+	<insert id="pInitChecklist1">
+		INSERT INTO CL
+		VALUES (#{planNum}, 0, '필수 준비물', 1, '의류', DEFAULT)
+	</insert>
+	<insert id="pInitChecklist2">
+		INSERT INTO CL
+		VALUES (#{planNum}, 0, '필수 준비물', 2, '세면용품', DEFAULT)
+	</insert>
 	<!-- 준비물 추가하기 -->
 	<insert id="pAddCheckItem" parameterType="com.bob.stepy.dto.CheckListDto">
 		INSERT INTO CL
@@ -178,4 +187,62 @@
 		SET CL_CATEGORYNAME=#{cl_categoryname}
 		WHERE CL_PLANNUM=#{cl_plannum} AND CL_CATEGORY=#{cl_category}
 	</update>
+	<!-- 초대코드 중복검사 -->
+	<select id="checkInviteCode" parameterType="long" resultType="int">
+		SELECT COUNT(*) FROM I
+		WHERE I_CODE=#{code}
+	</select>
+	<!-- 일행 초대 등록 -->
+	<insert id="pInviteMember" parameterType="com.bob.stepy.dto.InviteDto">
+		INSERT INTO I
+		VALUES (#{i_code},#{i_plannum},#{i_mid},#{i_planname},#{i_inviteid})
+	</insert>
+	<!-- 회원 리스트 가져오기 -->
+	<select id="pGetMemberList" resultType="com.bob.stepy.dto.MemberDto">
+		SELECT * FROM M
+	</select>
+	<!-- 초대 리스트 가져오기 -->
+	<select id="pGetInviteList" resultType="com.bob.stepy.dto.InviteDto">
+		SELECT * FROM I
+	</select>
+	<!-- 초대 여부 확인 카운트 -->
+	<select id="pCheckInvite" resultType="int">
+		SELECT COUNT(*) FROM I
+		WHERE I_INVITEID=#{id}
+	</select>
+	<!-- 초대 유효성 검사 -->
+	<select id="pCheckCodeValid" parameterType="com.bob.stepy.dto.InviteDto" resultType="int">
+		SELECT COUNT(*) FROM I
+		WHERE I_CODE=#{i_code} AND I_INVITEID=#{i_inviteid}
+	</select>
+	<!-- 일행 추가 -->
+	<update id="pJoinPlan1" parameterType="com.bob.stepy.dto.InviteDto">
+		UPDATE T
+		SET T_MEMBER1=#{i_inviteid}
+		WHERE T_PLANNUM=#{i_plannum}
+	</update>
+	<update id="pJoinPlan2" parameterType="com.bob.stepy.dto.InviteDto">
+		UPDATE T
+		SET T_MEMBER2=#{i_inviteid}
+		WHERE T_PLANNUM=#{i_plannum}
+	</update>
+	<update id="pJoinPlan3" parameterType="com.bob.stepy.dto.InviteDto">
+		UPDATE T
+		SET T_MEMBER3=#{i_inviteid}
+		WHERE T_PLANNUM=#{i_plannum}
+	</update>
+	<update id="pJoinPlan4" parameterType="com.bob.stepy.dto.InviteDto">
+		UPDATE T
+		SET T_MEMBER4=#{i_inviteid}
+		WHERE T_PLANNUM=#{i_plannum}
+	</update>
+	<update id="pJoinPlan5" parameterType="com.bob.stepy.dto.InviteDto">
+		UPDATE T
+		SET T_MEMBER5=#{i_inviteid}
+		WHERE T_PLANNUM=#{i_plannum}
+	</update>
+	<delete id="pDelInvite" parameterType="long">
+		DELETE I
+		WHERE I_CODE=#{i_code}
+	</delete>
 </mapper>

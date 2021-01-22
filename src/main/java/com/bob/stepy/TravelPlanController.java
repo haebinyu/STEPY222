@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bob.stepy.dto.AccompanyPlanDto;
 import com.bob.stepy.dto.CheckListDto;
 import com.bob.stepy.dto.HouseholdDto;
+import com.bob.stepy.dto.InviteDto;
 import com.bob.stepy.dto.TravelPlanDto;
 import com.bob.stepy.service.TravelPlanService;
 
@@ -237,5 +238,38 @@ public class TravelPlanController {
 		log.info("controller - pEditCheckCategory()");
 		
 		return tServ.pEditCheckCategory(checklist, rttr);
+	}
+	
+	//일행 초대 페이지 이동
+	@GetMapping("pInviteMemberFrm")
+	public ModelAndView pInviteMemberFrm(String id, long planNum, String planName) {
+		log.info("controller - pInviteMemberFrm() - id : " + id + ", planNum : " + planNum + ", planName : " + planName);
+		
+		return tServ.pInviteMemberFrm(id, planNum, planName);
+	}
+	
+	//일행 초대
+	@PostMapping("pInviteMember")
+	public String pInviteMember(InviteDto invite, RedirectAttributes rttr) {
+		log.info("contorller - pInviteMember()");
+		
+		return tServ.pInviteMember(invite, rttr);
+	}
+	
+	//초대 승인
+	@GetMapping("pJoinPlan")
+	public String pJoinPlan(long code, long planNum, String id, RedirectAttributes rttr) {
+		log.info("controller - pJoinPlan() - code : " + code + ", planNum : " + planNum + ", id : " + id);
+		
+		return tServ.pJoinPlan(code, planNum, id, rttr);
+	}
+	
+	//초대 거절
+	@PostMapping(value = "pRejectPlan", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public Map<String, List<InviteDto>> pRejectPlan(long code) {
+		log.info("controller - pRejectPlan() - code : " + code);
+		
+		return tServ.pRejectPlan(code);
 	}
 }

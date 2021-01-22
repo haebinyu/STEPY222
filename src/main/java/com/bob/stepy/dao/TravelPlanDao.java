@@ -7,6 +7,8 @@ import com.bob.stepy.dto.AccompanyPlanDto;
 import com.bob.stepy.dto.CheckListDto;
 import com.bob.stepy.dto.ChecklistViewDto;
 import com.bob.stepy.dto.HouseholdDto;
+import com.bob.stepy.dto.InviteDto;
+import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.StoreDto;
 import com.bob.stepy.dto.TravelPlanDto;
 
@@ -59,6 +61,9 @@ public interface TravelPlanDao {
 	public void pChangeCheck(Map<String, Long> clMap);
 	//체크리스트 특정 항목 가져오기
 	public CheckListDto getACheck(Map<String, Long> clMap);
+	//가입시 준비물 초기 등록
+	public void pInitChecklist1(long planNum);
+	public void pInitChecklist2(long planNum);
 	//준비물 추가하기
 	public void pAddCheckItem(CheckListDto checklist);
 	//준비물 삭제하기
@@ -73,4 +78,24 @@ public interface TravelPlanDao {
 	public void pEditCheckItem(CheckListDto checklist);
 	//카테고리 수정하기
 	public void pEditCheckCategory(CheckListDto checklist);
+	//초대코드 중복검사
+	public int checkInviteCode(long code);
+	//일행 초대 등록
+	public void pInviteMember(InviteDto invite);
+	//회원 리스트 가져오기
+	public List<MemberDto> pGetMemberList();
+	//초대 리스트 가져오기
+	public List<InviteDto> pGetInviteList();
+	//초대 여부 확인 카운트
+	public int pCheckInvite(String id);
+	//초대 유효성 검사
+	public int pCheckCodeValid(InviteDto invite);
+	//일행 추가
+	public void pJoinPlan1(InviteDto invite);
+	public void pJoinPlan2(InviteDto invite);
+	public void pJoinPlan3(InviteDto invite);
+	public void pJoinPlan4(InviteDto invite);
+	public void pJoinPlan5(InviteDto invite);
+	//초대 삭제
+	public void pDelInvite(long code);
 }

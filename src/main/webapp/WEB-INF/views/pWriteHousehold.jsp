@@ -70,7 +70,7 @@
 					<div class="row">
 						<div class="form-group col-sm-offset-3  col-sm-6">
 							<label for="household-contents">내용</label> 
-							<input type="text" class="form-control" name="h_contents" id="household-contents" placeholder="내용을 입력해주세요" onkeyup="lengthCheck()">
+							<input type="text" class="form-control" name="h_contents" id="household-contents" placeholder="내용을 입력해주세요 (최대 50자)" onkeyup="lengthCheck()">
 						</div>
 					</div>
 					<div class="row">
