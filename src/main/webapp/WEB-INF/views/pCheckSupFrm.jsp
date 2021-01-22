@@ -93,7 +93,7 @@
 		<div class="popup-area">
 			<div class="popup-close"><img src="resources/images/close.png" width="15"></div>
 				<div class="search-box">
-					<div class="page-header manual-input-title">
+					<div class="page-header edit-title">
 					  <h3>준비물 수정</h3>
 					</div>
 				</div>
@@ -187,6 +187,9 @@ function togglePopup(category, itemCnt, categoryName) {
 	//폼 value 입력
 	$(".inputCategory").val(category);
 	$("#inputCnt").val(itemCnt);
+	
+	//팝업창 제목 변경
+	$(".edit-title").html("<h3>준비물 수정</h3>");
 }
 //카테고리 변경 팝업
 function categoryPopup(category){
@@ -196,6 +199,9 @@ function categoryPopup(category){
 	
 	//폼 value 입력
 	$(".inputCategory").val(category);
+	
+	//팝업창 제목 변경
+	$(".edit-title").html("<h3>카테고리 수정</h3>");
 }
 
 $(function(){
@@ -219,10 +225,11 @@ $(function(){
 //내용 입력 글자수 제한
 function lengthCheck(){
 	var str = $("#inputItem").val();
-	console.log(str);
+	var str2 = $("#inputCategoryName").val();
 	
-	if(str.length > 20){
+	if(str.length > 20 || str2.length > 20){
 		$("#inputItem").val("");
+		$("#inputCategoryName").val("");
 		alert("내용은 20글자 까지만 입력해주세요");
 	}
 }
