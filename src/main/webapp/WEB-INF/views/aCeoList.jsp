@@ -46,11 +46,11 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				<td>${cItem.c_email}</td>
 				<td>${cItem.c_name}</td>
 				<td>${cItem.c_phone}</td>
-				<td class="checkCell"><button class="check"
-						onclick="checkConfirm('${cItem.c_num}');">승인하기</button></td>
+				<td class="checkCell"><div class="checkBtn"
+						onclick="checkConfirm('${cItem.c_num}');">승인하기</div></td>
 				<td>${cItem.c_report }</td>
 				<td class="checkDel">
-					<button onclick="delConfirm('${cItem.c_num}');">추방하기</button>
+					<div class="delBtn" onclick="delConfirm('${cItem.c_num}');">추방하기</div>
 				</td>
 			</tr>
 		</c:forEach>
