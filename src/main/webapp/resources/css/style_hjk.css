@@ -330,9 +330,8 @@ td { text-align: center; }
 #categoryName {
 	display: none;
 }
-#itemSelect {
-	background: white;
-	cursor: text;
+#itemName {
+	display: none;
 }
 .itemList {
 	display: none;
