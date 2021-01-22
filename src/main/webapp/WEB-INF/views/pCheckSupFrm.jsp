@@ -33,10 +33,12 @@
 	</ul>
 	<div class="contents-box">
 		<div class="dayList">
-			${categoryNum}
 			<c:forEach var="cvList" items="${cvList}">
 				<div class="page-header">
-					<h1>${cvList.cl_categoryname}</h1>
+					<h1 style="padding-right: 15px">${cvList.cl_categoryname}
+					<div class="dayDelBtn pull-right" title="카테고리 삭제" onclick="if(confirm('카테고리를 삭제하시겠습니까?')) location.href='delCheckCategory?category=${cvList.cl_category}'"><img src="resources/images/remove.png"></div>
+					<div class="dayEditBtn pull-right" title="준비물 수정" onclick="categoryPopup(${cvList.cl_category})"><img src="resources/images/edit.png"></div>
+					</h1>
 				</div>
 				<div class="dayList-sub">
 					<c:set var="itemCnt" value="1"/>
@@ -56,19 +58,23 @@
 											 </span>
 											 <span>${checklist.cl_item}</span>
 										 </label>
+										 <div class="dayDelBtn pull-right" title="준비물 삭제" onclick="if(confirm('준비물을 삭제하시겠습니까?')) location.href='delCheckItem?category=${checklist.cl_category}&itemCnt=${itemCnt}'"><img src="resources/images/remove.png"></div>
+										 <div class="dayEditBtn pull-right" title="준비물 수정" onclick="togglePopup(${checklist.cl_category},${itemCnt})"><img src="resources/images/edit.png"></div>
 									</div>
 									</c:when>
 									<c:when test="${checklist.cl_check == 0}">
-									<div id="ajax-box${checklist.cl_category}${itemCnt}">
-										<input class="inp-cbx" id="cbx${checklist.cl_category}${itemCnt}" type="checkbox" style="display: none"/>
-										<label class="cbx" for="cbx${checklist.cl_category}${itemCnt}" onclick="checkItem(${checklist.cl_category}, ${itemCnt}, ${checklist.cl_check})">
-											<span>
-												<svg width="12px" height="9px" viewbox="0 0 12 9">
-												<polyline points="1 5 4 8 11 1"></polyline>
-												 </svg>
-											 </span>
-											 <span>${checklist.cl_item}</span>
-										 </label>
+										<div id="ajax-box${checklist.cl_category}${itemCnt}">
+											<input class="inp-cbx" id="cbx${checklist.cl_category}${itemCnt}" type="checkbox" style="display: none"/>
+											<label class="cbx" for="cbx${checklist.cl_category}${itemCnt}" onclick="checkItem(${checklist.cl_category}, ${itemCnt}, ${checklist.cl_check})">
+												<span>
+													<svg width="12px" height="9px" viewbox="0 0 12 9">
+													<polyline points="1 5 4 8 11 1"></polyline>
+													 </svg>
+												 </span>
+												 <span>${checklist.cl_item}</span>
+											 </label>
+											 <div class="dayDelBtn pull-right" title="준비물 삭제" onclick="if(confirm('준비물을 삭제하시겠습니까?')) location.href='delCheckItem?category=${checklist.cl_category}&itemCnt=${itemCnt}'"><img src="resources/images/remove.png"></div>
+											  <div class="dayEditBtn pull-right" title="준비물 수정" onclick="togglePopup(${checklist.cl_category},${itemCnt})"><img src="resources/images/edit.png"></div>
 										</div>
 									</c:when>
 								</c:choose>
@@ -83,6 +89,46 @@
 			<div class="page-header"></div>
 			<input class="btn btn-default btn-block btn-lg add-party-btn" type="button" value="카테고리 추가 +" onclick="location.href='pAddCheckCategoryFrm?category=${categoryNum + 1}'">
 	  </div>
+	  <div class="popup-wrap">
+		<div class="popup-area">
+			<div class="popup-close"><img src="resources/images/close.png" width="15"></div>
+				<div class="search-box">
+					<div class="page-header manual-input-title">
+					  <h3>준비물 수정</h3>
+					</div>
+				</div>
+			<div class="add-store-box">
+			<form action="pEditCheckItem" id="itemEditFrm">
+			<input type="hidden" name="cl_plannum" value="${curPlan}">
+			<input type="hidden" name="cl_category" class="inputCategory">
+			<input type="hidden" name="cl_cnt" id="inputCnt">
+			<textarea class="form-control" rows="8" id="inputItem" name="cl_item" placeholder="수정할 내용을 입력해주세요 (최대 20자)" style="resize: none;" onkeyup="lengthCheck()"></textarea>
+			<div class="row" style="margin-top: 30px">
+				<div class="col-sm-6">
+					<input class="btn btn-default btn-block del-party-btn cancel" type="button" value="취소">
+				</div>
+				<div class="col-sm-6">
+					<input class="btn btn-default btn-block add-party-btn" type="submit" value="완료">
+				</div>
+			</div>
+			</form>
+			<form action="pEditCheckCategory" id="categoryEditFrm">
+			<input type="hidden" name="cl_plannum" value="${curPlan}">
+			<input type="hidden" name="cl_category" class="inputCategory">
+			<textarea class="form-control" rows="8" id="inputCategoryName" name="cl_categoryname" placeholder="수정할 내용을 입력해주세요 (최대 20자)" style="resize: none; displany: none;" onkeyup="lengthCheck()"></textarea>
+			<div class="row" style="margin-top: 30px">
+				<div class="col-sm-6">
+					<input class="btn btn-default btn-block del-party-btn cancel" type="button" value="취소">
+				</div>
+				<div class="col-sm-6">
+					<input class="btn btn-default btn-block add-party-btn" type="submit" value="완료">
+				</div>
+			</div>
+			</form>
+			</div>
+		</div>
+		<div class="popup-background"></div>
+	</div>
 	</div>
 </div>
 </section>
@@ -91,6 +137,7 @@
 </footer>
 </body>
 <script type="text/javascript">
+//준비믈 체크 상태 변경
 function checkItem(category, itemCnt, check){
 	var planNum =${curPlan}
 	//console.log($("#ajax-box" + category + itemCnt));	
@@ -116,7 +163,12 @@ function checkItem(category, itemCnt, check){
 			str += '<label class="cbx" for="cbx' + category + itemCnt + 
 					'" onclick="checkItem(' + category + ', ' + itemCnt + ', ' + check + ')">' +
 					'<span><svg width="12px" height="9px" viewbox="0 0 12 9"><polyline points="1 5 4 8 11 1"></polyline></svg></span>' +
-					'<span>' + data.cl_item + '</span></label>';
+					'<span>' + data.cl_item + '</span></label>' +
+					'<div class="dayDelBtn pull-right" title="준비물 삭제" onclick="' +
+					"if(confirm('준비물을 삭제하시겠습니까?')) location.href='delCheckItem?category=" + category + "&itemCnt=" + itemCnt + "'" +
+					'"><img src="resources/images/remove.png"></div>' +
+					' <div class="dayEditBtn pull-right" title="준비물 수정" onclick="' +
+					'togglePopup(' + category + ',' + itemCnt +')"><img src="resources/images/edit.png"></div>'
 			
 			$("#ajax-box" + category + itemCnt).html(str);
 		},
@@ -124,6 +176,55 @@ function checkItem(category, itemCnt, check){
 			console.log(error)
 		}
 	});
+}
+
+//팝업창 온오프
+function togglePopup(category, itemCnt, categoryName) {
+	$(".popup-wrap").css("opacity","1").css("visibility","visible");
+	$("#itemEditFrm").css("display", "block");
+	$("#categoryEditFrm").css("display", "none");
+	
+	//폼 value 입력
+	$(".inputCategory").val(category);
+	$("#inputCnt").val(itemCnt);
+}
+//카테고리 변경 팝업
+function categoryPopup(category){
+	$(".popup-wrap").css("opacity","1").css("visibility","visible");
+	$("#itemEditFrm").css("display", "none");
+	$("#categoryEditFrm").css("display", "block");
+	
+	//폼 value 입력
+	$(".inputCategory").val(category);
+}
+
+$(function(){
+	$(".cancel").click(function(){
+		$(".popup-wrap").css("opacity","0").css("visibility","hidden");
+		$("#inputItem").val("");
+		$("#inputCategoryName").val("");
+	});
+	$(".popup-close").click(function(){
+		$(".popup-wrap").css("opacity","0").css("visibility","hidden");
+		$("#inputItem").val("");
+		$("#inputCategoryName").val("");
+	});
+	$(".popup-background").click(function(){
+		$(".popup-wrap").css("opacity","0").css("visibility","hidden");
+		$("#inputItem").val("");
+		$("#inputCategoryName").val("");
+	});
+});
+
+//내용 입력 글자수 제한
+function lengthCheck(){
+	var str = $("#inputItem").val();
+	console.log(str);
+	
+	if(str.length > 20){
+		$("#inputItem").val("");
+		alert("내용은 20글자 까지만 입력해주세요");
+	}
 }
 </script>
 </html>

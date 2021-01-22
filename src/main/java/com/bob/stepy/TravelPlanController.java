@@ -206,4 +206,36 @@ public class TravelPlanController {
 		
 		return tServ.pAddCheckCategory(checklist, rttr);
 	}
+	
+	//준비물 삭제
+	@GetMapping("delCheckItem")
+	public String delCheckItem(long category, long itemCnt, RedirectAttributes rttr) {
+		log.info("controller - delCheckItem() - category : " + category + ", itemCnt : " + itemCnt);
+		
+		return tServ.delCheckItem(category, itemCnt, rttr);
+	}
+	
+	//카테고리 삭제
+	@GetMapping("delCheckCategory")
+	public String delCheckCategory(long category, RedirectAttributes rttr) {
+		log.info("controller - delCheckCategory() - category : " + category); 
+		
+		return tServ.delCheckCategory(category, rttr);
+	}
+	
+	//준비물 수정
+	@GetMapping("pEditCheckItem")
+	public String pEditCheckItem(CheckListDto checklist, RedirectAttributes rttr) {
+		log.info("controller - pEditCheckItem()");
+		
+		return tServ.pEditCheckItem(checklist, rttr);
+	}
+	
+	//카테고리 수정
+	@GetMapping("pEditCheckCategory")
+	public String pEditCheckCategory(CheckListDto checklist, RedirectAttributes rttr) {
+		log.info("controller - pEditCheckCategory()");
+		
+		return tServ.pEditCheckCategory(checklist, rttr);
+	}
 }

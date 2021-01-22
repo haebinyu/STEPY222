@@ -337,3 +337,5 @@ td { text-align: center; }
 .itemList {
 	display: none;
 }
+.page-header:hover .dayDelBtn { opacity: 1; visibility: visible; }
+.page-header:hover .dayEditBtn { opacity: 1; visibility: visible; }

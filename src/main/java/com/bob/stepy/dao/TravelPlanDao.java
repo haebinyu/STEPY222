@@ -61,4 +61,16 @@ public interface TravelPlanDao {
 	public CheckListDto getACheck(Map<String, Long> clMap);
 	//준비물 추가하기
 	public void pAddCheckItem(CheckListDto checklist);
+	//준비물 삭제하기
+	public void delCheckItem(CheckListDto checklist);
+	//준비물 카운트 정렬하기
+	public void reduceCheckItemCnt(CheckListDto checklist);
+	//체크리스트 카테고리 삭제하기
+	public void delCheckCategory(ChecklistViewDto cv);
+	//체크리스트 카테고리 정렬하기
+	public void reduceCheckCategoryCnt(ChecklistViewDto cv);
+	//준비물 수정하기
+	public void pEditCheckItem(CheckListDto checklist);
+	//카테고리 수정하기
+	public void pEditCheckCategory(CheckListDto checklist);
 }

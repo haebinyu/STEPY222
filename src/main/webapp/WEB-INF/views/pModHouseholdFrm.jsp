@@ -87,11 +87,11 @@
 						</div>
 					</div>
 					<div class="row btn-box">
-						<div class="form-group col-sm-offset-3  col-sm-3">
-							<button class="btn btn-default btn-lg btn-block submit-cost-btn" type="submit">수정완료</button>
+						<div class="form-group col-sm-offset-3 col-sm-3">
+							<input type="button" class="btn btn-default btn-lg btn-block del-household-btn" value="삭제" onclick="delCheck()"/>
 						</div>
 						<div class="form-group col-sm-3">
-							<input type="button" class="btn btn-default btn-lg btn-block del-household-btn" value="삭제" onclick="delCheck()"/>
+							<button class="btn btn-default btn-lg btn-block submit-cost-btn" type="submit">수정완료</button>
 						</div>
 					</div>
 					<div class="popup-wrap">

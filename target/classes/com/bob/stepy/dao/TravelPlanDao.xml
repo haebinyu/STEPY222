@@ -144,4 +144,38 @@
 		INSERT INTO CL
 		VALUES (#{cl_plannum},#{cl_category},#{cl_categoryname},#{cl_cnt},#{cl_item},DEFAULT)
 	</insert>
+	<!-- 준비물 삭제하기 -->
+	<delete id="delCheckItem" parameterType="com.bob.stepy.dto.CheckListDto">
+		DELETE CL
+		WHERE CL_PLANNUM=#{cl_plannum} AND CL_CATEGORY=#{cl_category} AND CL_CNT=#{cl_cnt}
+	</delete>
+	<!-- 준비물 카운트 정렬하기 -->
+	<update id="reduceCheckItemCnt" parameterType="com.bob.stepy.dto.CheckListDto">
+		UPDATE CL
+		SET CL_CNT=CL_CNT-1
+		WHERE CL_PLANNUM=#{cl_plannum} AND CL_CATEGORY=#{cl_category} AND CL_CNT>#{cl_cnt}
+	</update>
+	<!-- 체크리스트 카테고리 삭제하기 -->
+	<delete id="delCheckCategory" parameterType="com.bob.stepy.dto.ChecklistViewDto">
+		DELETE CL
+		WHERE CL_PLANNUM=#{cl_plannum} AND CL_CATEGORY=#{cl_category}
+	</delete>
+	<!-- 체크리스트 카테고리 정렬하기 -->
+	<update id="reduceCheckCategoryCnt" parameterType="com.bob.stepy.dto.ChecklistViewDto">
+		UPDATE CL
+		SET CL_CATEGORY=CL_CATEGORY-1
+		WHERE CL_PLANNUM=#{cl_plannum} AND CL_CATEGORY>#{cl_category}
+	</update>
+	<!-- 준비물 수정하기 -->
+	<update id="pEditCheckItem" parameterType="com.bob.stepy.dto.CheckListDto">
+		UPDATE CL
+		SET CL_ITEM=#{cl_item}
+		WHERE CL_PLANNUM=#{cl_plannum} AND CL_CATEGORY=#{cl_category} AND CL_CNT=#{cl_cnt}
+	</update>
+	<!-- 카테고리 수정하기 -->
+	<update id="pEditCheckCategory" parameterType="com.bob.stepy.dto.CheckListDto">
+		UPDATE CL
+		SET CL_CATEGORYNAME=#{cl_categoryname}
+		WHERE CL_PLANNUM=#{cl_plannum} AND CL_CATEGORY=#{cl_category}
+	</update>
 </mapper>

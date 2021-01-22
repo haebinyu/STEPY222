@@ -529,4 +529,78 @@ public class TravelPlanService {
 		
 		return view;
 	}
+
+	//준비물 삭제
+	@Transactional
+	public String delCheckItem(long category, long itemCnt, RedirectAttributes rttr) {
+		log.info("service - delCheckItem() - category : " + category + ", itemCnt : " + itemCnt);
+		
+		CheckListDto checklist = new CheckListDto();
+		checklist.setCl_plannum((long)session.getAttribute("curPlan"));
+		checklist.setCl_category(category);
+		checklist.setCl_cnt(itemCnt);
+		
+		try {
+			//준비물 삭제
+			tDao.delCheckItem(checklist);
+			//나머지 준비물 카운트 정렬
+			tDao.reduceCheckItemCnt(checklist);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:pCheckSupFrm?planNum=0";
+	}
+
+	//카테고리 삭제
+	@Transactional
+	public String delCheckCategory(long category, RedirectAttributes rttr) {
+		log.info("service - delCheckCategory() - category : " + category);
+		
+		ChecklistViewDto cv = new ChecklistViewDto();
+		cv.setCl_plannum((long)session.getAttribute("curPlan"));
+		cv.setCl_category(category);
+		
+		try {
+			//카테고리 삭제
+			tDao.delCheckCategory(cv);
+			//나머지 카테고리 카운트 정렬
+			tDao.reduceCheckCategoryCnt(cv);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:pCheckSupFrm?planNum=0";
+	}
+
+	
+	//준비물 수정
+	@Transactional
+	public String pEditCheckItem(CheckListDto checklist, RedirectAttributes rttr) {
+		log.info("service - pEditCheckItem()");
+		
+		try {
+			//준비물 수정
+			tDao.pEditCheckItem(checklist);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:pCheckSupFrm?planNum=0";
+	}
+
+	//카테고리 수정
+	@Transactional
+	public String pEditCheckCategory(CheckListDto checklist, RedirectAttributes rttr) {
+		log.info("service - pEditCheckCategory()");
+		
+		try {
+			//카테고리 수정
+			tDao.pEditCheckCategory(checklist);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:pCheckSupFrm?planNum=0";
+	}
 }
