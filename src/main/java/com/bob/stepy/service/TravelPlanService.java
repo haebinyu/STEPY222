@@ -652,29 +652,38 @@ public class TravelPlanService {
 		
 		String msg = null;
 		
+		//초대 코드 생성
 		while(true) {
 			long code = (long)(Math.random()*10000000000000L);
 			System.out.println("invite code : " + code);
 			
-			//중복 검사
+			//생성된 중복 검사
 			int codeCnt = tDao.checkInviteCode(code);
 			
-			if(codeCnt == 0) {//중복되는 코드가 없으면
+			if(codeCnt == 0) {
+				//중복되는 코드가 없으면 코드 사용
 				invite.setI_code(code);
-				
-				try {
-					
-					tDao.pInviteMember(invite);
-					
-					msg = invite.getI_inviteid() + "님을 일정에 초대하였습니다";
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-					
-					msg = "초대에 실패하였습니다";
-				}
-				
 				break;
+			}
+		}
+		
+		//초대 회원 중복 검사
+		int inviteDupCheck = tDao.pCheckInviteId(invite);
+		
+		if(inviteDupCheck == 1) {
+			msg = "이 일정에 이미 초대중인 회원입니다";
+		}
+		else if(inviteDupCheck == 0) {
+			try {
+				
+				tDao.pInviteMember(invite);
+				
+				msg = invite.getI_inviteid() + "님을 일정에 초대하였습니다";
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+				msg = "초대에 실패하였습니다. 관리자에 문의해주세요";
 			}
 		}
 		
@@ -695,19 +704,14 @@ public class TravelPlanService {
 		invite.setI_plannum(planNum);
 		invite.setI_inviteid(id);
 		
-		//초대 유효성 검사
+		//초대코드 유효성 검사
 		int valid = tDao.pCheckCodeValid(invite);
 		
 		if(valid == 1) {
 			//여행에 빈 멤버 자리 검사
 			TravelPlanDto plan = tDao.getPlan(planNum);
-			System.out.println(plan.getT_member1());
-			System.out.println(plan.getT_member2());
-			System.out.println(plan.getT_member3());
-			System.out.println(plan.getT_member4());
-			System.out.println(plan.getT_member5());
 			
-			msg = plan.getT_planname() + " 에 참여하였습니다";
+			msg = plan.getT_planname() + " 에 참여하였습니다. 이제 함께 일정을 수정할 수 있습니다";
 			
 			try {
 				

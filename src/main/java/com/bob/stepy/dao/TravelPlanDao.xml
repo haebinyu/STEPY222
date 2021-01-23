@@ -241,8 +241,14 @@
 		SET T_MEMBER5=#{i_inviteid}
 		WHERE T_PLANNUM=#{i_plannum}
 	</update>
+	<!-- 초대 삭제 -->
 	<delete id="pDelInvite" parameterType="long">
 		DELETE I
 		WHERE I_CODE=#{i_code}
 	</delete>
+	<!-- 초대 회원 중복 검사 -->
+	<select id="pCheckInviteId" parameterType="com.bob.stepy.dto.InviteDto" resultType="int">
+		SELECT COUNT(*) FROM I
+		WHERE I_PLANNUM=#{i_plannum} AND I_INVITEID=#{i_inviteid}
+	</select>
 </mapper>

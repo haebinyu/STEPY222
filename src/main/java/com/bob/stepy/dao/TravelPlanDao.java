@@ -98,4 +98,6 @@ public interface TravelPlanDao {
 	public void pJoinPlan5(InviteDto invite);
 	//초대 삭제
 	public void pDelInvite(long code);
+	//초대 회원 중복 검사
+	public int pCheckInviteId(InviteDto invite);
 }
