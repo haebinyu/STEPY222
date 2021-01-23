@@ -96,8 +96,8 @@ function categoryChange(){
 //준비물 선택
 function itemChange(){
 	//프리셋 선택시
-	var category = $("#itemSelect").val();
-	$("#itemSelect").val(category);
+	var item = $("#itemSelect").val();
+	$("#itemName").val(item);
 	console.log($("#itemSelect").val());
 	
 	//직접입력 선택시
