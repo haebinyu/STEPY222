@@ -669,9 +669,14 @@ public class TravelPlanService {
 		
 		//초대 회원 중복 검사
 		int inviteDupCheck = tDao.pCheckInviteId(invite);
+		TravelPlanDto plan = tDao.getPlan(invite.getI_plannum());
 		
 		if(inviteDupCheck == 1) {
 			msg = "이 일정에 이미 초대중인 회원입니다";
+		}
+		else if(plan.getT_member1().equals(invite.getI_inviteid()) || plan.getT_member2().equals(invite.getI_inviteid()) || plan.getT_member3().equals(invite.getI_inviteid()) ||
+				plan.getT_member4().equals(invite.getI_inviteid()) || plan.getT_member5().equals(invite.getI_inviteid())) {
+			msg = "이 일정에 이미 참여중인 회원입니다";
 		}
 		else if(inviteDupCheck == 0) {
 			try {
