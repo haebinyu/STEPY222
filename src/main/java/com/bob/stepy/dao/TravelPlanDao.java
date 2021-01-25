@@ -100,4 +100,12 @@ public interface TravelPlanDao {
 	public void pDelInvite(long code);
 	//초대 회원 중복 검사
 	public int pCheckInviteId(InviteDto invite);
+	//여행 삭제
+	public void pDelPlan(long planNum);
+	//여행 삭제시 일정 삭제
+	public void pDelSchedule(long planNum);
+	//여행 삭제시 가계부 삭제
+	public void pDelHousehold(long planNum);
+	//여행 삭제시 체크리스트 삭제
+	public void pDelChecklist(long planNum);
 }

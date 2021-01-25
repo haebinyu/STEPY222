@@ -787,4 +787,35 @@ public class TravelPlanService {
 		
 		return iMap;
 	}
+
+	@Transactional
+	public String pDelPlan(RedirectAttributes rttr) {
+		log.info("service - pDelPlan");
+		String msg = null;
+		
+		long planNum = (long)session.getAttribute("curPlan");
+		
+		try {
+			//일정 삭제
+			tDao.pDelSchedule(planNum);
+			//가계부 삭제
+			tDao.pDelHousehold(planNum);
+			//체크리스트 삭제
+			tDao.pDelChecklist(planNum);
+			//여행 삭제
+			tDao.pDelPlan(planNum);
+			
+			msg = "여행을 삭제하였습니다";
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg = "삭제에 실패하였습니다";
+		}
+		
+		MemberDto member = (MemberDto)session.getAttribute("member");
+		String id = member.getM_id();
+		
+		rttr.addFlashAttribute("msg", msg);
+		
+		return "redirect:pPlanList?id=" + id;
+	}
 }

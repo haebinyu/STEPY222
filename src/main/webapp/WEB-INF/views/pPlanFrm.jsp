@@ -30,9 +30,9 @@
 		</div>
 		<div class="edit-menu">
 			<ul class="edit-menu-sub">
-				<li>여행 이름 수정</li>
-				<li>날짜 수정</li>
-				<li>여행 삭제</li>
+				<li class="edit-plan-name">여행 이름 수정</li>
+				<li class="edit-date">날짜 수정</li>
+				<li class="del-plan">여행 삭제</li>
 			</ul>
 		</div>
 		<h3 style="margin-top: 0"><small>${plan.t_stdate} ~ ${plan.t_bkdate}</small></h3>
@@ -203,6 +203,12 @@ $(function(){
 		else if(!menuClose){
 			$(".edit-menu").css("display", "none");
 			menuClose = true;
+		}
+	})
+	
+	$(".del-plan").click(function(){
+		if(confirm('여행을 삭제하면 저장된 모든 내용이 삭제 됩니다.\n정말로 삭제하시겠습니까?')){
+			location.href="pDelPlan";
 		}
 	})
 });

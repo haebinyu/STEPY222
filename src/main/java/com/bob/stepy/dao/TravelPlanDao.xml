@@ -251,4 +251,24 @@
 		SELECT COUNT(*) FROM I
 		WHERE I_PLANNUM=#{i_plannum} AND I_INVITEID=#{i_inviteid}
 	</select>
+	<!-- 여행 삭제 -->
+	<delete id="pDelPlan">
+		DELETE T
+		WHERE T_PLANNUM=#{planNum}
+	</delete>
+	<!-- 여행 삭제시 일정 삭제 -->
+	<delete id="pDelSchedule">
+		DELETE AP
+		WHERE AP_PLANNUM=#{planNum}
+	</delete>
+	<!-- 여행 삭제시 가계부 삭제 -->
+	<delete id="pDelHousehold">
+		DELETE H
+		WHERE H_PLANNUM=#{planNum}
+	</delete>
+	<!-- 여행 삭제시 체크리스트 삭제 -->
+	<delete id="pDelChecklist">
+		DELETE CL
+		WHERE CL_PLANNUM=#{planNum}
+	</delete>
 </mapper>

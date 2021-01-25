@@ -20,7 +20,6 @@
 .plan-edit-box {
 	display: inline-block;
 	cursor: pointer;
-	width: 450px;
 }
 .plan-edit-box:hover .plan-edit {
 	opacity: 1;

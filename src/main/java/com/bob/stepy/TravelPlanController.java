@@ -272,4 +272,12 @@ public class TravelPlanController {
 		
 		return tServ.pRejectPlan(code);
 	}
+	
+	//일정 삭제
+	@GetMapping("pDelPlan")
+	public String pDelPlan(RedirectAttributes rttr) {
+		log.info("controller - pDelPlan()");
+		
+		return tServ.pDelPlan(rttr);
+	}
 }

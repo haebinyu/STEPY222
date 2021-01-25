@@ -34,9 +34,7 @@
 				<form action="regHousehold" onsubmit="return changeCostFormat()">
 				<input type="hidden" name="h_plannum" value="${curPlan}">
 				<input type="hidden" name="h_cnt" value="${householdCnt}">
-				<!-- 로그인 세션 추가시 변경할것 -->
-				<input type="hidden" name="h_mid" value="user01">
-				<!--  -->
+				<input type="hidden" name="h_mid" value="${member.m_id}">
 				<div class="row">
 					<div class="form-group col-sm-offset-3 col-sm-6">
 						<label for="day-select">날짜 선택</label> 
