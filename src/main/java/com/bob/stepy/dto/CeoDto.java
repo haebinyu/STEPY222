@@ -10,5 +10,4 @@ public class CeoDto {
 	private String c_join;
 	private String c_name;
 	private String c_phone;
-	private int c_report;
 }

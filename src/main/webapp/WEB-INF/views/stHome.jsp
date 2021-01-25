@@ -13,15 +13,17 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<link href="resources/css/style2.css" rel="stylesheet">
-
+<link href="resources/css/style.css" rel="stylesheet">
 <script type="text/javascript">
-$(function(){
+$(function(){	
+	$(".suc").css("display", "none");
+	$(".bef").css("display", "block");
+	
 	var chk = "${msg}";
 	if(chk != ""){
 		alert(chk);
 		location.reload(true);
-	}	
+	}
 });
 
 </script>
@@ -36,6 +38,9 @@ $(function(){
 .btn-color {
 	background-color: #F2b950;
 	margin-top: 0px;
+}
+label {
+	margin-top: 10px;
 }
 .msg1 {
 	margin-top: 40px;
@@ -53,10 +58,10 @@ $(function(){
 	<div class="container center-block" style="width:400px;">
 		<form action="./stLoginProc" method="post">
 			<h3 class="text-left">사장님 로그인</h3>
-			<label for="exampleDropdownFormEmail2" class="form-label">사업자번호</label>
-			<input type="text" class="form-control" name="c_num" required id="exampleDropdownFormEmail2" autofocus>
-			<label for="exampleDropdownFormPassword2" class="form-label">비밀번호</label>
-			<input type="password" class="form-control" name="c_pwd" required id="exampleDropdownFormPassword2">
+			<label class="form-label">사업자번호</label>
+			<input type="text" class="form-control" name="c_num" required autofocus>
+			<label class="form-label">비밀번호</label>
+			<input type="password" class="form-control" name="c_pwd" required>
 			<button type="submit" class="btn">로그인</button>
 			<h6 class="text-right"><a href="./stFindPwdFrm">비밀번호 찾기</a></h6>		
 			<h6 class="text-center msg1">처음이신가요? 입점 신청 후 이용 바랍니다.</h6>
