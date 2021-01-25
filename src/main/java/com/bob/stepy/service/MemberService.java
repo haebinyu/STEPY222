@@ -78,7 +78,6 @@ public class MemberService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add( "Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-		//body
 		MultiValueMap<String,String>params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
 		params.add("client_id", restApi);
@@ -88,19 +87,14 @@ public class MemberService {
 		HttpEntity<MultiValueMap<String,String>> kakaoTokenRequest = 
 				new HttpEntity<>(params, headers);
 
-		//request-Method:Post-And get Response Answer
 		ResponseEntity<String> response = rt.exchange(
-				//request
 				"https://kauth.kakao.com/oauth/token",
-				//method
 				HttpMethod.POST,
-				//body entity, header entity
 				kakaoTokenRequest,
-				//response Type
 				String.class
 				);
 
-		//Mapping process
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		MemberKaKaoTokenDto tokenDto = null;
 
@@ -114,7 +108,6 @@ public class MemberService {
 
 		System.out.println("Get access token for kakato : "+tokenDto.getAccess_token());
 
-		//retrieve user info from kakao server by Post Method
 		MemberDto member = mKakaoProfileRequest(tokenDto);
 
 		if(member.getM_email().equals("no_email_detected")) {
@@ -144,27 +137,19 @@ public class MemberService {
 		HttpEntity<MultiValueMap<String,String>> kakaoProfileRequest = 
 				new HttpEntity<>(headers);
 
-		//request-Method:Post-And get Response Answer
 		ResponseEntity<String> response = rt.exchange(
-				//request
 				"https://kapi.kakao.com/v2/user/me",
-				//method
 				HttpMethod.POST,
-				//body entity, header entity
 				kakaoProfileRequest,
-				//response Type
 				String.class
 				);
 
-		//Mapping
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		MemberKakaoProfileDto kakaoProfile = null;
 
 		try {
 			kakaoProfile = objectMapper.readValue(response.getBody(), MemberKakaoProfileDto.class);
-			System.out.println(kakaoProfile);
-
-			//thumbnail down below
 
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
@@ -197,13 +182,11 @@ public class MemberService {
 			memberDto.setM_name(kakaoProfile.getKakao_account().getProfile().getNickname());
 			memberDto.setM_nickname(kakaoProfile.getKakao_account().getProfile().getNickname());
 			memberDto.setM_pwd("mustbekeptwithoutanyleak11!!");//default password for users who logged in from kakaotalk
-			//System.out.println(memberDto);
-
+		
 			try {
 				mJoinProc(memberDto);
 				mKakaoProfileUp(kakaoProfile);
-				//memberDto = mDao.getMemeberInfo(memberDto.getM_id());
-				System.out.println("This is if version of memberDto "+memberDto);
+	
 			}catch(Exception e){
 				System.out.println("mKakaoProfileRequest Member insult failure" );
 			}
@@ -212,14 +195,11 @@ public class MemberService {
 		else {
 			memberDto = mDao.getMemeberInfo(idPreCheck);
 			
-			//최초 프로필 업로드 이후 프로필 수정은 개인이 각자 하는걸루. 
-			
 			System.out.println("alread singed up member : "+memberDto);
-			//mProfileUp(kakaoProfileDto.getProperties().getThumbnail_image());
-			//System.out.println("Thumbnail url is : "+kakaoProfileDto.getProperties().getThumbnail_image());
+			
 		}
 
-		//response가 아닌 memberDto 를 보낸다.
+
 		return memberDto;
 	}
 
@@ -233,15 +213,12 @@ public class MemberService {
 		HttpEntity<MultiValueMap<String,String>> forDisconnection = 
 				new HttpEntity<>(headers);
 
-		//request-Method:Post-And get Response Answer
+
 		ResponseEntity<String> response = rt.exchange(
-				//request
+				
 				"https://kapi.kakao.com/v1/user/unlink",
-				//method
 				HttpMethod.POST,
-				//body entity, header entity
 				forDisconnection,
-				//response Type
 				String.class
 				);
 
@@ -332,12 +309,9 @@ public class MemberService {
 			fileDto.setF_oriname(oriName);
 			fileDto.setF_sysname(sysName);
 			fileDto.setF_mnum(member.getM_id());
-			
-			//System.out.println(fileDto);
+				
 			mDao.mThumbUpload(fileDto);
-			
-			//mShutFirstMsg(member.getM_id());
-			
+		
 			path="redirect:/";
 		}catch(Exception e) {
 			path="redirect:mJoinFrm";
@@ -534,6 +508,7 @@ public class MemberService {
 		return mv;
 		
 	}
+	
 
 
 	public ModelAndView mMyLittleBlog(String blog_id) {
