@@ -9,134 +9,176 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
 </head>
-<body>
+<body
+	style="background-image: linear-gradient(to bottom right, rgba(67, 117, 217, 1), rgba(67, 117, 217, 0.3));"
+>
 	<header>
 		<jsp:include page="header.jsp" />
 	</header>
 	<main class="container">
-		<div class="container mt-4 center-block text-center"
-			style="margin-top: 50px; max-width: 600px; background-color: #4375d9; color: white;"
+
+		<div class="center-block"
+			style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.10); max-width: 600px; margin-top: 50px; margin-bottom: 100px;"
 		>
-			<h1>Join STEPY</h1>
-		</div>
-		<div class="container mt-4 center-block text-dark text-center"
-			style="max-width: 600px; background-color: #F5F5F5; margin-bottom: 100px;"
-		>
-			<br> <br>
 
-			<form action="mJoinProc" method="post">
+			<div class="container mt-4 center-block text-center"
+				style="max-width: 600px; background-color: #4375d9; color: white;"
+			>
+				<h1>Join STEPY</h1>
+			</div>
+			<div class="container mt-4 center-block text-dark text-center"
+				style="max-width: 600px; background-color: #fafafa;"
+			>
+				<br> <br>
 
-				<div class="form-group row">
-					<label for="checkid" class="col-sm-2 col-form-label">아이디</label>
-					<div class="col-sm-8">
-						<input type="text" name="m_id" class="form-control" placeholder="id입력" id="checkid" required>
-					</div>
-					<div class="col-sm-2">
-						<input type="button" value="중복확인" onclick="idDuplicationCheck()">
-					</div>
-				</div>
+				<form action="mJoinProc" method="post" onsubmit="return scanform()">
 
-				<div class="form-group row">
-					<label for="inputPassword3" class="col-sm-2 col-form-label">비밀번호</label>
-					<div class="col-sm-8">
-						<input type="password" name="m_pwd" class="form-control" id="inputPassword3"
-							placeholder="비밀번호" required
-						>
-					</div>
-				</div>
-
-				<div class="form-group row">
-					<label for="passdoublecheck" class="col-sm-2 col-form-label">비밀번호 확인</label>
-					<div class="col-sm-8">
-						<input type="password" class="form-control" id="passdoublecheck" placeholder="비밀번호 확인"
-							required
-						>
-					</div>
-				</div>
-
-				<div class="form-group row">
-					<label for="inputEmail3" class="col-sm-2 col-form-label">이메일</label>
-					<div class="col-sm-8">
-						<input type="email" name="m_email" class="form-control" id="inputEmail3"
-							placeholder="ex) stepy@naver.com" required
-						>
-					</div>
-				</div>
-
-				<div class="form-group row">
-					<label for="name" class="col-sm-2 col-form-label">성명</label>
-					<div class="col-sm-8">
-						<input type="text" name="m_name" class="form-control" id="name" placeholder="ex)홍길동" required>
-					</div>
-				</div>
-
-				<div class="form-group row">
-					<label for="nickname" class="col-sm-2 col-form-label">닉네임</label>
-					<div class="col-sm-8">
-						<input type="text" name="m_nickname" class="form-control" id="nickname" required>
-					</div>
-				</div>
-
-				<br>
-				<h4>
-					<i>선택사항</i>
-				</h4>
-				<br>
-
-				<div class="form-group row">
-					<label for="mobilephone" class="col-sm-2 col-form-label">연락처</label>
-					<div class="col-sm-8">
-						<input type="tel" name="m_phone" class="form-control" id="mobilephone"
-							placeholder="여백없이 번호 11자리 입력 " minlength="11" maxlength="11"
-						>
-					</div>
-				</div>
-
-				<div class="form-group row">
-					<label for="birth" class="col-sm-2 col-form-label">생일</label>
-					<div class="col-sm-8">
-						<input type="tel" name="m_birth" class="form-control" id="birth" minlength="8" maxlength="8" placeholder="19980323">
-					</div>
-				</div>
-				<br>
-
-				<fieldset class="form-group">
-					<div class="row">
-						<div class="col-sm-2 col-form-label">
-							<b>성별</b>
+					<div class="form-group row">
+						<label for="#" class="col-sm-2 col-form-label">아이디</label>
+						<div class="col-sm-7">
+							<input type="text" name="m_id" class="form-control" placeholder="id입력" id="checkid"
+								onclick="resetid()" onfocus="this.value=''" required
+							> <input type="hidden" id="fixid" value="0" name="fixid">
 						</div>
-						<div class="col-sm-8">
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="m_gender" id="gender_wm" value="여성"
-								> <label class="form-check-label" for="gender_wm"> 여성 </label>
-							</div>
-							<div class="form-check">
-								<input class="form-check-input" type="radio" name="m_gender" id="gender_m" value="남성">
-								<label class="form-check-label" for="gender_m"> 남성 </label>
-							</div>
+						<div class="col-sm-2">
+							<button type="button" class="btn" onclick="idDuplicationCheck()"
+								style="background-color: #4375d9; color: white;"
+							>중복확인</button>
 						</div>
 					</div>
-				</fieldset>
-				<br>
 
-				<div class="form-group row">
-					<label for="address" class="col-sm-2 col-form-label">거주지</label> <input type="text"
-						id="sample6_postcode" placeholder="우편번호"
-					> <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-					<input type="text" id="sample6_address" placeholder="주소" name="address_without_specific"><br>
-					<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="address_with_specific">
-					<input type="text" id="sample6_extraAddress" placeholder="참고항목"><br>
-				</div>
-				<br>
-				<br>
+					<div class="form-group row">
+						<span id="idMsg" style="display: none;"></span>
+					</div>
+
+					<div class="form-group row">
+						<label for="inputPassword3" class="col-sm-2 col-form-label">비밀번호</label>
+						<div class="col-sm-7">
+							<input type="password" name="m_pwd" class="form-control" id="password1" placeholder="비밀번호"
+								required
+							> <input type="hidden" id="fixpwd" value="0" name="fixpwd">
+						</div>
+
+					</div>
+
+					<div class="form-group row">
+						<label for="passdoublecheck" class="col-sm-2 col-form-label">비밀번호 확인</label>
+						<div class="col-sm-7">
+							<input type="password" class="form-control" id="password2" onclick="needprepwd()"
+								placeholder="비밀번호 확인" required
+							>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<span id="passwordConfirm" style="display: none"></span>
+					</div>
+
+					<div class="form-group row">
+						<label for="inputEmail3" class="col-sm-2 col-form-label">이메일</label>
+						<div class="col-sm-7">
+							<input type="email" name="m_email" class="form-control" id="emailaddr"
+								placeholder="ex) stepy@naver.com" required
+							> <input type="hidden" id="fixemail" value="0" name="fixemail">
+						</div>
+						<div class="col-sm-2">
+							<button type="button" class="btn" onclick="authByEmail()"
+								style="background-color: #4375d9; color: white;"
+							>이메일발송</button>
+						</div>
+						<input type="hidden" id="preemailcheck" value="0">
+					</div>
+
+					<div class="form-group row">
+						<span id="sentmail" style="display: none;"></span>
+					</div>
+
+					<div class="form-group row">
+						<label for="passdoublecheck" class="col-sm-2 col-form-label">이메일 인증번호</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" id="emailauth" placeholder="이메일 인증번호 입력" required>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<span id="emailMsg" style="display: none;"></span>
+					</div>
 
 
-				<button type="submit" class="btn btn-primary">Submit</button>
+					<div class="form-group row">
+						<label for="name" class="col-sm-2 col-form-label">성명</label>
+						<div class="col-sm-7">
+							<input type="text" name="m_name" class="form-control" id="name" placeholder="ex)홍길동" required>
+						</div>
+					</div>
 
-			</form>
-			<br> <br>
+					<div class="form-group row">
+						<label for="nickname" class="col-sm-2 col-form-label">닉네임</label>
+						<div class="col-sm-7">
+							<input type="text" name="m_nickname" class="form-control" id="nickname" required>
+						</div>
+					</div>
+					
+					<fieldset class="form-group">
+						<div class="row">
+							<div class="col-sm-2 col-form-label">
+								<b>성별</b>
+							</div>
+							<div class="col-sm-7 requirecheck">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" name="m_gender" id="gender_wm" value="여성">
+									<label class="form-check-label" for="gender_wm"> 여성 </label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" name="m_gender" id="gender_m" value="남성">
+									<label class="form-check-label" for="gender_m"> 남성 </label>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+
+					<br>
+					<h4>
+						<i>선택사항</i>
+					</h4>
+					<br>
+
+					<div class="form-group row">
+						<label for="mobilephone" class="col-sm-2 col-form-label">연락처</label>
+						<div class="col-sm-7">
+							<input type="tel" name="m_phone" class="form-control" id="mobilephone"
+								placeholder="여백없이 번호 11자리 입력 " minlength="11" maxlength="11"
+							>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="birth" class="col-sm-2 col-form-label">생일</label>
+						<div class="col-sm-7">
+							<input type="text" name="m_birth" class="form-control" id="birth" minlength="8" maxlength="8"
+								placeholder="19980323"
+							>
+						</div>
+					</div>
+					<br>
+
+					<div class="form-group row">
+						<label for="address" class="col-sm-2 col-form-label">거주지</label> <input type="text"
+							id="sample6_postcode" placeholder="우편번호"
+						> <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+						<input type="text" id="sample6_address" placeholder="주소" name="address_without_specific"><br>
+						<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="address_with_specific">
+						<input type="text" id="sample6_extraAddress" placeholder="참고항목"><br>
+					</div>
+					<br> <br>
+
+
+					<button type="submit" class="btn btn-primary">Submit</button>
+
+				</form>
+				<br> <br>
+			</div>
 		</div>
-
 	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />
@@ -144,16 +186,142 @@
 </body>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+	// 비밀번호 일치안하면 안되게 hidden 속성 처리 
 
-// + 아이디 중복 체크 안했으면 회원가입 안되게 작업처리
-// + 카카오 이메일 동의 안했으면 사이트 이용 불가처리
+	var authkey;
+	console.log(authkey);
+
+	$(document).ready(function() {
+
+		$("#password2").keyup(confirmpass);
+		$("#emailauth").keyup(confirmMail);
+
+	});
+
+	function scanform() {
+		var fixid = $("#fixid").val();
+		var fixpwd = $("#fixpwd").val();
+		var fixemail = $("#fixemail").val();
+		var wm = $("#gender_wm");
+		var tf1 = wm.prop('checked');
+		
+		var m = $("#gender_m");
+		var tf2 = wm.prop('checked');
+		
+		if (fixid == 0) {
+			alert("아이디 중복확인 필요");
+			return false;
+		}
+		if (fixpwd == 0) {
+			alert("비밀번호 재확인 필요");
+			return false;
+		}
+		if (fixemail == 0) {
+			alert("이메일 인증 필요");
+			return false;
+		}
+
+		if(tf1 == false && tf2 == false){
+			alert("성별을 입력해주세요");
+			return false;
+		}
+		
+	}
+
+	
+	function confirmMail() {
+		var emailauth = $("#emailauth").val();
+		if (emailauth == authkey) {
+			$("#emailMsg").css("display", "block");
+			$("#emailMsg").css("color", "green");
+			$("#emailMsg").text("인증번호 일치");
+			$("#fixemail").val(1);
+
+		} else {
+			$("#emailMsg").css("display", "block");
+			$("#emailMsg").css("color", "red");
+			$("#emailMsg").text("인증번호 불일치");
+			$("#fixemail").val(0);
+		}
+	}
+
+	function authByEmail() {
+		var mailvar = $("#emailaddr").val();
+		var mailaddr = {
+			"mailaddr" : mailvar
+		};
+		console.log(mailaddr);
+		if (mailvar == "") {
+			$("#sentmail").css("display", "block");
+			$("#sentmail").text("이메일 주소를 입력해주세요");
+
+		} else {
+			$.ajax({
+				url : "mAuthMail",
+				type : "post",
+				data : mailaddr,
+				dataType : "json",
+				success : function(redata) {
+					$("#sentmail").css("display", "block");
+					$("#sentmail").css("color", "green");
+					$("#sentmail").text(redata.msg);
+					authkey = redata.authkey;
+				},
+				error : function(error) {
+					alert(error);
+				}
+			});
+		}
+
+	}
+
+	function confirmpass() {
+
+		var pass = $("#password1").val();
+		var conpass = $("#password2").val();
+
+		if (pass == conpass) {
+			$("#passwordConfirm").css("display", "block");
+			$("#passwordConfirm").css("color", "green");
+			$("#passwordConfirm").text("비밀번호 일치");
+			$("#fixpwd").val(1);
+		}
+		if (pass != conpass) {
+			$("#passwordConfirm").css("display", "block");
+			$("#passwordConfirm").css("color", "red");
+			$("#passwordConfirm").text("비밀번호 불일치");
+			$("#fixpwd").val(0);
+		}
+
+	}
+
+	function needprepwd() {
+
+		var pass = $("#password1").val();
+		var conpass = $("#password2").val();
+
+		if (pass == "") {
+			$("#password1").focus();
+		}
+	}
+
+	function resetid() {
+		console.log("resetid field");
+		$("#fixid").val(0);
+	}
 
 	function idDuplicationCheck() {
 		var enteredId = $('#checkid').val();
+		if (enteredId == "") {
+			$("#idMsg").css("display", "block");
+			$("#idMsg").text("아이디를 입력해주세요");
+			$("#checkid").focus();
+			return;
+		}
 
 		var object = {
 			"tempid" : enteredId
-		};//아이디를 보내면 server 에서 id 를 검색을 해서 check 함. 
+		};
 		console.log(object);
 
 		$.ajax({
@@ -161,7 +329,19 @@
 			type : "get",
 			data : object,
 			success : function(rtdata) {
-				alert(rtdata);
+				if (rtdata == "1") {
+					$("#idMsg").css("display", "block");
+					$("#idMsg").css("color", "red");
+					$("#idMsg").text("이미 존재하는 아이디 입니다");
+					$("#checkid").focus();
+				}
+				if (rtdata == "0") {
+					$("#idMsg").css("display", "block");
+					$("#idMsg").css("color", "green");
+					$("#idMsg").text("사용가능한 아이디 입니다.");
+					$("#fixid").val(1);
+				}
+
 			},
 			error : function(rtdata) {
 				alert("error occured");
