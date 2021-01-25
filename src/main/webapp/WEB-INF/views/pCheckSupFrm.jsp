@@ -24,7 +24,17 @@
 	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"> 목록으로&nbsp;</span>
 	</button>
 	<div class="page-header">
-		<h1 class="plan-edit">${plan.t_planname} &nbsp;&nbsp;<small>${plan.t_spot}</small></h1>
+		<div class="plan-edit-box">
+		<h1 class="plan-name">${plan.t_planname} &nbsp;&nbsp;<small>${plan.t_spot}</small></h1>
+		<span class="glyphicon glyphicon-option-vertical plan-edit" aria-hidden="true"></span>
+		</div>
+		<div class="edit-menu">
+			<ul class="edit-menu-sub">
+				<li>여행 이름 수정</li>
+				<li>날짜 수정</li>
+				<li>여행 삭제</li>
+			</ul>
+		</div>
 		<h3 style="margin-top: 0"><small>${plan.t_stdate} ~ ${plan.t_bkdate}</small></h3>
 		<input class="btn btn-default add-party-btn inviteBtn" type="button" value="일행 초대하기 +">
 	</div>
@@ -356,5 +366,20 @@ function reject(code){
 		
 	}
 }
+
+//여행 수정 메뉴
+var menuClose = true;
+$(function(){
+	$(".plan-edit").click(function(){
+		if(menuClose){
+			$(".edit-menu").css("display", "inline-block");
+			menuClose = false;
+		}
+		else if(!menuClose){
+			$(".edit-menu").css("display", "none");
+			menuClose = true;
+		}
+	})
+});
 </script>
 </html>

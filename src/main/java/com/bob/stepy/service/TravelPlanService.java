@@ -67,6 +67,14 @@ public class TravelPlanService {
 			tDao.pInitChecklist1(planNum);
 			tDao.pInitChecklist2(planNum);
 			
+			//초대 리스트 가져오기
+			List<InviteDto> iList = tDao.pGetInviteList();
+			mv.addObject("iList", iList);
+			//새로운 초대 여부 확인
+			MemberDto member = (MemberDto)session.getAttribute("member");
+			int iCnt = tDao.pCheckInvite(member.getM_id());
+			mv.addObject("iCnt", iCnt);
+			
 			session.setAttribute("curPlan", planNum);
 			mv.setViewName("pPlanFrm");
 		} catch (Exception e) {
