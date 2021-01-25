@@ -654,8 +654,12 @@ public class MemberService {
 	public void mUploadAfterView(String ms_mid) {
 		
 		MessageDto msg = mDao.mGetBfMsg(ms_mid);
-		mDao.mUploadAfterView(msg);
-		
+		if(msg == null) {
+			return;
+		}else {
+			mDao.mUploadAfterView(msg);
+		}
+
 		return;
 	}
 
