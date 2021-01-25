@@ -11,7 +11,7 @@ public class PostDto {
 	private String p_category;
 	private Timestamp p_date;
 	private int p_view;
-	private String p_notice;
+	private int p_like;
 	private String p_mid;
 	private int p_report;
 }

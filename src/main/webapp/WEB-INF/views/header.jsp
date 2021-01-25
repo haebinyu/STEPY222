@@ -54,6 +54,9 @@ $(function(){
 					href="./mMyPage" style="color: white;">My Page</a></li>
 				<li class="nav-item suc" style="display: none"><a
 					href="./mLogoutProc" style="color: white;">로그아웃</a></li>
+				<li class="nav-item buc"><a href="./bReviewList" style="color:white;">리뷰</a></li>
+       		    <li class="nav-item buc"><a href="./bMateList" style="color:white;">여행동행</a></li>
+        	  	<li class="nav-item buc"><a href="./bFreeList" style="color:white;">자유게시판</a></li>
 
 			</ul>
 		</div>

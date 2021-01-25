@@ -28,8 +28,8 @@ public class Paging {
 
 		//전체 페이지 개수에 따라 경우의 수가 달라짐
 		int totalPage = (maxNum % listCnt > 0) ?
-				maxNum/listCnt + 1 :
-					maxNum/listCnt;
+						maxNum/listCnt + 1 :
+						maxNum/listCnt;
 		//EX)글 44개, 한 페이지에 10개를 보여준다면 %==4 T, 4+1페이지가 됨 (T)
 		//글이 50개, 한 페이지에 10개를 보여준다면 %==0 F, 5페이지로 결정됨
 		//100개 > % == 0 F, 10페이지
@@ -38,7 +38,7 @@ public class Paging {
 		//현재 페이지가 속해있는 그룹 번호
 		int curGroup = (pageNum % pageCnt > 0) ?
 				pageNum/pageCnt + 1 :
-					pageNum/pageCnt;
+				pageNum/pageCnt;
 		//페이지 10개를 보여준다는 전제조건의 경우 (pageCnt=10)
 		//1번 페이지의 경우 1 % 10>0 T = curGroup = 0+1 = 그룹 1
 		//5번 페이지의 경우 5 % 10>0 T = 0+1 = 그룹 1
