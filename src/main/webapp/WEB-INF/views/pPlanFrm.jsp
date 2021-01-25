@@ -24,8 +24,9 @@
 	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"> 목록으로&nbsp;</span>
 	</button>
 	<div class="page-header">
-	  <h1>${plan.t_planname} &nbsp;&nbsp;<small>${plan.t_spot}</small></h1>
-	  <input class="btn btn-default add-party-btn inviteBtn" type="button" value="일행 초대하기 +">
+		<h1 class="plan-edit">${plan.t_planname} &nbsp;&nbsp;<small>${plan.t_spot}</small></h1>
+		<h3 style="margin-top: 0"><small>${plan.t_stdate} ~ ${plan.t_bkdate}</small></h3>
+		<input class="btn btn-default add-party-btn inviteBtn" type="button" value="일행 초대하기 +">
 	</div>
 	<ul class="nav nav-pills nav-justified">
 	  <li role="presentation" class="active"><a href="pPlanFrm?planNum=${curPlan}">일정</a></li>

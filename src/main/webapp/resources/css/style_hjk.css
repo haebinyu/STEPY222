@@ -4,6 +4,19 @@
 	padding: 20px; margin-bottom: 200px;
 }
 
+/* 페이지 공통 */
+.plan-edit { 
+	border-radius: 8px;
+	cursor: pointer;
+	display: inline-block;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.plan-edit:hover {
+	background: #eee;
+}
+
+
 /* 여행 등록 페이지 */
 .reader {background-color: #ddd; width: 100%; border-radius: 20px; 
 	box-shadow: 0 2px 2px;
