@@ -46,7 +46,6 @@
 				</div>
 			<div class="add-store-box">
 			<form action="pAddCheckItem">
-			<input type="hidden" name="planNum" value="${planNum}">
 			<input type="hidden" name="category" value="${category}">
 			<input type="hidden" name="categoryName" value="${categoryName}">
 			<input type="hidden" name="itemCnt" value="${itemCnt}">
@@ -73,7 +72,7 @@
 <script type="text/javascript">
 //프리셋 항목 선택
 function addItemClick(item){
-	location.href="pAddCheckItem?planNum=${curPlan}&category=${category}&categoryName=${categoryName}&itemCnt=${itemCnt}&itemName=" + item;
+	location.href="pAddCheckItem?category=${category}&categoryName=${categoryName}&itemCnt=${itemCnt}&itemName=" + item;
 }
 
 //내용 입력 글자수 제한

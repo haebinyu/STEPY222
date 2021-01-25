@@ -101,7 +101,7 @@ function itemChange(){
 	console.log($("#itemSelect").val());
 	
 	//직접입력 선택시
-	if(category == "직접입력"){
+	if(item == "직접입력"){
 		$("#itemName").css("display", "block");
 		$("#itemName").val("");
 		$("#itemName").focus();

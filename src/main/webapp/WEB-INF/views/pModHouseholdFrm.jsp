@@ -219,7 +219,7 @@ function afterSelect(){
 //삭제 확인 후 삭제
 function delCheck(){
 	if(confirm("삭제하시겠습니까?")){
-		location.href="delHousehold?planNum=${curPlan}&day=${dayCnt}&householdCnt=${contents.h_cnt}";
+		location.href="delHousehold?day=${dayCnt}&householdCnt=${contents.h_cnt}";
 	}
 }
 //팝업창 온오프

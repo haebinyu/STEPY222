@@ -207,11 +207,11 @@ public class TravelPlanService {
 
 	//여행 내용 삭제
 	@Transactional
-	public String delAccompanyPlan(long planNum, long day, long num, RedirectAttributes rttr) {
+	public String delAccompanyPlan(long day, long num, RedirectAttributes rttr) {
 		log.info("service - delAccompanyPlan()");
 		
 		Map<String, Long> apMap = new HashMap<String, Long>();
-		apMap.put("planNum", planNum);
+		apMap.put("planNum", (long)session.getAttribute("curPlan"));
 		apMap.put("day", day);
 		apMap.put("num", num);
 		try {
@@ -323,13 +323,13 @@ public class TravelPlanService {
 	}
 
 	//가계부 내용 수정 페이지 이동
-	public ModelAndView pModHouseholdFrm(long planNum, long days, long dayCnt, long householdCnt) {
+	public ModelAndView pModHouseholdFrm(long days, long dayCnt, long householdCnt) {
 		log.info("service - pModHouseholdFrm()");
 		
 		mv = new ModelAndView();
 		
 		Map<String, Long> hList = new HashMap<String, Long>();
-		hList.put("planNum", planNum);
+		hList.put("planNum", (long)session.getAttribute("curPlan"));
 		hList.put("day", dayCnt);
 		hList.put("householdCnt", householdCnt);
 		
@@ -374,12 +374,12 @@ public class TravelPlanService {
 
 	//가계부 내용 삭제
 	@Transactional
-	public String delHousehold(long planNum, long day, long householdCnt, RedirectAttributes rttr) {
+	public String delHousehold(long day, long householdCnt, RedirectAttributes rttr) {
 		log.info("service - delHousehold()");
 		String view = null;
 		
 		Map<String, Long> hMap = new HashMap<String, Long>();
-		hMap.put("planNum", planNum);
+		hMap.put("planNum", (long)session.getAttribute("curPlan"));
 		hMap.put("curDay", day);
 		hMap.put("householdCnt", householdCnt);
 		
@@ -496,11 +496,11 @@ public class TravelPlanService {
 
 	//준비물 추가
 	@Transactional
-	public String pAddCheckItem(long planNum, long category, String categoryName, long itemCnt, String itemName, RedirectAttributes rttr) {
+	public String pAddCheckItem(long category, String categoryName, long itemCnt, String itemName, RedirectAttributes rttr) {
 		log.info("service - pAddCheckItem() - planNum : " + ", category : " + category + ", categoryName : " + categoryName + ", itemCnt : " + itemCnt + ", itemName : " + itemName);
 
 		CheckListDto checklist = new CheckListDto();
-		checklist.setCl_plannum(planNum);
+		checklist.setCl_plannum((long)session.getAttribute("curPlan"));
 		checklist.setCl_category(category);
 		checklist.setCl_categoryname(categoryName);
 		checklist.setCl_cnt(itemCnt);
@@ -626,8 +626,8 @@ public class TravelPlanService {
 
 	//일행 초대 페이지 이동
 	@Transactional
-	public ModelAndView pInviteMemberFrm(String id, long planNum, String planName) {
-		log.info("service - pInviteMemberFrm() - id : " + id + ", planNum : " + planNum + ", planName : " + planName);
+	public ModelAndView pInviteMemberFrm(String id, String planName) {
+		log.info("service - pInviteMemberFrm() - id : " + id + ", planName : " + planName);
 		
 		InviteDto invite = new InviteDto();
 		

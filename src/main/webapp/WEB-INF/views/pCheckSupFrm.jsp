@@ -178,7 +178,7 @@ $(function(){
 		var planNum = ${curPlan};
 		var planName = '${plan.t_planname}';
 		
-		location.href="pInviteMemberFrm?id=" + id + "&planNum=" + planNum + "&planName=" + planName;
+		location.href="pInviteMemberFrm?id=" + id + "&planName=" + planName;
 	})
 	
 	//일행 초대 버튼 클릭

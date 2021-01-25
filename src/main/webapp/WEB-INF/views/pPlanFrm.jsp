@@ -47,7 +47,7 @@
 					<div class="panel panel-default">
 					  <div class="panel-body">
 					  <span class="glyphicon glyphicon-map-marker" aria-hidden="true">&nbsp;&nbsp;${list.ap_contents}</span>
-					  <div class="dayDelBtn pull-right" title="일정 삭제" onclick="if(confirm('삭제하시겠습니까?')) location.href='delAccompanyPlan?planNum=${curPlan}&day=${daycnt}&num=${planCnt}'"><img src="resources/images/remove.png"></div>
+					  <div class="dayDelBtn pull-right" title="일정 삭제" onclick="if(confirm('삭제하시겠습니까?')) location.href='delAccompanyPlan?&day=${daycnt}&num=${planCnt}'"><img src="resources/images/remove.png"></div>
 					  <div class="dayEditBtn pull-right" title="일정 수정" onclick="location.href='pEditAccompanyPlanFrm?day=${daycnt}&planCnt=${planCnt}'"><img src="resources/images/edit.png"></div>
 					  </div>
 					</div>
@@ -108,7 +108,7 @@ $(function(){
 		var planNum = ${curPlan};
 		var planName = '${plan.t_planname}';
 		
-		location.href="pInviteMemberFrm?id=" + id + "&planNum=" + planNum + "&planName=" + planName;
+		location.href="pInviteMemberFrm?id=" + id + "&planName=" + planName;
 	})
 	
 	//초대 알림창 켜기

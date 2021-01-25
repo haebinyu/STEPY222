@@ -81,10 +81,10 @@ public class TravelPlanController {
 	
 	//여행 내용 삭제
 	@GetMapping("delAccompanyPlan")
-	public String delAccompanyPlan(long planNum, long day, long num, RedirectAttributes rttr) {
-		log.info("controller - delAccompanyPlan() - planNum : " + planNum + ", day : " + day + ", num : " + num);
+	public String delAccompanyPlan(long day, long num, RedirectAttributes rttr) {
+		log.info("controller - delAccompanyPlan() -  day : " + day + ", num : " + num);
 		
-		return tServ.delAccompanyPlan(planNum, day, num, rttr);
+		return tServ.delAccompanyPlan(day, num, rttr);
 	}
 	
 	//여행 내용 수정 페이지 이동
@@ -128,10 +128,10 @@ public class TravelPlanController {
 	
 	//가계부 수정 페이지 이동
 	@GetMapping("pModHouseholdFrm")
-	public ModelAndView pModHouseholdFrm(long planNum, long days, long dayCnt, long householdCnt) {
+	public ModelAndView pModHouseholdFrm(long days, long dayCnt, long householdCnt) {
 		log.info("controller - pModHouseholdFrm()");
 		
-		return tServ.pModHouseholdFrm(planNum, days, dayCnt, householdCnt);
+		return tServ.pModHouseholdFrm(days, dayCnt, householdCnt);
 	}
 	
 	//가계부 내용 수정
@@ -144,10 +144,10 @@ public class TravelPlanController {
 	
 	//가계부 내용 삭제
 	@GetMapping("delHousehold")
-	public String delHousehold(long planNum, long day, long householdCnt, RedirectAttributes rttr) {
+	public String delHousehold(long day, long householdCnt, RedirectAttributes rttr) {
 		log.info("contorller - delHousehold()");
 		
-		return tServ.delHousehold(planNum, day, householdCnt, rttr);
+		return tServ.delHousehold(day, householdCnt, rttr);
 	}
 	
 	//예산 입력
@@ -186,10 +186,10 @@ public class TravelPlanController {
 	
 	//준비물 추가
 	@GetMapping("pAddCheckItem")
-	public String pAddCheckItem(long planNum, long category, String categoryName, long itemCnt, String itemName, RedirectAttributes rttr) {
-		log.info("controller - pAddCheckItem() - planNum : " + ", category : " + category + ", categoryName : " + categoryName + ", itemCnt : " + itemCnt + ", itemName : " + itemName);
+	public String pAddCheckItem(long category, String categoryName, long itemCnt, String itemName, RedirectAttributes rttr) {
+		log.info("controller - pAddCheckItem() - category : " + category + ", categoryName : " + categoryName + ", itemCnt : " + itemCnt + ", itemName : " + itemName);
 		
-		return tServ.pAddCheckItem(planNum, category, categoryName, itemCnt, itemName, rttr);
+		return tServ.pAddCheckItem(category, categoryName, itemCnt, itemName, rttr);
 	}
 	
 	//카테고리 추가 페이지 이동
@@ -242,10 +242,10 @@ public class TravelPlanController {
 	
 	//일행 초대 페이지 이동
 	@GetMapping("pInviteMemberFrm")
-	public ModelAndView pInviteMemberFrm(String id, long planNum, String planName) {
-		log.info("controller - pInviteMemberFrm() - id : " + id + ", planNum : " + planNum + ", planName : " + planName);
+	public ModelAndView pInviteMemberFrm(String id, String planName) {
+		log.info("controller - pInviteMemberFrm() - id : " + id +  ", planName : " + planName);
 		
-		return tServ.pInviteMemberFrm(id, planNum, planName);
+		return tServ.pInviteMemberFrm(id, planName);
 	}
 	
 	//일행 초대

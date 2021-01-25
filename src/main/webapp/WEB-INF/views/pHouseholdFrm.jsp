@@ -55,7 +55,7 @@
 			<c:forEach var="list" items="${hList}">
 				<c:if test="${list.h_day == daycnt}">
 					<div class="panel panel-default">
-					  <div class="panel-body h-list" onclick="location.href='pModHouseholdFrm?planNum=${curPlan}&days=${days}&dayCnt=${daycnt}&householdCnt=${householdCnt}'">
+					  <div class="panel-body h-list" onclick="location.href='pModHouseholdFrm?days=${days}&dayCnt=${daycnt}&householdCnt=${householdCnt}'">
 					  	<div class="h-category-box">${list.h_category}</div>
 					 	<div class="h-contents-box">${list.h_contents}</div>
 					 	<div class="h-cost-box">${list.h_cost}</div>
@@ -153,7 +153,7 @@ $(function(){
 		var planNum = ${curPlan};
 		var planName = '${plan.t_planname}';
 		
-		location.href="pInviteMemberFrm?id=" + id + "&planNum=" + planNum + "&planName=" + planName;
+		location.href="pInviteMemberFrm?id=" + id + "&planName=" + planName;
 	})
 	
 	//초대 알림창 켜기
