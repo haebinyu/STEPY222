@@ -62,5 +62,16 @@ public class SearchController {
 			
 		return mv;
 	}
+	
+	
+	// 상품 리스트 가져오기
+	@GetMapping("productList")
+	public ModelAndView getProductList(String cnum) {
+		log.info("getProductList() cnum : " + cnum);
+		
+		mv = sServ.getProductList(cnum); // 상품 리스트
+		
+		return mv;
+	}
 
 }

@@ -28,4 +28,16 @@
 			OR S_ADDR3 LIKE '%'||#{keyword}||'%')
 </select>
 
+
+<!-- 가게의 상품 리스트 가져오기 -->
+<select id="productList" parameterType="String" resultType="com.bob.stepy.dto.ProductDto">
+	SELECT * FROM PL WHERE PL_CNUM=#{cnum}
+</select>
+
+
+<!-- 가게 정보 가져오기 -->
+<select id="getStoreInfo" parameterType="String" resultType="com.bob.stepy.dto.StoreDto">
+	SELECT * FROM S WHERE S_NUM=#{cnum}
+</select>
+
 </mapper>
