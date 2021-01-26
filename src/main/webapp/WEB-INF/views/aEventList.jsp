@@ -35,8 +35,7 @@
 						<td>${eItem.e_num}</td>
 						<td>${eItem.e_title}</td>
 						<td>${eItem.e_contents}</td>
-						<td><fmt:formatDate value="${eItem.e_date}" dateStyle="long" />
-						</td>
+						<td>${eItem.e_date}</td>
 						<td class="delete delBtn" onclick="stopConfirm('${eItem.e_num}');">중지</td>
 					</tr>
 				</c:forEach>

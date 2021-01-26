@@ -89,7 +89,7 @@
 	for (var i = 0; i < mIds.length; i++) {
 		if (mIds[i].innerHTML == "admin") {
 			deleteCells[i].innerHTML = "";
-			deleteCells[i].className = "clearBg";
+			deleteCells[i].classList.add("clearBg");
 		}
 	}
 </script>
