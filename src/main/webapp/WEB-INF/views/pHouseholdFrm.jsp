@@ -31,7 +31,6 @@
 		<div class="edit-menu">
 			<ul class="edit-menu-sub">
 				<li class="edit-plan-name">여행 정보 수정</li>
-				<li class="edit-date">날짜 수정</li>
 				<li class="del-plan">여행 삭제</li>
 			</ul>
 		</div>

@@ -60,8 +60,6 @@ public class TravelPlanService {
 				acPlan.setAp_mid(plan.getT_id());
 				acPlan.setAp_day(i);
 				
-				//초기 여행 일정 설정
-				tDao.regPlanContents(acPlan);
 			}
 			//초기 체크리스트 설정
 			tDao.pInitChecklist1(planNum);
@@ -843,6 +841,13 @@ public class TravelPlanService {
 		try {
 			//정보 수정
 			tDao.pEditPlan(plan);
+			//새로운 날짜 차이
+			long newDays = getTime(plan.getT_stdate(), plan.getT_bkdate());
+			System.out.println(newDays);
+			//기간을 초과하는 일정 정보 삭제
+			tDao.pDelOverDate(newDays);
+			//기간을 초과하는 가계부 정보 삭제
+			tDao.pDelOverHousehold(newDays);
 			
 			msg = "정보가 수정되었습니다";
 		} catch (Exception e) {

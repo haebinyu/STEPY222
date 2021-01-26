@@ -274,7 +274,17 @@
 	<!-- 여행 정보 수정 -->
 	<update id="pEditPlan" parameterType="com.bob.stepy.dto.TravelPlanDto">
 		UPDATE T
-		SET T_PLANNAME=#{t_planname}, T_SPOT=#{t_spot}
+		SET T_PLANNAME=#{t_planname}, T_SPOT=#{t_spot}, T_STDATE=#{t_stdate}, T_BKDATE=#{t_bkdate}
 		WHERE T_PLANNUM=#{t_plannum}
 	</update>
+	<!-- 기간 초과 일정 정보 삭제 -->
+	<delete id="pDelOverDate" parameterType="long">
+		DELETE AP
+		WHERE AP_DAY>#{newDays+1}
+	</delete>
+	<!-- 기간 초과 가계부 정보 삭제 -->
+	<delete id="pDelOverHousehold" parameterType="long">
+		DELETE H
+		WHERE H_DAY>#{newDays+1}
+	</delete>
 </mapper>

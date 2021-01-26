@@ -110,4 +110,8 @@ public interface TravelPlanDao {
 	public void pDelChecklist(long planNum);
 	//여행 정보 수정
 	public void pEditPlan(TravelPlanDto plan);
+	//기간 초과 일정 정보 삭제
+	public void pDelOverDate(long newDays);
+	//기간 초과 가계부 정보 삭제
+	public void pDelOverHousehold(long newDays);
 }
