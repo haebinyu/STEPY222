@@ -1,10 +1,12 @@
 package com.bob.stepy.dao;
 
 import java.util.List;
+import java.util.Map;
 
-import com.bob.stepy.dto.EmailDto;
-import com.bob.stepy.dto.EventDto;
-import com.bob.stepy.dto.MemberDto;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.bob.stepy.dto.*;
 
 public interface AdminDao {
 	public String loginProc (String id);
@@ -19,11 +21,11 @@ public interface AdminDao {
 	public List<MemberDto> getMemberList(int num);
 
 	//업체 목록 전부 가져오기 (SELECT-복수 레코드)
-	public List<MemberDto> getAllCeoList(int num2);
+	public List<CeoDto> getAllCeoList(int num2);
 	//업체 목록 (승인 완료) 가져오기 (SELECT-복수 레코드)
-	public List<MemberDto> getApproveList(int num3);
+	public List<CeoDto> getApproveList(int num3);
 	//업체 목록 (승인 대기) 가져오기 (SELECT-복수 레코드)
-	public List<MemberDto> getPendingList(int num4);
+	public List<CeoDto> getPendingList(int num4);
 
 	//카운트 가져오기 - 각 리스트에 부가적으로 필요함
 	public int getMemberCnt();
@@ -51,12 +53,19 @@ public interface AdminDao {
 	//단체 메일 발송용 이메일 칼럼만 조회하기
 	public List<String> getMailList_M ();
 	public List<String> getMailList_C ();
-	
+
 	//이벤트 리스트 조회하기 (복수 레코드 SELECT)
 	//완성형 쿼리를 사용하므로 페이지 번호를 제외한 파라미터 불필요
 	//레코드의 데이터 전체가 필요하므로 데이터를 한 곳에 담은 DTO의 리스트로 리턴
 	public List<EventDto> getEventList (Integer pageNum);
 	public int getEventCnt();
+
+	public int InsertEvent(EventDto event);
+	public boolean fileInsert(Map<String, String> fmap);
+	public int deleteEvent(int e_num);
+
+	public List<ReportDto> getReportList (Integer pageNum);
+	public int getReportCnt();
 
 
 

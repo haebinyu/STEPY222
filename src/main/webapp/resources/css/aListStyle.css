@@ -2,7 +2,7 @@
 
 th, td {
 	text-align: center !important;
-	padding: 3px;
+	padding: 5px !important;
 }
 
 div.list_area {
@@ -21,21 +21,15 @@ caption {
 	font-weight: bold;
 }
 
-.checkCell, .checkDel {
-	padding: 0;
-}
-
-.checkBtn, .delBtn {
-	width: 100% !important;
-	height: 100% !important;
-	cursor: pointer;
-	padding: 5px;
-}
-
-.checkBtn {
+.accept, #new_event {
 	background-color: #82d3ff;
 }
 
-.delBtn {
+.delete:not(.clearBg) {
 	background-color: #ff515e;
+}
+
+.accept, .delete, .eventStop, #new_event {
+	cursor: pointer;
+	text-decoration: none;
 }

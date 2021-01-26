@@ -25,35 +25,34 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		</caption>
 		<thead>
 			<tr>
-				<th>승인 여부 확인</th>
-				<th>아이디</th>
-				<th>비밀번호</th>
-				<th>이메일</th>
-				<th>닉네임</th>
-				<th>생년월일</th>
-				<th>승인</th>
-				<th>신고 수</th>
-				<th>회원 추방</th>
+				<th>신고 번호</th>
+				<th>신고 제목</th>
+				<th>신고 항목</th>
+				<th>신고 내용</th>
+				<th>신고일자</th>
+				<th>처리 대상</th>
+				<th>신고자 ID</th>
+				<th>처리 상태</th>
+				<th>상세보기</th>
 			</tr>
 		</thead>
-		<c:forEach var="cItem" items="${ceoList}">
+		<c:forEach var="rItem" items="${rpList}">
 			<tr>
-				<td class="joinCell">${cItem.c_join }</td>
-				<td class="cNum">${cItem.c_num}</td>
-				<td>${cItem.c_pwd}</td>
-				<td>${cItem.c_email}</td>
-				<td>${cItem.c_name}</td>
-				<td>${cItem.c_phone}</td>
-				<td class="accept" onclick="checkConfirm('${cItem.c_num}');">승인하기</td>
-				<td>${cItem.c_report}</td>
-				<td class="delete" onclick="delConfirm('${cItem.c_num}');">
-					추방하기</td>
+				<td>${rItem.rp_num }</td>
+				<td>${rItem.rp_title }</td>
+				<td>${rItem.category }</td>
+				<td>${rItem.rp_story }</td>
+				<td>${rItem.rp_date }</td>
+				<td>${rItem.rp_mid }</td>
+				<td>${rItem.rp_cnum }</td>
+				<td>${rItem.rp_condition }</td>
+				<td></td>
 			</tr>
 		</c:forEach>
-		<c:if test="${empty ceoList }">
+		<c:if test="${empty rList }">
 			<tr>
 				<!-- 칼럼의 수만큼 colspan -->
-				<td id="noData">승인 완료/대기 업체가 없습니다</td>
+				<td id="noData">신고를 처리할 대상이 없습니다</td>
 			</tr>
 		</c:if>
 	</table>

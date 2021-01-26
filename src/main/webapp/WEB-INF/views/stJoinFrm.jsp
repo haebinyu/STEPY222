@@ -12,12 +12,12 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<link href="resources/css/style2.css" rel="stylesheet">
+<link href="resources/css/style.css" rel="stylesheet">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
 <style type="text/css">
 .btn {
-	background-color: #4375D9;
+	background-color: #F2b950;
 	color: white;
 	margin-top: 10px;
 	width: 100%;
@@ -27,9 +27,6 @@
 }
 label {
 	margin-top: 10px;
-}
-.btn {
-	background-color: #F2b950;
 }
 .btn-mb {
 	margin-bottom: 50px;
@@ -46,12 +43,14 @@ label {
 	width: 68%;
 	display: inline;
 }
-.view {
-	display: none;
-}
-
-
 </style>
+<script type="text/javascript">
+$(function(){	
+	$(".suc").css("display", "none");
+	$(".bef").css("display", "block");	
+	}
+);
+</script>
 
 </head>
 <body>
@@ -61,51 +60,44 @@ label {
 	
 	<!-- section -->
 	<div class="container center-block" style="width:400px;">
-	<form class="row g-3" name="stJoinFrm" action="./stJoinProc" method="post" enctype="multipart/form-data" onsubmit="return check()">
+	<form class="row g-3" name="stJoinFrm" action="./stJoinProc" method="post" enctype="multipart/form-data">
 		<h3 class="text-left">사업주 정보</h3>
 		<div class="col-12">
     		<label for="inputAddress" class="form-label">사업자번호</label><br>
-    		<input type="text" class="form-control input-size" id="c_num" name="c_num" autofocus placeholder="예) 1234567890">
+    		<input type="text" class="form-control input-size" id="c_num" name="c_num" required autofocus placeholder="예) 1234567890">
   			<button type="button" class="btn btn-size" onclick="stIdCheck()">중복확인</button>
   		</div>
   		<div class="col-12">
     		<label for="inputAddress" class="form-label">비밀번호</label>
-    		<input type="password" class="form-control" name="c_pwd">
+    		<input type="password" class="form-control" name="c_pwd" required>
   		</div>
   		<div class="col-12">
     		<label for="inputAddress" class="form-label">사업주명</label>
-    		<input type="text" class="form-control" name="c_name">
+    		<input type="text" class="form-control" name="c_name" required>
   		</div>
   		<div class="col-12">
     		<label for="inputAddress" class="form-label">사업주 연락처</label>
-    		<input type="text" class="form-control" name="c_phone" placeholder="예) 01012345678">
+    		<input type="text" class="form-control" name="c_phone" required placeholder="예) 01012345678">
   		</div>
   		<div class="col-12">  			
     		<label for="inputAddress" class="form-label">이메일</label><br> 		   		
-    		<input type="text" class="form-control input-size" id="c_email" name="c_email">
-    		<button type="button" class="btn btn-size inputmar" onclick="stSendAuth()">인증번호 발송</button>
-    		<div class="view">
-    			<input type="text" class="form-control input-size" id="c_join" name="c_join" placholder="인증번호 6자리 입력">
-    			<button type="button" class="btn btn-color btn-size" onclick="stWriteAuthk()">인증번호 확인</button>
-    		</div>   	
+    		<input type="text" class="form-control" id="c_email" name="c_email" required>
     	</div>
     	<div class="col-12">
   			<label for="file">사업자등록증 업로드</label>
   			<input type="file" name="files" id="file" multiple required>
   			<input class="hidden upload-name" value="선택된 파일이 없습니다" readonly>
   			<input type="hidden" id="filecheck" value="0" name="fileCheck">
-		</div>
-		
-		
+		</div>	
     	
     	<h3 class="text-left storemargin">가게 정보</h3>  		
   		<div class="col-12">
     		<label for="inputAddress" class="form-label">가게 이름</label>
-    		<input type="text" class="form-control" name="s_name">
+    		<input type="text" class="form-control" name="s_name" required>
   		</div>
   		<div class="col-12">
     		<label for="inputAddress" class="form-label">가게 연락처</label>
-    		<input type="text" class="form-control" name="s_phone" placeholder="예) 01012345678">
+    		<input type="text" class="form-control" name="s_phone" required placeholder="예) 01012345678">
   		</div>  
   		
   		<div class="form-group"> 
@@ -117,7 +109,7 @@ label {
     		<input class="form-control" style="top: 5px;" placeholder="도로명 주소" name="s_addr2" id="s_addr2" type="text" readonly="readonly" />
 		</div>
 		<div class="form-group">
-    		<input class="form-control" placeholder="상세주소" name="s_addr3" id="s_addr3" type="text"  />
+    		<input class="form-control" placeholder="상세주소" name="s_addr3" id="s_addr3" type="text" required />
 		</div> 				
   		
   		<div class="col-12">
@@ -126,7 +118,7 @@ label {
   		</div>
   		<div class="col-12">
     		<label for="inputAddress" class="form-label">카테고리</label>
-    		<select class="form-control" name="s_category">
+    		<select class="form-control" name="s_category" required>
     			<option>숙박</option>
     			<option>음식점</option>
     			<option>지역시설</option>
@@ -146,38 +138,6 @@ label {
 </body>
 
 <script type="text/javascript">
-function stSendAuth(){
-	var id = $('#c_email').val();
-	if(id == ""){
-		alert("메일 주소를 입력하세요.")
-		$('#c_mail').focus();
-		return;
-	}
-	$('.view').css('margin-top', '5px');
-	$('.view').show();
-	
-	var ckObj = {"c_email" : id};
-	console.log(ckObj);
-	
-	$.ajax({
-		url: "stSendAuth",
-		type: "get",
-		data: ckObj,
-		success: function(data){
-			if(data == "success") {
-				alert('인증번호를 메일로 발송하였습니다.');
-				$('#c_join').focus();				
-			} else {
-				aleft('인증번호 발송을 실패하였습니다.');
-			}
-		},
-		error: function(error){
-			console.log(error);
-		}
-	});
-}
-
-
 function stIdCheck(){
 	var id = $('#c_num').val();
 	if(id == ""){

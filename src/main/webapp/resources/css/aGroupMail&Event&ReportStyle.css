@@ -5,12 +5,12 @@
 	height: 200px;
 	vertical-align: middle;
 	text-align: center;
-	line-height: 200px;
 	border-radius: 50%;
-	font-size: 30px;
+	font-size: 25px;
 	font-weight: bolder;
 	margin-right: 20px;
 	margin-bottom: 20px;
+	line-height: 200px;
 }
 
 .mailBtn, .eventBtn, .reportBtn {
@@ -35,4 +35,22 @@
 	background-color: #42ffbd;
 	margin-right: 0;
 	margin-bottom: 0;
+}
+
+/*이벤트 관련 전용*/
+.eventBtn {
+	line-height: 100px;
+}
+
+.reportBtn {
+	line-height: 100px;
+}
+
+/*드래그 차단*/
+.no-drag {
+	-ms-user-select: none;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
 }
