@@ -1,6 +1,7 @@
 package com.bob.stepy.service;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,25 +39,22 @@ public class AdminService {
 
 		String id = member.getM_id();
 
-		//파라미터받은 DTO내의 m_id를 기반으로 DB에서 SELECT로 비밀번호 가져오기
+		//파라미터받은 DTO내의 id를 기반으로 DB에서 SELECT로 비밀번호 가져오기
 		String pw = aDao.getPwd(id);
 		if (pw != null) {
-			//가져온 아이디가 있다면 pw에 데이터 들어감
-			//사용자가 입력한 값이 있는 DTO의 m_pwd와 DB에서 가져온 m_pwd를 대조
-			//이 둘이 일치한다면 아이디와 비밀번호가 모두 맞음
 
 			if (pw.equals(member.getM_pwd()) ) {
-				//ID도 PW도 맞는 사용자이므로 화면에 출력할 해당 사용자 정보를 가져오기
-				//사용자 정보를 다시 가져옴 (getMemberInfo)
-				//DTO에서 @data 어노테이션으로 인해 자동으로 세트되어있음
 
+				//단, 어드민 전용 로그인이므로 가져온 id가 미리 등록한 실제 어드민 ID와 같아야 진행
 				if(id.equals("admin")) {
 					member = aDao.getMemberInfo(member.getM_id());
 
 					//회원정보는 다른 페이지들에서도 돌려 쓰므로 세션에 DTO째로 등록
 					session.setAttribute("mb", member);
 					view = "aHome";
-				} else {
+				}
+				//id가 admin이 아닌 경우 어드민이 아니라고 판단, 권한 없음 경고
+				else {
 					view = "redirect:aLoginFrm";
 					rttr.addFlashAttribute("msg", "접속 권한이 없습니다");
 				}
@@ -181,7 +181,7 @@ public class AdminService {
 			int num2 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num2);
 
-			List<MemberDto> allCeoList = aDao.getAllCeoList(num2);
+			List<CeoDto> allCeoList = aDao.getAllCeoList(num2);
 
 			mv.addObject("ceoList", allCeoList);
 
@@ -207,7 +207,7 @@ public class AdminService {
 			int num3 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num3);
 
-			List<MemberDto> approvedList = aDao.getApproveList(num3);
+			List<CeoDto> approvedList = aDao.getApproveList(num3);
 
 			mv.addObject("ceoList", approvedList);
 
@@ -230,7 +230,7 @@ public class AdminService {
 			int num4 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num4);
 
-			List<MemberDto> pendingList = aDao.getPendingList(num4);
+			List<CeoDto> pendingList = aDao.getPendingList(num4);
 
 			mv.addObject("ceoList", pendingList);
 
@@ -256,55 +256,55 @@ public class AdminService {
 
 			session.setAttribute("pageNum", num5);
 
-			mv.setViewName("aPendingList");
+			mv.setViewName("aEventList");
 			break;
-		case 6 :
+		case 6 ://신고된 업체 리스트 보기
 			mv= new ModelAndView();
 
 			int num6 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num6);
 
-			List<EventDto> reportList1 = aDao.getEventList(num6);
+			List<ReportDto> reportList1 = aDao.getReportList(num6);
 
-			mv.addObject("eList", reportList1);
+			mv.addObject("rpList", reportList1);
 
 			mv.addObject("paging", getPaging(num6,6));
 
 			session.setAttribute("pageNum", num6);
 
-			mv.setViewName("aPendingList");
+			mv.setViewName("aReportStoreList");
 			break;
-		case 7 :
+		case 7 ://신고된 게시글 리스트 보기
 			mv= new ModelAndView();
 
 			int num7 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num7);
 
-			List<EventDto> reportList2 = aDao.getEventList(num7);
+			List<ReportDto> reportList2 = aDao.getReportList(num7);
 
-			mv.addObject("eList", reportList2);
+			mv.addObject("rpList", reportList2);
 
 			mv.addObject("paging", getPaging(num7,7));
 
 			session.setAttribute("pageNum", num7);
 
-			mv.setViewName("aPendingList");
+			mv.setViewName("aReportPostList");
 			break;
-		case 8 :
+		case 8 ://신고된 댓글 리스트 보기
 			mv= new ModelAndView();
 
 			int num8 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num8);
 
-			List<EventDto> reportList3 = aDao.getEventList(num8);
+			List<ReportDto> reportList3 = aDao.getReportList(num8);
 
-			mv.addObject("rList", reportList3);
+			mv.addObject("rpList", reportList3);
 
 			mv.addObject("paging", getPaging(num8,8));
 
 			session.setAttribute("pageNum", num8);
 
-			mv.setViewName("aPendingList");
+			mv.setViewName("aReportReplyList");
 			break;
 		}//스위치 끝
 
@@ -324,16 +324,17 @@ public class AdminService {
 		if (res > 0) {//UPDATE 처리시 res는 1이 됨 (executeQuery의 처리와 유사)
 			System.out.println("처리 결과 res : "+res);
 			//처리 성공으로 판단, 승인 리스트에서 찾게 함
-			view = "aAuthList";
+			view = "redirect:aAuthList";
 		} else {
 			System.out.println("처리 결과 res : "+res);
 			//처리 실패로 판단, 대기 리스트에서 찾게 함
-			view = "aPendingList";
+			view = "redirect:aPendingList";
 		}
 		return view;
 	}
 
 	//삭제 스위치 (일반 회원, 업체 회원 통합 스위치)
+	@Transactional
 	public String deleteSwitch(String id, int deleteSelect) {
 		String view = null;
 		int resInt = 0;//콘솔 확인용 INT
@@ -470,6 +471,165 @@ public class AdminService {
 		}
 		return resStr;
 	}//메일 발송 메소드 끝
+
+	//이벤트 신규 등록
+	@Transactional
+	public String addEvent (MultipartHttpServletRequest multi,
+			RedirectAttributes rttr) {
+		System.out.println("서비스 클래스 진입");
+		String view = null;
+		String resStr = null;
+
+
+		//form으로 작성한 내용들 꺼내기
+		//멀티리퀘스트도 일종의 리퀘스트이므로 겟파라미터(NAME)으로 꺼낼 수 있음
+
+		//e_num은 PK로 시퀀스, DAO에서 처리하므로 제외
+		//이벤트 제목
+		String title = multi.getParameter("e_title");
+		//이벤트 내용 (textarea = 문자열이므로 string 받음)
+		String contents = multi.getParameter("e_contents");
+		//날짜 가져오기
+		String e_dateStr = multi.getParameter("e_date");
+		System.out.println("입력값 : "+e_dateStr);
+		String[] dateArray = e_dateStr.split("T");
+		System.out.println("스플릿 후 : "+dateArray[0]);
+		System.out.println("스플릿 후 : "+dateArray[1]);
+		e_dateStr = dateArray[0]+" "+dateArray[1]+":00";
+		System.out.println(e_dateStr);
+
+		Timestamp e_date = java.sql.Timestamp.valueOf(e_dateStr);
+		System.out.println("타임스탬프화 : "+e_date);
+
+		//파일 업로드 체크, 파일을 등록했다면 1, 아니라면 0이 됨
+		String check = multi.getParameter("fileCheck");
+
+		//단, textarea는 입력한 문자열의 앞뒤로 공백이 발생
+		//문자열의 앞뒤 공백 제거하는 명령어가 추가로 필요 (trim())
+		contents = contents.trim();
+
+		//form에서 꺼낸 데이터들을 이벤트DTO에 삽입
+		EventDto event = new EventDto();
+		event.setE_title(title);//이벤트 제목
+		event.setE_contents(contents);//이벤트 내용
+		event.setE_date(e_date);
+
+		//INSERT처리
+		try {
+			//데이터들을 담은 DTO째로 파라미터해 INSERT
+			aDao.InsertEvent(event);
+
+			//예외가 발생하지 않았다면 플래시 어트리뷰트용 메시지+뷰 지정
+			resStr = "이벤트 등록 성공";
+			view ="redirect:aEventList";
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+
+			//성공,실패 여부에 상관없이 뷰는 동일, 메시지만 다름
+			resStr = "이벤트 등록 실패";
+			view ="redirect:aEventList";
+		}
+
+		//check가 1인 상황, 파일이 있는 경우메나 파일 INSERT 처리
+		//파일 업로드 메소드 호출해 처리
+		if (check.equals("1")) {
+			try {
+				//분리한 파일 업로드 메소드 호출해 파일 업로드 처리
+				fileUp(multi,event.getE_num());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		rttr.addFlashAttribute("msg", resStr);
+		//플래시 어트리뷰트를 담고 view 리턴
+		return view;
+	}//이벤트 추가 메소드 끝
+
+	//파일 업로드 처리 메소드
+	public boolean fileUp(
+			MultipartHttpServletRequest multi,
+			int e_num
+			) throws Exception{
+		//파일은 항상 절대경로를 통해서 인식함
+		boolean res = false;
+
+		String path = multi.getSession().getServletContext().getRealPath("/");
+		path += "resources/upload/";
+
+
+		//파일 생성, File (io패키지) 임포트 필요
+		File dir = new File(path);
+		if(dir.isDirectory() == false) {
+			//dir이 디렉토리,폴더가 아니라면 디렉토리,폴더 생성
+			dir.mkdir();//폴더가 없는 경우 폴더 생성
+		}
+
+		//실제 파일명과 저장용 파일명을 함께 관리 - 맵&해시맵 사용
+		Map<String, String> fmap = new HashMap<String, String>();
+
+		//fileInsert의 파라미터인 맵에 필요한 데이터는
+		//1.번호 e_num
+		//2.파일의 원래 이름 oriName
+		//3.파일의 변경 이름 sysName
+
+		//맵에 입력 (put 메소드)
+		//숫자인 bnum을 문자열 변환 처리후 맵에 입력
+		fmap.put("e_num", String.valueOf(e_num));
+
+
+		//파일의 처리는 '다중 선택'을 기본으로 하고 있어
+		//멀티파트 요청 객체에서 꺼낼 때는 
+		//파일이 하나여도 배열로 받아야 함
+		//JSP에서 클래스를 따오는 것과 같은 이유
+		//하나일 수도 여럿일 수도 있으므로 여럿인 경우를 기본으로 해 절차 최소화
+		List<MultipartFile> fList = multi.getFiles("files");
+		for (int i =0; i< fList.size(); i++) {
+			//1개여도 n개여도 0~n-1까지 전부 처리하게 작성
+			MultipartFile mf = fList.get(i);
+
+			//mf에 들어간 데이터에서 파일의 오리지널네임, 원래 이름을 가져옴
+			String on = mf.getOriginalFilename();
+
+
+			//이름 on을 맵에 등록
+			fmap.put("oriName", on);
+
+			//변경된 파일 이름을 맵에 저장
+			//sn의 값을 정하는 '순간의 밀리초'+'.확장자'를 모두 합쳐 sn의 시스템 파일명이 결정됨
+			//단, 확장자를 찾기 위해서는 서브스트링(".")으로 .과 이후의 문자열(확장자 포함)만 가져옴
+			String sn = System.currentTimeMillis()+on.substring(on.lastIndexOf("."));
+
+
+			//이름 sn을 맵에 등록
+			fmap.put("sysName", sn);
+
+
+			//해당 폴더에 파일 저장하기
+			//path 경로에 sn 파일명으로 된 파일을 저장하는 메소드
+			//transferTo
+			mf.transferTo(new File(path+sn));
+
+			//bnum,path,on,sn을 모두 담은 맵을
+			//파일 테이블인 BF에 INSERT처리
+			aDao.fileInsert(fmap);
+		}//꺼내기 for 끝
+
+		return res;
+	}//파일 업로드 처리 메소드 끝
+
+	//이벤트 중지
+	public String deleteEvent(int e_num) {
+		int res = aDao.deleteEvent(e_num);
+		if (res >0) {
+			System.out.println("삭제 성공");
+		} else {
+			System.out.println("삭제 실패");
+		}
+
+		return "redirect:aEventList";
+	}
 
 
 }//서비스 클래스 끝
