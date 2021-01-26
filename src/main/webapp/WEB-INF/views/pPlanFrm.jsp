@@ -34,13 +34,31 @@
 				<c:if test="${member.m_id == plan.t_id}">
 					<li class="del-plan">여행 삭제하기</li>
 				</c:if>
-				<c:if test="!(${member.m_id == plan.t_id})">
+				<c:if test="${member.m_id != plan.t_id}">
 					<li class="exit-plan">여행에서 나가기</li>
 				</c:if>
 			</ul>
 		</div>
 		<h3 style="margin-top: 0"><small>${plan.t_stdate} ~ ${plan.t_bkdate}</small></h3>
+		
+		<input class="btn btn-default add-party-btn show-member-btn" type="button" value="${plan.t_id}님 외 ${memCnt}명">
 		<input class="btn btn-default add-party-btn inviteBtn" type="button" value="일행 초대하기 +">
+	
+		<div class="show-member-wrap">
+			<h4><strong>참여중</strong></h4>
+			<p class="leader">${plan.t_id}</p>
+			<c:if test="${plan.t_member1 != ' '}"><p class="member" title="내보내기">${plan.t_member1}</p></c:if>
+			<c:if test="${plan.t_member2 != ' '}"><p class="member" title="내보내기">${plan.t_member2}</p></c:if>
+			<c:if test="${plan.t_member3 != ' '}"><p class="member" title="내보내기">${plan.t_member3}</p></c:if>
+			<c:if test="${plan.t_member4 != ' '}"><p class="member" title="내보내기">${plan.t_member4}</p></c:if>
+			<c:if test="${plan.t_member5 != ' '}"><p class="member" title="내보내기">${plan.t_member5}</p></c:if>
+			<c:if test="${!empty waitingList}">
+				<h4><strong>초대중</strong></h4>
+				<c:forEach var="wList" items="${waitingList}">
+					<p class="member" title="초대 취소">${wList.i_inviteid}</p>
+				</c:forEach>
+			</c:if>
+		</div>
 	</div>
 	<ul class="nav nav-pills nav-justified">
 	  <li role="presentation" class="active"><a href="pPlanFrm?planNum=${curPlan}">일정</a></li>
@@ -199,6 +217,7 @@ function reject(code){
 //여행 수정 메뉴
 var menuClose = true;
 $(function(){
+	//메뉴 클릭시 창 온오프
 	$(".plan-edit").click(function(){
 		if(menuClose){
 			$(".edit-menu").css("display", "inline-block");
@@ -208,17 +227,40 @@ $(function(){
 			$(".edit-menu").css("display", "none");
 			menuClose = true;
 		}
-	})
+	});
 	
+	//여행 삭제
 	$(".del-plan").click(function(){
 		if(confirm('여행을 삭제하면 저장된 모든 내용이 삭제 됩니다.\n정말로 삭제하시겠습니까?')){
 			location.href="pDelPlan";
 		}
-	})
+	});
 	
+	//여행 수정
 	$(".edit-plan-name").click(function(){
 		location.href="pEditPlanFrm"
-	})
+	});
+});
+
+//일행 보기 메뉴
+var showMemberClose = true;
+$(function(){
+	//버튼 클릭시 세부사항 온오프
+	$(".show-member-btn").click(function(){
+		if(showMemberClose == true){
+			$(".show-member-wrap").css("display", "block");
+			showMemberClose = false;
+		}
+		else{
+			$(".show-member-wrap").css("display", "none");
+			showMemberClose = true;
+		}
+	});
+	
+	//리더 로그인시 메뉴 활성화
+	if(${plan.t_id == member.m_id}){
+		$(".member").addClass("member-leader");
+	}
 });
 </script>
 </html>

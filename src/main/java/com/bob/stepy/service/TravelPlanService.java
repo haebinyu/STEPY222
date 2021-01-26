@@ -148,24 +148,40 @@ public class TravelPlanService {
 		long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
 		mv.addObject("days", days);
 		
-		//여행일별로 데이터 저장
-		//Map<String, Long> planContentsMap = new HashMap<String, Long>();
+		//멤버 카운트
+		int memCnt = 0;
+		if(!(plan.getT_member1().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member2().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member3().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member4().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member5().equals(" "))) {
+			memCnt++;
+		}
 		
-		//for(long i = 1; i <= days; i++) {
-		//	planContentsMap.put("planNum", planNum);
-		//	planContentsMap.put("days", i);
+		mv.addObject("memCnt", memCnt);
 		
 		//여행 내용 가져오기	
 		List<AccompanyPlanDto> planContentsList = tDao.getPlanContents(num);
 		mv.addObject("planContentsList", planContentsList);
 		//}
-		//초대 리스트 가져오기
+		//초대 리스트 전체 가져오기
 		List<InviteDto> iList = tDao.pGetInviteList();
 		mv.addObject("iList", iList);
 		//새로운 초대 여부 확인
 		MemberDto member = (MemberDto)session.getAttribute("member");
 		int iCnt = tDao.pCheckInvite(member.getM_id());
 		mv.addObject("iCnt", iCnt);
+		//현재 일정에 초대중인 멤버 가져오기
+		List<InviteDto> waitingList = tDao.pGetWaitingMember(num);
+		mv.addObject("waitingList", waitingList);
 		//세션에 현재 여행 번호 저장
 		session.setAttribute("curPlan", num);
 		
@@ -269,6 +285,26 @@ public class TravelPlanService {
 		//시작일과 종료일의 차이 계산
 		long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
 		mv.addObject("days", days);
+		
+		//멤버 카운트
+		int memCnt = 0;
+		if(!(plan.getT_member1().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member2().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member3().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member4().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member5().equals(" "))) {
+			memCnt++;
+		}
+		
+		mv.addObject("memCnt", memCnt);
 		
 		//가계부 내용 가져오기
 		List<HouseholdDto> hList = tDao.getHouseholdList(num);
@@ -450,6 +486,26 @@ public class TravelPlanService {
 		mv.addObject("checklist", checklist);
 		mv.addObject("categoryNum", categoryNum);
 		mv.addObject("cvList", cvList);
+		
+		//멤버 카운트
+		int memCnt = 0;
+		if(!(plan.getT_member1().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member2().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member3().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member4().equals(" "))) {
+			memCnt++;
+		}
+		if(!(plan.getT_member5().equals(" "))) {
+			memCnt++;
+		}
+		
+		mv.addObject("memCnt", memCnt);
 		
 		//초대 리스트 가져오기
 		List<InviteDto> iList = tDao.pGetInviteList();

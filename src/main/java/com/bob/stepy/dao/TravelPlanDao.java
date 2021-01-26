@@ -114,4 +114,6 @@ public interface TravelPlanDao {
 	public void pDelOverDate(long newDays);
 	//기간 초과 가계부 정보 삭제
 	public void pDelOverHousehold(long newDays);
+	//현재 일정에 초대중인 멤버 가져오기
+	public List<InviteDto> pGetWaitingMember(long planNum);
 }

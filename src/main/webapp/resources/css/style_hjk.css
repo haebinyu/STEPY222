@@ -47,6 +47,25 @@
 .edit-menu-sub > li:hover {
 	background: #eee;
 }
+.show-member-wrap {
+	border: 1px solid #4375d9;
+	border-radius: 8px;
+	padding: 10px 15px 25px;
+	width: 400px;
+	display: none;
+}
+.member, .leader {
+	display: inline-block;
+	border: 1px solid #ddd;
+	padding: 10px 15px;
+	border-radius: 8px;
+	transition: all 0.2s;
+}
+.member-leader:hover {
+	background: #d9534f;
+	color: white;
+	cursor: pointer;
+}
 
 /* 여행 등록 페이지 */
 .reader {background-color: #ddd; width: 100%; border-radius: 20px; 

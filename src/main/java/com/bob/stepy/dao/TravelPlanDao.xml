@@ -287,4 +287,9 @@
 		DELETE H
 		WHERE H_DAY>#{newDays+1}
 	</delete>
+	<!-- 현재 일정 초대중인 멤버 가져오기 -->
+	<select id="pGetWaitingMember" parameterType="long" resultType="com.bob.stepy.dto.InviteDto">
+		SELECT * FROM I
+		WHERE I_PLANNUM=#{planNum}
+	</select>
 </mapper>
