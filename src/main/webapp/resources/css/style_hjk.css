@@ -54,14 +54,14 @@
 	width: 400px;
 	display: none;
 }
-.member, .leader {
+.member, .leader, .invitedMember {
 	display: inline-block;
 	border: 1px solid #ddd;
 	padding: 10px 15px;
 	border-radius: 8px;
 	transition: all 0.2s;
 }
-.member-leader:hover {
+.member-leader:hover, .invitedMember:hover {
 	background: #d9534f;
 	color: white;
 	cursor: pointer;

@@ -47,15 +47,15 @@
 		<div class="show-member-wrap">
 			<h4><strong>참여중</strong></h4>
 			<p class="leader">${plan.t_id}</p>
-			<c:if test="${plan.t_member1 != ' '}"><p class="member" title="내보내기">${plan.t_member1}</p></c:if>
-			<c:if test="${plan.t_member2 != ' '}"><p class="member" title="내보내기">${plan.t_member2}</p></c:if>
-			<c:if test="${plan.t_member3 != ' '}"><p class="member" title="내보내기">${plan.t_member3}</p></c:if>
-			<c:if test="${plan.t_member4 != ' '}"><p class="member" title="내보내기">${plan.t_member4}</p></c:if>
-			<c:if test="${plan.t_member5 != ' '}"><p class="member" title="내보내기">${plan.t_member5}</p></c:if>
+			<c:if test="${plan.t_member1 != ' '}"><p class="member" title="내보내기" id="member1">${plan.t_member1}</p></c:if>
+			<c:if test="${plan.t_member2 != ' '}"><p class="member" title="내보내기" id="member2">${plan.t_member2}</p></c:if>
+			<c:if test="${plan.t_member3 != ' '}"><p class="member" title="내보내기" id="member3">${plan.t_member3}</p></c:if>
+			<c:if test="${plan.t_member4 != ' '}"><p class="member" title="내보내기" id="member4">${plan.t_member4}</p></c:if>
+			<c:if test="${plan.t_member5 != ' '}"><p class="member" title="내보내기" id="member5">${plan.t_member5}</p></c:if>
 			<c:if test="${!empty waitingList}">
 				<h4><strong>초대중</strong></h4>
 				<c:forEach var="wList" items="${waitingList}">
-					<p class="member" title="초대 취소">${wList.i_inviteid}</p>
+					<p class="invitedMember" title="초대 취소">${wList.i_inviteid}</p>
 				</c:forEach>
 			</c:if>
 		</div>
@@ -261,6 +261,23 @@ $(function(){
 	if(${plan.t_id == member.m_id}){
 		$(".member").addClass("member-leader");
 	}
+	
+	//초대 취소
+	$(".invitedMember").click(function(){
+		var id = $(this).text();
+		
+		if(confirm('초대를 취소하시겠습니까?')){
+			location.href="pCancelInvite?planNum=" + ${curPlan} + "&id=" + id;
+		}
+	})
+	//내보내기
+	$(".member-leader").click(function(){
+		var id = $(this).attr('id');
+
+		if(confirm('회원을 내보내시겠습니까?')){
+			location.href="pDepMember?planNum=" + ${curPlan} + "&member=" + id;
+		}
+	})
 });
 </script>
 </html>

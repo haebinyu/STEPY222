@@ -317,7 +317,9 @@ public class TravelPlanService {
 		MemberDto member = (MemberDto)session.getAttribute("member");
 		int iCnt = tDao.pCheckInvite(member.getM_id());
 		mv.addObject("iCnt", iCnt);
-		
+		//현재 일정에 초대중인 멤버 가져오기
+		List<InviteDto> waitingList = tDao.pGetWaitingMember(num);
+		mv.addObject("waitingList", waitingList);
 		mv.setViewName("pHouseholdFrm");
 		
 		return mv;
@@ -514,6 +516,9 @@ public class TravelPlanService {
 		MemberDto member = (MemberDto)session.getAttribute("member");
 		int iCnt = tDao.pCheckInvite(member.getM_id());
 		mv.addObject("iCnt", iCnt);
+		//현재 일정에 초대중인 멤버 가져오기
+		List<InviteDto> waitingList = tDao.pGetWaitingMember(num);
+		mv.addObject("waitingList", waitingList);
 		
 		return mv;
 	}
@@ -779,7 +784,7 @@ public class TravelPlanService {
 			//여행에 빈 멤버 자리 검사
 			TravelPlanDto plan = tDao.getPlan(planNum);
 			
-			msg = plan.getT_planname() + " 에 참여하였습니다.\n이제 함께 일정을 수정할 수 있습니다";
+			msg = plan.getT_planname() + " 에 참여하였습니다.";
 			
 			try {
 				
@@ -787,23 +792,23 @@ public class TravelPlanService {
 					//일정에 추가
 					tDao.pJoinPlan1(invite);
 					//초대코드 삭제
-					tDao.pDelInvite(code);
+					tDao.pDelInvite(invite);
 				}
 				else if(plan.getT_member2().equals(" ")) {
 					tDao.pJoinPlan2(invite);
-					tDao.pDelInvite(code);
+					tDao.pDelInvite(invite);
 				}
 				else if(plan.getT_member3().equals(" ")) {
 					tDao.pJoinPlan3(invite);
-					tDao.pDelInvite(code);
+					tDao.pDelInvite(invite);
 							}
 				else if(plan.getT_member4().equals(" ")) {
 					tDao.pJoinPlan4(invite);
-					tDao.pDelInvite(code);
+					tDao.pDelInvite(invite);
 				}
 				else if(plan.getT_member5().equals(" ")) {
 					tDao.pJoinPlan5(invite);
-					tDao.pDelInvite(code);
+					tDao.pDelInvite(invite);
 				}
 				else {//일행이 5명 다 차있을 시
 					msg = "더 이상 참여할 수 없습니다!";
@@ -828,7 +833,9 @@ public class TravelPlanService {
 		
 		try {
 			//초대 삭제
-			tDao.pDelInvite(code);
+			InviteDto invite = new InviteDto();
+			invite.setI_code(code);
+			tDao.pDelInvite(invite);
 			
 			//초대 리스트 다시 가져오기
 			List<InviteDto> iList = tDao.pGetInviteList();
@@ -911,6 +918,60 @@ public class TravelPlanService {
 			e.printStackTrace();
 			
 			msg = "수정에 실패하였습니다";
+		}
+		
+		rttr.addFlashAttribute("msg", msg);
+		return "redirect:pPlanFrm?planNum=0";
+	}
+
+	//초대 취소
+	@Transactional
+	public String pCancelInvite(long planNum, String id, RedirectAttributes rttr) {
+		log.info("service - pCancelInvite() - planNum : " + planNum + ", id : " + id);
+		
+		InviteDto invite = new InviteDto();
+		invite.setI_plannum(planNum);
+		invite.setI_inviteid(id);
+		
+		try {
+			tDao.pCancelInvite(invite);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:pPlanFrm?planNum=0";
+	}
+
+	//회원 내보내기
+	@Transactional
+	public String pDepMember(long planNum, String member, RedirectAttributes rttr) {
+		log.info("service - pDepMember() - planNum : " + planNum + ", member : " + member);
+		String msg = null;
+		
+		try {
+			//일행 삭제
+			switch (member) {
+			case "member1":
+				tDao.pDepmember1(planNum);
+				break;
+			case "member2":
+				tDao.pDepmember2(planNum);			
+				break;
+			case "member3":
+				tDao.pDepmember3(planNum);
+				break;
+			case "member4":
+				tDao.pDepmember4(planNum);
+				break;
+			case "member5":
+				tDao.pDepmember5(planNum);
+				break;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg = "오류가 발생했습니다";
 		}
 		
 		rttr.addFlashAttribute("msg", msg);

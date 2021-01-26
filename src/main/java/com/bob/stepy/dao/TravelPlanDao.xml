@@ -242,7 +242,7 @@
 		WHERE T_PLANNUM=#{i_plannum}
 	</update>
 	<!-- 초대 삭제 -->
-	<delete id="pDelInvite" parameterType="long">
+	<delete id="pDelInvite" parameterType="com.bob.stepy.dto.InviteDto">
 		DELETE I
 		WHERE I_CODE=#{i_code}
 	</delete>
@@ -292,4 +292,35 @@
 		SELECT * FROM I
 		WHERE I_PLANNUM=#{planNum}
 	</select>
+	<!-- 초대 취소 -->
+	<delete id="pCancelInvite" parameterType="com.bob.stepy.dto.InviteDto">
+		DELETE I
+		WHERE I_PLANNUM=#{i_plannum} AND I_INVITEID=#{i_inviteid}
+	</delete>
+	<!-- 회원 내보내기 -->
+	<update id="pDepmember1" parameterType="long">
+		UPDATE T
+		SET T_MEMBER1=' '
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
+	<update id="pDepmember2" parameterType="long">
+		UPDATE T
+		SET T_MEMBER2=' '
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
+	<update id="pDepmember3" parameterType="long">
+		UPDATE T
+		SET T_MEMBER3=' '
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
+	<update id="pDepmember4" parameterType="long">
+		UPDATE T
+		SET T_MEMBER4=' '
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
+	<update id="pDepmember5" parameterType="long">
+		UPDATE T
+		SET T_MEMBER5=' '
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
 </mapper>

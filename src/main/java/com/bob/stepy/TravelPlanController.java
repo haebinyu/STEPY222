@@ -296,4 +296,20 @@ public class TravelPlanController {
 		
 		return tServ.pEditPlan(plan, rttr);
 	}
+	
+	//초대 취소
+	@GetMapping("pCancelInvite")
+	public String pCancelInvite(long planNum, String id, RedirectAttributes rttr) {
+		log.info("controller - pCancelInvite() - planNum : " + planNum + ", id : " + id);
+		
+		return tServ.pCancelInvite(planNum, id, rttr);
+	}
+	//회원 내보내기
+	@GetMapping("pDepMember")
+	public String pDepMember(long planNum, String member, RedirectAttributes rttr) {
+		log.info("controller - pDepMember1() - planNum : " + planNum + ", member : " + member);
+		
+		return tServ.pDepMember(planNum, member, rttr);
+	}
+	
 }
