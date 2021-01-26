@@ -2,6 +2,7 @@
 
 textarea {
 	resize: none;
+	width: 80%;
 }
 
 fieldset {
@@ -10,10 +11,6 @@ fieldset {
 
 legend {
 	font-weight: bolder;
-}
-
-textarea {
-	width: 80%;
 }
 
 .mailBtn, .eventBtn {
