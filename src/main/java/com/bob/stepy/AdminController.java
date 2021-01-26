@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -87,31 +87,13 @@ public class AdminController {
 
 		String view = aServ.deleteSwitch(m_id, 1);
 
-		return AfterDelete(1, view);
+		return view;
 	}
 
 	//선택한 회원의 데이터를 삭제하기 (업체) (DELETE - 단일 레코드)
 	@GetMapping("aDeleteStore")
 	public String deleteStore (String c_num) {
 		String view = aServ.deleteSwitch(c_num, 2);
-		return AfterDelete(2, view);
-	}
-
-	//삭제 처리해도 URL에 파라미터가 남으므로 해당 파라미터를 지우기 위한 후처리 메소드
-	@PostMapping("AfterDelete")
-	public String AfterDelete (int deleteRes, String view_tgt) {
-		//어느 서비스에서 처리했는지 deleteRes에 따라 스위치로 분류한 후
-		//서비스에서 정한 view_tgt를 view에 대입
-		String view = null;
-		switch(deleteRes) {
-		case 1:
-			view = view_tgt;
-			break;
-		case 2:
-			view = view_tgt;
-			break;
-		}
-		//새로 view가 정해진 상태로 처리되므로 URL에서도 파라미터는 지워진 채로 새로 SELECT할 맵핑으로 이동
 		return view;
 	}
 
@@ -174,26 +156,39 @@ public class AdminController {
 	@GetMapping("aEventList")
 	public ModelAndView aEventList(Integer pageNum) {
 		mv = new ModelAndView();
+
 		System.out.println("이벤트 리스트 페이지로 이동");
 
 		mv = aServ.listSet(pageNum, 5);
+
 		return mv;
 	}
 
 	//이벤트 추가 페이지로 이동
 	@GetMapping("aEventWriteFrm")
 	public String aEventWriteFrm() {
+		System.out.println("이벤트 작성 페이지로 이동");
 		return "aEventWriteFrm";
 	}
 
 	//이벤트 실제 추가 DB 연동 INSERT
-	@PostMapping("aEventWrite")
-	public String aEvnetWrite (EventDto aEvent) {
-		String resStr=null;
-
-		return resStr;
+	@PostMapping("aWriteEvent")
+	public String aWriteEvent
+	(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
+		System.out.println("이벤트 추가 실행");
+		
+		String view = aServ.addEvent(multi,rttr);
+		return view;
 	}
 
+	@GetMapping("aDeleteEvent")
+	public String aDeleteEvent(int e_num) {
+		System.out.println("이벤트 삭제 실행");
+		String view =  aServ.deleteEvent(e_num);
+
+		System.out.println("이벤트 삭제 완료");
+		return view;
+	}
 	//이벤트 관리 구역 끝//
 
 	//신고 관리 페이지로 이동
