@@ -21,6 +21,11 @@ caption {
 	font-weight: bold;
 }
 
+.accept, .delete, .eventStop, #new_event, .detail {
+	cursor: pointer;
+	text-decoration: none;
+}
+
 .accept, #new_event {
 	background-color: #82d3ff;
 }
@@ -29,7 +34,24 @@ caption {
 	background-color: #ff515e;
 }
 
-.accept, .delete, .eventStop, #new_event {
-	cursor: pointer;
-	text-decoration: none;
+.detail {
+	background-color: #82ff9e;
+}
+
+/*신고 리스트 구역*/
+.finished {
+	background-color: #82ff9e;
+}
+
+.unfinished {
+	background-color: #ff515e;
+}
+
+/*드래그 차단*/
+.no-drag {
+	-ms-user-select: none;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
 }
