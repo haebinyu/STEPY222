@@ -7,7 +7,7 @@
 	<!-- 여행 일정 등록 -->
 	<insert id="pRegPlan" parameterType="com.bob.stepy.dto.TravelPlanDto">
 		INSERT INTO T
-		VALUES (#{t_plannum},#{t_planname},#{t_id},#{t_spot},#{t_stdate},#{t_bkdate},#{t_member1},#{t_member2},#{t_member3},#{t_member4},#{t_member5},DEFAULT)
+		VALUES (#{t_plannum},#{t_planname},#{t_id},#{t_spot},#{t_stdate},#{t_bkdate},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
 	</insert>
 	<!-- 여행 일정 리스트 가져오기 -->
 	<select id="getPlanList" parameterType="String" resultType="com.bob.stepy.dto.TravelPlanDto">

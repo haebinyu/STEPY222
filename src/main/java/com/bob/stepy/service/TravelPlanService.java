@@ -675,6 +675,7 @@ public class TravelPlanService {
 		
 		//초대 회원 중복 검사
 		int inviteDupCheck = tDao.pCheckInviteId(invite);
+		
 		TravelPlanDto plan = tDao.getPlan(invite.getI_plannum());
 		
 		if(inviteDupCheck == 1) {
@@ -722,29 +723,29 @@ public class TravelPlanService {
 			//여행에 빈 멤버 자리 검사
 			TravelPlanDto plan = tDao.getPlan(planNum);
 			
-			msg = plan.getT_planname() + " 에 참여하였습니다. 이제 함께 일정을 수정할 수 있습니다";
+			msg = plan.getT_planname() + " 에 참여하였습니다.\n이제 함께 일정을 수정할 수 있습니다";
 			
 			try {
 				
-				if(plan.getT_member1() == null) {
+				if(plan.getT_member1().equals(" ")) {
 					//일정에 추가
 					tDao.pJoinPlan1(invite);
 					//초대코드 삭제
 					tDao.pDelInvite(code);
 				}
-				else if(plan.getT_member2() == null) {
+				else if(plan.getT_member2().equals(" ")) {
 					tDao.pJoinPlan2(invite);
 					tDao.pDelInvite(code);
 				}
-				else if(plan.getT_member3() == null) {
+				else if(plan.getT_member3().equals(" ")) {
 					tDao.pJoinPlan3(invite);
 					tDao.pDelInvite(code);
 							}
-				else if(plan.getT_member4() == null) {
+				else if(plan.getT_member4().equals(" ")) {
 					tDao.pJoinPlan4(invite);
 					tDao.pDelInvite(code);
 				}
-				else if(plan.getT_member5() == null) {
+				else if(plan.getT_member5().equals(" ")) {
 					tDao.pJoinPlan5(invite);
 					tDao.pDelInvite(code);
 				}

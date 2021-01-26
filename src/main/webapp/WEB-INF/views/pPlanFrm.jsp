@@ -31,7 +31,12 @@
 		<div class="edit-menu">
 			<ul class="edit-menu-sub">
 				<li class="edit-plan-name">여행 정보 수정</li>
-				<li class="del-plan">여행 삭제</li>
+				<c:if test="${member.m_id == plan.t_id}">
+					<li class="del-plan">여행 삭제하기</li>
+				</c:if>
+				<c:if test="!(${member.m_id == plan.t_id})">
+					<li class="exit-plan">여행에서 나가기</li>
+				</c:if>
 			</ul>
 		</div>
 		<h3 style="margin-top: 0"><small>${plan.t_stdate} ~ ${plan.t_bkdate}</small></h3>
