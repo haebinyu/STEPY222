@@ -63,7 +63,7 @@ storeRate.each(function(){
 }
 .storeImg {
 	float: left;
-	width: 200px;
+	width: 250px;
 	height: 200px;
 	border-radius: 5px;
 	
@@ -143,10 +143,10 @@ storeRate.each(function(){
 		<div class="container">
 			<c:forEach var="sitem" items="${sList}">
 				<div class="container searchRes">
-					<a href="#">
+					<a href="productList?cnum=${sitem.s_num}">
 						<div class="media">
 							<div class="media-left">
-								<img class="media-object storeImg" src="resources/images/oakwood.png" 
+								<img class="media-object storeImg" src="resources/images/gyeong.jpg" 
 									alt="${sitem.s_name}">
 							</div>
 							<div class="media-body">

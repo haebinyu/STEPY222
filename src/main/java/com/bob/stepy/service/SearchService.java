@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bob.stepy.dao.SearchDao;
+import com.bob.stepy.dto.ProductDto;
 import com.bob.stepy.dto.StoreDto;
 
 import lombok.extern.java.Log;
@@ -105,6 +106,23 @@ public class SearchService {
 			mv.addObject("msg", "검색할 키워드를 입력해주세요.");
 			mv.setViewName("sSearchFrm");
 		}
+		
+		return mv;
+	}
+	
+	
+	// 상품 리스트 가져오기
+	public ModelAndView getProductList(String cnum) {
+		log.info("getProductList() cnum : " + cnum);
+		
+		mv = new ModelAndView();
+		
+		StoreDto store = sDao.getStoreInfo(cnum);
+		List<ProductDto> pList = sDao.productList(cnum);
+		
+		mv.addObject("pList", pList); // 상품 리스트
+		mv.addObject("store", store); // 가게 정보
+		mv.setViewName("plProductList");
 		
 		return mv;
 	}
