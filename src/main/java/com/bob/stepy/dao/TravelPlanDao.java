@@ -108,4 +108,6 @@ public interface TravelPlanDao {
 	public void pDelHousehold(long planNum);
 	//여행 삭제시 체크리스트 삭제
 	public void pDelChecklist(long planNum);
+	//여행 정보 수정
+	public void pEditPlan(TravelPlanDto plan);
 }

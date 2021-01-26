@@ -273,11 +273,27 @@ public class TravelPlanController {
 		return tServ.pRejectPlan(code);
 	}
 	
-	//일정 삭제
+	//여행 삭제
 	@GetMapping("pDelPlan")
 	public String pDelPlan(RedirectAttributes rttr) {
 		log.info("controller - pDelPlan()");
 		
 		return tServ.pDelPlan(rttr);
+	}
+	
+	//여행 정보 수정페이지 이동
+	@GetMapping("pEditPlanFrm")
+	public ModelAndView pEditPlanFrm() {
+		log.info("controller - pEditPlanFrm()");
+		
+		return tServ.pEditPlanFrm();
+	}
+	
+	//여행 정보 수정
+	@PostMapping("pEditPlan")
+	public String pEditPlan(TravelPlanDto plan, RedirectAttributes rttr) {
+		log.info("controller - pEditPlan()");
+		
+		return tServ.pEditPlan(plan, rttr);
 	}
 }

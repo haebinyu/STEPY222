@@ -29,16 +29,6 @@ jQuery.browser = {};
         jQuery.browser.version = RegExp.$1;
     }
 })();
-
-$(function() {
-	var chk = "${msg}";
-	console.log(chk);
-
-	if(chk != ""){
-		alert(chk);
-		location.reload(true);
-	}
-});
 </script>
 </head>
 <body>
@@ -76,7 +66,7 @@ $(function() {
 					<input type="hidden" name="t_member5">
 				   <label for="t_planname" class="col-sm-2 control-label">여행이름</label>
 				   <div class="col-sm-9">
-				     <input type="text" class="form-control" id="t_planname" name="t_planname" placeholder="이번 여행의 이름을 입력해주세요!" required>
+				     <input type="text" class="form-control" id="t_planname" name="t_planname" placeholder="이번 여행의 이름을 입력해주세요!(최대 20자)" required>
 				   </div>
 				 </div>
 				  <div class="form-group">
@@ -122,6 +112,17 @@ $(function() {
 </body>
 <script type="text/javascript">
 $(function() {
+	//메시지 출력
+	var chk = "${msg}";
+	console.log(chk);
+
+	if(chk != ""){
+		alert(chk);
+		location.reload(true);
+	}
+});
+
+$(function() {
     //datepicker 한국어로 사용하기 위한 언어설정
     $.datepicker.setDefaults($.datepicker.regional['ko']); 
     
@@ -161,5 +162,15 @@ $(function() {
         }                
     });
 });
+
+//내용 입력 글자수 제한
+function lengthCheck(){
+	var str = $("#t_planname").val();
+	
+	if(str.length > 20){
+		$("#t_planname").val("");
+		alert("내용은 20글자 까지만 입력해주세요");
+	}
+}
 </script>
 </html>

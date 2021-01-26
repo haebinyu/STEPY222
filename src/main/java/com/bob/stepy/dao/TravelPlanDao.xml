@@ -271,4 +271,10 @@
 		DELETE CL
 		WHERE CL_PLANNUM=#{planNum}
 	</delete>
+	<!-- 여행 정보 수정 -->
+	<update id="pEditPlan" parameterType="com.bob.stepy.dto.TravelPlanDto">
+		UPDATE T
+		SET T_PLANNAME=#{t_planname}, T_SPOT=#{t_spot}
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
 </mapper>

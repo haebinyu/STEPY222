@@ -818,4 +818,40 @@ public class TravelPlanService {
 		
 		return "redirect:pPlanList?id=" + id;
 	}
+
+	//여행 정보 수정 페이지 이동
+	public ModelAndView pEditPlanFrm() {
+		log.info("service - pEditPlanFrm()");
+		
+		mv = new ModelAndView();
+		
+		TravelPlanDto plan = tDao.getPlan((long)session.getAttribute("curPlan"));
+		
+		mv.addObject("plan", plan);
+		mv.setViewName("pEditPlanFrm");
+		
+		return mv;
+	}
+
+	//여행 정보 수정
+	@Transactional
+	public String pEditPlan(TravelPlanDto plan, RedirectAttributes rttr) {
+		log.info("service - pEditPlan()");
+		String msg = null;
+		
+		plan.setT_plannum((long)session.getAttribute("curPlan"));
+		try {
+			//정보 수정
+			tDao.pEditPlan(plan);
+			
+			msg = "정보가 수정되었습니다";
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			msg = "수정에 실패하였습니다";
+		}
+		
+		rttr.addFlashAttribute("msg", msg);
+		return "redirect:pPlanFrm?planNum=0";
+	}
 }
