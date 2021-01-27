@@ -144,8 +144,20 @@
 		SELECT * FROM RP
 		ORDER BY RP_NUM
 	</select>
+
 	<select id="getReportCnt" resultType="Integer">
 		SELECT COUNT(*) FROM E
+	</select>
+
+	<select id="getReportRecord" parameterType="Integer"
+		resultType="com.bob.stepy.dto.ReportDto">
+		SELECT * FROM RP
+		WHERE RP_NUM=#{rp_num}
+	</select>
+	<select id="getCeoRecord" parameterType="String"
+		resultType="com.bob.stepy.dto.CeoDto">
+		SELECT * FROM C
+		WHERE C_NUM=#{rp_cnum}
 	</select>
 
 
