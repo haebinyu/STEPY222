@@ -93,8 +93,6 @@
 			</div>
 		</div>
 
-
-
 		<ul class="nav nav-tabs nav-justified">
 			<li class="nav-item"><a class="nav-link" id="li1" href="#">작성한 후기</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">작성한 게시글</a></li>
@@ -140,7 +138,7 @@ var guest = "${hostaccount.m_id}";
 					mNewMsgCount(host);
 				},
 				error : function(error) {
-					alert("please work i beeeg you");
+
 				}
 			});
 		

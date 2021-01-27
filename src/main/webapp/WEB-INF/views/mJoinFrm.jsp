@@ -126,11 +126,11 @@
 							</div>
 							<div class="col-sm-7 requirecheck">
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" name="m_gender" id="gender_wm" value="여성">
+									<input class="form-check-input" type="radio" name="m_gender" id="gender_wm" value="여성">
 									<label class="form-check-label" for="gender_wm"> 여성 </label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" name="m_gender" id="gender_m" value="남성">
+									<input class="form-check-input" type="radio" name="m_gender" id="gender_m" value="남성">
 									<label class="form-check-label" for="gender_m"> 남성 </label>
 								</div>
 							</div>

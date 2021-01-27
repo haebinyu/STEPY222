@@ -1,5 +1,7 @@
 package com.bob.stepy;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -44,6 +48,16 @@ public class MemberController {
 
 	private ModelAndView mv;
 
+	
+	@ResponseBody
+	@PostMapping(value="mProfileUpdate")
+	public String test(@RequestParam("pfile") MultipartFile multi) {
+
+		String remsg = mServ.mProfileUpdate(multi);
+		
+		return remsg;
+	}
+	
 	
 	@ResponseBody
 	@GetMapping(value="mUploadAfterView", produces = "application/text; charset=utf-8")

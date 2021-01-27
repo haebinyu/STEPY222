@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -256,8 +257,7 @@ public class MemberService {
 		FileChannel writeChannel = fileOS.getChannel();
 		
 		writeChannel.transferFrom(readChannel, 0, Long.MAX_VALUE);
-		
-		
+
 		FileUpDto fileDto = new FileUpDto();
 		fileDto.setF_oriname(oriName);
 		fileDto.setF_sysname(sysName);
@@ -636,6 +636,46 @@ public class MemberService {
 		}
 
 		return;
+	}
+
+
+
+	public String mProfileUpdate(MultipartFile multi) {
+		
+		String msg;
+
+		if(multi.isEmpty()) {
+			msg = "선택된 파일 없음";
+			
+			return msg;
+		}
+		
+		MemberDto member = (MemberDto)session.getAttribute("member");
+		String dirpath = session.getServletContext().getRealPath("/");
+		dirpath += "resources/profile/";
+				
+		String oriname = multi.getOriginalFilename();
+		String sysname = System.currentTimeMillis() + oriname.substring(oriname.lastIndexOf("."));
+		System.out.println(sysname);
+	
+		File file = new File(dirpath + oriname);
+		
+		try {
+			multi.transferTo(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		msg = "프로필 사진 변경 완료";
+		
+		FileUpDto fileDto  = new FileUpDto();
+		fileDto.setF_oriname(oriname);
+		fileDto.setF_sysname(sysname);
+		fileDto.setF_mnum(member.getM_id());
+		System.out.println(fileDto);
+		
+		mDao.mKakaoThumbUpload(fileDto);
+		
+		return msg; 
 	}
 
 
