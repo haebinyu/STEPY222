@@ -272,4 +272,50 @@ public class TravelPlanController {
 		
 		return tServ.pRejectPlan(code);
 	}
+	
+	//여행 삭제
+	@GetMapping("pDelPlan")
+	public String pDelPlan(RedirectAttributes rttr) {
+		log.info("controller - pDelPlan()");
+		
+		return tServ.pDelPlan(rttr);
+	}
+	
+	//여행 정보 수정페이지 이동
+	@GetMapping("pEditPlanFrm")
+	public ModelAndView pEditPlanFrm() {
+		log.info("controller - pEditPlanFrm()");
+		
+		return tServ.pEditPlanFrm();
+	}
+	
+	//여행 정보 수정
+	@PostMapping("pEditPlan")
+	public String pEditPlan(TravelPlanDto plan, RedirectAttributes rttr) {
+		log.info("controller - pEditPlan()");
+		
+		return tServ.pEditPlan(plan, rttr);
+	}
+	
+	//초대 취소
+	@GetMapping("pCancelInvite")
+	public String pCancelInvite(long planNum, String id, RedirectAttributes rttr) {
+		log.info("controller - pCancelInvite() - planNum : " + planNum + ", id : " + id);
+		
+		return tServ.pCancelInvite(planNum, id, rttr);
+	}
+	//회원 내보내기
+	@GetMapping("pDepMember")
+	public String pDepMember(long planNum, String member, RedirectAttributes rttr) {
+		log.info("controller - pDepMember1() - planNum : " + planNum + ", member : " + member);
+		
+		return tServ.pDepMember(planNum, member, rttr);
+	}
+	//여행에서 나가기
+	@GetMapping("pExitPlan")
+	public String pExitPlan(RedirectAttributes rttr) {
+		log.info("controller - pExitPlan()");
+		
+		return tServ.pExitPlan(rttr);
+	}
 }

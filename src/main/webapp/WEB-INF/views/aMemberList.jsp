@@ -50,11 +50,12 @@
 						<td>${mItem.m_gender}</td>
 						<td>${mItem.m_phone}</td>
 						<td>${mItem.m_addr}</td>
-						<td>
-							<button class="check" onclick="delConfirm('${mItem.m_id}');">추방하기</button>
+						<td class="delete" onclick="delConfirm('${mItem.m_id}');">
+							<div>추방하기</div>
 						</td>
 					</tr>
 				</c:forEach>
+				<!-- 어드민도 회원이므로 mList가 empty일 수 없어 생략 -->
 			</table>
 			<!-- 페이지 버튼 영역 -->
 			<div class="btn-area">
@@ -69,12 +70,13 @@
 </body>
 <script type="text/javascript">
 	function delConfirm(m_id) {
-		var mId = m_id;
-		console.log(mId);
+		if (m_id == 'admin') {
+			return;
+		}
 
-		var checkConfirm = confirm("이 회원의 데이터를 삭제합니다");
+		var checkConfirm = confirm("이 회원의 데이터를 삭제합니다 | " + m_id);
 		if (checkConfirm == true) {
-			location.href = "aDeleteMember?m_id=" + mId;
+			location.href = "aDeleteMember?m_id=" + m_id;
 		}
 		;
 	}
@@ -82,10 +84,12 @@
 	//admin은 추방될 수 없는 계정으로 판단하고 추방하기를 볼 수 없는 예외로 등록
 	mIds = document.getElementsByClassName("mid");
 	checks = document.getElementsByClassName("check");
+	deleteCells = document.getElementsByClassName("delete");
 
 	for (var i = 0; i < mIds.length; i++) {
 		if (mIds[i].innerHTML == "admin") {
-			$(checks[i]).css("display", "none");
+			deleteCells[i].innerHTML = "";
+			deleteCells[i].classList.add("clearBg");
 		}
 	}
 </script>

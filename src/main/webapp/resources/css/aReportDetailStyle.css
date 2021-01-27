@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+textarea {
+	resize: none;
+	width: 80%;
+}
+
+fieldset {
+	margin-bottom: 10px !important;
+	text-align: center;
+}
+
+legend {
+	font-weight: bolder;
+}
+
+.dispose {
+	padding: 10px !important;
+	border: 2px solid #4375d9;
+	cursor: pointer;
+	width: 20%;
+	margin: 0 auto;
+}

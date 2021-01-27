@@ -7,8 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>STEPY - 관리자 페이지</title>
-<!-- 이벤트 페이지들 전용 스타일-->
-<link rel="stylesheet" href="resources/css/aEventListStyle.css">
 <link rel="stylesheet" href="resources/css/aListStyle.css">
 </head>
 <body>
@@ -28,31 +26,30 @@
 						<th>이벤트 번호</th>
 						<th>이벤트 제목</th>
 						<th>이벤트 내용</th>
-						<th>이벤트 기간</th>
+						<th>이벤트 종료일</th>
 						<th>이벤트 중지</th>
 					</tr>
 				</thead>
-				<c:forEach var="eItem" items="${eventList}">
+				<c:forEach var="eItem" items="${eList}">
 					<tr>
-
 						<td>${eItem.e_num}</td>
 						<td>${eItem.e_title}</td>
 						<td>${eItem.e_contents}</td>
 						<td>${eItem.e_date}</td>
-						<td><a><button>중지하기</button></a></td>
+						<td class="delete delBtn" onclick="stopConfirm('${eItem.e_num}');">중지</td>
 					</tr>
 				</c:forEach>
-				<c:if test="${empty eventList }">
+				<c:if test="${empty eList }">
 					<tr>
-						<!-- 칼럼의 수만큼 colspan -->
+						<!-- 칼럼의 수만큼 자동 colspan (스크립트 처리) -->
 						<td id="noData">등록된 이벤트가 없습니다</td>
 					</tr>
 				</c:if>
 				<tfoot>
 					<tr>
 						<td id="blank_td"></td>
-						<td id="new_event"><a href="aEventWriteFrm"><button>신규
-									이벤트 등록</button></a></td>
+						<td id="new_event" onclick="location.href='aEventWriteFrm'">신규
+							이벤트 등록</td>
 					</tr>
 				</tfoot>
 			</table>
@@ -68,21 +65,25 @@
 	</footer>
 </body>
 <script type="text/javascript">
-	//칼럼의 수만큼 자동 colspan
-	var target = document.getElementsByTagName('th');
-	for (var i = 0; i < target.length; i++) {
-		target[i].setAttribute('class', 'tbl_col');
-	}
+	//메시지 확인
+	$(document).ready(function() {
+		var msg = "${msg}";
 
-	var tbl_cols_array = document.getElementsByClassName("tbl_col");
-	var tbl_cols = tbl_cols_array.length;//칼럼 배열의 길이=칼럼 수
+		if (msg != "") {
+			alert(msg);
+			location.reload(true);
+		}
+	});
 
-	//총 칼럼의 수만큼 colspan 속성 지정
-	var noData = document.getElementById("noData");
-	if (noData != null) {
-		noData.setAttribute("colspan", tbl_cols);
+	//이벤트 중지 확인
+	function stopConfirm(eNum) {
+		console.log("중단할 이벤트의 이벤트 코드 : " + eNum)
+		var stopSelect = confirm("이 이벤트를 중지합니다");
+
+		if (stopSelect == true) {
+			location.href = "aDeleteEvent?e_num=" + eNum;
+		}
 	}
-	blank_td.setAttribute("colspan", tbl_cols - 2);
-	new_event.setAttribute("colspan", (tbl_cols - (tbl_cols - 2)));
 </script>
+<script src="resources/js/aAutoColspan.js"></script>
 </html>

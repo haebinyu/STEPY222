@@ -4,10 +4,12 @@
 	String action = request.getParameter("action");
 String mail_tgt = request.getParameter("mail_tgt");
 %>
-
+<head>
+<link rel="stylesheet" href="resources/css/aWriteStyle.css">
+</head>
 <div class="row">
 	<jsp:include page="aSideBar.jsp" />
-	<div class="formArea col-sm-10" align=center>
+	<div class="formArea col-sm-10" align="center">
 		<form action="aSendMemberMail" method="post">
 			<fieldset>
 				<legend>이메일</legend>

@@ -2,7 +2,7 @@
 
 th, td {
 	text-align: center !important;
-	padding: 3px;
+	padding: 5px !important;
 }
 
 div.list_area {
@@ -21,21 +21,37 @@ caption {
 	font-weight: bold;
 }
 
-.checkCell, .checkDel {
-	padding: 0;
-}
-
-.checkBtn, .delBtn {
-	width: 100% !important;
-	height: 100% !important;
+.accept, .delete, .eventStop, #new_event, .detail {
 	cursor: pointer;
-	padding: 5px;
+	text-decoration: none;
 }
 
-.checkBtn {
+.accept, #new_event {
 	background-color: #82d3ff;
 }
 
-.delBtn {
+.delete:not(.clearBg) {
 	background-color: #ff515e;
+}
+
+.detail {
+	background-color: #82ff9e;
+}
+
+/*신고 리스트 구역*/
+.finished {
+	background-color: #82ff9e;
+}
+
+.unfinished {
+	background-color: #ff515e;
+}
+
+/*드래그 차단*/
+.no-drag {
+	-ms-user-select: none;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
 }

@@ -39,7 +39,7 @@
 			<c:forEach var="mList" items="${mList}">
 				<c:if test="${mList.m_id != member.m_id}">
 				<li class="list-group-item storeBox">
-					<form action="pInviteMember" method="post" class="apFrm">
+					<form action="pInviteMember" method="post" class="iFrm">
 						<input type="hidden" name="i_plannum" value="${curPlan}">
 						<input type="hidden" name="i_mid" value="${invite.i_mid}">
 						<input type="hidden" name="i_planname" value="${invite.i_planname}">

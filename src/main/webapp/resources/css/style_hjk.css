@@ -4,18 +4,68 @@
 	padding: 20px; margin-bottom: 200px;
 }
 
-/* 페이지 공통 */
-.plan-edit { 
-	border-radius: 8px;
-	cursor: pointer;
+/* 일정 페이지 공통 */
+.plan-name { 
 	display: inline-block;
 	margin-top: 0;
 	margin-bottom: 0;
 }
-.plan-edit:hover {
+
+.plan-edit {
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.2s;
+	font-size: 18px;
+}
+.plan-edit-box {
+	display: inline-block;
+	cursor: pointer;
+}
+.plan-edit-box:hover .plan-edit {
+	opacity: 1;
+	visibility: visible;
+}
+.edit-menu {
+	position: absolute;
+	margin-top: 10px;
+	border: 1px solid #aaa;
+	background: white;
+	z-index: 10;
+	border-radius: 8px;
+	display: none;
+}
+.edit-menu-sub {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.edit-menu-sub > li {
+	cursor: pointer;
+	padding: 10px 15px;
+	border-radius: 8px;
+}
+.edit-menu-sub > li:hover {
 	background: #eee;
 }
-
+.show-member-wrap {
+	border: 1px solid #4375d9;
+	border-radius: 8px;
+	padding: 10px 15px 25px;
+	width: 400px;
+	display: none;
+}
+.member, .leader, .invitedMember {
+	display: inline-block;
+	border: 1px solid #ddd;
+	padding: 10px 15px;
+	border-radius: 8px;
+	transition: all 0.2s;
+}
+.member-leader:hover, .invitedMember:hover {
+	background: #d9534f;
+	color: white;
+	cursor: pointer;
+}
 
 /* 여행 등록 페이지 */
 .reader {background-color: #ddd; width: 100%; border-radius: 20px; 

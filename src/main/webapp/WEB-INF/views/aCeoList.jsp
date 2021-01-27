@@ -15,8 +15,6 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		alert(msgChk);
 		msgChk = null;
 		location.href = "aCeoList";
-	} else {
-
 	}
 </script>
 </head>
@@ -46,12 +44,10 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				<td>${cItem.c_email}</td>
 				<td>${cItem.c_name}</td>
 				<td>${cItem.c_phone}</td>
-				<td class="checkCell"><div class="checkBtn"
-						onclick="checkConfirm('${cItem.c_num}');">승인하기</div></td>
-				<td>${cItem.c_report }</td>
-				<td class="checkDel">
-					<div class="delBtn" onclick="delConfirm('${cItem.c_num}');">추방하기</div>
-				</td>
+				<td class="accept" onclick="checkConfirm('${cItem.c_num}');">승인하기</td>
+				<td>${cItem.c_report}</td>
+				<td class="delete" onclick="delConfirm('${cItem.c_num}');">
+					추방하기</td>
 			</tr>
 		</c:forEach>
 		<c:if test="${empty ceoList }">
@@ -102,25 +98,11 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		var cNum = c_num;
 		console.log(cNum);
 
-		var checkConfirm = confirm("이 회원의 데이터를 삭제합니다");
+		var checkConfirm = confirm("이 회원의 데이터를 삭제합니다 | " + c_num);
 		if (checkConfirm == true) {
 			location.href = "aDeleteStore?c_num=" + cNum;
 		}
 		;
 	}
-
-	//칼럼의 수만큼 자동 colspan
-	var target = document.getElementsByTagName('th');
-	for (var i = 0; i < target.length; i++) {
-		target[i].setAttribute('class', 'tbl_col');
-	}
-
-	var tbl_cols_array = document.getElementsByClassName("tbl_col");
-	var tbl_cols = tbl_cols_array.length;//칼럼 배열의 길이=칼럼 수
-
-	//총 칼럼의 수만큼 colspan 속성 지정
-	var noData = document.getElementById("noData");
-	if (noData != null) {
-		noData.setAttribute("colspan", tbl_cols);
-	}
 </script>
+<script src="resources/js/aAutoColspan.js"></script>

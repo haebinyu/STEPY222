@@ -97,7 +97,31 @@ public interface TravelPlanDao {
 	public void pJoinPlan4(InviteDto invite);
 	public void pJoinPlan5(InviteDto invite);
 	//초대 삭제
-	public void pDelInvite(long code);
+	public void pDelInvite(InviteDto invite);
 	//초대 회원 중복 검사
 	public int pCheckInviteId(InviteDto invite);
+	//여행 삭제
+	public void pDelPlan(long planNum);
+	//여행 삭제시 일정 삭제
+	public void pDelSchedule(long planNum);
+	//여행 삭제시 가계부 삭제
+	public void pDelHousehold(long planNum);
+	//여행 삭제시 체크리스트 삭제
+	public void pDelChecklist(long planNum);
+	//여행 정보 수정
+	public void pEditPlan(TravelPlanDto plan);
+	//기간 초과 일정 정보 삭제
+	public void pDelOverDate(long newDays);
+	//기간 초과 가계부 정보 삭제
+	public void pDelOverHousehold(long newDays);
+	//현재 일정에 초대중인 멤버 가져오기
+	public List<InviteDto> pGetWaitingMember(long planNum);
+	//초대 취소
+	public void pCancelInvite(InviteDto invite);
+	//회원 내보내기
+	public void pDepmember1(long planNum);
+	public void pDepmember2(long planNum);
+	public void pDepmember3(long planNum);
+	public void pDepmember4(long planNum);
+	public void pDepmember5(long planNum);
 }

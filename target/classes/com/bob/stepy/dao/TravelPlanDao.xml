@@ -7,7 +7,7 @@
 	<!-- 여행 일정 등록 -->
 	<insert id="pRegPlan" parameterType="com.bob.stepy.dto.TravelPlanDto">
 		INSERT INTO T
-		VALUES (#{t_plannum},#{t_planname},#{t_id},#{t_spot},#{t_stdate},#{t_bkdate},#{t_member1},#{t_member2},#{t_member3},#{t_member4},#{t_member5},DEFAULT)
+		VALUES (#{t_plannum},#{t_planname},#{t_id},#{t_spot},#{t_stdate},#{t_bkdate},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
 	</insert>
 	<!-- 여행 일정 리스트 가져오기 -->
 	<select id="getPlanList" parameterType="String" resultType="com.bob.stepy.dto.TravelPlanDto">
@@ -242,7 +242,7 @@
 		WHERE T_PLANNUM=#{i_plannum}
 	</update>
 	<!-- 초대 삭제 -->
-	<delete id="pDelInvite" parameterType="long">
+	<delete id="pDelInvite" parameterType="com.bob.stepy.dto.InviteDto">
 		DELETE I
 		WHERE I_CODE=#{i_code}
 	</delete>
@@ -251,4 +251,76 @@
 		SELECT COUNT(*) FROM I
 		WHERE I_PLANNUM=#{i_plannum} AND I_INVITEID=#{i_inviteid}
 	</select>
+	<!-- 여행 삭제 -->
+	<delete id="pDelPlan">
+		DELETE T
+		WHERE T_PLANNUM=#{planNum}
+	</delete>
+	<!-- 여행 삭제시 일정 삭제 -->
+	<delete id="pDelSchedule">
+		DELETE AP
+		WHERE AP_PLANNUM=#{planNum}
+	</delete>
+	<!-- 여행 삭제시 가계부 삭제 -->
+	<delete id="pDelHousehold">
+		DELETE H
+		WHERE H_PLANNUM=#{planNum}
+	</delete>
+	<!-- 여행 삭제시 체크리스트 삭제 -->
+	<delete id="pDelChecklist">
+		DELETE CL
+		WHERE CL_PLANNUM=#{planNum}
+	</delete>
+	<!-- 여행 정보 수정 -->
+	<update id="pEditPlan" parameterType="com.bob.stepy.dto.TravelPlanDto">
+		UPDATE T
+		SET T_PLANNAME=#{t_planname}, T_SPOT=#{t_spot}, T_STDATE=#{t_stdate}, T_BKDATE=#{t_bkdate}
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
+	<!-- 기간 초과 일정 정보 삭제 -->
+	<delete id="pDelOverDate" parameterType="long">
+		DELETE AP
+		WHERE AP_DAY>#{newDays+1}
+	</delete>
+	<!-- 기간 초과 가계부 정보 삭제 -->
+	<delete id="pDelOverHousehold" parameterType="long">
+		DELETE H
+		WHERE H_DAY>#{newDays+1}
+	</delete>
+	<!-- 현재 일정 초대중인 멤버 가져오기 -->
+	<select id="pGetWaitingMember" parameterType="long" resultType="com.bob.stepy.dto.InviteDto">
+		SELECT * FROM I
+		WHERE I_PLANNUM=#{planNum}
+	</select>
+	<!-- 초대 취소 -->
+	<delete id="pCancelInvite" parameterType="com.bob.stepy.dto.InviteDto">
+		DELETE I
+		WHERE I_PLANNUM=#{i_plannum} AND I_INVITEID=#{i_inviteid}
+	</delete>
+	<!-- 회원 내보내기 -->
+	<update id="pDepmember1" parameterType="long">
+		UPDATE T
+		SET T_MEMBER1=' '
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
+	<update id="pDepmember2" parameterType="long">
+		UPDATE T
+		SET T_MEMBER2=' '
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
+	<update id="pDepmember3" parameterType="long">
+		UPDATE T
+		SET T_MEMBER3=' '
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
+	<update id="pDepmember4" parameterType="long">
+		UPDATE T
+		SET T_MEMBER4=' '
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
+	<update id="pDepmember5" parameterType="long">
+		UPDATE T
+		SET T_MEMBER5=' '
+		WHERE T_PLANNUM=#{t_plannum}
+	</update>
 </mapper>

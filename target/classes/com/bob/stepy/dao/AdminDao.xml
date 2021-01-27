@@ -78,6 +78,7 @@
 		WHERE C_NUM=#{c_num}
 	</update>
 
+	<!-- 지정한 대상을 DB에서 강제 삭제 DELETE -->
 	<delete id="deleteMember" parameterType="String">
 		DELETE FROM M
 		WHERE
@@ -90,6 +91,7 @@
 		C_NUM=#{c_num}
 	</delete>
 
+	<!-- 메일 전송 대상 이메일 리스트만 받기 -->
 	<select id="getMailList_M" resultType="String">
 		SELECT M_EMAIL from M
 	</select>
@@ -98,13 +100,51 @@
 		SELECT C_EMAIL from C
 	</select>
 
-
+	<!-- 이벤트 테이블 관련 쿼리 -->
 	<select id="getEventList" parameterType="Integer"
 		resultType="com.bob.stepy.dto.EventDto">
-		select * FROM E
+		SELECT * FROM E
 		ORDER BY E_NUM
 	</select>
 	<select id="getEventCnt" resultType="Integer">
+		SELECT COUNT(*) FROM E
+	</select>
+
+	<!-- 이벤트 추가/삭제 -->
+	<insert id="InsertEvent"
+		parameterType="com.bob.stepy.dto.EventDto" useGeneratedKeys="true"
+		keyProperty="enum">
+		<!-- order속성으로 본 쿼리인 INSERT보다 먼저 SELECT 시퀀스 먼저 처리 시퀀스의 다음값을 SELECT로 가져와 
+			기억, 키프로퍼티인 eNum에 셀렉트키 결과값을 기억시킴 -->
+		<selectKey keyProperty="e_num" resultType="int"
+			order="BEFORE">
+			<!-- 지금까지 처리된 시퀀스에서 다음으로 나올 번호를 가져옴 -->
+			SELECT EVENT_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+
+		INSERT INTO E VALUES
+		(${e_num},#{e_title},#{e_contents},
+		TO_DATE(#{e_date}))
+	</insert>
+	<insert id="fileInsert" parameterType="HashMap">
+		INSERT INTO F
+		VALUES
+		(FILEUP_SEQ.NEXTVAL, #{e_num},#{oriName},#{sysName})
+	</insert>
+
+	<delete id="deleteEvent" parameterType="Integer">
+		DELETE FROM E
+		WHERE
+		E_NUM=#{e_num}
+	</delete>
+
+	<!-- 신고 처리 관련 -->
+	<select id="getReportList" parameterType="Integer"
+		resultType="com.bob.stepy.dto.ReportDto">
+		SELECT * FROM RP
+		ORDER BY RP_NUM
+	</select>
+	<select id="getReportCnt" resultType="Integer">
 		SELECT COUNT(*) FROM E
 	</select>
 
