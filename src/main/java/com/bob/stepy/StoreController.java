@@ -1,6 +1,5 @@
 package com.bob.stepy;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,12 @@ public class StoreController {
 	
 	private ModelAndView mv;
 	
+	
+	@GetMapping("/")
+	public String home() {
+		log.info("home()");
+		return "home";
+	}
 	
 	@GetMapping("stHome")
 	public String stHome() {
@@ -226,10 +231,33 @@ public class StoreController {
 		String view = stServ.stExtraPhotoProc(multi, rttr);
 		return view;
 	}
-
-
-
 	
+	@GetMapping("stAddProdPhotos")
+	public ModelAndView stAddProdPhotos(Integer pl_num) {
+		log.info("stAddProdPhotos()");
+		mv = stServ.stAddProdPhotos(pl_num);		
+		return mv;
+	}
+
+	@PostMapping("stAddProdPhotoProc")
+	public String stAddProdPhotoProc(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
+		log.info("stAddProdPhotoProc()");
+		String view = stServ.stAddProdPhotoProc(multi, rttr);
+		return view;
+	}
 	
+	@GetMapping("stDetail")
+	public ModelAndView stDetail(Integer pl_num) {
+		log.info("stDetail()");
+		mv = stServ.stDetail(pl_num);
+		return mv;
+	}
+	
+	@GetMapping("plProductList")
+	public ModelAndView plProductList(String c_num) {
+		log.info("plProductList()");
+		mv = stServ.plProductList(c_num);
+		return mv;
+	}
 
 }

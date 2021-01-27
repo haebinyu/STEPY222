@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -19,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.bob.stepy.dao.StoreDao;
 import com.bob.stepy.dto.CeoDto;
@@ -262,7 +259,6 @@ public class StoreService {
 		List<ProductDto> pList = stDao.getProdList(pl_cnum);
 		List<FileUpDto> tList = new ArrayList<FileUpDto>();
 		Map<String, Object> ptMap = new HashMap<String, Object>();
-		//pList.size() -> 6	
 		
 		for(int i = 0; i < pList.size(); i++) {
 			//각 상품의 썸네일
@@ -277,7 +273,8 @@ public class StoreService {
 		
 		System.out.println(tList);		
 		
-		if(pList != null) { //상품이 있다면			
+		if(pList != null) { //상품이 있다면	
+			mv.addObject("ceo", ceo);
 			mv.addObject("pList", pList);
 			mv.addObject("tList", tList); 
 			mv.addObject("ptMap", ptMap);
@@ -327,7 +324,7 @@ public class StoreService {
 			rttr.addFlashAttribute("msg", "상품 등록에 실패하였습니다.");
 		}		
 		return view;
-	}
+	}	
 	
 	//상품 썸네일 등록
 	public boolean stProdThumbUp(MultipartHttpServletRequest multi, int pl_num) throws Exception {
@@ -362,8 +359,46 @@ public class StoreService {
 		return true;
 	}
 	
+	//상품 사진 추가 화면
+	public ModelAndView stAddProdPhotos(Integer pl_num){
+		mv = new ModelAndView();		
+		session.setAttribute("pl_num", pl_num);
+					
+		List<FileUpDto> photoList = stDao.getProdPhotos(pl_num);
+		
+		mv.addObject("photoList", photoList);
+		mv.setViewName("stAddProdPhotos");
+		
+		return mv;
+	}
+	
+	//해당 상품 사진 추가
+	public String stAddProdPhotoProc(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
+		log.info("stAddProdPhotoPro()");
+		
+		String view = null;		
+		String check = multi.getParameter("fileCheck");
+		int plnum = (Integer) session.getAttribute("pl_num");				
+				
+		System.out.println(plnum);
+		
+		try {
+			if(check.equals("1")) {
+				stProdFileUp(multi, plnum);
+			}
+			view = "redirect:stAddProdPhotos?pl_num=" + plnum;
+			rttr.addFlashAttribute("msg", "상품 사진이 추가되었습니다.");
+			session.removeAttribute("pl_num");
+		} catch (Exception e) {
+			e.printStackTrace();
+			view = "redirect:stAddProdPhotos?pl_num=" + plnum;
+			rttr.addFlashAttribute("msg", "사진 등록에 실패하였습니다.");			
+		}		
+		return view;
+	}
+	
 	//상품 사진 등록
-	public boolean stProdFileUp(MultipartHttpServletRequest multi, int pl_num) throws Exception {
+	public boolean stProdFileUp(MultipartHttpServletRequest multi, Integer pl_num) throws Exception {
 		
 		String path = multi.getSession().getServletContext().getRealPath("/");
 		
@@ -483,7 +518,7 @@ public class StoreService {
 		return mv;
 	}
 	
-	//가게 썸네일
+	//가게 썸네일 등록
 	public String stMyThumbProc(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
 		log.info("stMyThumbProc()");
 		
@@ -554,6 +589,7 @@ public class StoreService {
 		
 		return mv;
 	}
+	
 	//가게 사진 추가 업로드
 	public String stExtraPhotoProc(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
 		log.info("stExtraPhotoProc()");
@@ -578,6 +614,7 @@ public class StoreService {
 		return view;
 	}	
 	
+	//가게 사진 추가 업로드
 	public boolean stPhotoUp(MultipartHttpServletRequest multi, String pl_cnum) throws Exception {
 		
 		String path = multi.getSession().getServletContext().getRealPath("/");
@@ -636,7 +673,70 @@ public class StoreService {
 		return result;
 	}
 	
+	//상품 상세 페이지
+	public ModelAndView stDetail(Integer pl_num) {
+		mv = new ModelAndView();
+		
+		//해당 상품 사진(메인, 추가)과 상품 정보		
+		FileUpDto fDto = new FileUpDto();
+		List<FileUpDto> photoList = new ArrayList<FileUpDto>();
+		ProductDto product = new ProductDto();			
+		
+		fDto = stDao.getProdThumb(pl_num);
+		photoList = stDao.getProdPhotos(pl_num);
+		product = stDao.getProdInfo(pl_num);
+		
+		mv.addObject("fDto", fDto);
+		mv.addObject("photoList", photoList);
+		mv.addObject("product", product);
+		mv.setViewName("stDetail?pl_num=" + pl_num);
+		
+		return mv;
+	}	
 	
-	
+	//가게 상세 페이지
+	public ModelAndView plProductList(String c_num) {
+		mv = new ModelAndView();
+		
+		//가게 dto, 가게메인사진 dto, 가게사진 list, 상품 list, 상품메인사진 list
+		StoreDto store = new StoreDto(); //가게 정보
+		FileUpDto fDto = new FileUpDto(); //가게 메인사진
+		List<ProductDto> pList = new ArrayList<ProductDto>(); //상품 리스트
+		List<FileUpDto> photoList = new ArrayList<FileUpDto>(); //가게 사진들
+		List<FileUpDto> prodThumbList = new ArrayList<FileUpDto>(); //상품 메인사진 리스트
+		Map<String, Object> ptMap = new HashMap<String, Object>(); //상품번호와 해당 메인사진의 컬렉션
+		
+		try {
+			store = stDao.getStoreInfo(c_num);
+			fDto = stDao.getThumb(c_num);
+			pList = stDao.getProdList(c_num);
+			photoList = stDao.getPhotos(c_num);
+			
+			for(int i = 0; i < pList.size(); i++) {
+				FileUpDto prodThumb = new FileUpDto();
+				prodThumb = stDao.getProdThumb(pList.get(i).getPl_num());
+				prodThumbList.add(i, prodThumb);
+				
+				for(int j = 0; j < prodThumbList.size(); j++) {
+					ptMap.put(prodThumbList.get(j).getF_sysname(), pList.get(j));
+				}
+				prodThumb = null;			
+			} 			
+			
+			mv.addObject("store", store);
+			mv.addObject("fDto", fDto);
+			mv.addObject("pList", pList);
+			mv.addObject("photoList", photoList);
+			mv.addObject("ptMap", ptMap);
+			
+			mv.setViewName("plProductList");
+			
+		} catch(Exception e) {
+			e.printStackTrace();		
+		}
+		
+		
+		return mv;
+	}
 	
 }//class end

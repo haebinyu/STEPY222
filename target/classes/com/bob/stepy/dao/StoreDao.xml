@@ -8,7 +8,7 @@
 	<insert id="cJoinProc" parameterType="com.bob.stepy.dto.CeoDto">
 		INSERT INTO C VALUES (#{c_num}, #{c_pwd}, #{c_email}, default, #{c_name}, #{c_phone})
 	</insert>
-	<insert id="stJoinProc" parameterType="com.bob.stepy.dto.StoreDto">
+	<insert id="stJoinProc" parameterType="com.bobe.stepy.dto.StoreDto">
 		INSERT INTO S VALUES (#{s_num}, #{s_phone}, #{s_name}, #{s_addr1}, #{s_addr2}, #{s_addr3}, #{s_summary}, #{s_category}, default)
 	</insert>
 	
@@ -47,6 +47,11 @@
 	<select id="getProdList" parameterType="String" resultType="com.bob.stepy.dto.ProductDto">
 		SELECT * FROM PL WHERE PL_CNUM=#{pl_cnum} ORDER BY PL_NUM DESC
 	</select>
+	<!-- 상품 1개 정보 가져오기 -->
+	<select id="getProdInfo" parameterType="Integer" resultType="com.bob.stepy.dto.ProductDto">
+		SELECT * FROM PL WHERE PL_NUM=${pl_num}
+	</select>
+	
 	
 	<!-- 상품 등록하기 -->	
 	<insert id="stProdInsert" parameterType="com.bob.stepy.dto.ProductDto"
@@ -68,9 +73,14 @@
 	</insert>
 	<!-- 그 외 상품 사진 첨부 -->
 	<insert id="stProdFileUp" parameterType="HashMap">
-		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_PLNUM)
-		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{pl_num})
+		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_PLNUM, F_THUMB)
+		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, ${pl_num}, 'OTHER')
 	</insert>
+	<!-- 상품 추가 사진 불러오기 -->
+	<select id="getProdPhotos" parameterType="Integer" resultType="com.bob.stepy.dto.FileUpDto">
+		SELECT * FROM F WHERE F_PLNUM=#{f_plnum} AND F_THUMB='OTHER'
+	</select>
+	
 	
 	<!-- 사업주, 매장 정보 변경하기 -->
 	<update id="stModifyCeo" parameterType="com.bob.stepy.dto.CeoDto">
