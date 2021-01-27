@@ -290,8 +290,8 @@ function budgetSubmit() {
 			
 			var str = '<form><input type="text" class="form-control input-budget" value="' + data.budget + '" placeholder="예산 입력" onkeyup="numberCheck(this)"/>' +
 					'<input class="btn btn-default btn-block add-party-btn" type="button" value="저장" onclick="budgetSubmit()">' +
-					'</form><div class="balance-spent text-right"><h4 class="bs">' + data.totalCost + '</h4></div><div class="balance-result text-right">' +
-					'<h4 class="br">' + data.balance + '</h4></div>';
+					'</form><div class="balance-spent text-right"><h4 class="bs balance">' + data.totalCost + '</h4></div><div class="balance-result text-right">' +
+					'<h4 class="br balance">' + data.balance + '</h4></div>';
 			$(".balance-area").html(str);
 			//형식 변환
 			//console.log(cost);
