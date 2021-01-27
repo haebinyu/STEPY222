@@ -46,6 +46,15 @@
 	line-height: 100px;
 }
 
+@media screen and (max-width: 1000px) {
+	.mailBtn, .eventBtn, .reportBtn {
+		display: block;
+		height: 200px;
+		width: 200px !important;
+		margin: 0 auto;
+	}
+}
+
 /*드래그 차단*/
 .no-drag {
 	-ms-user-select: none;
