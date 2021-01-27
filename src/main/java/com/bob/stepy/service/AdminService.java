@@ -377,7 +377,8 @@ public class AdminService {
 	(EmailDto email, int mailType)
 			throws AddressException, MessagingException {
 		String resStr = "";
-		List<String> mailList = null;
+		List<String> mailList = new ArrayList<String>();
+		System.out.println("mailSend");
 
 		// 네이버일 경우 smtp.naver.com을 입력
 		// Google일 경우 smtp.gmail.com을 입력
@@ -390,11 +391,14 @@ public class AdminService {
 			//메일 내용
 			//받는 사람의 메일주소들 가져오기
 			switch(mailType) {
-			case 1:
+			case 1://M테이블 전원
 				mailList = aDao.getMailList_M();
 				break;
-			case 2:
+			case 2://C테이블 전원
 				mailList = aDao.getMailList_C();
+				break;
+			case 3://특정 단일 대상 (emailDTO에 기록된 수신자 가져와서 add)
+				mailList.add(email.getReceiveMail());
 				break;
 			}
 			System.out.println("DAO에서 이메일 리스트 가져오기 완료");
@@ -410,7 +414,7 @@ public class AdminService {
 
 			//메일 내용 가져와서 스트링버퍼에 옮겨 담기
 			StringBuffer sb = new StringBuffer();
-			String body = email.getMessage();
+			String body = email.getContents();
 			sb.append(body);
 
 			//어펜드로 종합된 버퍼들을 하나의 String으로 포장
