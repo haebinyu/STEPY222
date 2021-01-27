@@ -176,7 +176,7 @@ public class AdminController {
 	public String aWriteEvent
 	(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
 		System.out.println("이벤트 추가 실행");
-		
+
 		String view = aServ.addEvent(multi,rttr);
 		return view;
 	}
@@ -221,6 +221,37 @@ public class AdminController {
 
 		mv = aServ.listSet(pageNum, 8);
 		return mv;
+	}
+
+	@GetMapping("aReportDetail")
+	public ModelAndView aReportDetail (int rp_num) {
+		System.out.println("(컨트롤러) 파라미터된 rp_num : " +rp_num);
+		mv = new ModelAndView();
+		mv = aServ.reportDetail(rp_num);
+
+		return mv;
+	}
+
+	@GetMapping("aReportDispose")
+	public ModelAndView aReportDispose (int rp_num) {
+
+		mv = aServ.reportDetail(rp_num);
+		//같은 SELECT대상이지만 서비스에서 뷰네임을 정했으므로 처리 페이지로 뷰네임 재설정
+		mv.setViewName("aReportDispose");
+		return mv;
+	}
+
+	@PostMapping("aSendMail")
+	public String aSendMail
+	(EmailDto email, RedirectAttributes rttr)
+			throws AddressException, MessagingException {
+		System.out.println("(신고 처리) 메일 전송 서비스 실행");
+		System.out.println(email);
+
+		String msg = aServ.mailSend(email, 1);
+		rttr.addFlashAttribute(msg);
+
+		return "redirect:aReport";
 	}
 
 	//신고 관리 구역 끝//

@@ -17,6 +17,10 @@ caption {
 	text-align: center !important;
 	text-decoration: none;
 	color: #000000 !important;
+	padding-top: 0!important;
+}
+
+#caption_title {
 	font-size: 20px;
 	font-weight: bold;
 }
@@ -54,4 +58,9 @@ caption {
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	user-select: none;
+}
+
+/*숨김&보임 처리용 클래스, 보이게 처리하려면 removeClass로 숨김 클래스 제거*/
+.hide {
+	display: none;
 }

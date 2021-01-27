@@ -67,6 +67,9 @@ public interface AdminDao {
 	public List<ReportDto> getReportList (Integer pageNum);
 	public int getReportCnt();
 
+	public ReportDto getReportRecord(Integer rp_num);
+	public CeoDto getCeoRecord(String rp_cnum);
+
 
 
 }//DAO 인터페이스 끝

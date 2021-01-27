@@ -14,10 +14,26 @@ legend {
 	font-weight: bolder;
 }
 
-.dispose {
+.detailBtn {
 	padding: 10px !important;
 	border: 2px solid #4375d9;
 	cursor: pointer;
 	width: 20%;
 	margin: 0 auto;
+}
+
+#condition {
+	text-align: center;
+}
+
+.dispose-none {
+	display: none;
+}
+
+.finished {
+	background-color: #82ff9e;
+}
+
+.unfinished {
+	background-color: #ff515e;
 }
