@@ -19,7 +19,7 @@
 		<div class="list_area col-sm-3 col-md-10">
 			<table class="listTbl table-bordered table-hover table-striped">
 				<caption>
-					<font>일반 회원 리스트 보기</font>
+					<font id="caption_title">일반 회원 리스트 보기</font>
 				</caption>
 				<thead>
 					<tr>

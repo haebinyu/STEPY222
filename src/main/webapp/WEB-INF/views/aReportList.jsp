@@ -8,20 +8,23 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 %>
 <head>
 <link rel="stylesheet" href="resources/css/aListStyle.css">
-<script type="text/javascript">
-	var msgChk = "${msg}";
-
-	if (msgChk != "") {
-		alert(msgChk);
-		msgChk = null;
-		location.href = "aCeoList";
-	}
-</script>
 </head>
 <div class="list_area col-sm-3 col-md-10">
 	<table class="listTbl table-bordered table-hover table-striped">
 		<caption>
-			<font><%=type%> 리스트 보기</font>
+			<font id="caption_title"><%=type%> 리스트 보기
+			</font>
+			<!--  -->
+			<br>
+			<!--  -->
+			<input type="radio" name="choice" value="1" id="all"> <label
+				for="all">전체 보기</label>
+			<!--  -->
+			<input type="radio" name="choice" value="2" id="finished-only">
+			<label for="finished-only">처리완료 항목만</label>
+			<!--  -->
+			<input type="radio" name="choice" value="3" id="unfinished-only">
+			<label for="unfinished-only">처리중 항목만</label>
 		</caption>
 		<thead>
 			<tr>
@@ -36,7 +39,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 			</tr>
 		</thead>
 		<c:forEach var="rpItem" items="${rpList}">
-			<tr>
+			<tr class="item">
 				<td>${rpItem.rp_num }</td>
 				<td>${rpItem.rp_title }</td>
 				<td>${rpItem.rp_category }</td>
@@ -62,10 +65,8 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 </div>
 <script>
 	condiCells = document.getElementsByClassName("condition");
-
-	console.log("리스트 타입 분류 : " +
-<%=typeNum%>
-	);
+	detailCells =document.getElementsByClassName("detail");
+	trs =document.getElementsByClassName("item");
 
 	//처리 중, 처리 완료에 따라 (배경색을 지정해둔) 클래스 배정
 	for (var i = 0; i < condiCells.length; i++) {
@@ -80,5 +81,39 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 	function reportDetail(rp_num) {
 		location.href="aReportDetail?rp_num=" + rp_num;
 	}
+	$('#all').change(function(){
+		console.log("전체 보기");
+		
+		for (var i=0; i<trs.length; i++){
+			$(trs[i]).removeClass("hide");
+		}
+	})	
+	
+	$('#finished-only').change(function(){
+		console.log("처리완료 보기");
+		
+		for (var i=0; i<trs.length; i++){
+			if (condiCells[i].innerHTML == "처리 완료"){
+				$(trs[i]).removeClass("hide");
+			} else {
+				trs[i].classList.add("hide");
+			}
+		}
+	})	
+	
+	$('#unfinished-only').change(function(){
+		console.log("처리중 보기");
+		
+		for (var i=0; i<trs.length; i++){
+			if (condiCells[i].innerHTML == "처리중"){
+				$(trs[i]).removeClass("hide");
+			} else {
+				trs[i].classList.add("hide");
+			}
+		}
+	})	
+	
+	
+	
 </script>
 <script src="resources/js/aAutoColspan.js"></script>

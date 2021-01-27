@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,8 +32,12 @@
 				</fieldset>
 				<fieldset>
 					<legend>처리</legend>
-					<div class="dispose" onclick="detail(${report.rp_num});">신고
-						처리 페이지로 이동</div>
+					<input type="text" value="${report.rp_condition }" id="condition"
+						disabled> <span class="detailBtn" id="dispose"
+						onclick="detail(${report.rp_num});">신고 처리 페이지로 이동</span>
+					<!--  -->
+					<span id="back" class="detailBtn"
+						onclick="location.href='aReportStoreList';">뒤로가기</span>
 				</fieldset>
 			</div>
 		</div>
@@ -47,5 +50,18 @@
 function detail(rp_num){
 	location.href="aReportDispose?rp_num=" + rp_num;
 }
+
+var conditionVal = document.getElementById("condition").value;
+console.log(condition.value);
+//처리중, 처리완료에 따라 input 배경색 클래스 지정
+if (conditionVal == "처리 완료") {
+	condition.classList.add("finished");
+	//처리 완료인 경우 처리 페이지로 가지 않도록 버튼에 숨기는 클래스 추가
+	dispose.classList.add("dispose-none");
+}
+else {
+	condition.classList.add("unfinished");
+}
+
 </script>
 </html>
