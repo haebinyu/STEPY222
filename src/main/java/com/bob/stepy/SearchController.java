@@ -3,6 +3,8 @@ package com.bob.stepy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bob.stepy.service.SearchService;
@@ -71,6 +73,44 @@ public class SearchController {
 		
 		mv = sServ.getProductList(cnum); // 상품 리스트
 		
+		return mv;
+	}
+	
+	
+	/* ************* */
+	
+	// 여행 후기 게시판 검색
+	@PostMapping("searchTravelReview")
+	public ModelAndView searchTravelReview(@RequestParam(defaultValue = "all") String searchOption, 
+			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") Integer pageNum) {
+		log.info("searchTravelReview() searchOption : " + searchOption + ", keyword : " + keyword);
+		
+		mv = sServ.searchTravelReview(searchOption, keyword, pageNum);
+		
+		return mv;
+	}
+	
+	
+	// 메이트 게시판 검색
+	@PostMapping("searchMate")
+	public ModelAndView searchMate(@RequestParam(defaultValue = "all") String searchOption, 
+			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") Integer pageNum) {
+		log.info("searchMate() searchOption : " + searchOption + ", keyword : " + keyword);
+
+		mv = sServ.searchMate(searchOption, keyword, pageNum);
+
+		return mv;
+	}
+	
+	
+	// 자유 게시판 검색
+	@PostMapping("searchFree")
+	public ModelAndView searchFree(@RequestParam(defaultValue = "all") String searchOption, 
+			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") Integer pageNum) {
+		log.info("searchFree() searchOption : " + searchOption + ", keyword : " + keyword);
+
+		mv = sServ.searchFree(searchOption, keyword, pageNum);
+
 		return mv;
 	}
 

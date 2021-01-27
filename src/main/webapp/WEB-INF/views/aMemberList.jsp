@@ -51,7 +51,7 @@
 						<td>${mItem.m_phone}</td>
 						<td>${mItem.m_addr}</td>
 						<td class="delete" onclick="delConfirm('${mItem.m_id}');">
-							<div>추방하기</div>
+							<div>추방</div>
 						</td>
 					</tr>
 				</c:forEach>

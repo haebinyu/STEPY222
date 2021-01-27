@@ -54,7 +54,7 @@ function detail(rp_num){
 var conditionVal = document.getElementById("condition").value;
 console.log(condition.value);
 //처리중, 처리완료에 따라 input 배경색 클래스 지정
-if (conditionVal == "처리 완료") {
+if (conditionVal == "처리완료") {
 	condition.classList.add("finished");
 	//처리 완료인 경우 처리 페이지로 가지 않도록 버튼에 숨기는 클래스 추가
 	dispose.classList.add("dispose-none");
