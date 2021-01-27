@@ -27,12 +27,6 @@ public class StoreController {
 	private ModelAndView mv;
 	
 	
-	@GetMapping("/")
-	public String home() {
-		log.info("home()");
-		return "home";
-	}
-	
 	@GetMapping("stHome")
 	public String stHome() {
 		log.info("stHome()");
