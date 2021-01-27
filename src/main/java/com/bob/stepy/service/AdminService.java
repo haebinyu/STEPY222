@@ -136,7 +136,7 @@ public class AdminService {
 		return pagingHtml;
 	}//getPaging 메소드 끝
 
-	//리스트 보기 통합 메소드(스위치 사용)
+	//복수 레코드 리스트 보기 통합 메소드 (스위치 사용)
 	public ModelAndView listSet (Integer pageNum, Integer listSelect) {
 		mv = new ModelAndView();
 
@@ -629,6 +629,19 @@ public class AdminService {
 		}
 
 		return "redirect:aEventList";
+	}
+
+	//단일 신고글 세부사항 보기
+	public ModelAndView reportDetail (int rp_num) {
+		System.out.println("(서비스) 파라미터된 rp_num : " +rp_num);
+		mv = new ModelAndView();
+		ReportDto report = aDao.getReportRecord(rp_num);
+		CeoDto ceo = aDao.getCeoRecord(report.getRp_cnum());
+
+		mv.addObject("report", report);
+		mv.addObject("ceo", ceo);
+		mv.setViewName("aReportDetail");
+		return mv;
 	}
 
 
