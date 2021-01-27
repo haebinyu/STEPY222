@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -141,9 +142,7 @@ public class AdminController {
 
 		return "redirect:aGroupMailFrm";
 	}
-
-
-	//메일 관리 구역 끝//
+	//회원 관리 구역 끝//
 
 	//이벤트 관리 페이지로 이동
 	@GetMapping("aEvent")
@@ -248,7 +247,7 @@ public class AdminController {
 		System.out.println("(신고 처리) 메일 전송 서비스 실행");
 		System.out.println(email);
 
-		String msg = aServ.mailSend(email, 1);
+		String msg = aServ.mailSend(email, 3);
 		rttr.addFlashAttribute(msg);
 
 		return "redirect:aReport";
