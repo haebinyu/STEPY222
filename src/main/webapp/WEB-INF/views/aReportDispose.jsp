@@ -26,12 +26,14 @@
 						</div>
 						<div class="mail_tgt">
 							수신자 이메일 <input type="hidden" value="${ceo.c_email }"
-								name="receiveMail"><input type="text"
-								value="${ceo.c_email }" disabled>
+								name="receiveMail">
+							<!--  -->
+							<input type="text" value="${ceo.c_email }" disabled>
 						</div>
 					</fieldset>
 					<fieldset>
 						<legend>제목</legend>
+						<input type="hidden" name="subject" value="신고 대상자 처리 공지">
 						<input type="text" name="subject" value="신고 대상자 처리 공지" disabled>
 					</fieldset>
 					<fieldset>
