@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>STEPY - 관리자 페이지</title>
+<link rel="stylesheet" href="resources/css/aWriteStyle.css">
 <link rel="stylesheet" href="resources/css/aReportDetailStyle.css">
 </head>
 <body>
@@ -19,8 +20,13 @@
 				<form action="aSendMail" method="post">
 					<fieldset>
 						<legend>발송 대상</legend>
-						<input type="text" value="${report.rp_cnum }" name="receiveMail"
-							disabled>
+						<div class="mail_tgt">
+							수신자 ID <input type="text" value="${report.rp_cnum }" disabled>
+						</div>
+						<div class="mail_tgt">
+							수신자 이메일 <input type="text" value="${ceo.c_email }"
+								name="receiveMail" disabled>
+						</div>
 					</fieldset>
 					<fieldset>
 						<legend>제목</legend>

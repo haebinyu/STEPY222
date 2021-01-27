@@ -26,11 +26,7 @@
 				<fieldset>
 					<legend>이벤트 내용</legend>
 					<textarea rows="10" name="e_contents" placeholder="이벤트 내용" required
-						id="eContents" onkeyup="lengthCheck(eContents.value);"
-						onload="lengthCheck(eContents.value);"></textarea>
-					<div id="textLength_area">
-						<span id="currentTexts_contents"></span> / 500
-					</div>
+						id="eContents"></textarea>
 				</fieldset>
 				<fieldset>
 					<legend>이벤트 기간</legend>
@@ -62,19 +58,6 @@
 	</footer>
 </body>
 <script type="text/javascript">
-	function lengthCheck(texts) {
-		var maxLength = 500;
-		var strLength = texts.length;
-
-		currentTexts_contents.innerHTML = strLength;
-		if (strLength > maxLength) {
-			alert(maxLength + "자 이상 입력할 수 없습니다");
-			eContents.value = texts.substring(0, maxLength);
-			strLength = maxLength;
-		}
-		currentTexts_contents.innerHTML = strLength;
-	}
-
 	$("#file").on('change', function() {
 		//파일 여러개를 선택하고(input multiple속성)
 		//해당 파일들의 이름을 모두 출력하려는 경우
