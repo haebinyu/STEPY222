@@ -311,5 +311,11 @@ public class TravelPlanController {
 		
 		return tServ.pDepMember(planNum, member, rttr);
 	}
-	
+	//여행에서 나가기
+	@GetMapping("pExitPlan")
+	public String pExitPlan(RedirectAttributes rttr) {
+		log.info("controller - pExitPlan()");
+		
+		return tServ.pExitPlan(rttr);
+	}
 }

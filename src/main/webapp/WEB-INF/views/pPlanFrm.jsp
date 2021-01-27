@@ -238,8 +238,15 @@ $(function(){
 	
 	//여행 수정
 	$(".edit-plan-name").click(function(){
-		location.href="pEditPlanFrm"
+		location.href="pEditPlanFrm";
 	});
+	
+	//여행에서 나가기
+	$(".exit-plan").click(function(){
+		if(confirm('여행에서 나가시겠습니까?')){
+			location.href="pExitPlan";
+		}
+	})
 });
 
 //일행 보기 메뉴

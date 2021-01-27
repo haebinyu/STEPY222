@@ -850,6 +850,7 @@ public class TravelPlanService {
 		return iMap;
 	}
 
+	//여행 삭제
 	@Transactional
 	public String pDelPlan(RedirectAttributes rttr) {
 		log.info("service - pDelPlan");
@@ -976,5 +977,42 @@ public class TravelPlanService {
 		
 		rttr.addFlashAttribute("msg", msg);
 		return "redirect:pPlanFrm?planNum=0";
+	}
+
+	//여행에서 나가기
+	@Transactional
+	public String pExitPlan(RedirectAttributes rttr) {
+		log.info("service - pExitPlan()");
+		
+		String msg = null;
+		
+		TravelPlanDto plan = tDao.getPlan((long)session.getAttribute("curPlan"));
+		MemberDto member = (MemberDto)session.getAttribute("member");
+		String id = member.getM_id();
+		
+		try {
+			if(plan.getT_member1().equals(id)) {
+				tDao.pDepmember1(plan.getT_plannum());
+			}
+			else if(plan.getT_member2().equals(id)) {
+				tDao.pDepmember2(plan.getT_plannum());
+			}
+			else if(plan.getT_member3().equals(id)) {
+				tDao.pDepmember3(plan.getT_plannum());
+			}
+			else if(plan.getT_member4().equals(id)) {
+				tDao.pDepmember4(plan.getT_plannum());
+			}
+			else if(plan.getT_member5().equals(id)) {
+				tDao.pDepmember5(plan.getT_plannum());
+			}
+			msg = "여행에서 탈퇴하였습니다";
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg = "오류가 발생했습니다";
+		}
+		
+		rttr.addFlashAttribute("msg", msg);
+		return "redirect:pPlanList?id=" + id;
 	}
 }
