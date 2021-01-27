@@ -47,7 +47,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				<td class="accept" onclick="checkConfirm('${cItem.c_num}');">승인하기</td>
 				<td>${cItem.c_report}</td>
 				<td class="delete" onclick="delConfirm('${cItem.c_num}');">
-					추방하기</td>
+					추방</td>
 			</tr>
 		</c:forEach>
 		<c:if test="${empty ceoList }">

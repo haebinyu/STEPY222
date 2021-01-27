@@ -1,3 +1,4 @@
+<%@page import="com.bob.stepy.dto.EmailDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -24,8 +25,9 @@
 							수신자 ID <input type="text" value="${report.rp_cnum }" disabled>
 						</div>
 						<div class="mail_tgt">
-							수신자 이메일 <input type="text" value="${ceo.c_email }"
-								name="receiveMail" disabled>
+							수신자 이메일 <input type="hidden" value="${ceo.c_email }"
+								name="receiveMail"><input type="text"
+								value="${ceo.c_email }" disabled>
 						</div>
 					</fieldset>
 					<fieldset>
@@ -51,7 +53,7 @@
 						(파일이 있으면 1, 없으면 0으로 JS가 처리) -->
 						<input type="hidden" id="filecheck" value="0" name="fileCheck">
 					</fieldset>
-					<input type="submit" value="메일 전송" class="mailBtn">
+					<input type="submit" value="메일 전송&회원 추방" class="mailBtn">
 					<!--  -->
 					<input type="reset" value="메일 리셋" class="mailBtn">
 				</form>
@@ -89,5 +91,7 @@
 			$("#filecheck").val(1);
 		}
 	});
+<%%>
+	
 </script>
 </html>

@@ -70,7 +70,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 
 	//처리 중, 처리 완료에 따라 (배경색을 지정해둔) 클래스 배정
 	for (var i = 0; i < condiCells.length; i++) {
-		if (condiCells[i].innerHTML == "처리 완료") {
+		if (condiCells[i].innerHTML == "처리완료") {
 			condiCells[i].classList.add("finished");
 		} else {
 
@@ -93,7 +93,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		console.log("처리완료 보기");
 		
 		for (var i=0; i<trs.length; i++){
-			if (condiCells[i].innerHTML == "처리 완료"){
+			if (condiCells[i].innerHTML == "처리완료"){
 				$(trs[i]).removeClass("hide");
 			} else {
 				trs[i].classList.add("hide");
