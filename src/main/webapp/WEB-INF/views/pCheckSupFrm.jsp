@@ -196,14 +196,6 @@
 <script src="resources/js/jquery.serializeObject.js"></script>
 <script type="text/javascript">
 $(function(){
-	//메시지 출력
-	var chk = "${msg}";
-	
-	if(chk != ""){
-		alert(chk);
-		location.reload(true);
-	}
-	
 	//일행 초대 버튼 클릭
 	$(".inviteBtn").click(function(){
 		var id = '${member.m_id}';

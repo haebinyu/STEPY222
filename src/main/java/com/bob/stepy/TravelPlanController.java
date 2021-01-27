@@ -57,10 +57,10 @@ public class TravelPlanController {
 	
 	//일정 페이지 이동
 	@GetMapping("pPlanFrm")
-	public ModelAndView pPlanFrm(long planNum) {
+	public ModelAndView pPlanFrm(long planNum, RedirectAttributes rttr) {
 		log.info("controller - pPlanFrm()");
 		
-		return tServ.pPlanFrm(planNum);
+		return tServ.pPlanFrm(planNum, rttr);
 	}
 	
 	//장소 검색 페이지 이동
@@ -104,10 +104,10 @@ public class TravelPlanController {
 	
 	//가계부 페이지 이동
 	@GetMapping("pHouseholdFrm")
-	public ModelAndView pHouseholdFrm(long planNum) {
+	public ModelAndView pHouseholdFrm(long planNum, RedirectAttributes rttr) {
 		log.info("controller - pHouseholdFrm()");
 		
-		return tServ.pHouseholdFrm(planNum);
+		return tServ.pHouseholdFrm(planNum, rttr);
 	}
 	
 	//가계부 내용 작성 페이지 이동
@@ -161,10 +161,10 @@ public class TravelPlanController {
 	
 	//체크리스트 페이지 이동
 	@GetMapping("pCheckSupFrm")
-	public ModelAndView pCheckSupFrm(long planNum) {
+	public ModelAndView pCheckSupFrm(long planNum, RedirectAttributes rttr) {
 		log.info("controller - pCheckSupFrm()");
 		
-		return tServ.pCheckSupFrm(planNum);
+		return tServ.pCheckSupFrm(planNum, rttr);
 	}
 	
 	//체크리스트 상태 변경
