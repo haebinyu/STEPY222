@@ -40,4 +40,41 @@
 	SELECT * FROM S WHERE S_NUM=#{cnum}
 </select>
 
+
+<!--  -->
+
+<!-- 여행 후기 게시판 검색 -->
+<select id="searchTravelReview" parameterType="String" resultType="com.bob.stepy.dto.PostDto">
+	SELECT * FROM P WHERE p_category='후기' AND <include refid="searchPost"></include>
+</select>
+
+
+<!-- 메이트 게시판 검색 -->
+<select id="searchMate" parameterType="String" resultType="com.bob.stepy.dto.PostDto">
+	SELECT * FROM P WHERE p_category='메이트 구하기' AND <include refid="searchPost"></include>
+</select>
+
+
+<!-- 자유 게시판 검색 -->
+<select id="searchFree" parameterType="String" resultType="com.bob.stepy.dto.PostDto">
+	SELECT * FROM P WHERE p_category='자유' AND <include refid="searchPost"></include>
+</select>
+
+
+<!-- 게시판 검색 공통 쿼리문 -->
+<sql id="searchPost">
+	<choose>
+		<!-- 검색 옵션이 전체일 경우 -->
+		<when test="searchOption == 'all'">
+			(p_title LIKE '%'||#{keyword}||'%'
+				OR p_contents LIKE '%'||#{keyword}||'%'
+				OR p_mid LIKE '%'||#{keyword}||'%')
+		</when>
+		<!-- 검색 옵션이 전체가 아닐 경우 -->
+		<otherwise>
+			${searchOption} LIKE '%'||#{keyword}||'%'
+		</otherwise>
+	</choose>
+</sql>
+
 </mapper>
