@@ -15,14 +15,14 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 			<!--  -->
 			<br>
 			<!--  -->
-			<input type="radio" name="choice" value="1" id="all"> <label
+			<input type="radio" name="choice" value="1" id="all" checked> <label
 				for="all">전체 보기</label>
 			<!--  -->
 			<input type="radio" name="choice" value="2" id="finished-only">
 			<label for="finished-only">처리완료 항목만</label>
 			<!--  -->
 			<input type="radio" name="choice" value="3" id="unfinished-only">
-			<label for="unfinished-only">처리중 항목만</label>
+			<label for="unfinished-only">처리중 항목만</label> <br>
 		</caption>
 		<thead>
 			<tr>
@@ -83,7 +83,6 @@ for (var i = 0; i < condiCells.length; i++) {
 	
 $('#all').change(function(){
 console.log("전체 보기");
-
 	for (var i=0; i<trs.length; i++){
 		$(trs[i]).removeClass("hide");
 	}
@@ -91,7 +90,6 @@ console.log("전체 보기");
 	
 $('#finished-only').change(function(){
 	console.log("처리완료 보기");
-	
 	for (var i=0; i<trs.length; i++){
 		if (condiCells[i].innerHTML == "처리완료"){
 		$(trs[i]).removeClass("hide");
@@ -101,40 +99,15 @@ $('#finished-only').change(function(){
 }
 });
 	
-	$('#unfinished-only').change(function(){
-		console.log("처리중 보기");
-		
-		for (var i=0; i<trs.length; i++){
-			if (condiCells[i].innerHTML == "처리중"){
-				$(trs[i]).removeClass("hide");
-			} else {
-				trs[i].classList.add("hide");
-			}
+$('#unfinished-only').change(function(){
+	console.log("처리중 보기");
+	for (var i=0; i<trs.length; i++){
+		if (condiCells[i].innerHTML == "처리중"){
+			$(trs[i]).removeClass("hide");
+		} else {
+			trs[i].classList.add("hide");
 		}
-	});
-	
-//리스트마다 다른 typeNum에 따라 보일 tr,숨길 tr 클래스 지정
-if(<%=typeNum%> == 1){
-	console.log("현재 리스트 : 신고된 업체 리스트");
-	for (var i =0; i<trs.length; i++){
-		if (typeCells[i].innerHTML != "업체") {
-			trs[i].classList.add("hide");
-		} 
 	}
-} else if (<%=typeNum%> == 2) {
-	console.log("현재 리스트 : 신고된 업체 리스트");
-	for (var i =0; i<trs.length; i++){
-		if (typeCells[i].innerHTML != "게시글") {
-			trs[i].classList.add("hide");
-		} 
-	}
-} else if (<%=typeNum%> == 3) {
-	console.log("현재 리스트 : 신고된 업체 리스트");
-	for (var i =0; i<trs.length; i++){
-		if (typeCells[i].innerHTML != "댓글") {
-			trs[i].classList.add("hide");
-		} 
-	}
-}
+});
 </script>
 <script src="resources/js/aAutoColspan.js"></script>
