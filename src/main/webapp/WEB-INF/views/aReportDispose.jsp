@@ -23,6 +23,7 @@
 						<legend>발송 대상</legend>
 						<div class="mail_tgt">
 							수신자 ID <input type="text" value="${report.rp_cnum }" disabled>
+							<input type="hidden" name="c_num" value="${report.rp_cnum }">
 						</div>
 						<div class="mail_tgt">
 							수신자 이메일 <input type="hidden" value="${ceo.c_email }"
@@ -33,6 +34,7 @@
 					</fieldset>
 					<fieldset>
 						<legend>제목</legend>
+						<input type="hidden" name="rp_num" value="${report.rp_num }">
 						<input type="hidden" name="subject" value="신고 대상자 처리 공지">
 						<input type="text" name="subject" value="신고 대상자 처리 공지" disabled>
 					</fieldset>
