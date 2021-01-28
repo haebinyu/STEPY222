@@ -139,9 +139,22 @@
 	</delete>
 
 	<!-- 신고 처리 관련 -->
-	<select id="getReportList" parameterType="Integer"
+	<select id="getReportList_C" parameterType="Integer"
 		resultType="com.bob.stepy.dto.ReportDto">
 		SELECT * FROM RP
+		WHERE RP_CATEGORY='업체'
+		ORDER BY RP_NUM
+	</select>
+	<select id="getReportList_P" parameterType="Integer"
+		resultType="com.bob.stepy.dto.ReportDto">
+		SELECT * FROM RP
+		WHERE RP_CATEGORY='게시글'
+		ORDER BY RP_NUM
+	</select>
+	<select id="getReportList_R" parameterType="Integer"
+		resultType="com.bob.stepy.dto.ReportDto">
+		SELECT * FROM RP
+		WHERE RP_CATEGORY='댓글'
 		ORDER BY RP_NUM
 	</select>
 
