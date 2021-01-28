@@ -41,7 +41,8 @@ String mail_tgt = request.getParameter("mail_tgt");
 			</fieldset>
 			<input type="submit" value="메일 전송" class="mailBtn">
 			<!--  -->
-			<input type="reset" value="메일 리셋" class="mailBtn">
+			<input type="reset" value="메일 리셋" class="mailBtn"> <input
+				type="button" value="뒤로가기" onclick="window.history.back();">
 		</form>
 	</div>
 </div>

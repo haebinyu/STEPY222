@@ -33,11 +33,12 @@
 				<fieldset>
 					<legend>처리</legend>
 					<input type="text" value="${report.rp_condition }" id="condition"
-						disabled> <span class="detailBtn" id="dispose"
-						onclick="detail(${report.rp_num});">신고 처리 페이지로 이동</span>
+						class="no-drag" disabled>
+					<div class="detailBtn" id="dispose"
+						onclick="detail(${report.rp_num});">신고 처리</div>
 					<!--  -->
-					<span id="back" class="detailBtn"
-						onclick="location.href='aReportStoreList';">뒤로가기</span>
+					<div id="back" class="detailBtn"
+						onclick="window.history.back();">뒤로가기</div>
 				</fieldset>
 			</div>
 		</div>
@@ -62,6 +63,5 @@ if (conditionVal == "처리완료") {
 else {
 	condition.classList.add("unfinished");
 }
-
 </script>
 </html>
