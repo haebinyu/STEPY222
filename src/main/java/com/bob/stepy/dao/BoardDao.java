@@ -3,6 +3,7 @@ package com.bob.stepy.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.bob.stepy.dto.LikedDto;
 import com.bob.stepy.dto.PostDto;
 import com.bob.stepy.dto.PostDto2;
 import com.bob.stepy.dto.PostFileDto;
@@ -62,6 +63,20 @@ public interface BoardDao {
 	public void fileListDelete(Integer pnum);
 	//게시글 삭제
 	public void boardDelet(Integer pnum);
+	//좋아요 인설트
+	public boolean setLike(LikedDto like);
+	//유저 한 아이디에 좋아요 갯수 가져오기
+	public Integer getlike(LikedDto like);
+	//post테이블 좋아요 1증가
+	public void likeup(Integer pnum);
+	//유저 한 아이디에 좋아요 전부 삭제
+	public void dellike(LikedDto like);
+	//post테이블 좋아요 1감소
+	public void likeupdown(Integer pnum);
+	//게시글 신고
+	public void singoup(Integer pnum);
+	//댓글 신고
+	public void replysingo(Integer rnum);
 	
 
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.annotation.Target;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dao.BoardDao;
+import com.bob.stepy.dto.LikedDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.PostDto;
 import com.bob.stepy.dto.PostDto2;
@@ -414,6 +416,7 @@ public class BoardService {
 		String pcontents = multi.getParameter("pcontents");
 		String pcategory = multi.getParameter("pcategory");
 		String check = multi.getParameter("fileCheck");
+		String id = multi.getParameter("pmid");
 		
 		pcontents = pcontents.trim();
 		
@@ -424,7 +427,7 @@ public class BoardService {
 		post.setP_title(ptitle);
 		post.setP_contents(pcontents);
 		post.setP_category(pcategory);
-		post.setP_mid("user01");
+		post.setP_mid(id);
 		
 		
 		
@@ -534,6 +537,7 @@ public class BoardService {
 		
 		return view;
 	}
+	
 	//게시글 삭제
 	@Transactional
 	public String condel(int pnum,
@@ -560,35 +564,78 @@ public class BoardService {
 		
 		return view;
 	}
+	
+	//좋아요 처리
+	public String like(Integer pnum, String mid,
+			RedirectAttributes rttr) {
+		
+		log.info("pnum : " + pnum + ", mid : " + mid);
+		
+		String view = null;
+				
+		
+		LikedDto like = new LikedDto();
+		
+		like.setL_pnum(pnum);
+		like.setL_mid(mid);
+		
+		bDao.setLike(like);
+		//처음은 게시글 1
+		//두번쨰 게시글 2
+		
+		
+		int num = bDao.getlike(like);
+		
+		if(num == 1) {
+			bDao.likeup(pnum);
+			
+			view = "redirect:contents?pnum=" + pnum;
+			rttr.addFlashAttribute("msg", "좋아요가 증가되었습니다.");
+		}
+		else if(num == 2) {
+			bDao.dellike(like);
+			bDao.likeupdown(pnum);
+			
+			view = "redirect:contents?pnum=" + pnum;
+			rttr.addFlashAttribute("msg", "좋아요가 취소되었습니다..");
+		}
+		
+		
+		return view;
+	}
+	
+	@Transactional
+	public String singo(Integer pnum,
+			RedirectAttributes rttr) {
+		log.info("service singo pnum : " + pnum);
+		
+		String view;
+		
+
+		bDao.singoup(pnum);
+		
+		view = "redirect:contents?pnum=" + pnum;
+		rttr.addFlashAttribute("msg", "신고접수가 되었습니다.");
+				
+				
+		return view;
+	}
+	//댓글 신고
+	@Transactional
+	public String replysingo(Integer pnum,Integer rnum, 
+			RedirectAttributes rttr) {
+		log.info("p : " + pnum + ", r : " + rnum);
+		
+		String view;
+		
+		bDao.replysingo(rnum);
+		
+		view = "redirect:contents?pnum=" + pnum;
+		rttr.addFlashAttribute("msg", "신고접수가 되었습니다.");
+		
+		
+		return view;
+		
+	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
