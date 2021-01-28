@@ -50,7 +50,7 @@ public class AdminService {
 					member = aDao.getMemberInfo(member.getM_id());
 
 					//회원정보는 다른 페이지들에서도 돌려 쓰므로 세션에 DTO째로 등록
-					session.setAttribute("mb", member);
+					session.setAttribute("member", member);
 					view = "aHome";
 				}
 				//id가 admin이 아닌 경우 어드민이 아니라고 판단, 권한 없음 경고
@@ -264,7 +264,7 @@ public class AdminService {
 			int num6 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num6);
 
-			List<ReportDto> reportList1 = aDao.getReportList(num6);
+			List<ReportDto> reportList1 = aDao.getReportList_C(num6);
 
 			mv.addObject("rpList", reportList1);
 
@@ -280,7 +280,7 @@ public class AdminService {
 			int num7 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num7);
 
-			List<ReportDto> reportList2 = aDao.getReportList(num7);
+			List<ReportDto> reportList2 = aDao.getReportList_P(num7);
 
 			mv.addObject("rpList", reportList2);
 
@@ -296,7 +296,7 @@ public class AdminService {
 			int num8 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num8);
 
-			List<ReportDto> reportList3 = aDao.getReportList(num8);
+			List<ReportDto> reportList3 = aDao.getReportList_R(num8);
 
 			mv.addObject("rpList", reportList3);
 
