@@ -7,4 +7,5 @@ public class LikedDto {
 	private int l_num;
 	private int l_pnum;
 	private String l_mid;
+	private int l_view;
 }

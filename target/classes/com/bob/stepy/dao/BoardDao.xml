@@ -165,6 +165,39 @@
 	
 	</delete>
 	
+	<insert id="setLike" parameterType="com.bob.stepy.dto.LikedDto">
+	
+		INSERT INTO L VALUES (L_SEQ.NEXTVAL,#{l_pnum},#{l_mid},1)
+	
+	</insert>
+	
+	<update id="likeup" parameterType="Integer">
+	
+		UPDATE P SET P_LIKE = P_LIKE + 1 WHERE P_NUM=#{pnum}
+	
+	</update>
+	
+	<update id="likeupdown" parameterType="Integer">
+	
+		UPDATE P SET P_LIKE = P_LIKE - 1 WHERE P_NUM=#{pnum}
+	
+	</update>
+	
+	<select id="getlike" parameterType="com.bob.stepy.dto.LikedDto"
+				resultType="Integer">
+				
+		SELECT COUNT(*) FROM L WHERE L_PNUM=#{l_pnum} AND L_MID=#{l_mid}
+		
+	</select>
+	
+	<delete id="dellike">
+	
+		DELETE FROM L WHERE L_PNUM=#{l_pnum} AND L_MID=#{l_mid}
+	
+	</delete>
+	
+
+
 	
 	
 	

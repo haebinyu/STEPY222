@@ -66,8 +66,8 @@
 								value="파일선택" readonly> <input type="hidden"
 								id="filecheck" value="0" name="fileCheck">
 						</div>
-						<input type="hidden" name="pmid" value="${member.m_id}">
-						<div class="row" style="text-align: center; margin-top:100px;">
+							<input type="hidden" name="pmid" value="${member.m_id}">
+						<div class="row" style="text-align: center; margin-top:100px;"> 
 							<button class="btn btn-info" type="submit">등록</button>
 							<input class="btn btn-info" type="button" value="뒤로가기"
 						onclick="location.href='./bCommunity'">

@@ -173,6 +173,17 @@ public class BoardController {
 		return view;
 	}
 	
+	@GetMapping("likeup")
+	public String likeup(Integer pnum, String mid,
+							RedirectAttributes rttr) {
+		
+		log.info("pnum : " + pnum + ", mid : " + mid);
+		
+		String view = bServ.like(pnum, mid, rttr);
+		
+		return view;
+	}
+	
 	
 	
 	

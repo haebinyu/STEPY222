@@ -79,6 +79,7 @@
 						name="fileCheck">
 						<input type="hidden" name="pnum" value="${post.pnum}">
 						<div class="col-md-6 col-xs-12" style="margin-top: 30px;">
+						<input type="hidden" name="pmid" value="${member.m_id}">
 						<button class="btn btn-info col-xs-offset-5" type="submit" style="margin-top:10px;">등록</button>
 						</div>
 					</div>

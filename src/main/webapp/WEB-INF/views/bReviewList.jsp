@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,35 +21,10 @@
 		$(".suc").css("display", "none");
 		$(".bef").css("display", "none");
 		
+	
 
-		//
-		var searchForm = $("#searchForm");
-		
-		$("#searchForm button").on("click", fucntion(){
-			searchForm.submit();
-		});
 });
 </script>
-
-<style type="text/css">
-.searchFrm {
-	float: right;
-	margin-top: 50px;
-}
-.option {
-	float: left;
-	width: 200px;
-}
-.keywordInput {
-	float: left;
-	width: 500px;
-	margin: 0 5px;
-}
-.searchBtn {
-	color: #4375D9;
-	border: 1px solid #4375D9;
-}
-</style>
 </head>
 <body>
 
@@ -77,7 +53,8 @@
 						<a href="contents?pnum=${pitem.pnum}">${pitem.ptitle}</a></td>
 						<td class="danger hidden-xs" style="width:50px;">조회수 : ${pitem.pview}</td>	
 						<td class="info hidden-xs" style="width:50px;">추천수 : ${pitem.plike}</td>
-						<td class="active hidden-xs" style="width:40px;">${pitem.pdate}</td>
+						<td class="active hidden-xs" style="width:40px;">
+						<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${pitem.pdate}"/></td>
 					</tr>
 					</c:forEach>				
 				</table>
@@ -89,21 +66,6 @@
 							onclick="location.href='./bWriteProc'" style="margin-top:50px;">글쓰기</button>
 					</div>
 			</div>
-		</div>
-		
-		<!-- 검색창 -->
-		<div class="container searchFrm">
-			<form action="searchTravelReview" method="post" id="searchForm">
-				<select class="form-control option" name="searchOption">
-					<option value="all" <c:out value=""/>>
-						전체(제목+내용+작성자)</option>	
-					<option value="p_title">제목
-					<option value="p_contents">내용</option>
-					<option value="p_mid">작성자</option>
-				</select>
-				<input name="keyword"class="form-control keywordInput" type="text" placeholder="검색어를 입력해주세요.">
-				<button class="btn btn-default searchBtn" type="submit">검색</button>
-			</form>
 		</div>
 	</section>
 

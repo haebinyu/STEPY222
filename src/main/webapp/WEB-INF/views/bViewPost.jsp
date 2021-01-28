@@ -33,12 +33,14 @@
 		
 		if(id == "" || id == null){
 			$(".bef").css("display", "block");
-			$("#rFrm").css("display", "none");
-			$("#button").css("display", "none");
+			$("#rFrm").css("display", "none");			
 		}
 		if(id != pid){
 			$("#puls").css("display", "none");
 			$("#pulss").css("display", "none");
+		}
+		if(id == pid){
+			$("#like").css("display", "none");
 		}
 	});
 </script>
@@ -50,121 +52,161 @@
 	</header>
 
 	<section>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3 col-xs-12"
-				style="border: 2px solid skyblue; padding-top: 20px; padding-bottom: 20px;">
-				<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
-					<tr>
-						<td class="col-md-1 col-xs-2"
-							style="background-color: #CCFFFF; text-align: center;">제목</td>
-						<td class="col-md-7 col-xs-9">${pList.ptitle}
-					</tr>
-				</table>
-				<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
-					<tr>
-						<td class="col-md-1 col-xs-2"
-							style="background-color: #CCFFFF; text-align: center;">작성자</td>
-						<td class="col-md-3 col-xs-9">${pList.pmid}</td>
-						<td class="hidden-xs col-md-1"
-							style="background-color: #CCFFFF; text-align: center;">작성일</td>
-						<td class="hidden-xs col-md-3">${pList.pdate}</td>
-					</tr>
-				</table>
-				<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
-					<tr>
-						<td class="hidden-xs col-md-1"
-							style="text-align: center; background-color: #CCFFFF">내용</td>
-						<td class="col-md-7 col-xs-11 " style="height: 450px;">${pList.pcontents}</td>
-					</tr>
-				</table>
-				<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
-					<tr>
-						<td class="col-md-1 col-xs-3"
-							style="background-color: #CCFFFF; text-align: center;">첨부파일</td>
-						<td class="col-md-7 col-xs-8" colspan="5"><c:if
-								test="${empty fList}">
-								첨부된 파일이 없습니다.
-							</c:if> <c:if test="${!empty fList}">
-								<c:forEach var="file" items="${fList}">
-									<a href="./fileDown?sysName=${file.con_sysname}"> <span
-										class="file-title">${file.con_oriname}</span></a>&nbsp;&nbsp;
-								</c:forEach>
-							</c:if></td>
-					</tr>
-					<c:if test="${!empty bfList}">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 col-xs-12"
+					style="border: 2px solid skyblue; padding-top: 20px; padding-bottom: 20px;">
+					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
 						<tr>
-							<th>PREVIEW</th>
-							<td colspan="5"><c:forEach var="f" items="${fList}">
-									<c:if test="${fn:contains(f.con_sysname, '.jpg')}">
-										<img src="resources/upload/${f.con_sysname}" width="100">
-									</c:if>
-									<c:if test="${fn:contains(f.con_sysname, '.png')}">
-										<img src="resources/upload/${f.con_sysname}" width="100">
-									</c:if>
-									<c:if test="${fn:contains(f.con_sysname, '.gif')}">
-										<img src="resources/upload/${f.con_sysname}" width="100">
-									</c:if>
-								</c:forEach></td>
+							<td class="col-md-1 col-xs-2"
+								style="background-color: #CCFFFF; text-align: center;">제목</td>
+							<td class="col-md-7 col-xs-9">${pList.ptitle}
 						</tr>
-					</c:if>
-				</table>
-				<div class="row col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2" style="text-align: center;">
-					<button class="btn btn-info" id="puls"
-						onclick="location.href='./bModifyFrm?pnum=${pList.pnum}'"
-						style="margin-top: 30px; text-align: center;">수정</button>
-					<button type="button" class="btn btn-info" id="pulss"
-						onclick="location.href='./condel?pnum=${pList.pnum}'"
-						style="margin-top: 30px; text-align: center;">삭제</button>
-					<button class="btn btn-info"
-						style="margin-top: 30px; text-align: center;" onclick="page()">뒤로가기</button>
-				</div>
-
-			</div>
-		</div>
-			<div class="col-md-offset-3 col-md-6" style="height: 30px;"></div>
-				<form id="rFrm" class="col-md-offset-3 col-md-6" >
-					<div class="row form-group" style="margin-top:20xp;">
-						<label class="radio-inline col-md-offset-1"> <input type="radio"
-							id="inlineRadio1" name="r_secret" value="T">비밀댓글
-						</label> <label class="radio-inline"> <input type="radio"
-							id="inlineRadio2" name="r_secret" checked value="F">공개댓글
-						</label>
-					</div>
-					<div class="row form-group">
-						<textarea class="col-md-10 col-md-offset-1 col-xs-12" placeholder="내용을 입력해 주세요" name="r_contents"
-							style="height: 100px; resize: none; margin-top: 10px;"></textarea>
-					</div>
-					<div class="row form-group">
-						<input class="btn btn-info col-md-10 col-md-offset-1 col-xs-12" type="button"
-							value="등록" onclick="replyInsert(${pList.pnum})"
-							style="height: 40px; margin-bottom: 30px;">
-					</div>
-				</form>
-			
-		<div class="row" style="text-align: center;">
-			<div class="col-md-6 col-md-offset-3"
-				style="padding-top: 20px; padding-bottom: 20px;">
-				<table class="table" id="rtable">
-					<c:forEach var="r" items="${rList}">
-						<tr height="25" align="center">
-							<td class="col-md-1 col-xs-2">${r.r_id}</td>
-							<td class="col-md-3 col-xs-9">${r.r_contents}</td>
-							<td class="col-md-1 hidden-xs">
-							<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${r.r_date}" /></td>
-							<td class="col-md-1 hidden-xs" id="button">
-								<button type="button" onclick="">신고</button> 
-								<c:if test="${r.r_id == member.m_id}">
-									<button type="button" class="del"
-										onclick="location.href='./delete?pnum=${r.r_pnum}&rnum=${r.r_num}'">삭제</button>
-							</c:if>
+					</table>
+					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
+						<tr>
+							<td class="col-md-1 col-xs-2"
+								style="background-color: #CCFFFF; text-align: center;">작성자</td>
+							<td class="col-md-3 col-xs-9">${pList.pmid}</td>
+							<td class="hidden-xs col-md-1"
+								style="background-color: #CCFFFF; text-align: center;">작성일</td>
+							<td class="hidden-xs col-md-3"><fmt:formatDate
+									pattern="yyyy-MM-dd hh:mm" value="${pList.pdate}" /></td>
+						</tr>
+					</table>
+					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
+						<tr>
+							<td class="hidden-xs col-md-1" rowspan="2"
+								style="text-align: center; background-color: #CCFFFF">내용</td>
+							<td class="col-md-7 col-xs-11 " style="height: 450px;">${pList.pcontents}</td>
+						</tr>
+						<tr>
+							<td class="col-md-7 "  id="like"
+								style="text-align: center; border-top: none;">
+								<button id="like" style="height: 50px; border-radius: 50px; width: 50px; margin-right: 30px;"
+										onclick="location.href='./likeup?pnum=${pList.pnum}&mid=${member.m_id}'">추천</button>
+								<button style="height: 50px; border-radius: 50px; width: 50px;">신고</button>
 							</td>
 						</tr>
-					</c:forEach>
-				</table>
+					</table>
+					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
+						<tr>
+							<td class="col-md-1 col-xs-3"
+								style="background-color: #CCFFFF; text-align: center;">첨부파일</td>
+							<td class="col-md-7 col-xs-8" colspan="5"><c:if
+									test="${empty fList}">
+								첨부된 파일이 없습니다.
+							</c:if> <c:if test="${!empty fList}">
+									<c:forEach var="file" items="${fList}">
+										<a href="./fileDown?sysName=${file.con_sysname}"> <span
+											class="file-title">${file.con_oriname}</span></a>&nbsp;&nbsp;
+								</c:forEach>
+								</c:if></td>
+						</tr>
+						<c:if test="${!empty bfList}">
+							<tr>
+								<th>PREVIEW</th>
+								<td colspan="5"><c:forEach var="f" items="${fList}">
+										<c:if test="${fn:contains(f.con_sysname, '.jpg')}">
+											<img src="resources/upload/${f.con_sysname}" width="100">
+										</c:if>
+										<c:if test="${fn:contains(f.con_sysname, '.png')}">
+											<img src="resources/upload/${f.con_sysname}" width="100">
+										</c:if>
+										<c:if test="${fn:contains(f.con_sysname, '.gif')}">
+											<img src="resources/upload/${f.con_sysname}" width="100">
+										</c:if>
+									</c:forEach></td>
+							</tr>
+						</c:if>
+					</table>
+					<div class="row col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2"
+						style="text-align: center;">
+						<button class="btn btn-info" id="puls"
+							onclick="location.href='./bModifyFrm?pnum=${pList.pnum}'"
+							style="margin-top: 30px; text-align: center;">수정</button>
+						<button type="button" class="btn btn-info" id="pulss"
+							onclick="location.href='./condel?pnum=${pList.pnum}'"
+							style="margin-top: 30px; text-align: center;">삭제</button>
+						<button class="btn btn-info"
+							style="margin-top: 30px; text-align: center;" onclick="page()">뒤로가기</button>
+					</div>
+
+				</div>
+			</div>
+			<div class="col-md-offset-3 col-md-6" style="height: 30px;"></div>
+			<form id="rFrm" class="col-md-offset-3 col-md-6">
+				<div class="row form-group" style="margin-top: 20xp;">
+					<label class="radio-inline col-md-offset-1"> <input
+						type="radio" id="inlineRadio1" name="r_secret" value="T">비밀댓글
+					</label> <label class="radio-inline"> <input type="radio"
+						id="inlineRadio2" name="r_secret" checked value="F">공개댓글
+					</label>
+				</div>
+				<div class="row form-group">
+					<textarea class="col-md-10 col-md-offset-1 col-xs-12"
+						placeholder="내용을 입력해 주세요" name="r_contents"
+						style="height: 100px; resize: none; margin-top: 10px;"></textarea>
+				</div>
+				<div class="row form-group">
+					<input class="btn btn-info col-md-10 col-md-offset-1 col-xs-12"
+						type="button" value="등록" onclick="replyInsert(${pList.pnum})"
+						style="height: 40px; margin-bottom: 30px;">
+				</div>
+			</form>
+
+			<div class="row" style="text-align: center;">
+				<div class="col-md-8 col-md-offset-2"
+					style="padding-top: 20px; padding-bottom: 20px;">
+					<table class="table" id="rtable">
+						<c:forEach var="r" items="${rList}">
+							<tr height="25" align="center">
+								<td class="col-md-1 col-xs-2">${r.r_id}</td>
+
+								<c:if test="${r.r_secret == 'F'}">
+									<td class="col-md-3 col-xs-9">${r.r_contents}</td>
+								</c:if>
+								
+								<c:if test="${r.r_secret != 'F'}">
+								
+									<c:if test="${r.r_id == member.m_id}">
+										<td class="col-md-3 col-xs-9">${r.r_contents}</td>
+									</c:if>
+									
+									<c:if test="${r.r_id != member.m_id}">
+									
+										<c:if test="${pList.pmid == member.m_id}">
+											<td class="col-md-3 col-xs-9">${r.r_contents}</td>
+										</c:if>
+										
+										<c:if test="${pList.pmid != member.m_id}">
+											<td class="col-md-3 col-xs-9">비밀댓글 입니다.</td>
+										</c:if>
+										
+									</c:if>
+									
+								</c:if>
+								
+								<td class="col-md-2 hidden-xs">
+								<fmt:formatDate	pattern="yyyy-MM-dd hh:mm" value="${r.r_date}"/></td>
+								
+								
+								<td class="col-md-1 hidden-xs" id="button">
+									<c:if test="${!empty member}">
+										<button type="button" onclick="">신고</button>	
+									</c:if>						
+									<c:if test="${r.r_id == member.m_id}">
+										<button type="button" class="del"
+											onclick="location.href='./delete?pnum=${r.r_pnum}&rnum=${r.r_num}'">삭제</button>
+									</c:if>
+								</td>
+								
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
 			</div>
 		</div>
-	</div>
 	</section>
 
 	<footer>
@@ -207,13 +249,31 @@ function replyInsert(pnum){
 			var rlist = "";
 			var dlist = data.rList;
 			var id = "${member.m_id}";
+			var pid = "${pList.pmid}";
 			
 			for(var i = 0; i < dlist.length; i++){
 				rlist += '<tbody><tr height="25" align="center">'
-				+'<td class="col-md-1 col-xs-2">' + dlist[i].r_id + '</td>' 
-				+'<td class="col-md-3 col-xs-9">' + dlist[i].r_contents + '</td>' 
-				+'<td class="col-md-1 hidden-xs">' +  dlist[i].r_date + '</td>'
+				+'<td class="col-md-1 col-xs-2">' + dlist[i].r_id + '</td>'
+				if(dlist[i].r_secret == 'F'){
+					rlist += '<td class="col-md-3 col-xs-9">' + dlist[i].r_contents + '</td>';
+				}
+				else if(dlist[i].r_secret != 'F'){
+					if (dlist[i].r_id == id){
+						rlist += '<td class="col-md-3 col-xs-9">' + dlist[i].r_contents + '</td>';
+					}
+					else if(dlist[i].r_id != id){
+						if(pid == id){
+							rlist += '<td class="col-md-3 col-xs-9">' + dlist[i].r_contents + '</td>';
+						}
+						else if(pid != id){
+							rlist += '<td class="col-md-3 col-xs-9">비밀 댓글 입니다.</td>';
+						}
+					}
+				}
+				
+				rlist += '<td class="col-md-2 hidden-xs">' +  dlist[i].r_date + '</td>'
 				+'<td class="col-md-1 hidden-xs">' +'<button type="button" id="del" onclick="">신고 </button>';
+				
 				if(dlist[i].r_id == id){	
 					rlist += '<button type="button" class="del" onclick="location.href=' + "'./delete?pnum=" 
 				+ dlist[i].r_pnum + "&rnum=" + dlist[i].r_num + "'" + '">삭제</button>';
@@ -232,11 +292,5 @@ function replyInsert(pnum){
 	
 	$("#comment").val("");
 }
-
 </script>
 </html>
-
-
-
-
-

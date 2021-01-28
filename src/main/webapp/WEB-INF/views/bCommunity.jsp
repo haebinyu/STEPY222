@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,7 +64,8 @@
 						<a href="contents?pnum=${pitem.pnum}">${pitem.ptitle}</a></td>
 						<td class="danger hidden-xs" style="width:50px;">조회수 : ${pitem.pview}</td>	
 						<td class="info hidden-xs" style="width:50px;">추천수 : ${pitem.plike}</td>
-						<td class="active hidden-xs" style="width:40px;">${pitem.pdate}</td>
+						<td class="active hidden-xs" style="width:40px;">
+						<fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${pitem.pdate}"/></td>
 					</tr>
 					</c:forEach>				
 				</table>
