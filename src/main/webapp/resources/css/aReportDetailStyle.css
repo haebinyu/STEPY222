@@ -7,11 +7,18 @@ textarea {
 
 fieldset {
 	margin-bottom: 10px !important;
-	text-align: center;
 }
 
-legend {
-	font-weight: bolder;
+.mail_tgt {
+	margin-bottom: 5px;
+}
+
+.mail_tgt:last-child {
+	margin-bottom: 0;
+}
+
+input[name="subject"] {
+	text-align: center;
 }
 
 .detailBtn {
@@ -24,6 +31,11 @@ legend {
 
 #condition {
 	text-align: center;
+	margin-bottom: 5px;
+}
+
+#dispose {
+	margin-bottom: 5px;
 }
 
 .dispose-none {
@@ -36,4 +48,13 @@ legend {
 
 .unfinished {
 	background-color: #ff515e;
+}
+
+/*드래그 차단*/
+.no-drag {
+	-ms-user-select: none;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
 }
