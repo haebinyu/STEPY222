@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -7,30 +8,35 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
-	<context:component-scan base-package="com.bob.stepy" />
-	
+
+	<!-- 파일 업로드 처리시 필요한 빈 주입 -->
 	<beans:bean id="multipartResolver"
-      class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-      <beans:property name="defaultEncoding" value="UTF-8"/>
-      <beans:property name="maxUploadSize"
-         value="10000000"/><!-- byte 단위 -->
-      <beans:property name="maxInMemorySize"
-         value="10000000"/>   
-      </beans:bean>
-	
-	
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 기본 인코딩타입 -->
+		<beans:property name="defaultEncoding" value="UTF-8" />
+		<!-- 최대 업로드 가능 사이즈 - 바이트byte단위 환산 10MB=10,000KB=10,000,000B -->
+		<beans:property name="maxUploadSize" value="10000000" />
+		<!-- 메모리 내에서 유지시킬 수 있는 데이터 사이즈 -->
+		<beans:property name="maxInMemorySize" value="10000000" />
+	</beans:bean>
+
+	<context:component-scan
+		base-package="com.bob.stepy" />
 </beans:beans>
