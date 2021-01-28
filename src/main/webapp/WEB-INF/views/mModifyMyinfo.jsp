@@ -14,18 +14,20 @@
 		rgba(67, 117, 217, 0.5));
 }
 
-body {
+label {
 	color: white;
 }
-.shady{
-box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.10);
-border-radius: 50px;
-}
-.profileback{
-background-image: linear-gradient(to bottom right, rgba(220, 220, 217, 1),
-		rgba(67, 117, 217, 0.5));
-border-radius: 50px 20px;
 
+.shady {
+	box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0
+		rgba(0, 0, 0, 0.10);
+	border-radius: 50px;
+}
+
+.profileback {
+	background-image: linear-gradient(to bottom right, rgba(220, 220, 217, 1),
+		rgba(67, 117, 217, 0.5));
+	border-radius: 50px 20px;
 }
 </style>
 
@@ -51,24 +53,29 @@ border-radius: 50px 20px;
 		<div class="row">
 			<!-- left column -->
 			<div class="col-md-3">
-				<div class="text-center profileback shady" style="height:400px; "><br><br><br><br><br>
-				<div>
-					<img src="resources/profile/${profile.f_oriname }" class="avatar img-circle" alt="avatar"
-						style="height: 110px; width: 110px; border-radius: 50%;" id="preview"
-					>
-					<br><br>
-					<h6 style="color: black; display:none;">사진을 먼저 선택해주세요</h6> 
-					<label for="profileup" style="color:black;">
-					프로파일 변경하기</label>
-					
-					<input type="file" id="profileup" class="form-control" accept="jpg,jpeg,png,bmp" style="display:none;">
-					<button id="upload" class="btn btn-outline-secondary" style="color:black; display:none;">
-					저장</button><br><br>
-					<span id="respan" style="color:black;"></span>
+				<div class="text-center profileback shady" style="height: 400px;">
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<div>
+						<img src="resources/profile/${profile.f_oriname }" class="avatar img-circle" alt="avatar"
+							style="height: 110px; width: 110px; border-radius: 50%;" id="preview"
+						> <br>
+						<br>
+						<h6 style="color: black; display: none;">사진을 먼저 선택해주세요</h6>
+						<label for="profileup" style="color: black;"> 프로파일 변경하기</label> <input type="file"
+							id="profileup" class="form-control" accept="jpg,jpeg,png,bmp" style="display: none;"
+						>
+						<button id="upload" class="btn btn-outline-secondary" style="color: black; display: none;">
+							저장</button>
+						<br>
+						<br> <span id="respan" style="color: black;"></span>
 					</div>
 				</div>
 			</div>
-			
+
 
 			<!-- edit form column -->
 			<div class="col-md-9 personal-info text-center gradi shady">
@@ -78,34 +85,42 @@ border-radius: 50px 20px;
 					<strong>.alert</strong>. Use this to show important messages to the user.
 				</div>
 				 -->
+				<br> <br>
+				<h4 style="color: white; margin-right: 0;" id="formsg">개인정보 변경 후 하단의 upload 버튼을 눌러주세요</h4>
 				<br>
 				<br>
-				<h4 style="color: white; margin-right: 0;">개인정보 변경 후 하단의 upload 버튼을 눌러주세요</h4>
-				<br><br><br><br>
 
-				<form class="form-horizontal" role="form">
+				<form class="form-horizontal" id="modifyFrm" role="form" action="mModifyProc" method="post">
 					<div class="form-group">
 						<label class="col-lg-3 control-label">회원이름:</label>
 						<div class="col-lg-8">
-							<input class="form-control" type="text" value="${member.m_name }" readonly>
+							<input class="form-control" name="m_name" type="text" value="${member.m_name }" readonly>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-lg-3 control-label">닉네임: </label>
 						<div class="col-lg-8">
-							<input class="form-control" type="text" value="${member.m_nickname }">
+							<input class="form-control" name="m_nickname" type="text" value="${member.m_nickname }">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-lg-3 control-label">회원 아이디: </label>
 						<div class="col-lg-8">
-							<input class="form-control" type="text" value="${member.m_id }" readonly>
+							<input class="form-control" name="m_id" type="text" value="${member.m_id }" readonly>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label"></label>
+						<div class="col-md-5"></div>
+						<div class="col-md-3"">
+							<button type="button" class="btn" style="background-color: #fafafa; color: black;">
+							비밀번호 변경하기</button>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-lg-3 control-label">Email: </label>
 						<div class="col-lg-8">
-							<input class="form-control" type="email" value="${member.m_email }" readonly>
+							<input class="form-control" name="m_email" type="email" value="${member.m_email }" readonly>
 						</div>
 					</div>
 
@@ -113,7 +128,7 @@ border-radius: 50px 20px;
 						<label class="col-md-3 control-label">연락처: </label>
 						<div class="col-md-8">
 							<input type="tel" name="m_phone" class="form-control" id="mobilephone"
-								placeholder="여백없이 번호 11자리 입력 " minlength="11" maxlength="11" value="${member.m_birth }"
+								placeholder="여백없이 번호 11자리 입력 " minlength="11" maxlength="11" value="${member.m_phone }"
 							>
 
 						</div>
@@ -122,8 +137,8 @@ border-radius: 50px 20px;
 					<div class="form-group">
 						<label class="col-md-3 control-label">생일: </label>
 						<div class="col-lg-8">
-							<input class="form-control" type="text" minlength="8" maxlength="8" placeholder="19980323"
-								value="${member.m_birth }"
+							<input class="form-control" name="m_birth" type="text" minlength="8" maxlength="8"
+								placeholder="19980323" value="${member.m_birth }"
 							>
 						</div>
 					</div>
@@ -138,8 +153,8 @@ border-radius: 50px 20px;
 					<div class="form-group row">
 						<label for="address" class="col-md-3 col-form-label control-label">거주지 변경 : </label>
 						<div class="col-md-8">
-							<input type="text" id="sample6_postcode" placeholder="우편번호"> <input
-								type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"
+							<input type="text" id="sample6_postcode" placeholder="우편번호"> <input type="button"
+								onclick="sample6_execDaumPostcode()" value="우편번호 찾기"
 							><br> <input type="text" id="sample6_address" placeholder="주소"
 								name="address_without_specific"
 							><br> <input type="text" id="sample6_detailAddress" placeholder="상세주소"
@@ -148,26 +163,19 @@ border-radius: 50px 20px;
 						</div>
 					</div>
 
-					<div class="form-group">
-						<label class="col-md-3 control-label"></label>
-						<div class="col-md-5"></div>
-						<div class="col-md-3"">
-							<button type="button" class="btn"
-								style="background-color: #4375d9; color: white; margin-right: 10px;"
-							>비밀번호 변경하기</button>
-						</div>
-					</div>
-					<br> <br>
+					<br>
+					<br>
 					<div class="form-group">
 						<label class="col-md-3 control-label"></label>
 						<div class="col-md-8">
-							<input type="button" class="btn btn-primary" value="Save Changes"> <span></span> <input
-								type="reset" class="btn btn-default" value="Cancel"
-							>
+							<button class="btn btn-primary" type="submit" id="submitbtn">업로드</button>
+							<input type="reset" class="btn btn-default" value="Cancel">
 						</div>
 					</div>
 
 				</form>
+				<br>
+				<br>
 			</div>
 		</div>
 
@@ -179,9 +187,18 @@ border-radius: 50px 20px;
 </body>
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="resources/js/jquery.serializeObject.js"></script>
 <script>
 
-	
+	$(function(){
+		var msg = "${msg}";
+		if(msg != ""){
+			$("#formsg").text(msg);
+		}
+	});
+
+
+
 	$("#profileup").on('change', function(e) {
 
 		var profileup = this.files;
@@ -194,9 +211,9 @@ border-radius: 50px 20px;
 		reader.addEventListener('load', function(e) {
 			preview.src = e.target.result;
 		});
-		
+
 		reader.readAsDataURL(profile);
-		$("#upload").css("display","inline-block");
+		$("#upload").css("display", "inline-block");
 
 	});
 

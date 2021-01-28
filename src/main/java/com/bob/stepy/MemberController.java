@@ -3,6 +3,7 @@ package com.bob.stepy;
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,58 +38,81 @@ import oracle.jdbc.proxy.annotation.Post;
 @Controller
 @Log
 public class MemberController {
+	
+	@Autowired
+	private MemberService mServ;
+	private ModelAndView mv;
 
+//-----
+	
 	static String restApi = "3a7921c9c86e805003cd07a8e548f149";
 	static String redirect_uri= "http://localhost/stepy/kakaoLogInProc";
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 
-	@Autowired
-	private MemberService mServ;
-
-	private ModelAndView mv;
-
 	
+
+	@ResponseBody
+	@PostMapping(value="mRetrieveByUsername", produces = "application/json; charset = utf-8")
+	public Map<String, List<MessageDto>> mRetrieveByUsername(String userid, String m_id ){
+		log.info("mRetrieveByUsername");
+		
+		Map<String, List<MessageDto>> map = mServ.mRetrieveByUsername(userid, m_id);
+
+		return map;
+	}
+
+	@ResponseBody
+	@PostMapping(value = "mRetrieveByContents" , produces = "application/json; charset = utf-8")
+	public Map<String, List<MessageDto>> mRetrieveByContents(String contents, String m_id){
+		log.info("mRetrieveByContents");
+
+		Map<String, List<MessageDto>> map = mServ.mRetrieveByContents(contents, m_id);
+
+		return map;
+	}
+
 	@ResponseBody
 	@PostMapping(value="mProfileUpdate")
-	public String test(@RequestParam("pfile") MultipartFile multi) {
+	public String mProfileUpdate(@RequestParam("pfile") MultipartFile multi) {
 
 		String remsg = mServ.mProfileUpdate(multi);
-		
+
 		return remsg;
 	}
-	
-	
+
+
 	@ResponseBody
 	@GetMapping(value="mUploadAfterView", produces = "application/text; charset=utf-8")
 	public String mUploadAfterView(String ms_mid){
-		
+
 		mServ.mUploadAfterView(ms_mid);
-		
+
 		return "success";
 	}
-	
+
+
 	@ResponseBody
 	@GetMapping(value="mNewMsgCount", produces = "application/json; charset=utf-8")
 	public MessageDto mNewMsgCount(String ms_mid){
-		
+
 		MessageDto msg = mServ.mNewMsgCount(ms_mid);
-		
+
 		return msg;
 	}
 
 	@GetMapping("mReceiveOverview")
-	public ModelAndView mReceiveOverview(String hostid) {
+	public ModelAndView mReceiveOverview(String hostid, Integer pageNum) {
 
-		mv = mServ.mReceiveOverview(hostid);
+		mv = mServ.mReceiveOverview(hostid, pageNum);
 
 		return mv;
 	}
 
 	@GetMapping("mMeSendOverview")
-	public ModelAndView mMeSendOverview(String ms_smid) {
+	public ModelAndView mMeSendOverview(String hostid, Integer pageNum) {
 
-		mv = mServ.mMeSendOverview(ms_smid);
+		mv = mServ.mMeSendOverview(hostid, pageNum);
 
 		return mv;
 	}
@@ -96,7 +120,7 @@ public class MemberController {
 	@PostMapping("mSendMessageProc")//이걸...보낸메일 받은 메일 이렇게 구분할까 . 그럼 보낸메일부분에 보내주면 되겠네 redirect 로. 
 	public String mSendMessageProc(MessageDto msg, RedirectAttributes rttr) {
 
-		String path = mServ.mSendMessageProc(msg, rttr);
+		String path = mServ.mSendMessageProc(msg,rttr);
 
 		return path;
 	}
@@ -137,6 +161,16 @@ public class MemberController {
 
 		return "mMyCartPages";
 	}
+
+
+
+	@PostMapping("mModifyProc")
+	public String mModifyProc(MemberDto member, RedirectAttributes rttr) {
+
+		mServ.mModifyProc(member, rttr);
+		return "redirect:mModifyMyinfo";
+	}
+
 
 	@GetMapping("mModifyMyinfo")
 	public ModelAndView mModifyMyinfo() {

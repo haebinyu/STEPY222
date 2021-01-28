@@ -83,14 +83,16 @@
 				<a class="btn gradcolor" target="popup" role="button"
 					onclick="openreceivebox();removealarm();"
 					style="padding: 10px; margin-top: 18px;"
-				>받은 쪽지함 <span id="newMsg" class="badge badge-pill"></span></a>
+				>쪽지함 <span id="newMsg" class="badge badge-pill"></span></a>
 			</div>
+			<!-- 
 			<div class="col-sm-1 forhostse" style="display: none" id="sendbox">
 				<a class="btn gradcolor" target="popup" role="button"
 					onclick="opensendbox()"
 					style="padding: 10px; margin-top: 18px;"
 				>보낸 쪽지함</a>
 			</div>
+			 -->
 		</div>
 
 		<ul class="nav nav-tabs nav-justified">
@@ -171,7 +173,7 @@ var guest = "${hostaccount.m_id}";
 	}
 	
 	function opensendbox(){
-		window.open('http://localhost/stepy/mMeSendOverview?ms_smid=${member.m_id}', 'popup', 'width=600, height=600');
+		window.open('http://localhost/stepy/mMeSendOverview?hostid=${member.m_id}', 'popup', 'width=600, height=600');
 	}
 
 	function openreceivebox(){

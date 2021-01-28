@@ -9,6 +9,7 @@ import java.net.*;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +44,11 @@ import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.MemberKaKaoTokenDto;
 import com.bob.stepy.dto.MemberKakaoProfileDto;
 import com.bob.stepy.dto.MessageDto;
+import com.bob.stepy.util.Paging;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @Service
 public class MemberService {
@@ -301,7 +304,7 @@ public class MemberService {
 			mOnceCreateProfil();
 			
 			mDao.memberInsert(member);
-			
+						
 			String sysName = System.currentTimeMillis() + "_profile.png";
 			String oriName = "stepydefaultprofile.png";
 			
@@ -311,7 +314,8 @@ public class MemberService {
 			fileDto.setF_mnum(member.getM_id());
 				
 			mDao.mThumbUpload(fileDto);
-		
+			//mShutFirstMsg(member.getM_id());
+			
 			path="redirect:/";
 		}catch(Exception e) {
 			path="redirect:mJoinFrm";
@@ -494,7 +498,6 @@ public class MemberService {
 	}
 
 
-
 	@Transactional
 	public ModelAndView mModifyMyinfo() {
 		
@@ -510,7 +513,6 @@ public class MemberService {
 	}
 	
 
-
 	public ModelAndView mMyLittleBlog(String blog_id) {
 		
 		mv = new ModelAndView();
@@ -525,7 +527,7 @@ public class MemberService {
 
 
 	private void mShutFirstMsg(String m_id) {
-		
+		System.out.println("여기 들어오긴 했니..?");
 		MessageDto msg = new MessageDto();
 		
 		msg.setMs_mid(m_id);
@@ -537,6 +539,40 @@ public class MemberService {
 		mDao.mSetMessage(msg);
 		
 	}
+
+	
+	@Transactional
+	public void mModifyProc(MemberDto member, RedirectAttributes rttr) {
+		
+		String msg;
+		
+		if(member.getM_nickname() == "" && member.getM_nickname() == null) {
+			msg = "닉네임을 입력해주세요";
+			rttr.addFlashAttribute("msg",msg);
+			return;
+		}
+		
+		String realaddr;
+		
+		if(member.getAddress_without_specific() != "" && member.getAddress_without_specific() != null ) {
+			if(member.getAddress_with_specific() !="") {
+				realaddr = member.getAddress_without_specific() +" "+ member.getAddress_with_specific();
+				member.setM_addr(realaddr);
+			}
+			else if(member.getAddress_with_specific()== ""){
+				realaddr = member.getAddress_without_specific();
+				member.setM_addr(realaddr);
+			}
+		}
+		
+		mDao.mModifyUserInfo(member);	
+		session.setAttribute("member", member);
+		
+		msg = "변경사항이 저장되었습니다!";
+		rttr.addFlashAttribute("msg", msg);
+		
+		return;
+	} 
 
 
 
@@ -576,7 +612,7 @@ public class MemberService {
 		}
 		
 
-		rttr.addAttribute("ms_smid", ms_smid);
+		rttr.addAttribute("hostid", ms_smid);
 		
 		//List<MessageDto> smList = mDao.mGetMsgList(ms_mid);
 		//MessageDto md1 = smList.get(0);
@@ -587,11 +623,19 @@ public class MemberService {
 
 
 
-	public ModelAndView mMeSendOverview(String ms_smid) {
+	public ModelAndView mMeSendOverview(String hostid, Integer pageNum) {
 		
 		mv = new ModelAndView();
-		List<MessageDto> smList = mDao.mGetSendList(ms_smid);
+		
+		String link = "./mMeSendOverview?hostid="+hostid+"&";
+		int num = (pageNum == null) ? 1 : pageNum;
+		
+		List<MessageDto> smList = mDao.mGetSendList(hostid, num);
+		int forMaxNum = mDao.mCountSendMsg(hostid);
+		
 		mv.addObject("smList", smList);
+		mv.addObject("paging", getPagingforMsg(forMaxNum, hostid, num, link));
+		
 		mv.setViewName("mMeSendOverview");
 		
 		return mv;
@@ -599,16 +643,40 @@ public class MemberService {
 
 
 
-	public ModelAndView mReceiveOverview(String hostid) {
+	public ModelAndView mReceiveOverview(String hostid, Integer pageNum) {
 
 		mv = new ModelAndView();
-		List<MessageDto> rmList = mDao.mGetReceiveList(hostid);
+		System.out.println("pageNum is " + pageNum + " ( null is expected)");
+		
+		String link = "./mReceiveOverview?hostid="+hostid+"&";
+		int num = (pageNum == null) ? 1 : pageNum;
+		
+		List<MessageDto> rmList = mDao.mGetReceiveList(hostid, num);
+		int forMaxNum = mDao.mCountReceivedMsg(hostid);
+		
 		mv.addObject("rmList", rmList);
+		
+		mv.addObject("paging", getPagingforMsg(forMaxNum,hostid,num,link));
+		session.setAttribute("pageNum", num);
+		
 		mv.setViewName("mReceiveOverview");
 		
 		return mv;
 	}
 
+	private String getPagingforMsg(int forMaxNum ,String hostid, int num, String link){
+		
+		int maxNum = forMaxNum;
+		int listCnt = 5;
+		int pageCnt = 5;
+		String linkName = link;
+		
+		Paging paging = new Paging(maxNum, num, listCnt, pageCnt, linkName);
+		
+		String pageTag = paging.makePageBtnForMulti();
+		
+		return pageTag;
+	}
 
 
 	public MessageDto mNewMsgCount(String ms_mid) {
@@ -619,7 +687,10 @@ public class MemberService {
 			 msg.setMs_bfread(0);
 			 msg.setMs_afread(0);
 			 System.out.println("hope no problem" + msg);
+		 }else {
+			 msg = fork;
 		 }
+		 
 		 
 		return msg;
 	}
@@ -677,6 +748,43 @@ public class MemberService {
 		
 		return msg; 
 	}
+
+
+
+	public Map<String, List<MessageDto>> mRetrieveByContents(String contents, String m_id) {
+		
+		MessageDto msg = new MessageDto();
+		Map<String, List<MessageDto>> map = new HashMap<>();
+		
+		msg.setMs_contents(contents);
+		msg.setMs_mid(m_id);
+		
+		List<MessageDto> searchList = mDao.mRetrieveByContents(msg);
+
+		map.put("searchList", searchList);
+		
+		
+		return map;
+	}
+
+
+
+	public Map<String, List<MessageDto>> mRetrieveByUsername(String userid, String m_id) {
+		
+		MessageDto msg = new MessageDto();
+		msg.setMs_smid(userid);
+		msg.setMs_mid(m_id);
+		List<MessageDto> searchList = mDao.mRetrieveByUsername(msg);
+		
+		Map<String, List<MessageDto>> map = new HashMap<>();
+		map.put("searchList", searchList);
+		
+		return map;
+
+	}
+
+
+
 
 
 

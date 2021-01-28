@@ -47,6 +47,18 @@
 		SELECT * FROM F WHERE F_MNUM = #{userid}
 	</select>
 
+	<update id="mModifyUserInfo"
+		parameterType="com.bob.stepy.dto.MemberDto">
+		UPDATE M
+		<set>
+			<if test='m_nickname != ""'>M_NICKNAME = #{m_nickname},</if>
+			<if test='m_phone != ""'>M_PHONE = #{m_phone},</if>
+			<if test='m_birth != ""'>M_BIRTH = #{m_birth},</if>
+			<if test='m_addr != ""'>M_ADDR = #{m_addr}</if>
+		</set>
+		WHERE M_ID = #{m_id}
+	</update>
+
 	<select id="mGetBfMsg" parameterType="String"
 		resultType="com.bob.stepy.dto.MessageDto">
 	<![CDATA[
@@ -61,31 +73,75 @@
 		#{ms_contents}, DEFAULT, #{ms_bfread}, #{ms_afread})
 	</insert>
 
-	<select id="mGetSendList" parameterType="String"
+	<select id="mGetSendList"
 		resultType="com.bob.stepy.dto.MessageDto">
+		<![CDATA[
 		SELECT * FROM (SELECT MS.MS_NUM, MS.MS_MID, MS.MS_SMID,
 		MS.MS_CONTENTS, MS.MS_DATE,
 		MS.MS_BFREAD, MS.MS_AFREAD,
-		MEMBER.M_NICKNAME
+		MEMBER.M_NICKNAME, ROWNUM R
 		FROM MS
 		INNER JOIN MEMBER ON MS_MID = MEMBER.M_ID
-		WHERE MS.MS_SMID = #{ms_smid}
+		WHERE MS.MS_SMID = #{smid}
 		ORDER BY MS.MS_NUM DESC)
+		WHERE R >= #{page}*5 - 4 AND R <= #{page}*5
+		]]>
 	</select>
 
-	<select id="mGetReceiveList" parameterType="String"
+	<select id="mGetReceiveList" 
 		resultType="com.bob.stepy.dto.MessageDto">
-		SELECT * FROM (SELECT MS.MS_NUM, MS.MS_MID, MS.MS_SMID,MS.MS_CONTENTS, MS.MS_DATE,
+		<![CDATA[
+		SELECT * FROM (SELECT MS.MS_NUM, MS.MS_MID,
+		MS.MS_SMID,MS.MS_CONTENTS, MS.MS_DATE,
 		MS.MS_BFREAD, MS.MS_AFREAD,
-		MEMBER.M_NICKNAME
+		MEMBER.M_NICKNAME, ROWNUM R
 		FROM MS INNER JOIN MEMBER ON MS_SMID = MEMBER.M_ID
-		WHERE MS.MS_MID = #{hostid}
+		WHERE MS.MS_MID = #{mid}
 		ORDER BY MS.MS_NUM DESC)
+		WHERE R >= #{page}*5 - 4 AND R <= #{page}*5 
+		]]>
 	</select>
 
-	<update id="mUploadAfterView" parameterType="com.bob.stepy.dto.MessageDto">
+	<select id="mCountReceivedMsg" parameterType="String" resultType = "int"> 
+		SELECT COUNT(*) FROM MS WHERE MS_MID = #{hostid}
+	</select>
+	
+	<select id="mCountSendMsg" parameterType="String" resultType = "int">
+		SELECT COUNT(*) FROM MS WHERE MS_SMID = #{hostid}
+	</select>
+
+	<update id="mUploadAfterView"
+		parameterType="com.bob.stepy.dto.MessageDto">
 		UPDATE MESSAGE
 		SET MS_AFREAD = #{ms_bfread}
-		WHERE MS_MID = #{ms_mid}
+		WHERE MS_MID =
+		#{ms_mid}
 	</update>
+
+	<select id="mRetrieveByContents"
+		parameterType="com.bob.stepy.dto.MessageDto"
+		resultType="com.bob.stepy.dto.MessageDto">
+		SELECT * FROM
+		(SELECT MS.MS_MID, MS.MS_SMID, MS.MS_CONTENTS,
+		MS.MS_DATE, MEMBER.M_NICKNAME
+		FROM MS
+		INNER JOIN MEMBER ON MS_SMID =
+		MEMBER.M_ID
+		WHERE MS.MS_MID = #{ms_mid} AND MS_CONTENTS LIKE
+		'%'||#{ms_contents}||'%'
+		ORDER BY MS.MS_NUM DESC)
+	</select>
+
+	<select id="mRetrieveByUsername"
+		parameterType="com.bob.stepy.dto.MessageDto"
+		resultType="com.bob.stepy.dto.MessageDto">
+		SELECT * FROM
+		(SELECT MS.MS_MID, MS.MS_SMID, MS.MS_CONTENTS, MS.MS_DATE,
+		MEMBER.M_NICKNAME
+		FROM MS
+		INNER JOIN MEMBER ON MS_SMID = MEMBER.M_ID
+		WHERE MS.MS_SMID LIKE '%'||#{ms_smid}||'%' AND MS.MS_MID = #{ms_mid}
+		ORDER BY MS.MS_NUM
+		DESC)
+	</select>
 </mapper>
