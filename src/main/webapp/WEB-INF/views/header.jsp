@@ -15,15 +15,12 @@ $(function(){
 		if(msgforlogin != ""){
 			alert(msgforlogin);
 		}
-		
 	//메시지 출력
 	var chk = "${msg}";
-	
 	if(chk != ""){
 		alert(chk);
 		location.reload(true);
 	}
-
 });
 </script>
 
@@ -72,6 +69,3 @@ $(function(){
 	</div>
 	<!-- /.containe -->
 </nav>
-
-
-
