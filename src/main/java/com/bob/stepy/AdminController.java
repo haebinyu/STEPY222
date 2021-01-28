@@ -13,9 +13,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bob.stepy.dto.CeoDto;
 import com.bob.stepy.dto.EmailDto;
 import com.bob.stepy.dto.EventDto;
 import com.bob.stepy.dto.MemberDto;
+import com.bob.stepy.dto.ReportDto;
 import com.bob.stepy.service.AdminService;
 
 //'컨트롤러'임을 인지, 자동실행 하도록 어노테이션 처리
@@ -242,15 +244,41 @@ public class AdminController {
 
 	@PostMapping("aSendMail")
 	public String aSendMail
-	(EmailDto email, RedirectAttributes rttr)
+	(EmailDto email, RedirectAttributes rttr, CeoDto ceo, ReportDto report)
 			throws AddressException, MessagingException {
 		System.out.println("(신고 처리) 메일 전송 서비스 실행");
 		System.out.println(email);
-
-		String msg = aServ.mailSend(email, 3);
+		
+		int res = 0;
+		String c_num = ceo.getC_num();
+		String msg = null;
+		
+		res = aBlockStore(c_num);
+		if (res >0) {			
+			msg = aServ.mailSend(email, 3);
+			aServ.aReportFinished(report.getRp_num());
+		}
 		rttr.addFlashAttribute(msg);
 
 		return "redirect:aReport";
+	}
+
+	public int aBlockStore(String c_num) {
+		int res = 0;
+		String resStr = aServ.deleteSwitch(c_num, 2);
+		if (resStr != "") {
+			res = 1;
+		}
+
+		return res;
+	}
+
+	public void aBlockPost(int p_num) {
+		aServ.deletePandR(p_num,  1);
+	}
+
+	public void aBlockReply(int r_num) {
+		aServ.deletePandR(r_num, 2);
 	}
 
 	//신고 관리 구역 끝//
