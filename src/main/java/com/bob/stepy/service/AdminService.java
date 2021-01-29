@@ -495,12 +495,12 @@ public class AdminService {
 		String contents = multi.getParameter("e_contents");
 		//날짜 가져오기
 		String e_dateStr = multi.getParameter("e_date");
-		System.out.println("입력값 : "+e_dateStr);
+		System.out.println("입력값 그대로 : "+e_dateStr);
 		String[] dateArray = e_dateStr.split("T");
-		System.out.println("스플릿 후 : "+dateArray[0]);
-		System.out.println("스플릿 후 : "+dateArray[1]);
+		System.out.println("스플릿 후 [0] : "+dateArray[0]);
+		System.out.println("스플릿 후 [1] : "+dateArray[1]);
 		e_dateStr = dateArray[0]+" "+dateArray[1]+":00";
-		System.out.println(e_dateStr);
+		System.out.println("스플릿[0],[1]+:00 >> "+e_dateStr);
 
 		Timestamp e_date = java.sql.Timestamp.valueOf(e_dateStr);
 		System.out.println("타임스탬프화 : "+e_date);
