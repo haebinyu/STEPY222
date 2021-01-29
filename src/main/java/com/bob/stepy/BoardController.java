@@ -162,6 +162,17 @@ public class BoardController {
 		return view;
 	}
 	
+	@GetMapping("replysingo")
+	public String replysingo(Integer pnum,Integer rnum,
+			RedirectAttributes rttr) {
+		log.info("pnum : " + pnum + ", rnum : " + rnum);
+		
+		String view = bServ.replysingo(pnum, rnum, rttr);
+		
+		return view;
+		
+	}
+	
 	@GetMapping("condel")
 	public String condel(int pnum,
 			RedirectAttributes rttr) {
@@ -169,6 +180,27 @@ public class BoardController {
 		
 		String view = bServ.condel(pnum, rttr);
 		
+		
+		return view;
+	}
+	
+	@GetMapping("likeup")
+	public String likeup(Integer pnum, String mid,
+							RedirectAttributes rttr) {
+		
+		log.info("pnum : " + pnum + ", mid : " + mid);
+		
+		String view = bServ.like(pnum, mid, rttr);
+		
+		return view;
+	}
+	
+	@GetMapping("singo")
+	public String singo(Integer pnum,
+			RedirectAttributes rttr) {
+		log.info("singo pnum : " + pnum);
+		
+		String view = bServ.singo(pnum, rttr);
 		
 		return view;
 	}

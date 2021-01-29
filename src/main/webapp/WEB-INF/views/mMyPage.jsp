@@ -32,7 +32,7 @@
 				> <h3><b>My Page</b></h3> </a> <a href="./mMyTravleSchedule" class="list-group-item list-group-item-action">나의
 					여행 플랜</a> <a href="./mMyLikedPages" class="list-group-item list-group-item-action">좋아요 한
 					게시글</a> <a href="./mMyCartPages" class="list-group-item list-group-item-action">찜한 상품</a> <a
-					href="#" class="list-group-item list-group-item-action"
+					href="./mMyPayment" class="list-group-item list-group-item-action"
 				>내 결제 내역/쿠폰 확인</a> <a href="./mModifyMyinfo" class="list-group-item list-group-item-action">내
 					정보 수정</a>
 					

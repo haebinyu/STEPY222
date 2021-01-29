@@ -19,7 +19,7 @@
 		<div class="list_area col-sm-3 col-md-10">
 			<table class="listTbl table-bordered table-hover table-striped">
 				<caption>
-					<font>이벤트 리스트 보기</font>
+					<font id="caption_title">이벤트 리스트 보기</font>
 				</caption>
 				<thead>
 					<tr>

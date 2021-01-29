@@ -2,6 +2,7 @@
 
 textarea {
 	resize: none;
+	width: 80%;
 }
 
 fieldset {

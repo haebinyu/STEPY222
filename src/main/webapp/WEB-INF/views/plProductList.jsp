@@ -145,6 +145,9 @@
 	font-weight: bold;
 	margin-bottom: 20px;
 }
+.reviewStar {
+	font-size: 28px;
+}
 .reviewRating {
 	font-size: 32px;
 	font-weight: bold;
@@ -228,7 +231,7 @@
 			<div class="reviewTop">
 				<div class="reviewTitle">후기</div>
 				<div class="reviewRating">
-					<span class="glyphicon glyphicon-star"></span> 
+					<span class="glyphicon glyphicon-star reviewStar"></span> 
 					<span><fmt:formatNumber value="${store.s_rate}" pattern=".0"/></span>
 					<hr>
 				</div>

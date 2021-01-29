@@ -64,8 +64,18 @@ public interface AdminDao {
 	public boolean fileInsert(Map<String, String> fmap);
 	public int deleteEvent(int e_num);
 
-	public List<ReportDto> getReportList (Integer pageNum);
+	public List<ReportDto> getReportList_C (Integer pageNum);
+	public List<ReportDto> getReportList_P (Integer pageNum);
+	public List<ReportDto> getReportList_R (Integer pageNum);
 	public int getReportCnt();
+
+	public ReportDto getReportRecord(Integer rp_num);
+	public CeoDto getCeoRecord(String rp_cnum);
+
+	public int deletePost(int num);
+	public int deleteReply(int num);
+
+	public void updateReport(int rp_num);
 
 
 

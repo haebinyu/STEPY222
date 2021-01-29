@@ -139,14 +139,56 @@
 	</delete>
 
 	<!-- 신고 처리 관련 -->
-	<select id="getReportList" parameterType="Integer"
+	<select id="getReportList_C" parameterType="Integer"
 		resultType="com.bob.stepy.dto.ReportDto">
 		SELECT * FROM RP
+		WHERE RP_CATEGORY='업체'
 		ORDER BY RP_NUM
 	</select>
+	<select id="getReportList_P" parameterType="Integer"
+		resultType="com.bob.stepy.dto.ReportDto">
+		SELECT * FROM RP
+		WHERE RP_CATEGORY='게시글'
+		ORDER BY RP_NUM
+	</select>
+	<select id="getReportList_R" parameterType="Integer"
+		resultType="com.bob.stepy.dto.ReportDto">
+		SELECT * FROM RP
+		WHERE RP_CATEGORY='댓글'
+		ORDER BY RP_NUM
+	</select>
+
 	<select id="getReportCnt" resultType="Integer">
 		SELECT COUNT(*) FROM E
 	</select>
+
+	<select id="getReportRecord" parameterType="Integer"
+		resultType="com.bob.stepy.dto.ReportDto">
+		SELECT * FROM RP
+		WHERE RP_NUM=#{rp_num}
+	</select>
+	<select id="getCeoRecord" parameterType="String"
+		resultType="com.bob.stepy.dto.CeoDto">
+		SELECT * FROM C
+		WHERE C_NUM=#{rp_cnum}
+	</select>
+
+	<delete id="deletePost" parameterType="Integer">
+		DELETE * FROM P
+		WHERE
+		P_NUM=#{p_num}
+	</delete>
+	<delete id="deleteReply" parameterType="Integer">
+		DELETE * FROM R
+		WHERE
+		R_NUM=#{r_num}
+	</delete>
+
+	<update id="updateReport" parameterType="Integer">
+		UPDATE RP SET
+		RP_CONDITION = '처리완료'
+		WHERE RP_NUM = #{rp_num}
+	</update>
 
 
 

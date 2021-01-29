@@ -50,7 +50,7 @@ public class AdminService {
 					member = aDao.getMemberInfo(member.getM_id());
 
 					//회원정보는 다른 페이지들에서도 돌려 쓰므로 세션에 DTO째로 등록
-					session.setAttribute("mb", member);
+					session.setAttribute("member", member);
 					view = "aHome";
 				}
 				//id가 admin이 아닌 경우 어드민이 아니라고 판단, 권한 없음 경고
@@ -136,7 +136,7 @@ public class AdminService {
 		return pagingHtml;
 	}//getPaging 메소드 끝
 
-	//리스트 보기 통합 메소드(스위치 사용)
+	//복수 레코드 리스트 보기 통합 메소드 (스위치 사용)
 	public ModelAndView listSet (Integer pageNum, Integer listSelect) {
 		mv = new ModelAndView();
 
@@ -264,7 +264,7 @@ public class AdminService {
 			int num6 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num6);
 
-			List<ReportDto> reportList1 = aDao.getReportList(num6);
+			List<ReportDto> reportList1 = aDao.getReportList_C(num6);
 
 			mv.addObject("rpList", reportList1);
 
@@ -280,7 +280,7 @@ public class AdminService {
 			int num7 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num7);
 
-			List<ReportDto> reportList2 = aDao.getReportList(num7);
+			List<ReportDto> reportList2 = aDao.getReportList_P(num7);
 
 			mv.addObject("rpList", reportList2);
 
@@ -296,7 +296,7 @@ public class AdminService {
 			int num8 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num8);
 
-			List<ReportDto> reportList3 = aDao.getReportList(num8);
+			List<ReportDto> reportList3 = aDao.getReportList_R(num8);
 
 			mv.addObject("rpList", reportList3);
 
@@ -341,7 +341,7 @@ public class AdminService {
 		String resStr = null;//콘솔 확인용 STR
 
 		switch(deleteSelect) {
-		case 1:
+		case 1://회원 추방
 			resInt = aDao.deleteMember(id);
 			if (resInt >0) {
 				resStr = "삭제 성공";				
@@ -350,7 +350,7 @@ public class AdminService {
 			}
 			view = "redirect:aMemberList";
 			break;
-		case 2:
+		case 2://업체 추방
 			resInt = aDao.deleteStore(id);
 			if (resInt >0) {
 				resStr = "삭제 성공";				
@@ -377,7 +377,8 @@ public class AdminService {
 	(EmailDto email, int mailType)
 			throws AddressException, MessagingException {
 		String resStr = "";
-		List<String> mailList = null;
+		List<String> mailList = new ArrayList<String>();
+		System.out.println("mailSend");
 
 		// 네이버일 경우 smtp.naver.com을 입력
 		// Google일 경우 smtp.gmail.com을 입력
@@ -390,11 +391,14 @@ public class AdminService {
 			//메일 내용
 			//받는 사람의 메일주소들 가져오기
 			switch(mailType) {
-			case 1:
+			case 1://M테이블 전원
 				mailList = aDao.getMailList_M();
 				break;
-			case 2:
+			case 2://C테이블 전원
 				mailList = aDao.getMailList_C();
+				break;
+			case 3://특정 단일 대상 (emailDTO에 기록된 수신자 가져와서 add)
+				mailList.add(email.getReceiveMail());
 				break;
 			}
 			System.out.println("DAO에서 이메일 리스트 가져오기 완료");
@@ -410,7 +414,7 @@ public class AdminService {
 
 			//메일 내용 가져와서 스트링버퍼에 옮겨 담기
 			StringBuffer sb = new StringBuffer();
-			String body = email.getMessage();
+			String body = email.getContents();
 			sb.append(body);
 
 			//어펜드로 종합된 버퍼들을 하나의 String으로 포장
@@ -629,6 +633,38 @@ public class AdminService {
 		}
 
 		return "redirect:aEventList";
+	}
+
+	//단일 신고글 세부사항 보기
+	public ModelAndView reportDetail (int rp_num) {
+		System.out.println("(서비스) 파라미터된 rp_num : " +rp_num);
+		mv = new ModelAndView();
+		ReportDto report = aDao.getReportRecord(rp_num);
+		CeoDto ceo = aDao.getCeoRecord(report.getRp_cnum());
+
+		mv.addObject("report", report);
+		mv.addObject("ceo", ceo);
+		mv.setViewName("aReportDetail");
+		return mv;
+	}
+
+	//어드민 권한으로 게시글&댓글 강제 삭제
+	@Transactional
+	public void deletePandR (int num, int switchNum) {
+		switch(switchNum) {
+		case 1://게시글 강제 삭제
+			aDao.deletePost(num);
+			break;
+		case 2://댓글 강제 삭제
+			aDao.deleteReply(num);
+			break;
+		}
+	}
+
+	@Transactional
+	public void aReportFinished(int rp_num) {
+		aDao.updateReport(rp_num);
+		System.out.println("업데이트 완료");
 	}
 
 

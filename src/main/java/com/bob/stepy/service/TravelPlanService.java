@@ -21,6 +21,7 @@ import com.bob.stepy.dto.ChecklistViewDto;
 import com.bob.stepy.dto.HouseholdDto;
 import com.bob.stepy.dto.InviteDto;
 import com.bob.stepy.dto.MemberDto;
+import com.bob.stepy.dto.PlanDto;
 import com.bob.stepy.dto.StoreDto;
 import com.bob.stepy.dto.TravelPlanDto;
 
@@ -132,7 +133,7 @@ public class TravelPlanService {
 	}
 
 	//일정 페이지 이동
-	public ModelAndView pPlanFrm(long planNum) {
+	public ModelAndView pPlanFrm(long planNum, RedirectAttributes rttr) {
 		log.info("service - pPlanFrm() - planNum : " + planNum);
 		
 		long num = (planNum == 0)? (long)session.getAttribute("curPlan") : planNum;
@@ -141,55 +142,62 @@ public class TravelPlanService {
 		
 		TravelPlanDto plan = tDao.getPlan(num);
 		
-		
-		mv.addObject("plan", plan);
-		
-		//시작일과 종료일의 차이 계산
-		long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
-		mv.addObject("days", days);
-		
-		//멤버 카운트
-		int memCnt = 0;
-		if(!(plan.getT_member1().equals(" "))) {
-			memCnt++;
+		//권한 검사
+		if(memberAuthCheck(plan)) {
+
+			mv.addObject("plan", plan);
+			
+			//시작일과 종료일의 차이 계산
+			long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
+			mv.addObject("days", days);
+			
+			//멤버 카운트
+			int memCnt = 0;
+			if(!(plan.getT_member1().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member2().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member3().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member4().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member5().equals(" "))) {
+				memCnt++;
+			}
+			
+			mv.addObject("memCnt", memCnt);
+			
+			//여행 내용 가져오기	
+			List<AccompanyPlanDto> planContentsList = tDao.getPlanContents(num);
+			mv.addObject("planContentsList", planContentsList);
+			//}
+			//초대 리스트 전체 가져오기
+			List<InviteDto> iList = tDao.pGetInviteList();
+			mv.addObject("iList", iList);
+			//새로운 초대 여부 확인
+			MemberDto member = (MemberDto)session.getAttribute("member");
+			int iCnt = tDao.pCheckInvite(member.getM_id());
+			mv.addObject("iCnt", iCnt);
+			//현재 일정에 초대중인 멤버 가져오기
+			List<InviteDto> waitingList = tDao.pGetWaitingMember(num);
+			mv.addObject("waitingList", waitingList);
+			//세션에 현재 여행 번호 저장
+			session.setAttribute("curPlan", num);
+			
+			//가게 목록 불러오기
+			List<StoreDto> sList = tDao.getStoreList();
+			mv.addObject("sList", sList);
+			
+			mv.setViewName("pPlanFrm");
 		}
-		if(!(plan.getT_member2().equals(" "))) {
-			memCnt++;
+		else {
+			mv.setViewName("redirect:/");
+			rttr.addFlashAttribute("msg", "접근 권한이 없습니다");
 		}
-		if(!(plan.getT_member3().equals(" "))) {
-			memCnt++;
-		}
-		if(!(plan.getT_member4().equals(" "))) {
-			memCnt++;
-		}
-		if(!(plan.getT_member5().equals(" "))) {
-			memCnt++;
-		}
-		
-		mv.addObject("memCnt", memCnt);
-		
-		//여행 내용 가져오기	
-		List<AccompanyPlanDto> planContentsList = tDao.getPlanContents(num);
-		mv.addObject("planContentsList", planContentsList);
-		//}
-		//초대 리스트 전체 가져오기
-		List<InviteDto> iList = tDao.pGetInviteList();
-		mv.addObject("iList", iList);
-		//새로운 초대 여부 확인
-		MemberDto member = (MemberDto)session.getAttribute("member");
-		int iCnt = tDao.pCheckInvite(member.getM_id());
-		mv.addObject("iCnt", iCnt);
-		//현재 일정에 초대중인 멤버 가져오기
-		List<InviteDto> waitingList = tDao.pGetWaitingMember(num);
-		mv.addObject("waitingList", waitingList);
-		//세션에 현재 여행 번호 저장
-		session.setAttribute("curPlan", num);
-		
-		//가게 목록 불러오기
-		List<StoreDto> sList = tDao.getStoreList();
-		mv.addObject("sList", sList);
-		
-		mv.setViewName("pPlanFrm");
 		
 		return mv;
 	}
@@ -271,7 +279,7 @@ public class TravelPlanService {
 	}
 	
 	//가계부 페이지 이동
-	public ModelAndView pHouseholdFrm(long planNum) {
+	public ModelAndView pHouseholdFrm(long planNum, RedirectAttributes rttr) {
 		log.info("service - pHouseholdFrm() - planNum : " + planNum);
 		
 		long num = (planNum == 0)? (long)session.getAttribute("curPlan") : planNum;
@@ -280,47 +288,54 @@ public class TravelPlanService {
 		
 		TravelPlanDto plan = tDao.getPlan(num);
 		
-		mv.addObject("plan", plan);
-		
-		//시작일과 종료일의 차이 계산
-		long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
-		mv.addObject("days", days);
-		
-		//멤버 카운트
-		int memCnt = 0;
-		if(!(plan.getT_member1().equals(" "))) {
-			memCnt++;
+		//권한 검사
+		if(memberAuthCheck(plan)) {
+			mv.addObject("plan", plan);
+			
+			//시작일과 종료일의 차이 계산
+			long days = getTime(plan.getT_stdate(), plan.getT_bkdate());
+			mv.addObject("days", days);
+			
+			//멤버 카운트
+			int memCnt = 0;
+			if(!(plan.getT_member1().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member2().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member3().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member4().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member5().equals(" "))) {
+				memCnt++;
+			}
+			
+			mv.addObject("memCnt", memCnt);
+			
+			//가계부 내용 가져오기
+			List<HouseholdDto> hList = tDao.getHouseholdList(num);
+			mv.addObject("hList", hList);
+			
+			//초대 리스트 가져오기
+			List<InviteDto> iList = tDao.pGetInviteList();
+			mv.addObject("iList", iList);
+			//새로운 초대 여부 확인
+			MemberDto member = (MemberDto)session.getAttribute("member");
+			int iCnt = tDao.pCheckInvite(member.getM_id());
+			mv.addObject("iCnt", iCnt);
+			//현재 일정에 초대중인 멤버 가져오기
+			List<InviteDto> waitingList = tDao.pGetWaitingMember(num);
+			mv.addObject("waitingList", waitingList);
+			mv.setViewName("pHouseholdFrm");
 		}
-		if(!(plan.getT_member2().equals(" "))) {
-			memCnt++;
+		else {
+			mv.setViewName("redirect:/");
+			rttr.addFlashAttribute("msg", "접근 권한이 없습니다");
 		}
-		if(!(plan.getT_member3().equals(" "))) {
-			memCnt++;
-		}
-		if(!(plan.getT_member4().equals(" "))) {
-			memCnt++;
-		}
-		if(!(plan.getT_member5().equals(" "))) {
-			memCnt++;
-		}
-		
-		mv.addObject("memCnt", memCnt);
-		
-		//가계부 내용 가져오기
-		List<HouseholdDto> hList = tDao.getHouseholdList(num);
-		mv.addObject("hList", hList);
-		
-		//초대 리스트 가져오기
-		List<InviteDto> iList = tDao.pGetInviteList();
-		mv.addObject("iList", iList);
-		//새로운 초대 여부 확인
-		MemberDto member = (MemberDto)session.getAttribute("member");
-		int iCnt = tDao.pCheckInvite(member.getM_id());
-		mv.addObject("iCnt", iCnt);
-		//현재 일정에 초대중인 멤버 가져오기
-		List<InviteDto> waitingList = tDao.pGetWaitingMember(num);
-		mv.addObject("waitingList", waitingList);
-		mv.setViewName("pHouseholdFrm");
 		
 		return mv;
 	}
@@ -469,7 +484,7 @@ public class TravelPlanService {
 	}
 
 	//체크리스트 페이지로 이동
-	public ModelAndView pCheckSupFrm(long planNum) {
+	public ModelAndView pCheckSupFrm(long planNum, RedirectAttributes rttr) {
 		log.info("service - pCheckSupFrm() - planNum : " + planNum);
 
 		long num = (planNum == 0)? (long)session.getAttribute("curPlan") : planNum;
@@ -477,48 +492,57 @@ public class TravelPlanService {
 		mv = new ModelAndView();
 		//여행 정보 가져오기
 		TravelPlanDto plan = tDao.getPlan(num);
-		//체크리스트 내용 가져오기
-		List<CheckListDto> checklist = tDao.getCheckList(num);
-		//체크리스트 카테고리 개수 가져오기
-		int categoryNum = tDao.getCategoryNum(num);
-		//레이아웃 생성용 뷰 가져오기
-		List<ChecklistViewDto> cvList = tDao.getCV(num);
 		
-		mv.addObject("plan", plan);
-		mv.addObject("checklist", checklist);
-		mv.addObject("categoryNum", categoryNum);
-		mv.addObject("cvList", cvList);
-		
-		//멤버 카운트
-		int memCnt = 0;
-		if(!(plan.getT_member1().equals(" "))) {
-			memCnt++;
+		//권한 체크
+		if(memberAuthCheck(plan)) {
+			//체크리스트 내용 가져오기
+			List<CheckListDto> checklist = tDao.getCheckList(num);
+			//체크리스트 카테고리 개수 가져오기
+			int categoryNum = tDao.getCategoryNum(num);
+			//레이아웃 생성용 뷰 가져오기
+			List<ChecklistViewDto> cvList = tDao.getCV(num);
+			
+			mv.addObject("plan", plan);
+			mv.addObject("checklist", checklist);
+			mv.addObject("categoryNum", categoryNum);
+			mv.addObject("cvList", cvList);
+			
+			//멤버 카운트
+			int memCnt = 0;
+			if(!(plan.getT_member1().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member2().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member3().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member4().equals(" "))) {
+				memCnt++;
+			}
+			if(!(plan.getT_member5().equals(" "))) {
+				memCnt++;
+			}
+			
+			mv.addObject("memCnt", memCnt);
+			
+			//초대 리스트 가져오기
+			List<InviteDto> iList = tDao.pGetInviteList();
+			mv.addObject("iList", iList);
+			//새로운 초대 여부 확인
+			MemberDto member = (MemberDto)session.getAttribute("member");
+			int iCnt = tDao.pCheckInvite(member.getM_id());
+			mv.addObject("iCnt", iCnt);
+			//현재 일정에 초대중인 멤버 가져오기
+			List<InviteDto> waitingList = tDao.pGetWaitingMember(num);
+			mv.addObject("waitingList", waitingList);
+			mv.setViewName("pCheckSupFrm");
 		}
-		if(!(plan.getT_member2().equals(" "))) {
-			memCnt++;
+		else {
+			mv.setViewName("redirect:/");
+			rttr.addFlashAttribute("msg", "접근 권한이 없습니다");
 		}
-		if(!(plan.getT_member3().equals(" "))) {
-			memCnt++;
-		}
-		if(!(plan.getT_member4().equals(" "))) {
-			memCnt++;
-		}
-		if(!(plan.getT_member5().equals(" "))) {
-			memCnt++;
-		}
-		
-		mv.addObject("memCnt", memCnt);
-		
-		//초대 리스트 가져오기
-		List<InviteDto> iList = tDao.pGetInviteList();
-		mv.addObject("iList", iList);
-		//새로운 초대 여부 확인
-		MemberDto member = (MemberDto)session.getAttribute("member");
-		int iCnt = tDao.pCheckInvite(member.getM_id());
-		mv.addObject("iCnt", iCnt);
-		//현재 일정에 초대중인 멤버 가져오기
-		List<InviteDto> waitingList = tDao.pGetWaitingMember(num);
-		mv.addObject("waitingList", waitingList);
 		
 		return mv;
 	}
@@ -1014,5 +1038,27 @@ public class TravelPlanService {
 		
 		rttr.addFlashAttribute("msg", msg);
 		return "redirect:pPlanList?id=" + id;
+	}
+	
+	//권한검사
+	public boolean memberAuthCheck(TravelPlanDto plan) {
+		log.info("pMemberAuthCheck()");
+		
+		String leader = plan.getT_id();
+		String m1 = plan.getT_member1();
+		String m2 = plan.getT_member2();
+		String m3 = plan.getT_member3();
+		String m4 = plan.getT_member4();
+		String m5 = plan.getT_member5();
+		
+		MemberDto m = (MemberDto)session.getAttribute("member");
+		String id = m.getM_id();
+		
+		if(id.equals(leader) || id.equals(m1) || id.equals(m2) || id.equals(m3) || id.equals(m4) || id.equals(m5)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

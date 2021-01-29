@@ -112,17 +112,6 @@ jQuery.browser = {};
 </body>
 <script type="text/javascript">
 $(function() {
-	//메시지 출력
-	var chk = "${msg}";
-	console.log(chk);
-
-	if(chk != ""){
-		alert(chk);
-		location.reload(true);
-	}
-});
-
-$(function() {
     //datepicker 한국어로 사용하기 위한 언어설정
     $.datepicker.setDefaults($.datepicker.regional['ko']); 
     

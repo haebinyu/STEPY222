@@ -144,13 +144,6 @@ function reject(code){
 }
 
 $(function(){
-	//메시지 출력
-	var chk = "${msg}";
-	
-	if(chk != ""){
-		alert(chk);
-		location.reload(true);
-	}
 	//초대 알림창 켜기
 	$(".invite-alert-btn").click(function(){
 		$(".invite-alert").css("opacity", "1");

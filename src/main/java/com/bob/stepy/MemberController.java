@@ -51,7 +51,12 @@ public class MemberController {
 
 
 	
-
+	@GetMapping("mMyPayment")
+	public String mMyPayment() {
+	
+		return "mMyPayment";
+	}
+		
 	@ResponseBody
 	@PostMapping(value="mRetrieveByUsername", produces = "application/json; charset = utf-8")
 	public Map<String, List<MessageDto>> mRetrieveByUsername(String userid, String m_id ){

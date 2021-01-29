@@ -8,7 +8,15 @@
 <!-- 메일&이벤트&신고 공통 스타일 -->
 <link rel="stylesheet"
 	href="resources/css/aGroupMail&Event&ReportStyle.css">
+<script type="text/javascript">
+	var msg = "${msg}";
 
+	if (msg != "") {
+		alert(msg);//msg 메시지를  alert출력
+		//현재 페이지를 리로드, 새로고침해 현재 페이지를 초기화
+		location.reload(true);
+	}
+</script>
 </head>
 <body>
 	<!-- header,footer는 공통 양식으로 include 처리 -->

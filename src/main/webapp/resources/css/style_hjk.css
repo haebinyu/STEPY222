@@ -2,8 +2,12 @@
 .contents-box { 
 	width: 100%; border: 2px solid #4375d9; border-radius: 7px;
 	padding: 20px; margin-bottom: 200px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.10);
 }
-
+.contents-box {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.10);
+	border-radius: 8px;
+}
 /* 일정 페이지 공통 */
 .plan-name { 
 	display: inline-block;
@@ -42,7 +46,13 @@
 .edit-menu-sub > li {
 	cursor: pointer;
 	padding: 10px 15px;
-	border-radius: 8px;
+}
+.edit-menu-sub > li:first-child{
+	border-radius: 8px 8px 0 0;
+	border-bottom: 1px solid #ddd;
+}
+.edit-menu-sub > li:nth-child(2){
+	border-radius: 0 0 8px 8px;
 }
 .edit-menu-sub > li:hover {
 	background: #eee;
@@ -272,22 +282,6 @@ td { text-align: center; }
 	visibility: visible;
 }
 
-@media ( max-width: 767px ){
-	.popup-area {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 85%;
-		height: 600px;
-		background: #fff;
-		z-index: 2;
-	}
-	.dayList {
-		margin: 0;
-	}
-}
-
 /* 체크박스 from https://codepen.io/avstorm/pen/vYYBxRM */
 .cbx {
   -webkit-user-select: none;
@@ -439,4 +433,33 @@ td { text-align: center; }
 	transition: all 0.2s;
 	opacity: 0;
 	visibility: hidden;
+}
+
+/* 반응형 */
+@media ( max-width: 767px ){
+	.popup-area {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 85%;
+		height: 600px;
+		background: #fff;
+		z-index: 2;
+	}
+	.dayList {
+		margin: 0;
+	}
+	.show-member-wrap{
+		width: 100%;
+	}
+	.edit-menu {
+		width: 100%;
+		position: relative;
+		text-align: center;
+	}
+	.nav-pills {
+		border: 1px solid #ddd;
+		border-radius: 8px;
+	}
 }

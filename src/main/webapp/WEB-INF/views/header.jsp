@@ -1,23 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script>
-$(function(){
-	
-	var memberinfo = "${member.m_nickname}";
-	if(memberinfo != ""){
-		console.log(memberinfo);
-		$("#mname").html(memberinfo);
-		$(".suc").css("display","block");
-		$(".bef").css("display","none");
-	}
-	
-	var msgforlogin = "${msgforlogin}";
-		if(msgforlogin != ""){
-			alert(msgforlogin);
+	$(function() {
+
+		var memberinfo = "${member.m_nickname}";
+		if (memberinfo != "") {
+			console.log(memberinfo);
+			$("#mname").html(memberinfo);
+			$(".suc").css("display", "block");
+			$(".bef").css("display", "none");
 		}
 
-});
+		var msgforlogin = "${msgforlogin}";
+		if (msgforlogin != "") {
+			alert(msgforlogin);
+		}
+		//메시지 출력
+		var chk = "${msg}";
+		if (chk != "") {
+			alert(chk);
+			location.reload(true);
+		}
+	});
 </script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <div class="jumbotron"
 	style="background-color: white; margin-bottom: 0; height: 150px; padding: 20px 0;">
@@ -54,9 +65,12 @@ $(function(){
 					href="./mMyPage" style="color: white;">My Page</a></li>
 				<li class="nav-item suc" style="display: none"><a
 					href="./mLogoutProc" style="color: white;">로그아웃</a></li>
-				<li class="nav-item buc"><a href="./bReviewList" style="color:white;">리뷰</a></li>
-       		    <li class="nav-item buc"><a href="./bMateList" style="color:white;">여행동행</a></li>
-        	  	<li class="nav-item buc"><a href="./bFreeList" style="color:white;">자유게시판</a></li>
+				<li class="nav-item buc"><a href="./bReviewList"
+					style="color: white;">리뷰</a></li>
+				<li class="nav-item buc"><a href="./bMateList"
+					style="color: white;">여행동행</a></li>
+				<li class="nav-item buc"><a href="./bFreeList"
+					style="color: white;">자유게시판</a></li>
 
 			</ul>
 		</div>
@@ -64,6 +78,3 @@ $(function(){
 	</div>
 	<!-- /.containe -->
 </nav>
-
-
-
