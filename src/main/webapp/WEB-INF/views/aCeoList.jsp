@@ -23,14 +23,13 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		<caption>
 			<font id="caption_title"><%=type%> 리스트 보기</font> <br>
 			<!--  -->
-			<input type="radio" name="choice" value="1" id="all" checked>
-			<label for="all">전체 보기</label>
-			<!--  -->
-			<input type="radio" name="choice" value="2" id="finished-only">
-			<label for="finished-only">승인완료 회원만</label>
-			<!--  -->
-			<input type="radio" name="choice" value="3" id="unfinished-only">
-			<label for="unfinished-only">승인대기 회원만</label>
+			<font id="filter"> <input type="radio" name="choice" value="1"
+				id="all" checked> <label for="all">전체 보기</label> <!--  --> <input
+				type="radio" name="choice" value="2" id="finished-only"> <label
+				for="finished-only">승인완료 회원만</label> <!--  --> <input type="radio"
+				name="choice" value="3" id="unfinished-only"> <label
+				for="unfinished-only">승인대기 회원만</label>
+			</font>
 		</caption>
 		<thead>
 			<tr>
@@ -142,5 +141,11 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 			}
 		}
 	});
+
+	if (
+<%=typeNum%>
+	!= 1) {
+		filter.classList.add("hide");
+	}
 </script>
 <script src="resources/js/aAutoColspan.js"></script>

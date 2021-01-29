@@ -84,6 +84,11 @@
 			location.href = "aDeleteEvent?e_num=" + eNum;
 		}
 	}
+
+	var ths = document.getElementsByTagName("th");
+	var blank_colspan = ths.length - 2;
+	blank_td.setAttribute("colspan", blank_colspan);
+	new_event.setAttribute("colspan", ths.length - blank_colspan);
 </script>
 <script src="resources/js/aAutoColspan.js"></script>
 </html>
