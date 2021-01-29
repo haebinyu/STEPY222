@@ -28,7 +28,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				type="radio" name="choice" value="2" id="finished-only"> <label
 				for="finished-only">승인완료 회원만</label> <!--  --> <input type="radio"
 				name="choice" value="3" id="unfinished-only"> <label
-				for="unfinished-only">승인대기 회원만</label>
+				for="unfinished-only">승인대기 회원만</label> <br>
 			</font>
 		</caption>
 		<thead>
@@ -40,6 +40,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				<th>닉네임</th>
 				<th>생년월일</th>
 				<th>승인</th>
+				<th>신고 수</th>
 				<th>회원 추방</th>
 			</tr>
 		</thead>
@@ -52,6 +53,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 				<td>${cItem.c_name}</td>
 				<td>${cItem.c_phone}</td>
 				<td class="check" onclick="checkConfirm('${cItem.c_num}');">승인하기</td>
+				<td class="report">${cItem.c_report}</td>
 				<td class="delete" onclick="delConfirm('${cItem.c_num}');">추방</td>
 			</tr>
 		</c:forEach>
@@ -73,6 +75,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 	var checks = document.getElementsByClassName("check");
 	var cNumbers = document.getElementsByClassName("cNum");
 	var trs = document.getElementsByClassName("item");
+	var reports = document.getElementsByClassName("report");
 
 	for (var i = 0; i < joinCells.length; i++) {
 		if (joinCells[i].innerHTML == "pending") {
