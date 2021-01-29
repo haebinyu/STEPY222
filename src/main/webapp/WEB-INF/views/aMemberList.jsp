@@ -19,10 +19,19 @@
 		<div class="list_area col-sm-3 col-md-10">
 			<table class="listTbl table-bordered table-hover table-striped">
 				<caption>
-					<font id="caption_title">일반 회원 리스트 보기</font>
+					<font id="caption_title">일반 회원 리스트 보기</font> <br>
+					<!--  -->
+					<input type="radio" name="choice" value="1" id="all" checked>
+					<label for="all">전체 보기</label>
+					<!--  -->
+					<input type="radio" name="choice" value="2" id="m-only"> <label
+						for="m-only">남성 회원만</label>
+					<!--  -->
+					<input type="radio" name="choice" value="3" id="f-only"> <label
+						for="f-only">여성 회원만</label>
 				</caption>
 				<thead>
-					<tr>
+					<tr class="item">
 						<th>아이디</th>
 						<th>비밀번호</th>
 						<th>이메일</th>
@@ -35,10 +44,6 @@
 						<th>회원 추방</th>
 					</tr>
 				</thead>
-				<!-- 전달받아 등록된 멤버 리스트 mList에서 꺼내 반복 출력
-					꺼낼 대상은 mList, 꺼내는 매개변수 가명은 mItem으로 지정
-					mItem을 통해 꺼낸 후 다시 mItem(DTO취급) 내의 필드 변수들을 꺼내 출력
-					필드 변수 이름==DTO 변수 이름==DB 칼럼 이름 통일 필수-->
 				<c:forEach var="mItem" items="${mList}">
 					<tr>
 						<td class="mid">${mItem.m_id}</td>
@@ -55,7 +60,7 @@
 						</td>
 					</tr>
 				</c:forEach>
-				<!-- 어드민도 회원이므로 mList가 empty일 수 없어 생략 -->
+				<!-- 어드민도 회원이므로 mList가 empty인 것은 불가능해 noData 생략 -->
 			</table>
 			<!-- 페이지 버튼 영역 -->
 			<div class="btn-area">
@@ -69,6 +74,11 @@
 	</footer>
 </body>
 <script type="text/javascript">
+	mIds = document.getElementsByClassName("mid");
+	checks = document.getElementsByClassName("check");
+	deleteCells = document.getElementsByClassName("delete");
+	trs = document.getElementsByClassName("item");
+	
 	function delConfirm(m_id) {
 		if (m_id == 'admin') {
 			return;
@@ -82,15 +92,41 @@
 	}
 
 	//admin은 추방될 수 없는 계정으로 판단하고 추방하기를 볼 수 없는 예외로 등록
-	mIds = document.getElementsByClassName("mid");
-	checks = document.getElementsByClassName("check");
-	deleteCells = document.getElementsByClassName("delete");
-
 	for (var i = 0; i < mIds.length; i++) {
 		if (mIds[i].innerHTML == "admin") {
 			deleteCells[i].innerHTML = "";
 			deleteCells[i].classList.add("clearBg");
 		}
 	}
+
+	//라디오 버튼 선택에 따라 해당 필터 적용 (AJAX없이 즉석 처리)
+	$('#all').change(function() {
+		console.log("전체 보기");
+		for (var i = 0; i < trs.length; i++) {
+			$(trs[i]).removeClass("hide");
+		}
+	});
+
+	$('#m-only').change(function() {
+		console.log("남성 보기");
+		for (var i = 0; i < trs.length; i++) {
+			if (joinCells[i].innerHTML == "남") {
+				$(trs[i]).removeClass("hide");
+			} else {
+				trs[i].classList.add("hide");
+			}
+		}
+	});
+
+	$('#unfinished-only').change(function() {
+		console.log("여성 보기");
+		for (var i = 0; i < trs.length; i++) {
+			if (joinCells[i].innerHTML == "여") {
+				$(trs[i]).removeClass("hide");
+			} else {
+				trs[i].classList.add("hide");
+			}
+		}
+	});
 </script>
 </html>
