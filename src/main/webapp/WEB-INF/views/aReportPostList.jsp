@@ -70,4 +70,14 @@
 	</footer>
 </body>
 <script src="resources/js/aAutoColspan.js"></script>
+<script type="text/javascript">
+function deleteConfirm_p(p_num) {
+	console.log(rp_num);
+	var select = confirm("이 게시글을 강제 삭제합니다");
+	if (select == true){
+		location.href="";
+	}
+}
+
+</script>
 </html>
