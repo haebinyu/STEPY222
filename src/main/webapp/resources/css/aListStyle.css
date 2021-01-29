@@ -25,12 +25,12 @@ caption {
 	font-weight: bold;
 }
 
-.accept, .delete, .eventStop, #new_event, .detail {
+.acceptBtn, .delete, .eventStop, #new_event, .detail {
 	cursor: pointer;
 	text-decoration: none;
 }
 
-.accept, #new_event {
+.acceptBtn, #new_event {
 	background-color: #82d3ff;
 }
 

@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Welcome Travelers!</title>
-<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link href="resources/css/style.css" rel="stylesheet">
 <script type="text/javascript">
 	var msg = "${msg}";

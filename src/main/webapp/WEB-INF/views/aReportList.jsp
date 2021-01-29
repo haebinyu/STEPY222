@@ -22,7 +22,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 			<label for="finished-only">처리완료 항목만</label>
 			<!--  -->
 			<input type="radio" name="choice" value="3" id="unfinished-only">
-			<label for="unfinished-only">처리중 항목만</label> <br>
+			<label for="unfinished-only">처리중 항목만</label>
 		</caption>
 		<thead>
 			<tr>
