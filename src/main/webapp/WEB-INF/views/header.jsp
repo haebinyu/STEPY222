@@ -23,13 +23,7 @@
 		}
 	});
 </script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
+<!-- 부트스트랩 각 페이지 처리 -->
 <div class="jumbotron"
 	style="background-color: white; margin-bottom: 0; height: 150px; padding: 20px 0;">
 	<a href="./"><img src="resources/images/logo_tp_final01.png"
