@@ -21,12 +21,13 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 <div class="list_area col-sm-3 col-md-10">
 	<table class="listTbl table-bordered table-hover table-striped">
 		<caption>
-			<font id="caption_title"><%=type%> 리스트 보기</font> <br> <input
-				type="radio" name="choice" value="1" id="all" checked> <label
-				for="all">전체 보기</label>
+			<font id="caption_title"><%=type%> 리스트 보기</font> <br>
+			<!--  -->
+			<input type="radio" name="choice" value="1" id="all" checked>
+			<label for="all">전체 보기</label>
 			<!--  -->
 			<input type="radio" name="choice" value="2" id="finished-only">
-			<label for="finished-only">처리완료 항목만</label>
+			<label for="finished-only">승인완료 회원만</label>
 			<!--  -->
 			<input type="radio" name="choice" value="3" id="unfinished-only">
 			<label for="unfinished-only">승인대기 회원만</label>
@@ -87,14 +88,14 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		}
 	};
 
-	//승인 수락 확인 confirm+클래스로 넘기기
+	//승인 수락 확인 confirm+컨트롤러로 넘기기
 	function checkConfirm(c_num) {
 		var cNum = c_num;
 		console.log(cNum);
 
-		//JS에서 클래스로 파라미터를 넘길 때, ?(변수명)=파라미터값
+		//JSP에서 location을 통해 파라미터를 넘길 때, ?(변수명)=파라미터값
 		//confirm창에서 확인을 누른 경우 T, 취소를 누른 경우 F값
-		var checkConfirm = confirm("이 회원의 등록을 승인합니다");
+		var checkConfirm = confirm("이 회원의 등록을 승인합니다 | " + cNum);
 		if (checkConfirm == true) {
 			location.href = "aPermitStore?c_num=" + cNum;
 		}
@@ -106,7 +107,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		var cNum = c_num;
 		console.log(cNum);
 
-		var checkConfirm = confirm("이 회원의 데이터를 삭제합니다 | " + c_num);
+		var checkConfirm = confirm("이 회원의 데이터를 삭제합니다 | " + cNum);
 		if (checkConfirm == true) {
 			location.href = "aDeleteStore?c_num=" + cNum;
 		}
