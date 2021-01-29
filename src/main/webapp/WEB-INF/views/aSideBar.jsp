@@ -29,6 +29,5 @@
 	<ul class="nav nav-sidebar">
 		<li id="event"><a href="aEvent">이벤트 관리 페이지</a></li>
 		<li id="report"><a href="aReport">신고 관리 페이지</a></li>
-		<li id="reportWrite"><a href="reportWrite">신고 작성</a></li>
 	</ul>
 </div>

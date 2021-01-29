@@ -20,13 +20,54 @@
 	</header>
 	<main class="container">
 		<jsp:include page="aSideBar.jsp" />
-		<jsp:include page="aReportList.jsp">
-			<jsp:param value="신고된 게시글" name="type" />
-			<jsp:param value="2" name="typeNum" />
-		</jsp:include>
+		<div class="list_area col-sm-3 col-md-10">
+			<table class="listTbl table-bordered table-hover table-striped">
+				<caption>
+					<font id="caption_title">신고된 게시글 리스트 보기 </font>
+				</caption>
+				<thead>
+					<tr>
+						<th>게시글 등록 번호</th>
+						<th>작성자 ID</th>
+						<th>제목</th>
+						<th>분류</th>
+						<th>게시일</th>
+						<th>조회</th>
+						<th>좋아요</th>
+						<th>신고 등록 여부</th>
+						<th>신고 처리</th>
+					</tr>
+				</thead>
+				<c:forEach var="pItem" items="${pList}">
+					<tr class="item">
+						<td>${pItem.p_num }</td>
+						<td>${pItem.p_mid }</td>
+						<td>${pItem.p_title }</td>
+						<td>${pItem.p_category }</td>
+						<td>${pItem.p_date }</td>
+						<td>${pItem.p_view }</td>
+						<td>${pItem.p_like }</td>
+						<td>${pItem.p_report }</td>
+						<td class="delete">처리하기</td>
+					</tr>
+				</c:forEach>
+				<c:if test="${empty rpList }">
+					<tr>
+						<!-- 칼럼의 수만큼 colspan -->
+						<td id="noData">신고를 처리할 대상이 없습니다</td>
+					</tr>
+				</c:if>
+			</table>
+			<!-- 페이지 버튼 영역 -->
+			<div class="btn-area" align="center">
+				<!-- 페이지 버튼, EL 처리 -->
+				<div class="paging">${paging}</div>
+			</div>
+		</div>
 	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />
 	</footer>
 </body>
+<script src="resources/js/aAutoColspan.js"></script>
 </html>

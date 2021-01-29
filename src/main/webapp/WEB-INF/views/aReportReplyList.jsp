@@ -20,13 +20,52 @@
 	</header>
 	<main class="container">
 		<jsp:include page="aSideBar.jsp" />
-		<jsp:include page="aReportList.jsp">
-			<jsp:param value="신고된 댓글" name="type" />
-			<jsp:param value="3" name="typeNum" />
-		</jsp:include>
+		<div class="list_area col-sm-3 col-md-10">
+			<table class="listTbl table-bordered table-hover table-striped">
+				<caption>
+					<font id="caption_title">신고된 댓글 리스트 보기 </font>
+				</caption>
+				<thead>
+					<tr>
+						<th>댓글 등록 번호</th>
+						<th>댓글 내용</th>
+						<th>비밀댓글 여부</th>
+						<th>댓글 등록일</th>
+						<th>작성자 ID</th>
+						<th>작성된 글번호</th>
+						<th>신고 등록 여부</th>
+						<th>신고 처리</th>
+					</tr>
+				</thead>
+				<c:forEach var="rItem" items="${rList}">
+					<tr class="item">
+						<td>${rItem.r_num }</td>
+						<td>${rItem.r_contents }</td>
+						<td>${rItem.r_secret }</td>
+						<td>${rItem.r_date }</td>
+						<td>${rItem.r_id }</td>
+						<td>${rItem.r_pnum }</td>
+						<td>${rItem.r_report }</td>
+						<td class="delete">처리하기</td>
+					</tr>
+				</c:forEach>
+				<c:if test="${empty rpList }">
+					<tr>
+						<!-- 칼럼의 수만큼 colspan -->
+						<td id="noData">신고를 처리할 대상이 없습니다</td>
+					</tr>
+				</c:if>
+			</table>
+			<!-- 페이지 버튼 영역 -->
+			<div class="btn-area" align="center">
+				<!-- 페이지 버튼, EL 처리 -->
+				<div class="paging">${paging}</div>
+			</div>
+		</div>
 	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />
 	</footer>
 </body>
+<script src="resources/js/aAutoColspan.js"></script>
 </html>
