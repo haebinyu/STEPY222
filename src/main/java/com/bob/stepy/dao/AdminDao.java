@@ -50,7 +50,7 @@ public interface AdminDao {
 	//업체 회원 삭제
 	public int deleteStore(String c_num);
 
-	//단체 메일 발송용 이메일 칼럼만 조회하기
+	//단체 메일 발송용 이메일 목록 칼럼만 조회하기
 	public List<String> getMailList_M ();
 	public List<String> getMailList_C ();
 
@@ -60,18 +60,24 @@ public interface AdminDao {
 	public List<EventDto> getEventList (Integer pageNum);
 	public int getEventCnt();
 
+	//E테이블에 INSERT
 	public int InsertEvent(EventDto event);
+	
 	public boolean fileInsert(Map<String, String> fmap);
 	public int deleteEvent(int e_num);
-
+	
+	//신고된 레코드 조회
+	//C만 RP테이블에서 조회, P,R은 P,R테이블에서 직접 조건 조회
 	public List<ReportDto> getReportList_C (Integer pageNum);
-	public List<ReportDto> getReportList_P (Integer pageNum);
-	public List<ReportDto> getReportList_R (Integer pageNum);
+	public List<PostDto> getReportList_P (Integer pageNum);
+	public List<ReplyDto> getReportList_R (Integer pageNum);
 	public int getReportCnt();
 
+	//신고글 상세보기에 필요한 DTO 단독 조회
 	public ReportDto getReportRecord(Integer rp_num);
 	public CeoDto getCeoRecord(String rp_cnum);
 
+	//어드민 권한 - 게시글,댓글 강제 삭제
 	public int deletePost(int num);
 	public int deleteReply(int num);
 

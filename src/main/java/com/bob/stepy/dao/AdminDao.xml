@@ -123,13 +123,15 @@
 		</selectKey>
 
 		INSERT INTO E VALUES
-		(${e_num},#{e_title},#{e_contents},
-		TO_DATE(#{e_date}))
+		(${e_num}, #{e_title}, #{e_contents}, #{e_date})
 	</insert>
 	<insert id="fileInsert" parameterType="HashMap">
 		INSERT INTO F
+		(F_NUM,
+		F_ORINAME, F_SYSNAME, F_ENUM)
 		VALUES
-		(FILEUP_SEQ.NEXTVAL, #{e_num},#{oriName},#{sysName})
+		(FILEUP_SEQ.NEXTVAL, #{oriName},
+		#{sysName}, #{e_num})
 	</insert>
 
 	<delete id="deleteEvent" parameterType="Integer">
@@ -145,17 +147,16 @@
 		WHERE RP_CATEGORY='업체'
 		ORDER BY RP_NUM
 	</select>
+	<!-- P,R은 전용 신고글을 쓰지 않고 처리하므로 P,R테이블에서 직접 조회 -->
 	<select id="getReportList_P" parameterType="Integer"
-		resultType="com.bob.stepy.dto.ReportDto">
-		SELECT * FROM RP
-		WHERE RP_CATEGORY='게시글'
-		ORDER BY RP_NUM
+		resultType="com.bob.stepy.dto.PostDto">
+		SELECT * FROM P
+		WHERE P_REPORT>0
 	</select>
 	<select id="getReportList_R" parameterType="Integer"
-		resultType="com.bob.stepy.dto.ReportDto">
-		SELECT * FROM RP
-		WHERE RP_CATEGORY='댓글'
-		ORDER BY RP_NUM
+		resultType="com.bob.stepy.dto.ReplyDto">
+		SELECT * FROM R
+		WHERE R_REPORT>0
 	</select>
 
 	<select id="getReportCnt" resultType="Integer">
