@@ -19,14 +19,6 @@
 	$(function() {
 		$(".suc").css("display", "none");
 		$(".bef").css("display", "none");
-
-		
-		//
-		var searchForm = $("#searchForm");
-		
-		$("#searchForm button").on("click", fucntion(){
-			searchForm.submit();
-		});
 });
 </script>
 
@@ -112,22 +104,24 @@
 		</div>
 
 		<!-- 검색창 -->
-		<div class="container searchFrm">
-			<form action="searchTravelReview" method="post" id="searchForm">
-				<select class="form-control option" name="searchOption">
-					<option value="all" <c:out value="${pMap.searchOption == 'all'?'selected':''}"/>>
-						전체(제목+내용+작성자)</option>	
-					<option value="p_title" <c:out value="${pMap.searchOption == 'p_title'?'selected':''}"/>>
-						제목</option>
-					<option value="p_contents" <c:out value="${pMap.searchOption == 'p_contents'?'selected':''}"/>>
-						내용</option>
-					<option value="p_mid" <c:out value="${pMap.searchOption == 'p_mid'?'selected':''}"/>>
-						작성자</option>
-				</select>
-				<input name="keyword" value="${pMap.keyword}"
-					class="form-control keywordInput" type="text" placeholder="검색어를 입력해주세요.">
-				<button class="btn btn-default searchBtn" type="submit">검색</button>
-			</form>
+		<div class="container">
+			<div class="searchFrm">
+				<form action="searchTravelReview" method="post" id="searchForm">
+					<select class="form-control option" name="searchOption">
+						<option value="all" <c:out value="${pMap.searchOption == 'all'?'selected':''}"/>>
+							전체(제목+내용+작성자)</option>	
+						<option value="p_title" <c:out value="${pMap.searchOption == 'p_title'?'selected':''}"/>>
+							제목</option>
+						<option value="p_contents" <c:out value="${pMap.searchOption == 'p_contents'?'selected':''}"/>>
+							내용</option>
+						<option value="p_mid" <c:out value="${pMap.searchOption == 'p_mid'?'selected':''}"/>>
+							작성자</option>
+					</select>
+					<input name="keyword" value="${pMap.keyword}"
+						class="form-control keywordInput" type="text" placeholder="검색어를 입력해주세요.">
+					<button class="btn btn-default searchBtn" type="submit">검색</button>
+				</form>
+			</div>
 		</div>
 	</div>
 </section>

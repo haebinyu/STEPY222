@@ -247,7 +247,7 @@ public class SearchService {
 		}
 
 		// 설정값(페이지 당 글 개수, 그룹 당 페이지 개수)
-		int listCnt = 15;
+		int listCnt = 7;
 		int pageCnt = 5;
 		String listName = str;
 
