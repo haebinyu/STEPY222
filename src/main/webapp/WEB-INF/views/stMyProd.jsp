@@ -19,22 +19,26 @@
 <link href="resources/css/style.css" rel="stylesheet">
 <style type="text/css">
 .btn {
-	background-color: #4375D9;
+	background-color: #77acf2;
 	color: white;
 	margin: 10px 0px;
 }
 .btn-color {
-	background-color: #F25D07;
-}
-.btn-color2 {
 	background-color: #F2B950;
 }
+.btn-color2 {
+	background-color: #4375d9;
+}
 .sub {
-	width: 45%;
+	width: 80%;
 }
 .btn-mar {
-	margin: 10px auto;
-	
+	margin: 10px auto;	
+}
+.btn-radius {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
 }
 .contents-size {
 	height: 180px;
@@ -57,6 +61,26 @@
 .thumbnail {
 	height: 450px!important;
 }
+
+#plus {
+	position: absolute;
+	opacity: 0;
+}
+.text_photo:hover #plus {
+	opacity: 1;
+	background-color: rgba(42, 41, 45, 0.6);
+	width: 293px;
+	height: 200px;
+	color: white;
+	text-align: center;
+	line-height: 200px;
+	font-size: xx-large;
+	cursor: pointer;
+}
+	
+
+
+
 </style>
 
 <script type="text/javascript">
@@ -89,11 +113,14 @@ $(function(){
   			<li role="presentation"><a href="./stReportList">가게 신고 보기</a></li>
 		</ul>
 		
-		<div class="btn-mar">			
-   			<button type="submit" class="btn" onclick="location.href='./stWriteFrm'">
+		<div class="btn-mar">
+			<div class="alert alert-warning" role="alert">
+				<span class="glyphicon glyphicon-bullhorn"></span>&nbsp;&nbsp;
+			한 상품당 최소 하나의 사진을 기본으로 합니다. 더 많은 사진을 넣고 싶다면 아래 상품에서 '+' 를 클릭해주세요:)</div>			
+   			<button type="button" class="btn btn-radius" onclick="location.href='./stWriteFrm'" title="상품 추가하기" >
    				<span class="glyphicon glyphicon-pencil"></span></button>
-   			<button type="button" class="btn btn-color" onclick="location.href='./stIntro'">
-   				<span class="glyphicon glyphicon-zoom-in"></span></button>
+   			<button type="button" class="btn btn-color btn-radius" onclick="location.href='./plProductList?c_num=${ceo.c_num}'" title="전체 페이지 보기">
+   				<span class="glyphicon glyphicon-open"></span></button> 				
 		</div>		
 		
 		<c:if test="${empty pList}">
@@ -104,11 +131,19 @@ $(function(){
 				<c:forEach var="pt" items="${ptMap}" varStatus="status">
 					<div class="col-sm-6 col-md-4">					
 						<div class="thumbnail">						
-							<c:if test="${fn:contains(pt.key, '.jpg')}">
-								<img src="resources/upload${pt.key}" style="width: 100%; height: 200px;">
+							<c:if test="${fn:contains(pt.key, '.jpg')}">								
+								<div class="text_photo">										
+									<a href="stAddProdPhotos?pl_num=${pt.value.pl_num}">
+									<p id="plus"><span class="glyphicon glyphicon-plus"></span></p></a>														
+									<img src="resources/upload${pt.key}" style="width: 100%; height: 200px;">
+								</div>									
 							</c:if>
 							<c:if test="${fn:contains(pt.key, '.png')}">
-								<img src="resources/upload${pt.key}" style="width: 100%; height: 200px;">
+								<div class="text_photo">										
+									<a href="stAddProdPhotos?pl_num=${pt.value.pl_num}">
+									<p id="plus"><span class="glyphicon glyphicon-plus"></span></p></a>	
+									<img src="resources/upload${pt.key}" style="width: 100%; height: 200px;">
+								</div>	
 							</c:if>						
 							<div class="caption contents-size">								
 								<h3>${pt.value.pl_name}</h3>
@@ -121,11 +156,8 @@ $(function(){
         							&bull; 특징: ${pt.value.pl_text}<br>        							
         						</p>
         					</div>
-        					<p class="text-center">
-        						<a href="#" class="btn sub" role="button" onclick="location.href='./stModifyProdFrm'">
-        							<span class="glyphicon glyphicon-plus"></span>
-        						</a>
-        						<a href="#" class="btn btn-color2 sub" role="button">
+        					<p class="text-center">        						
+        						<a href="#" class="btn btn-color2 sub" role="button" title="삭제하기">
         							<span class="glyphicon glyphicon-trash"></span>
         						</a>
         					</p>        					     						
