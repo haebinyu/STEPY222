@@ -5,9 +5,9 @@ import java.util.Map;
 
 import com.bob.stepy.dto.CeoDto;
 import com.bob.stepy.dto.FileUpDto;
+import com.bob.stepy.dto.InCartDto;
 import com.bob.stepy.dto.ProductDto;
 import com.bob.stepy.dto.StoreDto;
-
 
 
 public interface StoreDao {
@@ -35,14 +35,19 @@ public interface StoreDao {
 	
 	//상품 리스트 가져오기
 	public List<ProductDto> getProdList(String pl_cnum);
+	//상품 정보 가져오기
+	public ProductDto getProdInfo(int pl_num);
 	
 	//상품 등록하기
 	public boolean stProdInsert(ProductDto product);
-	//상품 사진 등록하기
+	//상품 메인사진 등록
 	public boolean stProdThumbUp(Map<String, String> tmap);
+	//상품 추가사진 업로드
 	public boolean stProdFileUp(Map<String, String> pmap);
-	//상품 썸네일 가져오기
+	//상품 메인사진 가져오기
 	public FileUpDto getProdThumb(int f_plnum);
+	//상품 추가사진 가져오기
+	public List<FileUpDto> getProdPhotos(int f_plnum);
 	
 	//사업주 매장 기본정보 변경하기
 	public boolean stModifyCeo(CeoDto ceo);
@@ -53,18 +58,26 @@ public interface StoreDao {
 	//사업주 비밀번호 변경
 	public boolean stModifyPwd(CeoDto ceo);
 	
-	//가게 썸네일 업로드
+	//스토어 메인사진 업로드
 	public boolean stThumbUp(Map<String, String> smap);
-	//가게 사진 추가 업로드
+	//스토어 사진 추가
 	public boolean stPhotoUp(Map<String, String> smap);
-	//가게 썸네일 불러오기
+	//스토어 메인사진 불러오기
 	public FileUpDto getThumb(String f_cnum);
-	//가게 썸네일 삭제하기
+	//스토어 메인사진 삭제하기
 	public void stDeleteThumb(String f_sysname);
-	//가게 사진 불러오기
+	//스토어 추가사진 불러오기
 	public List<FileUpDto> getPhotos(String f_cnum);
 	
+	//가입대기(미인증) 업체 불러오기
+	public List<CeoDto> getAuthList();
 	
+	//찜
+	public boolean stIncart(InCartDto incart);
+	//찜 해제
+	public boolean stIncartEmpty(InCartDto incart);
+	//찜 정보 가져오기
+	public int GetIncart(InCartDto incart);
 	
 	
 	//우리 가게 후기 불러오기
