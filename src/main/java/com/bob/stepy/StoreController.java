@@ -1,5 +1,6 @@
 package com.bob.stepy;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ public class StoreController {
 	
 	private ModelAndView mv;
 	
-
 	
 	@GetMapping("stHome")
 	public String stHome() {
@@ -261,8 +261,23 @@ public class StoreController {
 		mv = stServ.getAuthList();
 		return mv;
 	}
-
 	
+	@GetMapping(value="inCartHeart", produces="application/text; charset=utf-8")
+	@ResponseBody
+	public void inCartHeart(String ic_mid, String ic_cnum) {
+		log.info("inCartHeart()");
+		stServ.stIncart(ic_mid, ic_cnum);
+		
+	}
+	
+	@GetMapping(value="inCartHeartEmpty", produces="application/text; charset=utf-8")
+	@ResponseBody
+	public void inCartHeartEmpty(String ic_mid, String ic_cnum) {
+		log.info("inCartHeartEmpty()");
+		stServ.stIncartEmpty(ic_mid, ic_cnum);
+		
+	}
 	
 
-}
+
+}//class end

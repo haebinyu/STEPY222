@@ -173,14 +173,13 @@
 		SELECT * FROM C
 		WHERE C_NUM=#{rp_cnum}
 	</select>
-
 	<delete id="deletePost" parameterType="Integer">
-		DELETE * FROM P
+		DELETE FROM P
 		WHERE
 		P_NUM=#{p_num}
 	</delete>
 	<delete id="deleteReply" parameterType="Integer">
-		DELETE * FROM R
+		DELETE FROM R
 		WHERE
 		R_NUM=#{r_num}
 	</delete>
