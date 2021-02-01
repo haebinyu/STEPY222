@@ -658,7 +658,7 @@ public class AdminService {
 
 	//어드민 권한으로 게시글&댓글 강제 삭제
 	@Transactional
-	public void deletePandR (int num, int switchNum) {
+	public String deletePandR (int num, int switchNum) {
 		switch(switchNum) {
 		case 1://게시글 강제 삭제
 			aDao.deletePost(num);
@@ -667,6 +667,8 @@ public class AdminService {
 			aDao.deleteReply(num);
 			break;
 		}
+		String view = "redirect:aReport";
+		return view;
 	}
 
 	@Transactional
