@@ -71,6 +71,10 @@
 		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_PLNUM)
 		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{pl_num})
 	</insert>
+	<!-- 상품 추가 사진 불러오기 -->
+	<select id="getProdPhotos" parameterType="Integer" resultType="com.bob.stepy.dto.FileUpDto">
+		SELECT * FROM F WHERE F_PLNUM=#{f_plnum} AND F_THUMB='OTHER'
+	</select>
 	
 	<!-- 사업주, 매장 정보 변경하기 -->
 	<update id="stModifyCeo" parameterType="com.bob.stepy.dto.CeoDto">

@@ -100,7 +100,7 @@ ul {
   					</div>
   					<div class="col-12">
    						<button type="submit" class="btn btn-mt">상품 사진 추가하기</button>
-   						<button type="button" class="btn btn-color" onclick="location.href='stMyPage'">돌아가기</button>
+   						<button type="button" class="btn btn-color" onclick="location.href='./stMyProd'">돌아가기</button>
  					</div>					
 				</c:if>
 			</div>					
