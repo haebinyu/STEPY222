@@ -376,7 +376,7 @@ public class StoreService {
 
 	//해당 상품 사진 추가
 	public String stAddProdPhotoProc(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
-		log.info("stAddProdPhotoPro()");
+		log.info("stAddProdPhotoProc()");
 
 		String view = null;		
 		String check = multi.getParameter("fileCheck");
