@@ -14,6 +14,7 @@
 	if (msg != "") {
 		alert(msg);//msg 메시지를  alert출력
 		//현재 페이지를 리로드, 새로고침해 현재 페이지를 초기화
+		msg = "";
 		location.reload(true);
 	}
 </script>

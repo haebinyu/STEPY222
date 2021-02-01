@@ -46,10 +46,10 @@
 						<td>${rItem.r_id }</td>
 						<td>${rItem.r_pnum }</td>
 						<td>${rItem.r_report }</td>
-						<td class="delete">처리하기</td>
+						<td class="delete" onclick="deleteConfirm_r(${rItem.r_num})">처리하기</td>
 					</tr>
 				</c:forEach>
-				<c:if test="${empty rpList }">
+				<c:if test="${empty rList }">
 					<tr>
 						<!-- 칼럼의 수만큼 colspan -->
 						<td id="noData">신고를 처리할 대상이 없습니다</td>
@@ -67,5 +67,14 @@
 		<jsp:include page="footer.jsp" />
 	</footer>
 </body>
+<script type="text/javascript">
+function deleteConfirm_r(r_num) {
+	console.log(r_num);
+	var select = confirm("이 게시글을 강제 삭제합니다 | "+r_num);
+	if (select == true){
+		location.href="aBlockReply?r_num="+r_num;
+	}
+}
+</script>
 <script src="resources/js/aAutoColspan.js"></script>
 </html>

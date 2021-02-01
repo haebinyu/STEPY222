@@ -48,10 +48,10 @@
 						<td>${pItem.p_view }</td>
 						<td>${pItem.p_like }</td>
 						<td>${pItem.p_report }</td>
-						<td class="delete">처리하기</td>
+						<td class="delete" onclick="deleteConfirm_p(${pItem.p_num})">처리하기</td>
 					</tr>
 				</c:forEach>
-				<c:if test="${empty rpList }">
+				<c:if test="${empty pList }">
 					<tr>
 						<!-- 칼럼의 수만큼 colspan -->
 						<td id="noData">신고를 처리할 대상이 없습니다</td>
@@ -72,10 +72,10 @@
 <script src="resources/js/aAutoColspan.js"></script>
 <script type="text/javascript">
 function deleteConfirm_p(p_num) {
-	console.log(rp_num);
-	var select = confirm("이 게시글을 강제 삭제합니다");
+	console.log(p_num);
+	var select = confirm("이 게시글을 강제 삭제합니다 | "+p_num);
 	if (select == true){
-		location.href="";
+		location.href="aBlockPost?p_num="+p_num;
 	}
 }
 
