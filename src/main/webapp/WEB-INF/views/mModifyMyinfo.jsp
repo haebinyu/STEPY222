@@ -90,7 +90,7 @@ label {
 				<br>
 				<br>
 
-				<form class="form-horizontal" id="modifyFrm" role="form" action="mModifyProc" method="post">
+				<form class="form-horizontal" id="modifyFrm" role="form" action="mModifyProc" method="post" onsubmit="return submitcheck()">
 					<div class="form-group">
 						<label class="col-lg-3 control-label">회원이름:</label>
 						<div class="col-lg-8">
@@ -100,7 +100,7 @@ label {
 					<div class="form-group">
 						<label class="col-lg-3 control-label">닉네임: </label>
 						<div class="col-lg-8">
-							<input class="form-control" name="m_nickname" type="text" value="${member.m_nickname }">
+							<input class="form-control" id="nickname" name="m_nickname" type="text" value="${member.m_nickname }">
 						</div>
 					</div>
 					<div class="form-group">
@@ -112,9 +112,9 @@ label {
 					<div class="form-group">
 						<label class="col-md-3 control-label"></label>
 						<div class="col-md-5"></div>
-						<div class="col-md-3"">
-							<button type="button" class="btn" style="background-color: #fafafa; color: black;">
-							비밀번호 변경하기</button>
+						<div class="col-md-3">
+							<a href="./mModifyPwd"><button type="button" class="btn" style="background-color: #fafafa; color: black;">
+							비밀번호 변경하기</button></a>
 						</div>
 					</div>
 					<div class="form-group">
@@ -138,7 +138,7 @@ label {
 						<label class="col-md-3 control-label">생일: </label>
 						<div class="col-lg-8">
 							<input class="form-control" name="m_birth" type="text" minlength="8" maxlength="8"
-								placeholder="19980323" value="${member.m_birth }"
+								placeholder="19980323" value="${member.m_birth }" id="birth"
 							>
 						</div>
 					</div>
@@ -169,7 +169,8 @@ label {
 						<label class="col-md-3 control-label"></label>
 						<div class="col-md-8">
 							<button class="btn btn-primary" type="submit" id="submitbtn">업로드</button>
-							<input type="reset" class="btn btn-default" value="Cancel">
+							<input type="reset" class="btn btn-default" value="Cancel"><br><br>
+							<span id="btalarm" style="diaplay:none; color:white;"></span>
 						</div>
 					</div>
 
@@ -190,24 +191,40 @@ label {
 <script src="resources/js/jquery.serializeObject.js"></script>
 <script>
 
+	function submitcheck(){
+		
+		var nickname = $("#nickname").val();
+		var birth = $("#birth").val();
+		var phone = $("#mobilephone").val();
+		console.log(phone);
+		var addhead = $("#sample6_postcode").val();
+		
+		if(nickname ==  "${member.m_nickname}" && birth == "${member.m_birth}"
+				&& phone == "${member.m_phone}" && addhead == "" ){
+			$("#btalarm").text("변경된 사항이 없습니다^^!");
+			return false;
+		}
+		
+	}
+	
+
 	$(function(){
-		var msg = "${msg}";
+		var msg = "${msgFromModify}";
 		if(msg != ""){
 			$("#formsg").text(msg);
 		}
 	});
 
-
-
 	$("#profileup").on('change', function(e) {
+		
+		$("#upload").css("display","none");
+		$("#respan").css("display","none");
 
 		var profileup = this.files;
 		var profile = profileup[0];
 
 		var reader = new FileReader();
 
-		console.log("this is reader");
-		console.log(reader);
 		reader.addEventListener('load', function(e) {
 			preview.src = e.target.result;
 		});
@@ -237,10 +254,11 @@ label {
 			processData : false,
 			contentType : false,
 			success : function(res) {
+				$("#respan").css("display","inline-block");
 				$("#respan").text("프로필사진이 변경되었습니다!");
 			},
 			error : function(error) {
-				alert("파일이 너무 크거나 이미지 파일이 아닙니.다");
+				alert("파일이 너무 크거나 이미지 파일이 아닙니다");
 			}
 		});
 

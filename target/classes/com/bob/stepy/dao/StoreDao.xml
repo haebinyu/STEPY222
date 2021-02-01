@@ -71,6 +71,10 @@
 		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_PLNUM)
 		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{pl_num})
 	</insert>
+	<!-- 상품 추가 사진 불러오기 -->
+	<select id="getProdPhotos" parameterType="Integer" resultType="com.bob.stepy.dto.FileUpDto">
+		SELECT * FROM F WHERE F_PLNUM=#{f_plnum} AND F_THUMB='OTHER'
+	</select>
 	
 	<!-- 사업주, 매장 정보 변경하기 -->
 	<update id="stModifyCeo" parameterType="com.bob.stepy.dto.CeoDto">
@@ -112,7 +116,25 @@
 	<select id="getPhotos" parameterType="String" resultType="com.bob.stepy.dto.FileUpDto">
 		SELECT * FROM F WHERE F_CNUM=#{f_cnum} AND F_THUMB='OTHER'
 	</select>
+		<!-- 미인증 업체 리스트 불러오기 -->
+	<select id="getAuthList" resultType="com.bob.stepy.dto.CeoDto">
+		SELECT * FROM C WHERE C_JOIN='pending'
+	</select>
+	
+	<!-- 업체 찜하기 -->
+	<insert id="stIncart" parameterType="com.bob.stepy.dto.InCartDto">
+		INSERT INTO IC VALUES (INCART_SEQ.NEXTVAL, #{ic_cnum}, #{ic_mid})
+	</insert>
+	<!-- 업체 찜 해제 -->
+	<delete id="stIncartEmpty" parameterType="com.bob.stepy.dto.InCartDto">
+		DELETE FROM IC WHERE IC_CNUM=#{ic_cnum} AND IC_MID=#{ic_mid}	
+	</delete>
+	<!-- 업체 찜 정보 가져오기 -->
+	<select id="GetIncart" parameterType="com.bob.stepy.dto.InCartDto" resultType="Integer">
+		SELECT COUNT(*) FROM IC WHERE IC_CNUM=#{ic_cnum} AND IC_MID=#{ic_mid}
+	</select>
 	
 	
 </mapper>
+
 

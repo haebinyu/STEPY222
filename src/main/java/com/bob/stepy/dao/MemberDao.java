@@ -44,7 +44,7 @@ public interface MemberDao {
 
 	public List<MessageDto> mRetrieveByUsername(MessageDto msg);
 
-	
+	public void mUpdatePwd(@Param("m_pwd") String m_pwd, @Param("m_id") String m_id );
 
 	
 }

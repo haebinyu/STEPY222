@@ -226,10 +226,58 @@ public class StoreController {
 		String view = stServ.stExtraPhotoProc(multi, rttr);
 		return view;
 	}
-
-
-
 	
+	@GetMapping("stAddProdPhotos")
+	public ModelAndView stAddProdPhotos(Integer pl_num) {
+		log.info("stAddProdPhotos()");
+		mv = stServ.stAddProdPhotos(pl_num);		
+		return mv;
+	}
+
+	@PostMapping("stAddProdPhotoProc")
+	public String stAddProdPhotoProc(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
+		log.info("stAddProdPhotoProc()");
+		String view = stServ.stAddProdPhotoProc(multi, rttr);
+		return view;
+	}
+	
+	@GetMapping("stDetail")
+	public ModelAndView stGetDetail(Integer pl_num, String s_num) {
+		log.info("stGetDetail() pl_num : " + pl_num);
+		mv = stServ.stGetDetail(pl_num, s_num);
+		return mv;
+	}
+	
+	@GetMapping("plProductList")
+	public ModelAndView plProductList(String c_num) {
+		log.info("plProductList()");
+		mv = stServ.plProductList(c_num);
+		return mv;
+	}
+	
+	@GetMapping("stAuthMail")
+	public ModelAndView stAuthMail() {
+		log.info("stAuthMail()");
+		mv = stServ.getAuthList();
+		return mv;
+	}
+	
+	@GetMapping(value="inCartHeart", produces="application/text; charset=utf-8")
+	@ResponseBody
+	public void inCartHeart(String ic_mid, String ic_cnum) {
+		log.info("inCartHeart()");
+		stServ.stIncart(ic_mid, ic_cnum);
+		
+	}
+	
+	@GetMapping(value="inCartHeartEmpty", produces="application/text; charset=utf-8")
+	@ResponseBody
+	public void inCartHeartEmpty(String ic_mid, String ic_cnum) {
+		log.info("inCartHeartEmpty()");
+		stServ.stIncartEmpty(ic_mid, ic_cnum);
+		
+	}
 	
 
-}
+
+}//class end

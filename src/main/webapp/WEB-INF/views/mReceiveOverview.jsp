@@ -48,6 +48,9 @@
 				>받은 메일함</span></a>&nbsp;&nbsp;&nbsp; 
 				<a href="./mMeSendOverview?hostid=${member.m_id }" class="spantap">
 					<span class="align-middle" style="color: black; background-color: #f5f5f5;">보낸 메일함</span>
+				</a>&nbsp;&nbsp;&nbsp; 
+				<a href="./mSendMessage?fromid=${member.m_id}&toid=" class="spantap">
+					<span class="align-middle" style="color: black; background-color: #f5f5f5;">메일쓰기</span>
 				</a>
 			</div>
 		</div>
@@ -81,9 +84,9 @@
 							<th scope="row" width="18%"><a id="idhover"
 								href="./mSendMessage?toid=${rml.ms_smid }&fromid=${rml.ms_mid}"
 							>${rml.m_nickname }</a><span id="divhover">${rml.ms_smid }</span></th>
-							<th width="1%"><a href="./mMyLittleBlog?blog_id=${rml.ms_smid }" target="_blank"><img
-									src="./resources/images/homeicon.png" style="width: 15px; height: 15px;"
-								> </a></th>
+							<th width="1%"><a href="./mMyLittleBlog?blog_id=${rml.ms_smid }" target="_blank">
+							<span class="glyphicon glyphicon-home">
+							</span> </a></th>
 							<td width="63%" class=".crop">${rml.ms_contents }</td>
 							<td width="18%">${rml.ms_date }</td>
 						</tr>
@@ -164,8 +167,7 @@ $('textrea').keyup(function() {
 														+ msgList[i].ms_smid
 														+ '\"'
 														+ 'target = "_blank">'
-														+ '<img src="./resources/images/homeicon.png"'
-						+ 'style="width: 15px; height: 15px;">'
+														+ '<span class="glyphicon glyphicon-home">'
 														+ '</a></th>'
 														+ '<td width="63%">'
 														+ msgList[i].ms_contents
@@ -240,8 +242,7 @@ $('textrea').keyup(function() {
 														+ msgList[i].ms_smid
 														+ '\"'
 														+ 'target = "_blank">'
-														+ '<img src="./resources/images/homeicon.png"'
-						+ 'style="width: 15px; height: 15px;">'
+														+ '<span class="glyphicon glyphicon-home">'
 														+ '</a></th>'
 														+ '<td width="63%">'
 														+ msgList[i].ms_contents

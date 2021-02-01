@@ -19,29 +19,14 @@
 	$(function() {
 		$(".suc").css("display", "none");
 		$(".bef").css("display", "none");
-
-		
-		//
-		var searchForm = $("#searchForm");
-		
-		$("#searchForm button").on("click", fucntion(){
-			searchForm.submit();
-		});
 });
 </script>
 
 <style type="text/css">
-.paging{
-	text-align: center;
-	margin-top: 30px;
-}
-.pagination {
-	color: #4375D9;
-}
-
 .searchFrm {
 	float: right;
-	margin-top: 100px;
+	position: absolute;
+	bottom: 120px;
 }
 .option {
 	float: left;
@@ -65,16 +50,6 @@
 	</header>
 
 	<section>
-		<form class="form-horizontal" action="login" method="post">
-			<div class="form-group">
-				<label for="inputEmail3"
-					class="col-sm-offset-1 col-sm-3 control-label"></label>
-				<div class="col-sm-4"> 
-					<input type="text" class="form-control" id="inputEmail3"
-						name="m_id" placeholder="게시글 제목을 입력해주세요">
-				</div>
-			</div>
-		</form>
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2 col-xs-12">
 				<table class="table">
@@ -100,18 +75,20 @@
 		</div>
 		
 		<!-- 검색창 -->
-		<div class="container searchFrm">
-			<form action="searchFree" method="post" id="searchForm">
-				<select class="form-control option" name="searchOption">
-					<option value="all" <c:out value=""/>>
-						전체(제목+내용+작성자)</option>	
-					<option value="p_title">제목
-					<option value="p_contents">내용</option>
-					<option value="p_mid">작성자</option>
-				</select>
-				<input name="keyword"class="form-control keywordInput" type="text" placeholder="검색어를 입력해주세요.">
-				<button class="btn btn-default searchBtn" type="submit">검색</button>
-			</form>
+		<div class="container">
+			<div class="searchFrm">
+				<form action="searchFree" method="post" id="searchForm">
+					<select class="form-control option" name="searchOption">
+						<option value="all" <c:out value=""/>>
+							전체(제목+내용+작성자)</option>	
+						<option value="p_title">제목
+						<option value="p_contents">내용</option>
+						<option value="p_mid">작성자</option>
+					</select>
+					<input name="keyword"class="form-control keywordInput" type="text" placeholder="검색어를 입력해주세요.">
+					<button class="btn btn-default searchBtn" type="submit">검색</button>
+				</form>
+			</div>
 		</div>
 	</section>
 

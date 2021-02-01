@@ -31,7 +31,7 @@
 						for="f-only">여성 회원만</label>
 				</caption>
 				<thead>
-					<tr class="item">
+					<tr>
 						<th>아이디</th>
 						<th>비밀번호</th>
 						<th>이메일</th>
@@ -45,14 +45,14 @@
 					</tr>
 				</thead>
 				<c:forEach var="mItem" items="${mList}">
-					<tr>
+					<tr class="item">
 						<td class="mid">${mItem.m_id}</td>
 						<td>${mItem.m_pwd}</td>
 						<td>${mItem.m_email}</td>
 						<td>${mItem.m_name}</td>
 						<td>${mItem.m_nickname}</td>
 						<td>${mItem.m_birth}</td>
-						<td>${mItem.m_gender}</td>
+						<td class="gender">${mItem.m_gender}</td>
 						<td>${mItem.m_phone}</td>
 						<td>${mItem.m_addr}</td>
 						<td class="delete" onclick="delConfirm('${mItem.m_id}');">
@@ -78,6 +78,7 @@
 	checks = document.getElementsByClassName("check");
 	deleteCells = document.getElementsByClassName("delete");
 	trs = document.getElementsByClassName("item");
+	genders = document.getElementsByClassName("gender");
 	
 	function delConfirm(m_id) {
 		if (m_id == 'admin') {
@@ -110,7 +111,7 @@
 	$('#m-only').change(function() {
 		console.log("남성 보기");
 		for (var i = 0; i < trs.length; i++) {
-			if (joinCells[i].innerHTML == "남") {
+			if (genders[i].innerHTML == "남") {
 				$(trs[i]).removeClass("hide");
 			} else {
 				trs[i].classList.add("hide");
@@ -118,10 +119,10 @@
 		}
 	});
 
-	$('#unfinished-only').change(function() {
+	$('#f-only').change(function() {
 		console.log("여성 보기");
 		for (var i = 0; i < trs.length; i++) {
-			if (joinCells[i].innerHTML == "여") {
+			if (genders[i].innerHTML == "여") {
 				$(trs[i]).removeClass("hide");
 			} else {
 				trs[i].classList.add("hide");

@@ -143,7 +143,7 @@ storeRate.each(function(){
 		<div class="container">
 			<c:forEach var="sitem" items="${sList}">
 				<div class="container searchRes">
-					<a href="productList?cnum=${sitem.s_num}">
+					<a href="plProductList?c_num=${sitem.s_num}">
 						<div class="media">
 							<div class="media-left">
 								<img class="media-object storeImg" src="resources/images/gyeong.jpg" 

@@ -30,6 +30,9 @@
 			<li class="nav-item"><a class="nav-link" href="#">내 결제 내역/쿠폰 확인</a></li>
 			<li class="nav-item"><a class="nav-link active" href="mModifyMyinfo">내 정보 수정</a></li>
 		</ul>
+		
+		<span>
+		결제하기</span>
 
 	</main>
 	<footer>
@@ -37,4 +40,9 @@
 	</footer>
 
 </body>
+
+<script>
+
+</script>
+
 </html>

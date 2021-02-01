@@ -141,3 +141,38 @@ body {
 .reserve-btn:hover {
 	background: rgba(20,20,20,0.7);
 }
+
+@media ( max-width: 767px ){
+	.best-review {
+		width: 100%;
+	}
+	.community-wrap {
+		padding: 0;
+	}
+	.community-box {
+		padding: 0;
+		width: 100%;
+	}
+	.trip-btn {
+		width: 150px;
+		height: 150px;
+		margin: 0 15px;
+	}
+	.trip {
+		line-height: 150px;
+	}
+	.reserve-wrap {
+		padding: 0;
+	}
+	.reserve-btns {
+		width: 100%;
+	}
+	.reserve-btn {
+		width: 115px;
+		height: 115px;
+		margin: 0 5px;
+	}
+	.reserve {
+		line-height: 115px;
+	}
+}

@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,10 +21,10 @@
 		<div class="col-md-12 text-center">
 			<form action="mSendMessageProc" method="post">
 				<div class="form-group">
-					<label for="exampleFormControlInput1" style="color: white;">받는사람 (TO)</label> <input
-						type="email" class="form-control" id="exampleFormControlInput1"
-						value="${host.m_nickname}(${host.m_id})" readonly
-					> <input type="hidden" name="ms_mid" value="${host.m_id }">
+					<label for="exampleFormControlInput1" style="color: white;">받는사람 ID (TO)</label> <input
+						type="email" class="form-control" id="toid"
+						
+					> 
 				</div>
 				<div class="form-group">
 					<label for="exampleFormControlInput1" style="color: white;">보내는 사람(FROM))</label> <input
@@ -55,6 +58,16 @@
 </body>
 <script type="text/javascript">
 
+$(function(){
+	var hostid = "${host.m_id}";
+	if(hostid == ""){
+		$("#toid").val("");
+	}if(hostid !== ""){
+		$("#toid").val("${host.m_nickname}(${host.m_id})");
+	}
+});
+
+	
 	function back(){
 		window.history.back();
 	}

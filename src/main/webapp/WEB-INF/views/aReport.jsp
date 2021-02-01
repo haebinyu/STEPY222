@@ -14,6 +14,7 @@
 	if (msg != "") {
 		alert(msg);//msg 메시지를  alert출력
 		//현재 페이지를 리로드, 새로고침해 현재 페이지를 초기화
+		msg = "";
 		location.reload(true);
 	}
 </script>
@@ -33,7 +34,8 @@
 					</a>
 					<!--  -->
 					<a class="reportBtn col-sm-3 no-drag" href="aReportPostList"><span>신고된
-							게시글목록 보기</span> </a>
+							게시글<br>목록 보기
+					</span> </a>
 					<!--  -->
 					<a class="reportBtn col-sm-3 no-drag" href="aReportReplyList">신고된
 						댓글<br>목록 보기

@@ -119,6 +119,7 @@ var guest = "${hostaccount.m_id}";
 		if (host == guest) {
 			$(".forhostre").css("display", "block");
 			$(".forhostse").css("display", "block");
+			
 		} else {
 			$("#forguest").css("display", "block");
 		}

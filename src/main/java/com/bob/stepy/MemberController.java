@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.bob.stepy.dto.MailDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.MessageDto;
 import com.bob.stepy.dto.ReplyDto;
@@ -51,11 +53,30 @@ public class MemberController {
 
 
 	
-	@GetMapping("mMyPayment")
-	public String mMyPayment() {
-	
-		return "mMyPayment";
+	@ResponseBody
+	@PostMapping(value="mUpdatePwd", produces = "application/text; charset=utf-8")
+	public String mUpdatePwd(String m_pwd, String m_id) {
+		
+		String set = mServ.mUpdatePwd(m_pwd, m_id);
+		
+		return set;
 	}
+	
+	@ResponseBody
+	@PostMapping(value="mGetCrypPwd", produces = "application/text; charset=utf-8")
+	public String mGetCrypPwd(String pwd, String m_id) {
+		log.info(pwd + " , "+m_id);
+		String set = mServ.mGetCrypPwd(pwd, m_id);
+		
+		return set;
+	}
+	
+	@GetMapping("mModifyPwd")
+	public String mModifyPwd() {
+		
+		return "mModifyPwd";
+	}
+	
 		
 	@ResponseBody
 	@PostMapping(value="mRetrieveByUsername", produces = "application/json; charset = utf-8")
@@ -132,7 +153,7 @@ public class MemberController {
 
 	@GetMapping("mSendMessage")
 	public ModelAndView mMessage(String toid, String fromid) {
-
+		System.out.println("toid is "+toid);
 		mv = mServ.mSendMessage(toid, fromid);
 
 		return mv;
@@ -147,7 +168,11 @@ public class MemberController {
 	}
 
 
-
+	@GetMapping("mMyPayment")
+	public String mMyPayment() {
+	
+		return "mMyPayment";
+	}
 
 	@GetMapping("mMyTravleSchedule")
 	public String mMyTravelSchedule() {
@@ -188,15 +213,19 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping(value = "mAuthMail", produces = "application/json; charset=utf-8")
 	public Map<String, String> mAuthMail(String mailaddr) {
-
-		Map<String, String> map = mServ.mAuthMail(mailaddr);
+		
+		MailDto mail = new MailDto();
+		mail.setSetSubject("STEPY 회원가입 인증메일입니다");
+		mail.setSetText("인증번호를 입력해주세요\n");
+		
+		Map<String, String> map = mServ.mAuthMail(mailaddr, mail);
 
 		return map;
 	};
 
 	@GetMapping("mMyPage")
-	public ModelAndView mMyPage() {
-
+	public ModelAndView mMyPage(HttpServletRequest hsr) {
+		log.info("mMyPage");
 		mv = mServ.mMyPage();
 
 		return mv;

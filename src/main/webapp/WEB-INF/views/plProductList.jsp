@@ -1,29 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page session="false"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
-<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스토어 상세</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link href="resources/css/style.css" rel="stylesheet">
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-<!-- 달력 -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+<link href="resources/css/style.css" rel="stylesheet">
 <style type="text/css">
 .top {
 	margin: 0 auto;
@@ -34,20 +26,6 @@
 .glyphicon-star {
 	font-size: 20px;
 	color: #F2B950;
-}
-.rating {
-	font-size: 20px;
-}
-.calendar {
-	font-size: 18px;
-	text-align: center;
-	border: 1px solid #F8F8F8;
-	border-radius: 5px;
-	background: #F8F8F8;
-	width: 430px;
-	height: 55px;
-	line-height: 55px;
-	margin: 30px 0;
 }
 .dateInput {
 	color: #F2B950;
@@ -70,17 +48,14 @@
 	border: 1px solid #F2B950;
 	border-radius: 5px;
 }
-
 .StoreContents {
 	margin-top: 20px;
 }
 .storeName {
+	height: 31px;
+	display: inline;
 	font-size: 28px;
 	font-weight: bold;
-}
-.glyphicon-heart-empty {
-	font-size: 30px;
-	margin: 0 auto;
 }
 .rating {
 	font-size: 22px;
@@ -127,13 +102,12 @@
 	color: white;
 	background: #4375D9;
 	border: 1px solid #4375D9;
-	border-radius: 5px; 
-	margin-top: 100px;
+	border-radius: 5px;
+	margin-top: 160px;
 }
-.divBtn{
+.divBtn {
 	height: 45px;
 }
-
 #review {
 	border: 1px solid #EEEEEE;
 	border-radius: 5px;
@@ -148,74 +122,146 @@
 .reviewStar {
 	font-size: 28px;
 }
+
 .reviewRating {
 	font-size: 32px;
 	font-weight: bold;
 }
+
+.bxslider {
+	width: 100%;
+	height: 300px;
+}
+
+.bx-wrapper {
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border: 0;
+}
+
+.bx-wrapper img {
+	width: 100%;
+	height: 500px;
+}
+
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
 </style>
 </head>
-
 <body>
-<header>
-	<jsp:include page="header.jsp" />
-</header>
+	<header>
+		<jsp:include page="header.jsp" />
+	</header>
 
-<section>
-	<div class="container">
-		<!-- 가게 간단 정보 -->
-		<div class="top">
-			<div class="StoreImg">
-				<img src="resources/images/gyeong.jpg" alt="">
+	<section>
+		<div class="container">
+			<!-- 가게 간단 정보 -->
+			<div class="top">
+				<div class="StoreImg">
+					<c:if test="${!empty fDto}">
+						<ul class="bxslider">
+							<c:if test="${fn:contains(fDto.f_sysname, '.png')}">
+								<li><img src="resources/upload${fDto.f_sysname}" /></li>
+							</c:if>
+							<c:if test="${fn:contains(fDto.f_sysname, '.jpg')}">
+								<li><img src="resources/upload${fDto.f_sysname}" /></li>
+							</c:if>
+							<c:if test="${!empty photoList}">
+								<c:forEach var="photoList" items="${photoList}">
+									<c:if test="${fn:contains(photoList.f_sysname, '.png')}">
+										<li><img src="resources/upload${photoList.f_sysname}" /></li>
+									</c:if>
+									<c:if test="${fn:contains(photoList.f_sysname, '.jpg')}">
+										<li><img src="resources/upload${photoList.f_sysname}" /></li>
+									</c:if>
+								</c:forEach>
+							</c:if>
+						</ul>
+					</c:if>
+				</div>
+				<div class="StoreContents">
+					<div class="container">
+						<div class="storeName">
+							<span class="st-name">${store.s_name}&nbsp;&nbsp;</span>
+							<c:choose>
+								<c:when test="${zzim == 0}">
+									<span id="block1"> <img id="heart-button"
+										src="resources/images/heart.svg" alt="heart-empty"
+										width="18px" height="18px" style="margin-bottom: 8px;">
+									</span>
+								</c:when>
+								<c:otherwise>
+									<span id="block1"> <img id="heart-button"
+										src="resources/images/heart_red.svg" alt="heart-full"
+										width="18px" height="18px" style="margin-bottom: 8px;">
+									</span>
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<div class="storeSummary">
+							<h4>${store.s_summary}</h4>
+						</div>
+						<div class="rating">
+							<span class="glyphicon glyphicon-star"></span> <span><fmt:formatNumber
+									value="${store.s_rate}" pattern=".0" /></span> <span><a
+								href="#review" class="reviewMove">&nbsp;&nbsp; 후기 ></a></span>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="StoreContents">
-				<div class="storeName">${store.s_name} &nbsp;&nbsp;
-					<span class="glyphicon glyphicon-heart-empty"></span>
-				</div>
-				<div class="rating">
-					<span class="glyphicon glyphicon-star"></span> 
-					<span><fmt:formatNumber value="${store.s_rate}" pattern=".0"/></span>
-					<span><a href="#review" class="reviewMove">&nbsp;&nbsp; 후기 ></a></span>
-				</div>
-			</div>
-		</div>
-			
-		<!-- 상품 리스트 -->
-		<div class="product">
-			<!--  
-			<form action="productList">
-				<div class="calendar">
-					<span class="glyphicon glyphicon-calendar"></span>&nbsp;날짜 선택&nbsp;&nbsp;&nbsp;
-					<input type="text" id="checkinDate" class="dateInput" placeholder="체크인 날짜">
-					&nbsp; ~ &nbsp;
-					<input type="text" id="checkoutDate" class="dateInput" placeholder="체크아웃 날짜">
-					<input type="submit" class="submitBtm" value="적용">
-				</div>
-			</form>
-			-->	
-			<!-- 상품 리스트 출력 -->
-			<div class="media">
-				<c:if test="${empty pList}">
+
+			<!-- 상품 리스트 -->
+			<div class="product">
+				<div class="media">
+					<c:if test="${empty pList}">
 					예약 가능한 룸이 없습니다.
 				</c:if>
-						
-				<div class=""> 
 					<c:if test="${!empty pList}">
-						<c:forEach var="pitem" items="${pList}">
+						<c:forEach var="pt" items="${ptMap}" varStatus="status">
 							<div class="productList">
 								<form action="rReservation">
 									<div class="media-left">
-										<img class="media-object productImg" 
-											src="resources/images/ondol.jpg" alt="...">
+										<c:if test="${fn:contains(pt.key, '.jpg')}">
+											<a
+												href="stDetail?pl_num=${pt.value.pl_num}&s_num=${store.s_num}">
+												<img src="resources/upload${pt.key}"
+												style="width: 450px; height: 300px; border-radius: 5px;">
+											</a>
+										</c:if>
+										<c:if test="${fn:contains(pt.key, '.png')}">
+											<a
+												href="stDetail?pl_num=${pt.value.pl_num}&s_num=${store.s_num}">
+												<img src="resources/upload${pt.key}"
+												style="width: 450px; height: 300px; border-radius: 5px;">
+											</a>
+										</c:if>
 									</div>
 									<div class="media-body">
-										<div class="media-heading name">${pitem.pl_name}</div>
-										<div class="person">최대 ${pitem.pl_person}인</div>
-										<div class="price">가격 &nbsp;&nbsp;&nbsp;
-											<fmt:formatNumber type="number" maxFractionDigits="3" 
-												value="${pitem.pl_price}"/>원</div>
-										<div class="divBtn">
-											<div><input type="submit" class="resBtn" value="예약"></div>
+										<div class="media-heading name">
+											<a
+												href="stDetail?pl_num=${pt.value.pl_num}&s_num=${store.s_num}">${pt.value.pl_name}</a>
 										</div>
+										<div class="person">최대 ${pt.value.pl_person}인</div>
+										<div class="price">
+											가격 &nbsp;&nbsp;&nbsp;
+											<fmt:formatNumber type="number" maxFractionDigits="3"
+												value="${pt.value.pl_price}" />
+											원
+										</div>
+										<div class="divBtn">
+											<div>
+												<input type="submit" class="resBtn" value="예약">
+											</div>
+										</div>
+
 									</div>
 									<hr>
 								</form>
@@ -225,64 +271,98 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- 후기 -->
-		<div id="review">
+		<div id="review" class="container">
 			<div class="reviewTop">
 				<div class="reviewTitle">후기</div>
 				<div class="reviewRating">
-					<span class="glyphicon glyphicon-star reviewStar"></span> 
-					<span><fmt:formatNumber value="${store.s_rate}" pattern=".0"/></span>
+					<span class="glyphicon glyphicon-star reviewStar"></span> <span><fmt:formatNumber
+							value="${store.s_rate}" pattern=".0" /></span>
 					<hr>
 				</div>
 			</div>
 		</div>
-		
-	</div>
-</section>
-	
+
+	</section>
+
 	<footer>
 		<jsp:include page="footer.jsp" />
 	</footer>
-</body>
 
+</body>
 <script type="text/javascript">
-// 달력
-$(function() {
-    $("#checkinDate").datepicker({
-    	changeMonth: true, // 월 선택
-    	changeYear: true, // 년도 선택
-    	
-    	nextText: "다음 달", // > 화살표 툴탭
-    	prevText: "이전 달", // < 화살표 툴탭
-    	
-    	dateFormat: "yy.mm.dd", // 날짜 표기 방식
-    	minDate: 0, // 오늘 이전 날짜 선택 불가
-    	
-    	onClose: function( selectedDate ) {    
-            // 시작일(checkinDate) datepicker가 닫힐 때
-            // 종료일(checkoutDate)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-            $("#checkoutDate").datepicker("option", "minDate", selectedDate);
-        }
-    });
-    
-    $("#checkoutDate").datepicker({
-    	changeMonth: true, // 월 선택
-    	changeYear: true, // 년도 선택
-    	
-    	nextText: "다음 달", // > 화살표 툴탭
-    	prevText: "이전 달", // < 화살표 툴탭
-    	
-    	dateFormat: "yy.mm.dd", // 날짜 표기 방식
-    	minDate: 0, // 오늘 이전 날짜 선택 불가
-    	
-    	onClose: function( selectedDate ) {
-            // 종료일(checkoutDate) datepicker가 닫힐 때
-            // 시작일(fromDate)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
-            $("#checkinDate").datepicker("option", "maxDate", selectedDate);
-        }
-    });
-});
+	var j = $.noConflict(true);
+	j(document).ready(function() {
+		j('.bxslider').bxSlider({
+			auto : false,
+			controls : true,
+			randomStart : false,
+			pager : false,
+		});
+	});
 </script>
 
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+	var j311 = jQuery.noConflict();
+
+	j311(function() {
+		j311("#block1").click(
+				function() {
+					var heart = j311("#heart-button").attr("src");
+					if (heart == "resources/images/heart.svg") {
+						j311("#heart-button").attr("src",
+								"resources/images/heart_red.svg");
+
+						var mid = "<c:out value='${member.m_id}'/>";
+						var cnum = "<c:out value='${store.s_num}'/>";
+
+						var heartObj = {
+							"ic_mid" : mid,
+							"ic_cnum" : cnum
+						};
+						console.log(heartObj);
+
+						j311.ajax({
+							url : "inCartHeart",
+							type : "get",
+							data : heartObj,
+							success : function(data) {
+								alert("나의 찜리스트에 포함되었습니다.");
+							},
+							error : function(error) {
+								console.log(error);
+							}
+						});
+					} else {
+
+						j311("#heart-button").attr("src",
+								"resources/images/heart.svg");
+
+						var mid = "<c:out value='${member.m_id}'/>";
+						var cnum = "<c:out value='${store.s_num}'/>";
+
+						var heartObj = {
+							"ic_mid" : mid,
+							"ic_cnum" : cnum
+						};
+
+						j311.ajax({
+							url : "inCartHeartEmpty",
+							type : "get",
+							data : heartObj,
+							success : function(data) {
+								alert("나의 찜리스트에 제외되었습니다.");
+							},
+							error : function(error) {
+								console.log(error);
+							}
+						});
+					}
+				});
+	});
+</script>
 </html>
+
+

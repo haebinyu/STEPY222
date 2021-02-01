@@ -8,6 +8,7 @@ import javax.mail.internet.*;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,10 +41,16 @@ public class AdminService {
 		String id = member.getM_id();
 
 		//파라미터받은 DTO내의 id를 기반으로 DB에서 SELECT로 비밀번호 가져오기
+		//암호화된 비밀번호화 입력한 비밀번호의 비교 처리를 위한
+		//인코더 생성
+		BCryptPasswordEncoder pwdEncode = new BCryptPasswordEncoder();
+
+		//DB에서 가져오는 pw
 		String pw = aDao.getPwd(id);
+
 		if (pw != null) {
 
-			if (pw.equals(member.getM_pwd()) ) {
+			if (pw.equals(member.getM_pwd())) {
 
 				//단, 어드민 전용 로그인이므로 가져온 id가 미리 등록한 실제 어드민 ID와 같아야 진행
 				if(id.equals("admin")) {
@@ -280,9 +287,9 @@ public class AdminService {
 			int num7 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num7);
 
-			List<ReportDto> reportList2 = aDao.getReportList_P(num7);
+			List<PostDto> reportList2 = aDao.getReportList_P(num7);
 
-			mv.addObject("rpList", reportList2);
+			mv.addObject("pList", reportList2);
 
 			mv.addObject("paging", getPaging(num7,7));
 
@@ -296,9 +303,9 @@ public class AdminService {
 			int num8 = (pageNum==null)? 1 : pageNum;
 			System.out.println("num : "+num8);
 
-			List<ReportDto> reportList3 = aDao.getReportList_R(num8);
+			List<ReplyDto> reportList3 = aDao.getReportList_R(num8);
 
-			mv.addObject("rpList", reportList3);
+			mv.addObject("rList", reportList3);
 
 			mv.addObject("paging", getPaging(num8,8));
 
@@ -495,18 +502,19 @@ public class AdminService {
 		String contents = multi.getParameter("e_contents");
 		//날짜 가져오기
 		String e_dateStr = multi.getParameter("e_date");
-		System.out.println("입력값 : "+e_dateStr);
+		System.out.println("입력값 그대로 : "+e_dateStr);
 		String[] dateArray = e_dateStr.split("T");
-		System.out.println("스플릿 후 : "+dateArray[0]);
-		System.out.println("스플릿 후 : "+dateArray[1]);
+		System.out.println("스플릿 후 [0] : "+dateArray[0]);
+		System.out.println("스플릿 후 [1] : "+dateArray[1]);
 		e_dateStr = dateArray[0]+" "+dateArray[1]+":00";
-		System.out.println(e_dateStr);
+		System.out.println("날짜+ +시간+:00 >> "+e_dateStr);
 
 		Timestamp e_date = java.sql.Timestamp.valueOf(e_dateStr);
 		System.out.println("타임스탬프화 : "+e_date);
 
 		//파일 업로드 체크, 파일을 등록했다면 1, 아니라면 0이 됨
 		String check = multi.getParameter("fileCheck");
+		System.out.println("파일 체크 : "+check);
 
 		//단, textarea는 입력한 문자열의 앞뒤로 공백이 발생
 		//문자열의 앞뒤 공백 제거하는 명령어가 추가로 필요 (trim())
@@ -650,7 +658,7 @@ public class AdminService {
 
 	//어드민 권한으로 게시글&댓글 강제 삭제
 	@Transactional
-	public void deletePandR (int num, int switchNum) {
+	public String deletePandR (int num, int switchNum, RedirectAttributes rttr) {
 		switch(switchNum) {
 		case 1://게시글 강제 삭제
 			aDao.deletePost(num);
@@ -659,6 +667,9 @@ public class AdminService {
 			aDao.deleteReply(num);
 			break;
 		}
+		rttr.addFlashAttribute("msg","처리 완료");
+		String view = "redirect:aReport";
+		return view;
 	}
 
 	@Transactional

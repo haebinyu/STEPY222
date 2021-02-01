@@ -12,17 +12,6 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 	<table class="listTbl table-bordered table-hover table-striped">
 		<caption>
 			<font id="caption_title"><%=type%> 리스트 보기 </font>
-			<!--  -->
-			<br>
-			<!--  -->
-			<input type="radio" name="choice" value="1" id="all" checked> <label
-				for="all">전체 보기</label>
-			<!--  -->
-			<input type="radio" name="choice" value="2" id="finished-only">
-			<label for="finished-only">처리완료 항목만</label>
-			<!--  -->
-			<input type="radio" name="choice" value="3" id="unfinished-only">
-			<label for="unfinished-only">처리중 항목만</label>
 		</caption>
 		<thead>
 			<tr>
@@ -80,34 +69,5 @@ for (var i = 0; i < condiCells.length; i++) {
 	condiCells[i].classList.add("unfinished");
 	}
 	};
-	
-$('#all').change(function(){
-console.log("전체 보기");
-	for (var i=0; i<trs.length; i++){
-		$(trs[i]).removeClass("hide");
-	}
-});	
-	
-$('#finished-only').change(function(){
-	console.log("처리완료 보기");
-	for (var i=0; i<trs.length; i++){
-		if (condiCells[i].innerHTML == "처리완료"){
-		$(trs[i]).removeClass("hide");
-	} else {
-			trs[i].classList.add("hide");
-	}
-}
-});
-	
-$('#unfinished-only').change(function(){
-	console.log("처리중 보기");
-	for (var i=0; i<trs.length; i++){
-		if (condiCells[i].innerHTML == "처리중"){
-			$(trs[i]).removeClass("hide");
-		} else {
-			trs[i].classList.add("hide");
-		}
-	}
-});
 </script>
 <script src="resources/js/aAutoColspan.js"></script>

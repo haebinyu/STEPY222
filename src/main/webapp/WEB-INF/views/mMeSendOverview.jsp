@@ -69,9 +69,8 @@
 							<th scope="row" width="18%"><a id="idhover"
 								href="./mSendMessage?toid=${sml.ms_mid }&fromid=${sml.ms_smid}"
 							>${sml.m_nickname }</a><span id="divhover">${sml.ms_mid }</span></th>
-							<th width="1%"><a href="./mMyLittleBlog?blog_id=${sml.ms_mid }" target="_blank"><img
-									src="./resources/images/homeicon.png" style="width: 15px; height: 15px;"
-								> </a></th>
+							<th width="1%"><a href="./mMyLittleBlog?blog_id=${sml.ms_mid }" target="_blank">
+							<span class="glyphicon glyphicon-home"></span></a></th>
 							<td width="63%">${sml.ms_contents }</td>
 							<td width="18%">${sml.ms_date }</td>
 						</tr>

@@ -88,7 +88,7 @@
 		]]>
 	</select>
 
-	<select id="mGetReceiveList" 
+	<select id="mGetReceiveList"
 		resultType="com.bob.stepy.dto.MessageDto">
 		<![CDATA[
 		SELECT * FROM (SELECT MS.MS_NUM, MS.MS_MID,
@@ -102,11 +102,13 @@
 		]]>
 	</select>
 
-	<select id="mCountReceivedMsg" parameterType="String" resultType = "int"> 
+	<select id="mCountReceivedMsg" parameterType="String"
+		resultType="int">
 		SELECT COUNT(*) FROM MS WHERE MS_MID = #{hostid}
 	</select>
-	
-	<select id="mCountSendMsg" parameterType="String" resultType = "int">
+
+	<select id="mCountSendMsg" parameterType="String"
+		resultType="int">
 		SELECT COUNT(*) FROM MS WHERE MS_SMID = #{hostid}
 	</select>
 
@@ -136,12 +138,19 @@
 		parameterType="com.bob.stepy.dto.MessageDto"
 		resultType="com.bob.stepy.dto.MessageDto">
 		SELECT * FROM
-		(SELECT MS.MS_MID, MS.MS_SMID, MS.MS_CONTENTS, MS.MS_DATE,
+		(SELECT MS.MS_MID, MS.MS_SMID, MS.MS_CONTENTS,
+		MS.MS_DATE,
 		MEMBER.M_NICKNAME
 		FROM MS
-		INNER JOIN MEMBER ON MS_SMID = MEMBER.M_ID
-		WHERE MS.MS_SMID LIKE '%'||#{ms_smid}||'%' AND MS.MS_MID = #{ms_mid}
+		INNER JOIN MEMBER ON MS_SMID =
+		MEMBER.M_ID
+		WHERE MS.MS_SMID LIKE '%'||#{ms_smid}||'%' AND MS.MS_MID =
+		#{ms_mid}
 		ORDER BY MS.MS_NUM
 		DESC)
 	</select>
+	<update id="mUpdatePwd">
+		UPDATE M SET M_PWD = #{m_pwd} WHERE M_ID = #{m_id}
+	</update>
+
 </mapper>
