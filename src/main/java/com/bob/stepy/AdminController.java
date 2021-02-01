@@ -271,16 +271,14 @@ public class AdminController {
 	@GetMapping("aBlockPost")
 	public String aBlockPost(Integer p_num, RedirectAttributes rttr) {
 		String view = null;
-		rttr.addFlashAttribute("msg", "처리 완료되었습니다");
-		view = aServ.deletePandR(p_num, 1);
+		view = aServ.deletePandR(p_num, 1,rttr);
 		return view; 
 	}
 
 	@GetMapping("aBlockReply")
 	public String aBlockReply(Integer r_num, RedirectAttributes rttr) {
 		String view = null;
-		rttr.addFlashAttribute("msg", "처리 완료되었습니다");
-		view = aServ.deletePandR(r_num, 2);
+		view = aServ.deletePandR(r_num, 2,rttr);
 		return view; 
 	}
 
