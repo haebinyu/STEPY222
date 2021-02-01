@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dto.CeoDto;
 import com.bob.stepy.dto.EmailDto;
-import com.bob.stepy.dto.EventDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.ReportDto;
 import com.bob.stepy.service.AdminService;
@@ -248,19 +246,16 @@ public class AdminController {
 			throws AddressException, MessagingException {
 		System.out.println("(신고 처리) 메일 전송 서비스 실행");
 		System.out.println(email);
-		
-		int res = 0;
+		String view = "redirect:aReport";
 		String c_num = ceo.getC_num();
 		String msg = null;
-		
-		res = aBlockStore(c_num);
-		if (res >0) {			
-			msg = aServ.mailSend(email, 3);
-			aServ.aReportFinished(report.getRp_num());
-		}
-		rttr.addFlashAttribute(msg);
 
-		return "redirect:aReport";
+		msg = aServ.mailSend(email, 3);
+		aBlockStore(c_num);		
+		aServ.aReportFinished(report.getRp_num());
+		rttr.addFlashAttribute("msg", msg);
+
+		return view;
 	}
 
 	public int aBlockStore(String c_num) {
@@ -273,15 +268,22 @@ public class AdminController {
 		return res;
 	}
 
-	public void aBlockPost(int p_num) {
-		aServ.deletePandR(p_num,  1);
+	@GetMapping("aBlockPost")
+	public String aBlockPost(Integer p_num, RedirectAttributes rttr) {
+		String view = null;
+		rttr.addFlashAttribute("msg", "처리 완료되었습니다");
+		view = aServ.deletePandR(p_num, 1);
+		return view; 
 	}
 
-	public void aBlockReply(int r_num) {
-		aServ.deletePandR(r_num, 2);
+	@GetMapping("aBlockReply")
+	public String aBlockReply(Integer r_num, RedirectAttributes rttr) {
+		String view = null;
+		rttr.addFlashAttribute("msg", "처리 완료되었습니다");
+		view = aServ.deletePandR(r_num, 2);
+		return view; 
 	}
 
 	//신고 관리 구역 끝//
-
 
 }//컨트롤러 끝
