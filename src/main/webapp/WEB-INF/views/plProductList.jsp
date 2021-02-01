@@ -157,15 +157,11 @@ a:visited {
 </style>
 </head>
 <body>
-	<header>
-		<jsp:include page="header.jsp" />
-	</header>
-
 	<section>
 		<div class="container">
 			<!-- 가게 간단 정보 -->
 			<div class="top">
-				<div class="StoreImg">
+				<div class="StoreImg container">
 					<c:if test="${!empty fDto}">
 						<ul class="bxslider">
 							<c:if test="${fn:contains(fDto.f_sysname, '.png')}">

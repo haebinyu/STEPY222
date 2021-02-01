@@ -87,17 +87,23 @@ td {
 	<div class="container center-block info-zone">
 		<h2 class="text-left" style="margin: 30px 0px"><b>${product.pl_name}</b></h2>
 		<h5>&bull; 남은 개수 : ${product.pl_qty}개</h5>
-		<h5>&bull; 기준 인원 : ${product.pl_person}명</h5>		
-		<h5 style="margin-bottom: 25px">&bull; ${product.pl_text}</h5>
+		<h5>&bull; 기준 인원 : ${product.pl_person}명</h5>
+		<c:if test="${!empty product.pl_text}">
+			<h5 style="margin-bottom: 25px">&bull; ${product.pl_text}</h5>
+		</c:if>
+		<c:if test="${empty product.pl_text}">
+			<br>
+		</c:if>
+		
 		<h5 class="address"><span class="glyphicon glyphicon-map-marker"></span> ${store.s_name}</h5>
 	</div>	
 	<div class="photo-zone">
 		<c:if test="${empty photoList}">
 			<c:if test="${fn:contains(fDto.f_sysname, '.png')}">
-				<li><img src="resources/upload${fDto.f_sysname}" /></li>
+				<li style="list-style: none;"><img src="resources/upload${fDto.f_sysname}" style="width: 100%; height: 400px;"/></li>
 			</c:if>
 			<c:if test="${fn:contains(fDto.f_sysname, '.jpg')}">
-				<li><img src="resources/upload${fDto.f_sysname}" /></li>
+				<li style="list-style: none;"><img src="resources/upload${fDto.f_sysname}" style="width: 100%; height: 400px;"/></li>
 			</c:if>			
 		</c:if>
 		<c:if test="${!empty photoList}">
@@ -150,16 +156,14 @@ td {
 
 </body>
 <script type="text/javascript">
-//<![CDATA[
-var jQ182 = $.noConflict(true);
-jQ182(document).ready(function(){
-	jQ182('.bxslider').bxSlider({
-		auto: false,
-		controls: true,
-		randomStart: false,
-		pager: false,
+var j = $.noConflict(true);
+j(document).ready(function() {
+	j('.bxslider').bxSlider({
+		auto : false,
+		controls : true,
+		randomStart : false,
+		pager : false,
 	});
 });
-//]]>	
-</script>
+</script>	
 </html>
