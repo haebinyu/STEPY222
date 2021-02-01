@@ -78,8 +78,8 @@ public interface AdminDao {
 	public CeoDto getCeoRecord(String rp_cnum);
 
 	//어드민 권한 - 게시글,댓글 강제 삭제
-	public int deletePost(int num);
-	public int deleteReply(int num);
+	public int deletePost(Integer num);
+	public int deleteReply(Integer num);
 
 	public void updateReport(int rp_num);
 
