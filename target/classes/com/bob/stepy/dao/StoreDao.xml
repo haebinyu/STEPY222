@@ -155,7 +155,7 @@
 	</update>
 	
 	<!-- 사업자 등록증 가져오기 -->
-	<select id="stGetBiz" resultType="com.mde.stepy.dto.FileUpDto">
+	<select id="stGetBiz" resultType="com.bob.stepy.dto.FileUpDto">
 		SELECT * FROM F WHERE F_CNUM=#{c_num}
 	</select>
 	
