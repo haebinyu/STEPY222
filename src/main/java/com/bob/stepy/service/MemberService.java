@@ -837,6 +837,25 @@ public class MemberService {
 
 
 
+	public ModelAndView mGetMyCartItems() {
+		
+		MemberDto member = (MemberDto)session.getAttribute("member");
+
+		List<FileUpDto> cartList = mDao.mMyCartItems(member.getM_id());
+		
+		System.out.println(cartList.get(0));
+		System.out.println(cartList.get(1));
+		
+		mv = new ModelAndView();
+		
+		mv.addObject("cartList", cartList);
+		mv.setViewName("mMyCartPages");
+		
+		return mv;
+	}
+
+
+
 
 
 }

@@ -158,7 +158,7 @@ a:visited {
 </head>
 <body>
 	<header>
-		<jsp:include page="header.jsp" />
+		
 	</header>
 
 	<section>

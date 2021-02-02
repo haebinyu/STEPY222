@@ -29,6 +29,10 @@ label {
 		rgba(67, 117, 217, 0.5));
 	border-radius: 50px 20px;
 }
+
+li .active{
+	background-color: #4375d9;
+}
 </style>
 
 </head>
@@ -45,7 +49,7 @@ label {
 			<li class="nav-item"><a class="nav-link" href="./mMyLikedPages">좋아요 한 게시글</a></li>
 			<li class="nav-item"><a class="nav-link" href="./mMyCartPages">찜한 상품</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">내 결제 내역/쿠폰 확인</a></li>
-			<li class="nav-item"><a class="nav-link active" href="mModifyMyinfo">내 정보 수정</a></li>
+			<li class="nav-item active"><a class="nav-link active" href="mModifyMyinfo">내 정보 수정</a></li>
 		</ul>
 		<br> <br> <br>
 		<h1>개인정보 수정</h1>

@@ -53,6 +53,14 @@ public class MemberController {
 
 
 	
+	@GetMapping("mMyCartPages")
+	public ModelAndView mMyCartPages() {
+
+		mv = mServ.mGetMyCartItems();
+		
+		return mv;
+	}
+
 	@ResponseBody
 	@PostMapping(value="mUpdatePwd", produces = "application/text; charset=utf-8")
 	public String mUpdatePwd(String m_pwd, String m_id) {
@@ -185,14 +193,6 @@ public class MemberController {
 
 		return "mMyLikedPages";
 	}
-
-	@GetMapping("mMyCartPages")
-	public String mMyCartPages() {
-
-		return "mMyCartPages";
-	}
-
-
 
 	@PostMapping("mModifyProc")
 	public String mModifyProc(MemberDto member, RedirectAttributes rttr) {

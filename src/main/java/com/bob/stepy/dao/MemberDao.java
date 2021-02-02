@@ -46,5 +46,7 @@ public interface MemberDao {
 
 	public void mUpdatePwd(@Param("m_pwd") String m_pwd, @Param("m_id") String m_id );
 
+	public List<FileUpDto> mMyCartItems(String m_id);
+
 	
 }

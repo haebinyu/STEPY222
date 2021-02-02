@@ -153,4 +153,14 @@
 		UPDATE M SET M_PWD = #{m_pwd} WHERE M_ID = #{m_id}
 	</update>
 
+	<select id="mMyCartItems" parameterType="String"
+		resultType="com.bob.stepy.dto.FileUpDto">
+		SELECT F.F_ORINAME, F.F_SYSNAME, F.F_CNUM, F.F_THUMB, S.S_NAME
+		FROM IC
+		INNER JOIN F ON F.F_CNUM = IC.IC_CNUM
+		INNER JOIN S ON S.S_NUM = F.F_CNUM
+		WHERE F.F_THUMB = 'THUMB' AND IC.IC_MID = #{m_id}
+		ORDER BY ROWNUM DESC
+	</select>
+
 </mapper>
