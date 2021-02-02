@@ -287,6 +287,19 @@ public class StoreController {
 		return result;
 	}
 	
+	@GetMapping("stAuthorized")
+	public String stAuthorized(String c_num, String key) {
+		log.info("stAuthorized()");
+		String view = stServ.stAuthorized(c_num, key);
+		return view;
+	}
+
+	@PostMapping(value = "stAuthMail", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void stAuthMail(String c_email, String c_num, HttpServletRequest request) throws Exception {	
+		stServ.stAuthMail(c_email, c_num);
+	}	
+	
 
 
 }//class end

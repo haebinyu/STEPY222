@@ -84,8 +84,15 @@ public interface StoreDao {
 	public void stDeleteProd(int pl_num); 
 	public void stDeleteProdPhoto(int pl_num);
 	
+	//업체 메일 인증 업데이트
+	public void stUpdateJoin(String c_num);
+		
+	//사업자등록증 가져오기
+	public FileUpDto stGetBiz(String c_num);
+		
+		
 	//우리 가게 후기 불러오기
-	
+		
 	//우리 가게 신고 불러오기
 	
 

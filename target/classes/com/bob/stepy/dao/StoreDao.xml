@@ -149,6 +149,17 @@
 		DELETE FROM F WHERE F_PLNUM=${pl_num}
 	</select>
 	
+	<!-- 업체 메일 인증 업데이트 -->
+	<update id="stUpdateJoin" parameterType="String">
+		UPDATE C SET C_JOIN='approve' WHERE C_NUM=#{c_num}
+	</update>
+	
+	<!-- 사업자 등록증 가져오기 -->
+	<select id="stGetBiz" resultType="com.mde.stepy.dto.FileUpDto">
+		SELECT * FROM F WHERE F_CNUM=#{c_num}
+	</select>
+	
+	
 </mapper>
 
 
