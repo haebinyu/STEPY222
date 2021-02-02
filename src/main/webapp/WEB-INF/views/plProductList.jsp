@@ -157,15 +157,18 @@ a:visited {
 </style>
 </head>
 <body>
+<<<<<<< HEAD
 	<header>
 		
 	</header>
 
+=======
+>>>>>>> branch 'master' of https://github.com/ghdtjrgus528/STEPY.git
 	<section>
 		<div class="container">
 			<!-- 가게 간단 정보 -->
 			<div class="top">
-				<div class="StoreImg">
+				<div class="StoreImg container">
 					<c:if test="${!empty fDto}">
 						<ul class="bxslider">
 							<c:if test="${fn:contains(fDto.f_sysname, '.png')}">

@@ -675,6 +675,7 @@ public class StoreService {
 	
 	//상품 상세 페이지
 		public ModelAndView stGetDetail(Integer pl_num, String s_num) {
+			log.info("stGetDetail()");
 			mv = new ModelAndView();
 			
 			//해당 상품 사진(메인, 추가)과 상품 정보		
@@ -685,12 +686,14 @@ public class StoreService {
 			
 			fDto = stDao.getProdThumb(pl_num); //상품 메인사진
 			photoList = stDao.getProdPhotos(pl_num); //상품 추가사진
+			System.out.print(photoList);
 			product = stDao.getProdInfo(pl_num); //상품 정보
 			store = stDao.getStoreInfo(s_num);
 			
 			mv.addObject("fDto", fDto);
 			mv.addObject("photoList", photoList);
 			mv.addObject("product", product);
+			mv.addObject("store", store);
 			mv.setViewName("stDetail");
 			
 			return mv;
