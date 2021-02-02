@@ -779,10 +779,12 @@ public class StoreService {
 
 		for(int i = 0; i < ceoList.size(); i++) {
 			fDto = stDao.stGetBiz(ceoList.get(i).getC_num()); //각 사업자들 등록증 가져오고
+			System.out.println(fDto);
 			bizList.add(i, fDto); //사업자 등록증 리스트에 넣어준다
 			for(int j = 0; j < bizList.size(); j++) {
 				bizMap.put(bizList.get(j).getF_sysname(), ceoList.get(j)); //사업자번호와 사업자등록증 파일 매칭
 			}
+			fDto = null;
 		}		
 		mv.addObject("ceoList", ceoList);
 		mv.addObject("bizMap", bizMap);

@@ -20,12 +20,13 @@
 <link href="resources/css/style.css" rel="stylesheet">
 <style type="text/css">
 .title-zone {
-	width: 100%;
+	width: 770px;
 	height: 40px;
 	padding: 5px;
 	margin-bottom: 5px;
-	background-color: #5983D9;
+	background-color: #F2B950;
 	color: white;
+	position: fixed;
 }
 .photo-zone {
 	width: 100%;
@@ -45,6 +46,7 @@
 	height: 400px;
 }
 .info-zone {
+	margin-top: 50px;
 	margin-bottom: 30px;
 }
 table {
@@ -67,13 +69,19 @@ td {
 	font-weight: bold;
 }
 .btn {
-	width: 47%;
+	width: 770px;
 	background-color: #4375d9;
 	color: white;
-	margin: 30px 3px;
+	margin-top: 30px;
 }
-.btn2 {
-	background-color: #F2B950;
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
 }
 </style>
 
@@ -82,28 +90,35 @@ td {
 <!-- section -->
 <div class="container center-block" style="width:800px;">
 	<div class="container center-block title-zone">
+		<a href="javascript:history.back();">
+			<span class="text-left" style="float: left;">
+			&nbsp;<span class="glyphicon glyphicon-menu-left" style="margin-top: 5px; color: white; "></span></span></a>
 		<h4 class="text-center"><b>스토어 상세</b></h4>		
 	</div>
-	<div class="container center-block info-zone">
+	<div class="container center-block info-zone" style="width:800px;">
 		<h2 class="text-left" style="margin: 30px 0px"><b>${product.pl_name}</b></h2>
 		<h5>&bull; 남은 개수 : ${product.pl_qty}개</h5>
 		<h5>&bull; 기준 인원 : ${product.pl_person}명</h5>
+		<div style="width: 100%;">
 		<c:if test="${!empty product.pl_text}">
 			<h5 style="margin-bottom: 25px">&bull; ${product.pl_text}</h5>
 		</c:if>
 		<c:if test="${empty product.pl_text}">
 			<br>
 		</c:if>
+		</div>
 		
 		<h5 class="address"><span class="glyphicon glyphicon-map-marker"></span> ${store.s_name}</h5>
 	</div>	
 	<div class="photo-zone">
 		<c:if test="${empty photoList}">
 			<c:if test="${fn:contains(fDto.f_sysname, '.png')}">
-				<li style="list-style: none;"><img src="resources/upload${fDto.f_sysname}" style="width: 100%; height: 400px;"/></li>
+				<li style="list-style: none;"><img src="resources/upload${fDto.f_sysname}"
+					style="width: 100%; height: 400px; margin-bottom: 50px;"/></li>
 			</c:if>
 			<c:if test="${fn:contains(fDto.f_sysname, '.jpg')}">
-				<li style="list-style: none;"><img src="resources/upload${fDto.f_sysname}" style="width: 100%; height: 400px;"/></li>
+				<li style="list-style: none;"><img src="resources/upload${fDto.f_sysname}"
+					style="width: 100%; height: 400px; margin-bottom: 50px;"/></li>
 			</c:if>			
 		</c:if>
 		<c:if test="${!empty photoList}">
@@ -143,16 +158,10 @@ td {
 		</table>		
 	</div>
 	<div class="center-block btn-zone" style="width: 800px">
-		<button type="button" class="btn btn1">예약하기</button>
-		<button type="button" class="btn btn2">돌아가기</button>	
+		<button type="button" class="btn btn1">예약하기</button>	
 	</div>
-	
-
-
-
 
 </div>
-
 
 </body>
 <script type="text/javascript">
