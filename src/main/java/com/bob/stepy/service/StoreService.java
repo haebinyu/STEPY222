@@ -100,7 +100,7 @@ public class StoreService {
 				stFileUp(multi, ceo.getC_num());
 			}			
 			view = "redirect:stHome";
-			rttr.addFlashAttribute("msg", "인증메일을 발송하였으니 확인 바랍니다.");			
+			rttr.addFlashAttribute("msg", "가입이 완료되었습니다. 관리자 인증 후 로그인 가능합니다.");			
 		} catch(Exception e) {
 			e.printStackTrace();
 			view = "redirect:stJoinFrm";
@@ -122,10 +122,12 @@ public class StoreService {
 			if(pwdEncoder.matches(ceo.getC_pwd(), stEncPwd)) {
 				ceo = stDao.getCeoInfo(ceo.getC_num());
 				store = stDao.getStoreInfo(ceo.getC_num());
+				MemberDto member = new MemberDto();
+				member.setM_id(ceo.getC_num());
 				
 				session.setAttribute("ceo", ceo);
 				session.setAttribute("store", store);
-				session.setAttribute("member", ceo);
+				session.setAttribute("member", member);
 				view = "redirect:stMyPage";
 			} else {
 				view = "redirect:stHome";
