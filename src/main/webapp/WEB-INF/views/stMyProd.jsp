@@ -18,13 +18,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
 <style type="text/css">
-body { 
-	-ms-overflow-style: none;	
-}
-body::-webkit-scrollbar {
-	display: none;
-}
-
 .btn {
 	background-color: #77acf2;
 	color: white;
@@ -163,10 +156,10 @@ $(function(){
         							&bull; 특징: ${pt.value.pl_text}<br>        							
         						</p>
         					</div>
-        					<p class="text-center">        						
-        						<a href="#" class="btn btn-color2 sub" role="button" title="삭제하기">
-        							<span class="glyphicon glyphicon-trash"></span>
-        						</a>
+        					<p class="text-center">
+        						<button type="button" class="btn btn-color2 sub" onclick="del('${pt.value.pl_num}')">
+        						<span class="glyphicon glyphicon-trash"></span>
+        						</button>	
         					</p>        					     						
     					</div>
   					</div>		
@@ -180,4 +173,34 @@ $(function(){
 	</footer>
 
 </body>
+<script type="text/javascript">
+function del(plnum) {
+	var con = confirm("상품을 삭제하시겠습니까?");
+	var plnum = plnum;
+	console.log(plnum); 
+	
+	if(con){
+		var objdata = {"pl_num" : plnum};
+		
+		$.ajax({
+			url: "delProd",
+			type: "post",
+			data: objdata,
+			dataType: "text",
+			success: function(data){
+				if(data == "success"){
+					alert("삭제되었습니다.");
+					location.reload(true);
+				} else {
+					alert("삭제 실패하였습니다.");					
+				}				
+			},
+			error: function(request, status, error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				location.reload(true);
+			}			
+		});		
+	}
+}
+</script>
 </html>

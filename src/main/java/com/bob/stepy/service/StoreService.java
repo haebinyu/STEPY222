@@ -795,4 +795,28 @@ public class StoreService {
 
 		stDao.stIncartEmpty(incart);
 	}
+	
+	//상품 정보 및 사진 모두 삭제
+	@Transactional
+	public String stDeleteProd(Integer pl_num) {
+		String result = null;
+		
+		System.out.println(pl_num);
+		List<FileUpDto> prodPhotoList = new ArrayList<FileUpDto>();
+		prodPhotoList = stDao.stGetProdPhotos(pl_num);	
+		
+		try {
+			for(int i = 0; i < prodPhotoList.size(); i++) {
+				stDao.stDeleteThumb(prodPhotoList.get(i).getF_sysname());
+			}
+			stDao.stDeleteProd(pl_num);
+			result = "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = "fail";			
+		}		
+		return result;
+	}
+	
+	
 }//class end

@@ -79,6 +79,10 @@ public interface StoreDao {
 	//찜 정보 가져오기
 	public int GetIncart(InCartDto incart);
 	
+	//상품 삭제하기(상품정보와 사진모두 삭제)
+	public List<FileUpDto> stGetProdPhotos(int pl_num);
+	public void stDeleteProd(int pl_num); 
+	public void stDeleteProdPhoto(int pl_num);
 	
 	//우리 가게 후기 불러오기
 	

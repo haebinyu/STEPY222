@@ -138,6 +138,16 @@
 		SELECT COUNT(*) FROM IC WHERE IC_CNUM=#{ic_cnum} AND IC_MID=#{ic_mid}
 	</select>
 	
+	<!-- 상품 사진 및 정보 삭제하기 -->
+	<select id="stGetProdPhotos" parameterType="Integer" resultType="com.bob.stepy.dto.FileUpDto">
+		SELECT * FROM F WHERE F_PLNUM=${pl_num}
+	</select>
+	<select id="stDeleteProd" parameterType="Integer">
+		DELETE FROM PL WHERE PL_NUM=${pl_num}
+	</select>
+	<select id="stDeleteProdPhoto" parameterType="Integer">
+		DELETE FROM F WHERE F_PLNUM=${pl_num}
+	</select>
 	
 </mapper>
 

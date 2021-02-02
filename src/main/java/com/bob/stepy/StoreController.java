@@ -278,6 +278,15 @@ public class StoreController {
 		
 	}
 	
+	@PostMapping(value = "delProd", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String stDeleteProd(Integer pl_num) {
+		log.info("stDeleteProd()");
+		String result = null;
+		result = stServ.stDeleteProd(pl_num);		
+		return result;
+	}
+	
 
 
 }//class end
