@@ -173,7 +173,7 @@ li .active{
 						<label class="col-md-3 control-label"></label>
 						<div class="col-md-8">
 							<button class="btn btn-primary" type="submit" id="submitbtn">업로드</button>
-							<input type="reset" class="btn btn-default" value="Cancel"><br><br>
+							<a href="javascript:history.back()"><button type="button" class="btn btn-default">취소</button></a><br><br>
 							<span id="btalarm" style="diaplay:none; color:white;"></span>
 						</div>
 					</div>

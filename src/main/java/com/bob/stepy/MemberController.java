@@ -85,6 +85,7 @@ public class MemberController {
 		return "mModifyPwd";
 	}
 	
+	
 		
 	@ResponseBody
 	@PostMapping(value="mRetrieveByUsername", produces = "application/json; charset = utf-8")
@@ -161,7 +162,7 @@ public class MemberController {
 
 	@GetMapping("mSendMessage")
 	public ModelAndView mMessage(String toid, String fromid) {
-		System.out.println("toid is "+toid);
+
 		mv = mServ.mSendMessage(toid, fromid);
 
 		return mv;
@@ -210,6 +211,14 @@ public class MemberController {
 		return mv; 
 	}
 
+	@GetMapping("mMyPage")
+	public ModelAndView mMyPage(HttpServletRequest hsr) {
+		log.info("mMyPage");
+		mv = mServ.mMyPage();
+
+		return mv;
+	}
+
 	@ResponseBody
 	@PostMapping(value = "mAuthMail", produces = "application/json; charset=utf-8")
 	public Map<String, String> mAuthMail(String mailaddr) {
@@ -222,15 +231,7 @@ public class MemberController {
 
 		return map;
 	};
-
-	@GetMapping("mMyPage")
-	public ModelAndView mMyPage(HttpServletRequest hsr) {
-		log.info("mMyPage");
-		mv = mServ.mMyPage();
-
-		return mv;
-	}
-
+	
 	@GetMapping("mLogoutProc")
 	public String mLogoutProc() {
 

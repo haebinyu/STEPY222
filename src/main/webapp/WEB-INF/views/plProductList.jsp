@@ -157,13 +157,10 @@ a:visited {
 </style>
 </head>
 <body>
-<<<<<<< HEAD
+
 	<header>
 		
 	</header>
-
-=======
->>>>>>> branch 'master' of https://github.com/ghdtjrgus528/STEPY.git
 	<section>
 		<div class="container">
 			<!-- 가게 간단 정보 -->

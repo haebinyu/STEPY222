@@ -50,7 +50,6 @@ import com.bob.stepy.dto.MemberKaKaoTokenDto;
 import com.bob.stepy.dto.MemberKakaoProfileDto;
 import com.bob.stepy.dto.MessageDto;
 import com.bob.stepy.util.Paging;
-import com.bob.stepy.util.SessionUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -393,19 +392,8 @@ public class MemberService {
 			if(pwdEncoder.matches(member.getM_pwd(), encryptPass)) {
 
 				member = mDao.getMemeberInfo(member.getM_id());
-				//session.setAttribute("member", member);
-				
-				SessionUtil st = new SessionUtil();
-				if(st.getInstance().using(member.getM_id())){
-				rttr.addAttribute("tryingid", member.getM_id());
-				path = "redirect:mWarning";
-				
-				}else{
-				st.getInstance().setSession(session, member.getM_id());
 				session.setAttribute("member", member);
 				path = "redirect:/";
-				}
-				
 
 			}else {
 				// right id, but pwd typo
@@ -463,8 +451,8 @@ public class MemberService {
 			final String host ="smtp.gmail.com";// "smtp.naver.com";
 			int port = 587;
 			final String to = mailaddr;
-			
-			
+
+
 			Properties prop = new Properties();
 
 			prop.put("mail.smtp.auth", "true");
@@ -595,13 +583,13 @@ public class MemberService {
 
 
 	public ModelAndView mSendMessage(String toid, String fromid) {
-
+		log.info("toid is..."+toid+ " And from id is My id : "+fromid); // 아 첫번째에서 들어오는건 그냥 공백이고 두번째에 들어오는건 null이구나. 
 		mv = new ModelAndView();
 
 		MemberDto guest = mDao.getMemeberInfo(fromid);
 		mv.addObject("guest", guest);
-		
-		
+
+
 		MemberDto host = mDao.getMemeberInfo(toid);
 		mv.addObject("host", host);
 
@@ -613,9 +601,20 @@ public class MemberService {
 	public String mSendMessageProc(MessageDto msg, RedirectAttributes rttr) {
 
 		mv = new ModelAndView();
+		String path;
 
 		String ms_mid = msg.getMs_mid();
 		String ms_smid = msg.getMs_smid();
+
+		if(mDao.duplicationCheck(ms_mid) == 0) {
+			log.info("please work please");
+			rttr.addAttribute("fromid", ms_smid);
+			rttr.addAttribute("toid", "");
+			rttr.addFlashAttribute("nouserfound", "존재하지 않는 유저입니다!");
+			return "redirect:mSendMessage";
+			
+		}
+
 		MessageDto before = mDao.mGetBfMsg(ms_mid);
 
 		if(before == null) {
@@ -637,7 +636,9 @@ public class MemberService {
 		//MessageDto md1 = smList.get(0);
 		//System.out.println(md1);
 
-		return "redirect:mMeSendOverview";
+		path= "redirect:mMeSendOverview";
+
+		return path;
 	}
 
 
@@ -820,39 +821,39 @@ public class MemberService {
 		}else{
 			set = "0";
 		}
-		
+
 		return set;
 	}
 
 	public String mUpdatePwd(String m_pwd, String m_id) {
-		
+
 		BCryptPasswordEncoder pwdEncrypt = new BCryptPasswordEncoder();
-		
+
 		m_pwd = pwdEncrypt.encode(m_pwd);
 		mDao.mUpdatePwd(m_pwd, m_id);
 		String msg = "success";
-				
+
 		return msg;
 	}
 
 
 
 	public ModelAndView mGetMyCartItems() {
-		
+
 		MemberDto member = (MemberDto)session.getAttribute("member");
 
 		List<FileUpDto> cartList = mDao.mMyCartItems(member.getM_id());
-		
-		System.out.println(cartList.get(0));
-		System.out.println(cartList.get(1));
-		
+
 		mv = new ModelAndView();
-		
+
 		mv.addObject("cartList", cartList);
 		mv.setViewName("mMyCartPages");
-		
+
 		return mv;
 	}
+
+
+
 
 
 

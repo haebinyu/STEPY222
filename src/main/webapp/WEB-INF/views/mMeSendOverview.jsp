@@ -49,6 +49,9 @@
 				>받은 메일함</span></a>&nbsp;&nbsp;&nbsp; 
 				<a href="./mMeSendOverview?hostid=${member.m_id }" class="spantap">
 					<span class="align-middle" style="color: black; background-color: #ffdf5e;">보낸 메일함</span>
+				</a>&nbsp;&nbsp;&nbsp; 
+				<a href="./mSendMessage?fromid=${member.m_id}&toid=" class="spantap">
+					<span class="align-middle" style="color: black; background-color: #f5f5f5;">메일쓰기</span>
 				</a>
 			</div>
 		</div>
