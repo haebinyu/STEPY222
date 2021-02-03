@@ -149,6 +149,7 @@
 		<li><a href="./sSearchFrm">검색</a></li>
 		<li><a href="./aLoginFrm">어드민 전용</a></li>
 		<li><a href="./bCommunity">게시판</a></li>
+		<li><a href="./stAuthMail">업체 메일인증</a></li>
 	</ul>
 	</main>
 	<footer>

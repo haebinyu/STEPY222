@@ -278,6 +278,28 @@ public class StoreController {
 		
 	}
 	
+	@PostMapping(value = "delProd", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String stDeleteProd(Integer pl_num) {
+		log.info("stDeleteProd()");
+		String result = null;
+		result = stServ.stDeleteProd(pl_num);		
+		return result;
+	}
+	
+	@GetMapping("stAuthorized")
+	public String stAuthorized(String c_num, String key) {
+		log.info("stAuthorized()");
+		String view = stServ.stAuthorized(c_num, key);
+		return view;
+	}
+
+	@PostMapping(value = "stAuthMail", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void stAuthMail(String c_email, String c_num, HttpServletRequest request) throws Exception {	
+		stServ.stAuthMail(c_email, c_num);
+	}	
+	
 
 
 }//class end

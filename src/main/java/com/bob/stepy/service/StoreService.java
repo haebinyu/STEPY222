@@ -5,7 +5,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Random;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -90,7 +100,7 @@ public class StoreService {
 				stFileUp(multi, ceo.getC_num());
 			}			
 			view = "redirect:stHome";
-			rttr.addFlashAttribute("msg", "인증메일을 발송하였으니 확인 바랍니다.");			
+			rttr.addFlashAttribute("msg", "가입이 완료되었습니다. 관리자 인증 후 로그인 가능합니다.");			
 		} catch(Exception e) {
 			e.printStackTrace();
 			view = "redirect:stJoinFrm";
@@ -112,9 +122,12 @@ public class StoreService {
 			if(pwdEncoder.matches(ceo.getC_pwd(), stEncPwd)) {
 				ceo = stDao.getCeoInfo(ceo.getC_num());
 				store = stDao.getStoreInfo(ceo.getC_num());
+				MemberDto member = new MemberDto();
+				member.setM_id(ceo.getC_num());
 				
 				session.setAttribute("ceo", ceo);
-				session.setAttribute("store", store);				
+				session.setAttribute("store", store);
+				session.setAttribute("member", member);
 				view = "redirect:stMyPage";
 			} else {
 				view = "redirect:stHome";
@@ -754,19 +767,32 @@ public class StoreService {
 		return mv;
 	}
 		
+	//미인증 업체 리스트
 	public ModelAndView getAuthList() {
 		mv = new ModelAndView();	
-			
+
 		List<CeoDto> ceoList = new ArrayList<CeoDto>();
 		ceoList = stDao.getAuthList();
-		System.out.println(ceoList);
-			
+		FileUpDto fDto = new FileUpDto();
+		List<FileUpDto> bizList = new ArrayList<FileUpDto>();
+		Map<String, Object> bizMap = new HashMap<String, Object>();
+
+		for(int i = 0; i < ceoList.size(); i++) {
+			fDto = stDao.stGetBiz(ceoList.get(i).getC_num()); //각 사업자들 등록증 가져오고
+			System.out.println(fDto);
+			bizList.add(i, fDto); //사업자 등록증 리스트에 넣어준다
+			for(int j = 0; j < bizList.size(); j++) {
+				bizMap.put(bizList.get(j).getF_sysname(), ceoList.get(j)); //사업자번호와 사업자등록증 파일 매칭
+			}
+			fDto = null;
+		}		
 		mv.addObject("ceoList", ceoList);
+		mv.addObject("bizMap", bizMap);
 		mv.setViewName("stAuthMail");
-			
+
 		return mv;		
 	}
-		
+
 		
 	//찜할 때
 	public void stIncart(String m_id, String c_num) {
@@ -795,4 +821,104 @@ public class StoreService {
 
 		stDao.stIncartEmpty(incart);
 	}
+	
+	//상품 정보 및 사진 모두 삭제
+	@Transactional
+	public String stDeleteProd(Integer pl_num) {
+		String result = null;
+		
+		System.out.println(pl_num);
+		List<FileUpDto> prodPhotoList = new ArrayList<FileUpDto>();
+		prodPhotoList = stDao.stGetProdPhotos(pl_num);	
+		
+		try {
+			for(int i = 0; i < prodPhotoList.size(); i++) {
+				stDao.stDeleteThumb(prodPhotoList.get(i).getF_sysname());
+			}
+			stDao.stDeleteProd(pl_num);
+			result = "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = "fail";			
+		}		
+		return result;
+	}
+
+	//인증성공 페이지 처리
+	public String stAuthorized(String c_num, String key) {
+		String view = null;
+		try {
+			stDao.stUpdateJoin(c_num);
+			view = "redirect:stAuthorized";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return view;
+	}
+
+	//인증메일 보내기
+	public void stAuthMail(String c_email, String c_num) {
+		Properties p = System.getProperties();
+
+		p.put("mail.smtp.starttls.enable", "true");     
+		p.put("mail.smtp.host", "smtp.gmail.com");     
+		p.put("mail.smtp.auth","true");                 
+		p.put("mail.smtp.port", "587");                 
+
+		Authenticator auth = new MyAuthentication();
+		Session session = Session.getDefaultInstance(p, auth);
+		MimeMessage msg = new MimeMessage(session);
+
+		//authkey 발급
+		Random random = new Random();
+		String authkey = "";
+
+		for(int i = 0; i<3 ; i++) {
+			int rand_char = random.nextInt(26)+65;
+			authkey += (char)rand_char;
+		}
+
+		int rand_int = random.nextInt(9000)+1000 ;
+		authkey += rand_int;
+
+
+		try{	    
+			InternetAddress from = new InternetAddress() ;
+			from = new InternetAddress("stepy.tester@gmail.com");
+			msg.setFrom(from);
+
+			InternetAddress to = new InternetAddress(c_email);
+			msg.setRecipient(Message.RecipientType.TO, to);
+
+			msg.setSubject("STEPY 업체 회원가입 인증메일입니다", "UTF-8");
+			msg.setText("안녕하세요 " + c_num + "님, <br>인증하기 버튼을 누르시면 로그인을 하실 수 있습니다."
+					+ "<a href='http://localhost" + "/stAuthorized?c_num=" + c_num
+					+ "&key=" + authkey + "'>인증하기</a>", "UTF-8");
+			msg.setHeader("content-Type", "text/html");			
+
+			javax.mail.Transport.send(msg);
+
+			} catch (AddressException addr_e) {
+				addr_e.printStackTrace();
+			} catch (MessagingException msg_e) {
+				msg_e.printStackTrace();
+		}
+	}
+}
+
+class MyAuthentication extends Authenticator {
+	PasswordAuthentication pa;
+
+	public MyAuthentication() {
+
+		String id = "stepy.tester@gmail.com";       
+		String pw = "stepy1234!";     
+
+		pa = new PasswordAuthentication(id, pw);
+	}
+
+	public PasswordAuthentication getPasswordAuthentication() {
+		return pa;
+	}	
+	
 }//class end

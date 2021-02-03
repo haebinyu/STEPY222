@@ -44,6 +44,9 @@ label {
 .addr-mt {
 	margin-top: 5px;
 }
+.total-mb {
+	margin-bottom: 25px;
+}
 
 </style>
 <script type="text/javascript">
@@ -67,7 +70,7 @@ $(function(){
 	
 	<!-- section -->	
 	<form class="row g-3" name="stModifyInfoFrm" action="./stModifyInfo" method="post" enctype="multipart/form-data">
-	<div class="container center-block" style="width:900px;">
+	<div class="container center-block total-mb" style="width:900px;">
 		<div class="container leftbox" style="width: 50%;">		
 			<h3 class="text-left">가게 정보 변경</h3>
 			<div class="col-12">
