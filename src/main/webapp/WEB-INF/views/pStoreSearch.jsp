@@ -40,7 +40,7 @@
 				  <li class="list-group-item storeBox">
 					<form action="RegAccompanyPlan" method="get" class="apFrm">
 						<input type="hidden" name="ap_plannum" value="${curPlan}">
-						<input type="hidden" name="ap_mid" value="user01">
+						<input type="hidden" name="ap_mid" value="${member.m_id}">
 						<input type="hidden" name="ap_day" value="${day}">
 						<input type="hidden" name="ap_plancnt" value="${planCnt}">
 						<input type="hidden" name="ap_contents" value="${sList.s_name}">
