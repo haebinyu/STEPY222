@@ -88,6 +88,9 @@ public interface AdminDao {
 
 	public void updateReport(int rp_num);
 
+	//건의사항 리스트 가져오기 - 다중 SELECT
+	public List<SuggestDto> getSuggestList(Integer num9);
+
 
 
 
