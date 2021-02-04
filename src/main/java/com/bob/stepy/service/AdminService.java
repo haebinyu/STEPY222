@@ -630,6 +630,20 @@ public class AdminService {
 
 		return res;
 	}//파일 업로드 처리 메소드 끝
+	
+	//선택한 이벤트 상세보기
+	public ModelAndView eventDetail (int e_num) {
+		mv = new ModelAndView();
+		//이벤트 내용 텍스트 가져오기
+		EventDto event = aDao.getEventRecord(e_num);
+		mv.addObject("event", event);
+		//해당 이벤트에 대한 첨부파일 가져오기
+		List<FileUpDto> files = aDao.getEventFiles(e_num);
+		mv.addObject("fList", files);
+		
+		mv.setViewName("aEventDetail");
+		return mv;
+	}
 
 	//이벤트 중지
 	public String deleteEvent(int e_num) {
