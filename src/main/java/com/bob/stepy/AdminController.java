@@ -188,6 +188,14 @@ public class AdminController {
 		System.out.println("이벤트 삭제 완료");
 		return view;
 	}
+
+	@GetMapping("aEventDetail")
+	public ModelAndView aEventDetail (int e_num) {
+		mv = new ModelAndView();
+		mv = aServ.eventDetail(e_num);
+		return mv;
+	}
+
 	//이벤트 관리 구역 끝//
 
 	//신고 관리 페이지로 이동
@@ -201,18 +209,18 @@ public class AdminController {
 	public ModelAndView aReportStoreList(Integer pageNum) {
 		mv = new ModelAndView();
 		System.out.println("이벤트 리스트 페이지로 이동");
-
 		mv = aServ.listSet(pageNum, 6);
 		return mv;
 	}
+	
 	@GetMapping("aReportPostList")
 	public ModelAndView aReportPostList(Integer pageNum) {
 		mv = new ModelAndView();
 		System.out.println("이벤트 리스트 페이지로 이동");
-
 		mv = aServ.listSet(pageNum, 7);
 		return mv;
 	}
+	
 	@GetMapping("aReportReplyList")
 	public ModelAndView aReportReplyList(Integer pageNum) {
 		mv = new ModelAndView();
@@ -227,13 +235,11 @@ public class AdminController {
 		System.out.println("(컨트롤러) 파라미터된 rp_num : " +rp_num);
 		mv = new ModelAndView();
 		mv = aServ.reportDetail(rp_num);
-
 		return mv;
 	}
 
 	@GetMapping("aReportDispose")
 	public ModelAndView aReportDispose (int rp_num) {
-
 		mv = aServ.reportDetail(rp_num);
 		//같은 SELECT대상이지만 서비스에서 뷰네임을 정했으므로 처리 페이지로 뷰네임 재설정
 		mv.setViewName("aReportDispose");
@@ -283,5 +289,11 @@ public class AdminController {
 	}
 
 	//신고 관리 구역 끝//
+
+	//건의사항 관리 구역//
+	@GetMapping("aSuggest")
+	public String aSuggest() {
+		return "aSuggest";
+	}
 
 }//컨트롤러 끝
