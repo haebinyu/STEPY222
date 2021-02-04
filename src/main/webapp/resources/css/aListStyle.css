@@ -17,7 +17,7 @@ caption {
 	text-align: center !important;
 	text-decoration: none;
 	color: #000000 !important;
-	padding-top: 0!important;
+	padding-top: 0 !important;
 }
 
 #caption_title {
@@ -36,6 +36,10 @@ caption {
 
 .delete:not(.clearBg) {
 	background-color: #ff515e;
+}
+
+.clearBg {
+	cursor: default;
 }
 
 .detail {
