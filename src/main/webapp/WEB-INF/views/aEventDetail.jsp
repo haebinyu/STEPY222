@@ -82,10 +82,11 @@
 							onclick="location.href='./aEventUpdateFrm?e_num=${event.e_num}'"
 							style="margin-top: 30px; text-align: center;">수정</button>
 						<button type="button" class="btn btn-info" id="pulss"
-							onclick="location.href='./aDeleteEvent?e_num=${event.e_num}'"
+							onclick="stopConfirm('${event.e_num}');"
 							style="margin-top: 30px; text-align: center;">중지</button>
 						<button class="btn btn-info"
-							style="margin-top: 30px; text-align: center;" onclick="">뒤로가기</button>
+							style="margin-top: 30px; text-align: center;"
+							onclick="window.history.back();">뒤로가기</button>
 					</div>
 
 				</div>
@@ -97,4 +98,15 @@
 		<jsp:include page="footer.jsp" />
 	</footer>
 </body>
+<script type="text/javascript">
+	//이벤트 중지 확인
+	function stopConfirm(eNum) {
+		console.log("중단할 이벤트의 이벤트 코드 : " + eNum)
+		var stopSelect = confirm("이 이벤트를 중지합니다");
+
+		if (stopSelect == true) {
+			location.href = "aDeleteEvent?e_num=" + eNum;
+		}
+	}
+</script>
 </html>
