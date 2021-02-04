@@ -20,13 +20,7 @@
 <script type="text/javascript">
 	$(function() {
 		$(".suc").css("display", "none");
-		$(".bef").css("display", "none");
-		
-		var msg = "${msg}";
-		
-		if(msg != ""){
-		alert(msg);
-		}
+		$(".bef").css("display", "none");	
 		
 		var id = "${member.m_id}";
 		var pid = "${pList.pmid}";
@@ -42,13 +36,13 @@
 		if(id == pid){
 			$("#like").css("display", "none");
 		}
-		
-		var sin = "${pList.preport}";
-		
+		var sin = "${report}";
 		if(sin >= 1){
-			alert("신고처리 게시글입니다. 처리후 다시 이용하십시오.");
-			location.href='./bCommunity';
+			alert("신고처리중인 게시물입니다. 다음에 다시 이용해 주세요.");
+			history.back();
 		}
+		
+		
 	});
 </script>
 </head>
@@ -62,21 +56,21 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 col-xs-12"
-					style="border: 2px solid skyblue; padding-top: 20px; padding-bottom: 20px;">
+					style="border: 2px solid #4375d9; padding-top: 20px; padding-bottom: 20px;">
 					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
 						<tr>
 							<td class="col-md-1 col-xs-2"
-								style="background-color: #CCFFFF; text-align: center;">제목</td>
+								style="background-color: #4375d9; text-align: center; color: white;">제목</td>
 							<td class="col-md-7 col-xs-9">${pList.ptitle}
 						</tr>
 					</table>
 					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
 						<tr>
 							<td class="col-md-1 col-xs-2"
-								style="background-color: #CCFFFF; text-align: center;">작성자</td>
+								style="background-color: #4375d9; text-align: center; color: white;">작성자</td>
 							<td class="col-md-3 col-xs-9">${pList.pmid}</td>
 							<td class="hidden-xs col-md-1"
-								style="background-color: #CCFFFF; text-align: center;">작성일</td>
+								style="background-color: #4375d9; text-align: center; color: white;">작성일</td>
 							<td class="hidden-xs col-md-3"><fmt:formatDate
 									pattern="yyyy-MM-dd hh:mm" value="${pList.pdate}" /></td>
 						</tr>
@@ -84,7 +78,7 @@
 					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
 						<tr>
 							<td class="hidden-xs col-md-1" rowspan="2"
-								style="text-align: center; background-color: #CCFFFF">내용</td>
+								style="text-align: center; background-color: #4375d9; color: white;">내용</td>
 							<td class="col-md-7 col-xs-11 " style="height: 450px;">${pList.pcontents}</td>
 						</tr>
 						<tr>
@@ -102,7 +96,7 @@
 					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
 						<tr>
 							<td class="col-md-1 col-xs-3"
-								style="background-color: #CCFFFF; text-align: center;">첨부파일</td>
+								style="background-color: #4375d9; text-align: center; color: white;">첨부파일</td>
 							<td class="col-md-7 col-xs-8" colspan="5"><c:if
 									test="${empty fList}">
 								첨부된 파일이 없습니다.
@@ -134,12 +128,12 @@
 						style="text-align: center;">
 						<button class="btn btn-info" id="puls"
 							onclick="location.href='./bModifyFrm?pnum=${pList.pnum}'"
-							style="margin-top: 30px; text-align: center;">수정</button>
+							style="margin-top: 30px; text-align: center; background-color: #4375d9;">수정</button>
 						<button type="button" class="btn btn-info" id="pulss"
 							onclick="location.href='./condel?pnum=${pList.pnum}'"
-							style="margin-top: 30px; text-align: center;">삭제</button>
+							style="margin-top: 30px; text-align: center; background-color: #4375d9;">삭제</button>
 						<button class="btn btn-info"
-							style="margin-top: 30px; text-align: center;" onclick="page()">뒤로가기</button>
+							style="margin-top: 30px; text-align: center; background-color: #4375d9;" onclick="page()">뒤로가기</button>
 					</div>
 
 				</div>
@@ -161,7 +155,7 @@
 				<div class="row form-group">
 					<input class="btn btn-info col-md-10 col-md-offset-1 col-xs-12"
 						type="button" value="등록" onclick="replyInsert(${pList.pnum})"
-						style="height: 40px; margin-bottom: 30px;">
+						style="height: 40px; margin-bottom: 30px; background-color: #4375d9;">
 				</div>
 			</form>
 
@@ -302,7 +296,7 @@ function replyInsert(pnum){
 				
 				rlist += '<td class="col-md-2 hidden-xs">' +  dlist[i].r_date + '</td>'				
 				+ '<td class="col-md-1 hidden-xs">'
-				if(dlist[i].r_report == 0)
+				if(dlist[i].r_report == 0){
 					if(id != dlist[i].r_id){
 						rlist +='<button type="button" id="del" onclick="location.href=' + "'./replysingo?pnum=" 
 						+ dlist[i].r_pnum + "&rnum=" + dlist[i].r_num + "'" + '">신고</button>';

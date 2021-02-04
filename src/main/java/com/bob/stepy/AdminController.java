@@ -14,9 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dto.CeoDto;
 import com.bob.stepy.dto.EmailDto;
+import com.bob.stepy.dto.FileUpDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.ReportDto;
 import com.bob.stepy.service.AdminService;
+import com.bob.stepy.service.StoreService;
 
 //'컨트롤러'임을 인지, 자동실행 하도록 어노테이션 처리
 @Controller
@@ -39,6 +41,11 @@ public class AdminController {
 		view = aServ.loginProc(member, rttr);
 		System.out.println("결정된 view : "+view);
 		return view;
+	}
+	//사이드바 전용 홈 복귀
+	@GetMapping("aHome2")
+	public String aHome2() {
+		return "aHome";
 	}
 
 	//전체 회원 페이지로 이동
@@ -188,6 +195,14 @@ public class AdminController {
 		System.out.println("이벤트 삭제 완료");
 		return view;
 	}
+
+	@GetMapping("aEventDetail")
+	public ModelAndView aEventDetail (int e_num) {
+		mv = new ModelAndView();
+		mv = aServ.eventDetail(e_num);
+		return mv;
+	}
+
 	//이벤트 관리 구역 끝//
 
 	//신고 관리 페이지로 이동
@@ -201,18 +216,18 @@ public class AdminController {
 	public ModelAndView aReportStoreList(Integer pageNum) {
 		mv = new ModelAndView();
 		System.out.println("이벤트 리스트 페이지로 이동");
-
 		mv = aServ.listSet(pageNum, 6);
 		return mv;
 	}
+
 	@GetMapping("aReportPostList")
 	public ModelAndView aReportPostList(Integer pageNum) {
 		mv = new ModelAndView();
 		System.out.println("이벤트 리스트 페이지로 이동");
-
 		mv = aServ.listSet(pageNum, 7);
 		return mv;
 	}
+
 	@GetMapping("aReportReplyList")
 	public ModelAndView aReportReplyList(Integer pageNum) {
 		mv = new ModelAndView();
@@ -227,13 +242,11 @@ public class AdminController {
 		System.out.println("(컨트롤러) 파라미터된 rp_num : " +rp_num);
 		mv = new ModelAndView();
 		mv = aServ.reportDetail(rp_num);
-
 		return mv;
 	}
 
 	@GetMapping("aReportDispose")
 	public ModelAndView aReportDispose (int rp_num) {
-
 		mv = aServ.reportDetail(rp_num);
 		//같은 SELECT대상이지만 서비스에서 뷰네임을 정했으므로 처리 페이지로 뷰네임 재설정
 		mv.setViewName("aReportDispose");
@@ -283,5 +296,13 @@ public class AdminController {
 	}
 
 	//신고 관리 구역 끝//
+
+	//건의사항 관리 구역//
+	@GetMapping("aSuggestList")
+	public ModelAndView aSuggest(Integer pageNum) {
+		mv = new ModelAndView();
+		mv = aServ.listSet(pageNum, 9);
+		return mv;
+	}
 
 }//컨트롤러 끝

@@ -110,6 +110,17 @@
 		SELECT COUNT(*) FROM E
 	</select>
 
+	<select id="getEventRecord" parameterType="Integer"
+		resultType="com.bob.stepy.dto.EventDto">
+		SELECT * FROM E
+		WHERE E_NUM=#{e_num}
+	</select>
+	<select id="getEventFiles" parameterType="Integer"
+		resultType="com.bob.stepy.dto.FileUpDto">
+		SELECT * FROM F
+		WHERE F_ENUM=#{e_num}
+	</select>
+
 	<!-- 이벤트 추가/삭제 -->
 	<insert id="InsertEvent"
 		parameterType="com.bob.stepy.dto.EventDto" useGeneratedKeys="true"
@@ -189,6 +200,14 @@
 		RP_CONDITION = '처리완료'
 		WHERE RP_NUM = #{rp_num}
 	</update>
+
+	<select id="getSuggestList"
+		resultType="com.bob.stepy.dto.SuggestDto">
+		SELECT * FROM SUG
+	</select>
+	<select id="getSuggestCnt" resultType="Integer">
+		SELECT COUNT(*) FROM E
+	</select>
 
 
 

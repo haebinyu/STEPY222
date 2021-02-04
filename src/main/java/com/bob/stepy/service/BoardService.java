@@ -29,6 +29,7 @@ import com.bob.stepy.dto.PostDto;
 import com.bob.stepy.dto.PostDto2;
 import com.bob.stepy.dto.PostFileDto;
 import com.bob.stepy.dto.ReplyDto;
+import com.bob.stepy.dto.SuggestDto;
 import com.bob.stepy.util.Paging;
 
 import lombok.extern.java.Log;
@@ -142,6 +143,32 @@ public class BoardService {
 
 			return mv;
 		}
+		
+	//건의사항 게시판 페이징&게시글
+		public ModelAndView getBoardList_5(Integer pageNum) {
+			log.info("getBoardList() - pageNum : " + pageNum);
+				
+			mv = new ModelAndView();
+
+			int num = (pageNum == null) ? 1: pageNum;
+					
+			List<SuggestDto> sList = bDao.getList_5(num);
+			
+			log.info("sug : " + sList);
+
+			//DB에서 조회한 데이터 목록을 모델에 추가
+			mv.addObject("sList", sList);
+
+			//페이징 처리
+			mv.addObject("paging", getPaging(num,"bSugList"));
+
+			//세션에 페이지 번호 저장
+			session.setAttribute("pageNum", num);
+
+			mv.setViewName("bSugList");
+
+			return mv;
+		}
 
 	//페이징 처리
 	private String getPaging(int num, String str) {
@@ -162,6 +189,9 @@ public class BoardService {
 		else if(str.equals("bCommunity")) {
 			maxNum = bDao.getPostCnt_4();
 		}
+		else if(str.equals("bSugList")) {
+			maxNum = bDao.getPostCnt_5();
+		}
 
 
 		//설정값(페이지 당 글 개수, 그룹 당 페이지 개수)
@@ -178,51 +208,79 @@ public class BoardService {
 
 	}
 	//게시글 보기
-	public ModelAndView getContents(Integer pnum) {
-		mv = new ModelAndView();
-		
-		//게시글이 클릭과 동시에  view 증가
-		bDao.viewUpdate(pnum);
-		//글 내용 가져오기
-		
-		String cat = bDao.getcategory(pnum);
-		log.info("category : " + cat);
-		
-		PostDto2 pList_1;
-		
-		if(cat.equals("메이트 구하기")) {
-			pList_1 = bDao.getContent_1(pnum);
-		}
-		else if(cat.equals("자유")) {
-			pList_1 = bDao.getContent_2(pnum);
-		}
-		else if(cat.equals("후기")) {
-			pList_1 = bDao.getContent_3(pnum);
-		}
-		else {
-			pList_1 = bDao.getContent_4(pnum);
-		}
+		public ModelAndView getContents(Integer pnum) {
+			mv = new ModelAndView();
+
+			//게시글이 클릭과 동시에  view 증가
+			bDao.viewUpdate(pnum);
+			//글 내용 가져오기
+
+			String cat = bDao.getcategory(pnum);
+			log.info("category : " + cat);
+
+			PostDto2 pList_1;
+
+			int num = bDao.getreport(pnum);
 			
+			log.info("report : " + num);
+
+			
+			if(num == 0) {
+				
+				if(cat.equals("메이트 구하기")) {
+					pList_1 = bDao.getContent_1(pnum);
+				}
+				else if(cat.equals("자유")) {
+					pList_1 = bDao.getContent_2(pnum);
+				}
+				else if(cat.equals("후기")) {
+					pList_1 = bDao.getContent_3(pnum);
+				}
+				else {
+					pList_1 = bDao.getContent_4(pnum);
+				}
+			
+
+				//파일목록 가져오기
+				List<PostFileDto> fList = bDao.getpostFile(pnum);
+
+
+				//댓글목록 가져오기
+				List<ReplyDto> rList = bDao.getReplyList(pnum);
+
+				//모델 데이터 담기
+				mv.addObject("pList", pList_1);
+				mv.addObject("fList", fList);
+				mv.addObject("rList", rList);
+				mv.setViewName("bViewPost");
+	
+			}
+			else {
+				mv.addObject("report", num);
+				mv.setViewName("bViewPost");
+			}
+				
+			return mv;
+		}
 		
-		//파일목록 가져오기
-		List<PostFileDto> fList = bDao.getpostFile(pnum);
+		@Transactional
+		public ModelAndView getsList(Integer snum) {
+			mv = new ModelAndView();
+			
+			//조회수 증가
+			bDao.sviewUpdate(snum);
+			
+			//공지글 내용 가져오기
+			SuggestDto sDto = bDao.getContent_5(snum);
+			
+			mv.addObject("sList", sDto);
+			mv.setViewName("bSugPost");
+			
+			return mv;
+		
+		}
 		
 		
-		//댓글목록 가져오기
-		List<ReplyDto> rList = bDao.getReplyList(pnum);
-		
-		//모델 데이터 담기
-		mv.addObject("pList", pList_1);
-		mv.addObject("fList", fList);
-		mv.addObject("rList", rList);
-		
-		
-		//뷰 이름 지정하여 넘겨주기
-			mv.setViewName("bViewPost");
-		
-		
-		return mv;
-	}
 	//게시글 작성
 	@Transactional
 	public String boardInsert(MultipartHttpServletRequest multi,
@@ -405,7 +463,7 @@ public class BoardService {
 		
 		return mv;
 	}
-	
+	//게시글 업데이트 내용 업로드
 	@Transactional
 	public String PostUpdate(MultipartHttpServletRequest multi,
 					RedirectAttributes rttr) {
@@ -611,10 +669,23 @@ public class BoardService {
 		
 		String view;
 		
+		
+		String cat = bDao.getcategory(pnum);
+		log.info("category : " + cat);
+
 
 		bDao.singoup(pnum);
+			
+			if(cat.equals("메이트 구하기")) {
+				view = "redirect:bMateList";
+			}
+			else if(cat.equals("자유")) {
+				view = "redirect:bFreeList";
+			}
+			else {
+				view = "redirect:bReviewList";
+			}
 		
-		view = "redirect:contents?pnum=" + pnum;
 		rttr.addFlashAttribute("msg", "신고접수가 되었습니다.");
 				
 				
@@ -637,5 +708,149 @@ public class BoardService {
 		return view;
 		
 	}
+	
+	//건의사항 글 작성
+	@Transactional
+	public String SugData (MultipartHttpServletRequest multi,
+			RedirectAttributes rttr) {
+		log.info("SugData()");
+		
+		String view = null;
+		
+		String sug_title = multi.getParameter("sug_title");
+		String sug_contents = multi.getParameter("sug_contents");
+		String sug_mid = multi.getParameter("sug_mid");
+		
+		//띄어쓰기 제거
+		sug_contents = sug_contents.trim();
+		
+		SuggestDto sug = new SuggestDto();
+		sug.setSug_title(sug_title);
+		sug.setSug_contents(sug_contents);
+		sug.setSug_mid(sug_mid);
+		
+		log.info("sug :"+ sug);
+		
+		try {
+			//게시글 저장
+			bDao.SugInsert(sug);
+			
+			view = "redirect:bSugList";
+			rttr.addFlashAttribute("msg", "글 등록 성공");
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			view = "redirect:bSugList";
+			rttr.addFlashAttribute("msg", "글 등록 실패");
+		}
+				
+		
+		return view;
+	}
+	
+	//건의사항 업데이트전 기존 내용 전달
+		@Transactional
+		public ModelAndView sugupdate(int snum) {
+			mv = new ModelAndView();
+			
+			//1행 가져오기
+			SuggestDto sList = bDao.getContent_5(snum);
+			
+			log.info("sList : " + sList);
+			//가져온 데이터 넘겨주기
+			mv.addObject("sList", sList);
+			mv.setViewName("bSugModifyProc");
+			
+			return mv;
+		}
+		//건의사항 업데이트 데이터 업로드
+		@Transactional
+		public String SugUpdate(MultipartHttpServletRequest multi,
+						RedirectAttributes rttr) {
+			String view = null;
+			
+			String sug_num = multi.getParameter("sug_num");
+			String sug_title = multi.getParameter("sug_title");
+			String sug_contents = multi.getParameter("sug_contents");
+			
+			//게시글 띄어쓰기 정렬
+			sug_contents = sug_contents.trim();
+			
+			
+			SuggestDto sug = new SuggestDto();
+			sug.setSug_num(Integer.parseInt(sug_num));
+			sug.setSug_title(sug_title);
+			sug.setSug_contents(sug_contents);			
+			
+			try {
+				bDao.sugUpdate(sug);
+				
+				rttr.addFlashAttribute("msg", "수정 성공");
+				view = "redirect:bSugList";
+			}catch (Exception e) {
+				e.printStackTrace();
+				rttr.addFlashAttribute("msg", "수정 실패");
+				view = "redirect:bSugModifyProc?sug_num=" + sug_num;
+			}
+			
+			return view;
+		}
+		
+	//건의사항 삭제 처리
+		@Transactional
+		public String Sugdel(Integer snum, RedirectAttributes rttr) {
+			
+			String view;
+			
+			//받아온 게시글 넘버로 해당 게시글 1행 삭제
+			try {
+			bDao.Sugdelete(snum);
+			
+			view = "redirect:bSugList";
+			rttr.addFlashAttribute("msg", "게시글 삭제 성공");
+			}catch (Exception e) {
+				view = "redirect:bSugPost?sug_num=" + snum;
+				rttr.addFlashAttribute("msg", "게시글 삭제 실패");
+			}
+			
+			return view;
+		}
+		@Transactional
+		public ModelAndView HomeList(Integer pageNum) {
+			mv = new ModelAndView();
+
+			int num = (pageNum == null) ? 1: pageNum;
+					
+			List<PostDto> homeList_1 = bDao.homeList_1(num);
+			log.info("homeList_1 : " + homeList_1);
+			
+			List<PostDto> homeList_2 = bDao.homeList_2(num);
+			log.info("homeList_2 : " + homeList_2);
+			
+			List<PostDto> homeList_3 = bDao.homeList_3(num);
+			log.info("homeList_3 : " + homeList_3);
+
+			//DB에서 조회한 데이터 목록을 모델에 추가
+			mv.addObject("homeList_1", homeList_1);
+			mv.addObject("homeList_2", homeList_2);
+			mv.addObject("homeList_3", homeList_3);
+
+			mv.setViewName("home");
+
+			return mv;
+		}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,7 +10,7 @@
 			WHERE RONUM >=#{pageNum} * 15 - 14
 			AND RONUM <=#{pageNum} * 15
 			]]>
-	</select>
+	</select>		
 	
 	<select id="getList_2" parameterType="Integer"
 			resultType="com.bob.stepy.dto.PostDto2">
@@ -39,6 +39,15 @@
 			]]>
 	</select>
 	
+	<select id="getList_5" parameterType="Integer"
+			resultType="com.bob.stepy.dto.SuggestDto">
+			<![CDATA[
+			SELECT * FROM SUG
+			WHERE SUG_NUM >=#{pageNum} * 15 - 14
+			AND SUG_NUM <=#{pageNum} * 15
+			]]>
+	</select>
+	
 	
 	<!-- <select id="pList_3" parameterType="String"
 	resultType="com.bob.stepy.dto.PostDto2">
@@ -61,8 +70,16 @@
 		SELECT COUNT(*) FROM PLIST_4
 	</select>
 	
+	<select id="getPostCnt_5" resultType="Integer">
+		SELECT COUNT(*) FROM SUG
+	</select>
+	
 	<update id="viewUpdate" parameterType="Integer">
 		UPDATE P SET P_VIEW = P_VIEW+1 WHERE P_NUM=#{pnum}
+	</update>
+	
+	<update id="sviewUpdate" parameterType="Integer">
+		UPDATE SUG SET SUG_VIEW = SUG_VIEW + 1 WHERE SUG_NUM=#{snum}	
 	</update>
 	
 	<select id="getContent_1" parameterType="Integer"
@@ -85,6 +102,11 @@
 		SELECT * FROM PLIST_4 WHERE PNUM=#{pnum}	
 	</select>
 	
+	<select id="getContent_5" parameterType="Integer"
+	resultType="com.bob.stepy.dto.SuggestDto">
+		SELECT * FROM SUG WHERE SUG_NUM=#{snum}	
+	</select>
+	
 	<select id="getcategory" parameterType="Integer" resultType="String">
 	
 		SELECT PCATEGORY FROM BLIST WHERE PNUM=#{pnum}
@@ -100,6 +122,13 @@
 			INSERT INTO P
 			VALUES (${p_num},#{p_title},#{p_contents},#{p_category},
 			DEFAULT,DEFAULT,DEFAULT,#{p_mid},DEFAULT)
+	
+	</insert>
+	
+	<insert id="SugInsert" parameterType="com.bob.stepy.dto.SuggestDto">
+			INSERT INTO SUG
+			VALUES (SUG_SEQ.NEXTVAL,#{sug_title},#{sug_contents},
+			#{sug_mid},DEFAULT,DEFAULT)
 	
 	</insert>
 	
@@ -122,6 +151,11 @@
 		,P_CATEGORY=#{p_category} WHERE P_NUM=#{p_num}
 	</update>
 	
+	<update id="sugUpdate" parameterType="com.bob.stepy.dto.SuggestDto">
+		UPDATE SUG SET SUG_TITLE=#{sug_title},SUG_CONTENTS=#{sug_contents}
+	    WHERE SUG_NUM=#{sug_num}
+	</update>
+	
 	<delete id="fileDelete" parameterType="String">
 		DELETE FROM CON WHERE CON_SYSNAME=#{syName}
 	</delete>
@@ -142,6 +176,12 @@
 	<delete id="Delete" parameterType="Integer">
 	
 		DELETE FROM R WHERE R_NUM=#{rnum} 
+	
+	</delete>
+	
+	<delete id="Sugdelete" parameterType="Integer">
+		
+		DELETE FROM SUG WHERE SUG_NUM=#{sug_num}
 	
 	</delete>
 	
@@ -208,6 +248,39 @@
 	
 	</update>
 	
+	<select id="getreport" parameterType="Integer"
+			resultType="Integer">
+	
+		SELECT P_REPORT FROM P WHERE P_NUM=${pnum}
+			
+	</select>
+	
+	<select id="homeList_1" parameterType="Integer"
+			resultType="com.bob.stepy.dto.PostDto2">
+			<![CDATA[
+			SELECT * FROM PLIST_1
+			WHERE RONUM >=#{pageNum} * 6 - 5
+			AND RONUM <=#{pageNum} * 6
+			]]>
+	</select>		
+	
+	<select id="homeList_2" parameterType="Integer"
+			resultType="com.bob.stepy.dto.PostDto2">
+			<![CDATA[
+			SELECT * FROM PLIST_2
+			WHERE RONUM >=#{pageNum} * 6 - 5
+			AND RONUM <=#{pageNum} * 6
+			]]>
+	</select>
+	
+	<select id="homeList_3" parameterType="Integer"
+			resultType="com.bob.stepy.dto.PostDto2">
+			<![CDATA[
+			SELECT * FROM PLIST_3
+			WHERE RONUM >=#{pageNum} * 6 - 5
+			AND RONUM <=#{pageNum} * 6
+			]]>
+	</select>
 
 
 	

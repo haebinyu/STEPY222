@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,15 +18,6 @@
 <link href="resources/css/style.css" rel="stylesheet">
 <script type="text/javascript">
 	$(function() {
-	
-		
-		
-		var msg = "${msg}";
-		if(msg != ""){
-		   alert(msg);
-		   
-		   console.log(msg);
-		}
 		
 		var id = "${member.m_id}";
 		
@@ -43,27 +35,24 @@
 	</header>
 
 	<section>
-		<form class="form-horizontal" action="login" method="post">
-			<div class="form-group">
-				<label for="inputEmail3"
-					class="col-sm-offset-1 col-sm-3 control-label"></label>
-				<div class="col-sm-4"> 
-					<input type="text" class="form-control" id="inputEmail3"
-						name="m_id" placeholder="게시글 제목을 입력해주세요">
-				</div>
-			</div>
-		</form>
+		
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2 col-xs-12">
-				<table class="table">
+			<div class="col-md-6 col-md-offset-3 col-xs-12" style="border: 2px solid #4375d9; padding-top:15px; padding-bottom: 15px;">
+				<table class="table" style="text-align: center;">
+					<tr>
+						<td style="width:40px;">작성자</td>
+						<td style="width:230px;">제목</td>
+						<td class="hidden-xs" style="width:50px;">조회수</td>	
+						<td class="hidden-xs" style="width:40px;">작성일</td>	
+					</tr>
 					<c:forEach var="pitem" items="${pList}">
 					<tr>
-						<td class="active" style="width:40px;">${pitem.pmid}</td>
-						<td class="warning" style="width:230px;">
-						<a href="contents?pnum=${pitem.pnum}">${pitem.ptitle}</a></td>
-						<td class="danger hidden-xs" style="width:50px;">조회수 : ${pitem.pview}</td>	
-						<td class="info hidden-xs" style="width:50px;">추천수 : ${pitem.plike}</td>
-						<td class="active hidden-xs" style="width:40px;">${pitem.pdate}</td>
+						<td style="width:40px;">${pitem.pmid}</td>
+						<td style="width:230px;">
+							<a href="contents?pnum=${pitem.pnum}">${pitem.ptitle}</a></td>
+						<td class="hidden-xs" style="width:50px;">${pitem.pview}</td>	
+						<td class="hidden-xs" style="width:40px;"><fmt:formatDate
+									pattern="yyyy-MM-dd hh:mm" value="${pitem.pdate}" /></td>	
 					</tr>
 					</c:forEach>				
 				</table>
@@ -72,7 +61,7 @@
 					</div>
 					<div class="row" style="text-align: center;">
 						<button type="button" class="btn btn-info"
-							onclick="location.href='./bWriteProc'" style="margin-top:50px;">글쓰기</button>
+							onclick="location.href='./bWriteProc'" style="margin-top:50px; background-color: #4375d9;">글쓰기</button>
 					</div>
 			</div>
 		</div>

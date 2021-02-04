@@ -22,7 +22,6 @@
 					<!--  -->
 					<a class="mailBtn col-sm-3 no-drag" href="aGroupMail_C">업체 회원</a>
 					<!--  -->
-					<a class="mailBtn col-sm-3 no-drag" href="aGroupMail_Alone">특정 회원</a>
 				</div>
 			</div>
 		</div>

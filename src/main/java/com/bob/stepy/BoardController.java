@@ -90,6 +90,7 @@ public class BoardController {
 		return mv;
 	}
 	
+	
 	@GetMapping("bWriteProc")
 	public String bWriteProc() {
 		log.info("bWriteProc");
@@ -124,10 +125,28 @@ public class BoardController {
 		
 		return mv;
 	}
+	
+	@GetMapping("bSugModifyProc")
+	public ModelAndView bSugModifyProc(int snum) {
+		log.info("bSugModifyProc()");
+		
+		mv = bServ.sugupdate(snum);
+		
+		return mv;
+	}
+	
 	@PostMapping("PostUpdate")
 	public String PostUpdate(MultipartHttpServletRequest multi,
 						RedirectAttributes rttr) {
 		String view = bServ.PostUpdate(multi, rttr);
+		
+		return view;
+	}
+	
+	@PostMapping("SugUpdate")
+	public String SugUpdate(MultipartHttpServletRequest multi,
+						RedirectAttributes rttr) {
+		String view = bServ.SugUpdate(multi, rttr);
 		
 		return view;
 	}
@@ -201,6 +220,52 @@ public class BoardController {
 		log.info("singo pnum : " + pnum);
 		
 		String view = bServ.singo(pnum, rttr);
+		
+		return view;
+	}
+	
+	//건의사항
+	@GetMapping("bSugList")
+	public ModelAndView bSugList(Integer pageNum) {
+		log.info("bSugList()");
+		
+		mv = bServ.getBoardList_5(pageNum);
+		
+		return mv;
+	}
+	
+	@GetMapping("bWriteSugFrm")
+	public String bWriteSugFrm() {
+		log.info("bWriteSugFrm()");
+		
+		return "bWriteSugFrm";
+	}
+	
+	@GetMapping("sugList")
+	public ModelAndView sugList(Integer snum) {
+		log.info("sugList : " + snum);
+		
+		mv = bServ.getsList(snum);
+		
+		return mv;
+	}
+	
+	@PostMapping("sugData")
+	public String sugData (MultipartHttpServletRequest multi,
+	RedirectAttributes rttr) {
+		log.info("sugData()");
+		
+		String view = bServ.SugData(multi, rttr);
+		
+		return view;
+		
+	}
+	
+	@GetMapping("sugdel")
+	public String sugdel(Integer snum, RedirectAttributes rttr) {
+		log.info("snum : " + snum);
+		
+		String view = bServ.Sugdel(snum, rttr);
 		
 		return view;
 	}

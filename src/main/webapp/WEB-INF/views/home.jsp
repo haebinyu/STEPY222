@@ -13,6 +13,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
+<link href="resources/css/homeStyle.css" rel="stylesheet">
 
 
 </head>
@@ -21,16 +22,18 @@
 	<header>
 		<jsp:include page="header.jsp" />
 	</header>
-	<div class="container-fluid trip-wrap" style="background-image: url('resources/images/rainbow-bridge.jpg');">
+	<div class="container-fluid trip-wrap"
+		style="background-image: url('resources/images/rainbow-bridge.jpg');">
 		<div class="container">
-		<div class="trip-btns">
-			<div class="trip-btn" onclick="location.href='pMakePlanFrm'">
-				<p class="trip">새로운 여행</p>
+			<div class="trip-btns">
+				<div class="trip-btn" onclick="location.href='pMakePlanFrm'">
+					<p class="trip">새로운 여행</p>
+				</div>
+				<div class="trip-btn"
+					onclick="location.href='./pPlanList?id=${member.m_id}'">
+					<p class="trip">내 여행</p>
+				</div>
 			</div>
-			<div class="trip-btn" onclick="location.href='./pPlanList?id=${member.m_id}'">
-				<p class="trip">내 여행</p>
-			</div>
-		</div>
 		</div>
 	</div>
 	<div class="container best-review-wrap">
@@ -43,118 +46,83 @@
 			<div class="community-box">
 				<table class="table table-hover">
 					<thead>
-					<tr>
-						<th width="350"><a href="./bFreeList" class="board-name">자유게시판</a></th>
-					</tr>
+						<tr>
+							<th width="350"><a href="./bFreeList" class="board-name">자유게시판</a></th>
+						</tr>
 					</thead>
 					<tbody>
-					<tr>
-						<td>여기에는</td>
-					</tr>
-					<tr>
-						<td>최신 게시글 순으로</td>
-					</tr>
-					<tr>
-						<td>게시글 데이터를 가져와서</td>
-					</tr>
-					<tr>
-						<td>게시글 제목만</td>
-					</tr>
-					<tr>
-						<td>한 5개 ~ 8개 정도</td>
-					</tr>
-					<tr>
-						<td>띄우면 어떨까 생각해요</td>
-					</tr>
+
+						<c:forEach var="h" items="${homeList_2}">
+							<tr>
+								<td>${h.ptitle}</td>
+							</tr>
+						</c:forEach>
+
 					</tbody>
 				</table>
 			</div>
 			<div class="community-box">
 				<table class="table table-hover">
-				<thead>
-				<tr>
-					<th width="350"><a href="./bMateList" class="board-name">여행 동행</a></th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td>여기에는</td>
-				</tr>
-				<tr>
-					<td>최신 게시글 순으로</td>
-				</tr>
-				<tr>
-					<td>게시글 데이터를 가져와서</td>
-				</tr>
-				<tr>
-					<td>게시글 제목만</td>
-				</tr>
-				<tr>
-					<td>한 5개 ~ 8개 정도</td>
-				</tr>
-				<tr>
-					<td>띄우면 어떨까 생각해요</td>
-				</tr>
-				</tbody>
-			</table>
+					<thead>
+						<tr>
+							<th width="350"><a href="./bMateList" class="board-name">여행
+									동행</a></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="h" items="${homeList_1}">
+							<tr>
+								<td>${h.ptitle}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 			<div class="community-box">
 				<table class="table table-hover">
-				<thead>
-				<tr>
-					<th width="350"><a href="./bReviewList" class="board-name">여행 리뷰</a></th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td>여기에는</td>
-				</tr>
-				<tr>
-					<td>최신 게시글 순으로</td>
-				</tr>
-				<tr>
-					<td>게시글 데이터를 가져와서</td>
-				</tr>
-				<tr>
-					<td>게시글 제목만</td>
-				</tr>
-				<tr>
-					<td>한 5개 ~ 8개 정도</td>
-				</tr>
-				<tr>
-					<td>띄우면 어떨까 생각해요</td>
-				</tr>
-				</tbody>
-			</table>
+					<thead>
+						<tr>
+							<th width="350"><a href="./bReviewList" class="board-name">여행
+									리뷰</a></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="h" items="${homeList_3}">
+							<tr>
+								<td>${h.ptitle}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
-	<div class="container-fluid reserve-wrap" style="background-image: url('resources/images/burano.jpg');">
+	<div class="container-fluid reserve-wrap"
+		style="background-image: url('resources/images/burano.jpg');">
 		<div class="container">
-		<div class="reserve-btns">
-			<div class="reserve-btn" onclick="location.href='#'">
-				<p class="reserve">음식</p>
+			<div class="reserve-btns">
+				<div class="reserve-btn" onclick="location.href='#'">
+					<p class="reserve">음식</p>
+				</div>
+				<div class="reserve-btn" onclick="location.href='#'">
+					<p class="reserve">숙소</p>
+				</div>
+				<div class="reserve-btn" onclick="location.href='#'">
+					<p class="reserve">시설</p>
+				</div>
 			</div>
-			<div class="reserve-btn" onclick="location.href='#'">
-				<p class="reserve">숙소</p>
-			</div>
-			<div class="reserve-btn" onclick="location.href='#'">
-				<p class="reserve">시설</p>
-			</div>
-		</div>
 		</div>
 	</div>
 	<main class="container">
-	<ul>
-		<li><a href="./sSearchFrm">검색</a></li>
-		<li><a href="./aLoginFrm">어드민 전용</a></li>
-		<li><a href="./bCommunity">게시판</a></li>
-		<li><a href="./stAuthMail">업체 메일인증</a></li>
-	</ul>
+		<ul>
+			<li><a href="./sSearchFrm">검색</a></li>
+			<li><a href="./aLoginFrm">어드민 전용</a></li>
+			<li><a href="./bCommunity">게시판</a></li>
+			<li><a href="./stAuthMail">업체 메일인증</a></li>
+		</ul>
 	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />
 	</footer>
 </body>
 </html>
-

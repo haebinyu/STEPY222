@@ -8,6 +8,7 @@ import com.bob.stepy.dto.PostDto;
 import com.bob.stepy.dto.PostDto2;
 import com.bob.stepy.dto.PostFileDto;
 import com.bob.stepy.dto.ReplyDto;
+import com.bob.stepy.dto.SuggestDto;
 
 public interface BoardDao {
 	
@@ -19,6 +20,14 @@ public interface BoardDao {
 	public List<PostDto> getList_3(int pageNum);
 	//자유 게시글
 	public List<PostDto> getList_4(int pageNum);
+	//건의사항 게시글
+	public List<SuggestDto> getList_5(int pageNum);
+	//게시글 번호대로
+	public List<PostDto> homeList_1(int pageNum);
+	//메이트 게시글
+	public List<PostDto> homeList_2(int pageNum);
+	//자유 게시글
+	public List<PostDto> homeList_3(int pageNum);
 	//메이트 게시글 전체 개수 구하기
 	public int getPostCnt_1();
 	//자유 게시글 전체 개수 구하기
@@ -27,8 +36,12 @@ public interface BoardDao {
 	public int getPostCnt_3();
 	//공지 게시글 전체 개수 구하기
 	public int getPostCnt_4();
+	//건의사항 내용 가져오기(1레코드 행)
+	public int getPostCnt_5();
 	//조회수 증가
 	public void viewUpdate(Integer pnum);
+	//조회수 증가
+	public void sviewUpdate(Integer snum);
 	//메이트 내용 가져오기(1레코드 행)
 	public PostDto2 getContent_1(Integer pnum);
 	//자유 내용 가져오기(1레코드 행)
@@ -36,11 +49,15 @@ public interface BoardDao {
 	//리뷰 내용 가져오기(1레코드 행)
 	public PostDto2 getContent_3(Integer pnum);
 	//공지 내용 가져오기(1레코드 행)
-	public PostDto2 getContent_4(Integer pnum);
+	public PostDto2 getContent_4(Integer pnum);	
+	//건의사항 내용 가져오기
+	public SuggestDto getContent_5(Integer snum);
 	//카테고리 가져오기
 	public String getcategory(Integer pnum);
 	//게시글 저장 메소드
 	public boolean PostInsert(PostDto post);
+	//건의사항 저장 메소드
+	public boolean SugInsert(SuggestDto sug);
 	//파일 저장 메소드
 	public boolean fileInsert(Map<String, String> fmap);
 	//게시글에 해당하는 파일 목록 가져오기
@@ -51,6 +68,8 @@ public interface BoardDao {
 	public boolean fileDelete(String sysName);
 	//게시글 수정(업데이트)
 	public boolean boardUpdate(PostDto post);
+	//건의사항 수정(업데이트)
+	public boolean sugUpdate(SuggestDto sug);
 	//댓글 저장 메소드
 	public boolean replyInsert(ReplyDto reply);
 	//댓글 목록 가져오기
@@ -77,6 +96,9 @@ public interface BoardDao {
 	public void singoup(Integer pnum);
 	//댓글 신고
 	public void replysingo(Integer rnum);
-	
+	//게시글 report 가져오기
+	public Integer getreport(Integer pnum);
+	//건의사항 1 행 삭제
+	public void Sugdelete(Integer snum);
 
 }

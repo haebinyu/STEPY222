@@ -33,7 +33,8 @@
 				<c:forEach var="eItem" items="${eList}">
 					<tr>
 						<td>${eItem.e_num}</td>
-						<td>${eItem.e_title}</td>
+						<td class="detail"
+							onclick="location.href='aEventDetail?e_num=${eItem.e_num}';">${eItem.e_title}</td>
 						<td>${eItem.e_contents}</td>
 						<td>${eItem.e_date}</td>
 						<td class="delete delBtn" onclick="stopConfirm('${eItem.e_num}');">중지</td>
@@ -83,6 +84,10 @@
 		if (stopSelect == true) {
 			location.href = "aDeleteEvent?e_num=" + eNum;
 		}
+	}
+
+	function eventDetail(eNum) {
+		location.href = "aEventDetail?e_num=" + eNum;
 	}
 
 	var ths = document.getElementsByTagName("th");

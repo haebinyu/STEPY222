@@ -34,7 +34,7 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		<thead>
 			<tr>
 				<th>승인 여부 확인</th>
-				<th>아이디</th>
+				<th>사업자 등록 번호</th>
 				<th>비밀번호</th>
 				<th>이메일</th>
 				<th>닉네임</th>
@@ -145,6 +145,14 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		}
 	});
 
+	//누적 신고 수가 1 이상인 경우 신고자로 판단, reported 클래스 부여해 배경색 부여
+	for (var i = 0; i < trs.length; i++) {
+		if (reports[i].innerHTML > 0) {
+			trs[i].classList.add("reported");
+		}
+	}
+
+	//typeNum이 1(전체보기)이 아닌 상태별 조회인 경우 필터 블럭 숨기기
 	if (
 <%=typeNum%>
 	!= 1) {

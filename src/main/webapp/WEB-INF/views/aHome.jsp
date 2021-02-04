@@ -30,8 +30,8 @@
 						업체 회원<br>리스트 보기
 					</a>
 					<!--  -->
-					<a class="aLink aMenu brMenu col-md-4" href="aPendingList">승인
-						대기 업체 회원<br>리스트 보기
+					<a class="aLink aMenu brMenu col-md-4" href="stAuthMail">승인 대기
+						업체 회원<br>리스트 보기
 					</a>
 				</div>
 				<div class="row">
@@ -45,7 +45,8 @@
 					<a class="aLink aMenu nonBrMenu col-md-4" href="aReport">신고 관리
 						페이지</a>
 					<!--  -->
-					<a></a>
+					<a class="aLink aMenu nonBrMenu col-md-4" href="aSuggestList">건의사항
+						리스트 보기</a>
 				</div>
 			</div>
 		</div>
