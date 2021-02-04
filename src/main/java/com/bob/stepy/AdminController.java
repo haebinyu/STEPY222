@@ -14,9 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dto.CeoDto;
 import com.bob.stepy.dto.EmailDto;
+import com.bob.stepy.dto.FileUpDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.ReportDto;
 import com.bob.stepy.service.AdminService;
+import com.bob.stepy.service.StoreService;
 
 //'컨트롤러'임을 인지, 자동실행 하도록 어노테이션 처리
 @Controller
@@ -39,6 +41,11 @@ public class AdminController {
 		view = aServ.loginProc(member, rttr);
 		System.out.println("결정된 view : "+view);
 		return view;
+	}
+	//사이드바 전용 홈 복귀
+	@GetMapping("aHome2")
+	public String aHome2() {
+		return "aHome";
 	}
 
 	//전체 회원 페이지로 이동
@@ -212,7 +219,7 @@ public class AdminController {
 		mv = aServ.listSet(pageNum, 6);
 		return mv;
 	}
-	
+
 	@GetMapping("aReportPostList")
 	public ModelAndView aReportPostList(Integer pageNum) {
 		mv = new ModelAndView();
@@ -220,7 +227,7 @@ public class AdminController {
 		mv = aServ.listSet(pageNum, 7);
 		return mv;
 	}
-	
+
 	@GetMapping("aReportReplyList")
 	public ModelAndView aReportReplyList(Integer pageNum) {
 		mv = new ModelAndView();
@@ -291,9 +298,11 @@ public class AdminController {
 	//신고 관리 구역 끝//
 
 	//건의사항 관리 구역//
-	@GetMapping("aSuggest")
-	public String aSuggest() {
-		return "aSuggest";
+	@GetMapping("aSuggestList")
+	public ModelAndView aSuggest(Integer pageNum) {
+		mv = new ModelAndView();
+		mv = aServ.listSet(pageNum, 9);
+		return mv;
 	}
 
 }//컨트롤러 끝
