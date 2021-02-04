@@ -145,6 +145,13 @@ int typeNum = Integer.parseInt(request.getParameter("typeNum"));
 		}
 	});
 
+	//누적 신고 수가 1 이상인 경우 신고자로 판단, reported 클래스 부여해 배경색 부여
+	for (var i = 0; i < trs.length; i++) {
+		if (reports[i].innerHTML > 0) {
+			trs[i].classList.add("reported");
+		}
+	}
+
 	//typeNum이 1(전체보기)이 아닌 상태별 조회인 경우 필터 블럭 숨기기
 	if (
 <%=typeNum%>
