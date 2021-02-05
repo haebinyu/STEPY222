@@ -32,8 +32,8 @@
 }
 
 .searchFrm {
-	float: right;
-	margin-top: 100px;
+	position: absolute;
+	bottom: 120px;
 }
 .option {
 	float: left;

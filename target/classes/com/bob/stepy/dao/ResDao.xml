@@ -7,13 +7,20 @@
 
 <!-- 예약하려는 가게 정보 가져오기 -->
 <select id="getStoreInfo" parameterType="String" resultType="com.bob.stepy.dto.StoreDto">
-	SELECT * FROM S WHERE S_NUM=#{cnum}
+	SELECT * FROM S WHERE S_NUM=#{c_num}
 </select>
 
 
 <!-- 예약하려는 상품(룸) 정보 가져오기 -->
 <select id="getProductInfo" parameterType="Integer" resultType="com.bob.stepy.dto.ProductDto">
-	SELECT * FROM PL WHERE PL_NUM=#{plnum}
+	SELECT * FROM PL WHERE PL_NUM=#{pl_num}
 </select>
+
+
+<!-- 예약 -->
+
+
+
+<!-- 예약 취소 -->
 
 </mapper>
