@@ -163,8 +163,9 @@
 		E_TITLE = #{e_title},
 		E_CONTENTS =
 		#{e_contents},
-		E_DATE = ${e_date}
-		WHERE E_NUM=#{e_num}
+		E_DATE = TO_TIMESTAMP('${e_date}')
+		WHERE
+		E_NUM=#{e_num}
 	</update>
 	<update id="updatePic"
 		parameterType="com.bob.stepy.dto.FileUpDto">
@@ -178,7 +179,6 @@
 		WHERE
 		F_NUM=#{f_num}
 	</delete>
-
 
 	<!-- 신고 처리 관련 -->
 	<select id="getReportList_C" parameterType="Integer"
