@@ -86,7 +86,7 @@
 		<!-- 검색창 -->
 		<div class="container">
 			<div class="searchFrm">
-				<form action="searchFree" method="post" id="searchForm">
+				<form action="searchMate" method="post" id="searchForm">
 					<select class="form-control option" name="searchOption">
 						<option value="all" <c:out value=""/>>
 							전체(제목+내용+작성자)</option>	

@@ -36,11 +36,19 @@ public class SearchController {
 	// 숙소 검색
 	@GetMapping("searchHotel")
 	public ModelAndView searchHotel(String keyword) {
-		log.info("searchHotel()");
+		log.info("searchHotel() keyword : " + keyword);
 		
 		mv = sServ.searchHotel(keyword);
 		
 		return mv;
+	}
+	
+	// 숙소 검색 결과 페이지
+	@GetMapping("sSearchHotel")
+	public String sSearchHotel() {
+		log.info("sSearchHotel()");
+		
+		return "sSearchHotel";
 	}
 	
 	
@@ -54,6 +62,14 @@ public class SearchController {
 		return mv;
 	}
 	
+	// 음식점 검색 결과 페이지
+	@GetMapping("sSearchRestaurant")
+	public String sSearchRestaurant() {
+		log.info("sSearchRestaurant()");
+		
+		return "sSearchRestaurant";
+	}
+	
 	
 	// 지역시설 검색
 	@GetMapping("searchPlay")
@@ -65,15 +81,12 @@ public class SearchController {
 		return mv;
 	}
 	
-	
-	// 상품 리스트 가져오기
-	@GetMapping("productList")
-	public ModelAndView getProductList(String cnum) {
-		log.info("getProductList() cnum : " + cnum);
+	// 지역시설 검색 결과 페이지
+	@GetMapping("sSearchPlay")
+	public String sSearchPlay() {
+		log.info("sSearchPlay()");
 		
-		mv = sServ.getProductList(cnum); // 상품 리스트
-		
-		return mv;
+		return "sSearchPlay";
 	}
 	
 	

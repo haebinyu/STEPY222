@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>STEPY - 관리자 페이지</title>
 <link rel="stylesheet" href="resources/css/aHomeStyle.css">
+<link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body>
 	<!-- header,footer는 공통 양식으로 include 처리 -->

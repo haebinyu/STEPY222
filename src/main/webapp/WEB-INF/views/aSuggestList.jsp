@@ -34,7 +34,9 @@
 				<c:forEach var="sugItem" items="${sugList}">
 					<tr class="item">
 						<td>${sugItem.sug_num}</td>
-						<td onclick="">${sugItem.sug_title}</td>
+						<td
+							onclick="location.href='aSuggestDetail?sug_num=${sugItem.sug_num}';"
+							style="cursor: pointer;"><a>${sugItem.sug_title}</a></td>
 						<td>${sugItem.sug_contents}</td>
 						<td>${sugItem.sug_mid}</td>
 						<td>${sugItem.sug_view}</td>

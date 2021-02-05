@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.bob.stepy.dto.FileUpDto;
 import com.bob.stepy.dto.PostDto;
 import com.bob.stepy.dto.ProductDto;
 import com.bob.stepy.dto.StoreDto;
@@ -20,11 +21,15 @@ public interface SearchDao {
 	public List<StoreDto> searchPlay(String keyword);
 	
 	// 가게의 상품 리스트 가져오기
-	public List<ProductDto> productList(String cnum);
+	public List<ProductDto> productList(String c_num);
 	
 	// 가게 정보 가져오기
-	public StoreDto getStoreInfo(String cnum);
+	public StoreDto getStoreInfo(String c_num);
 	
+	// 가게 썸네일 가져오기
+	public List<FileUpDto> getThumbnail(String c_num);
+	
+	/* ***** */
 	
 	// 여행 후기 게시판 검색
 	public List<PostDto> searchTravelReview(@Param("searchOption")String searchOption, 

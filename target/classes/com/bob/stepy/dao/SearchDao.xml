@@ -31,17 +31,24 @@
 
 <!-- 가게의 상품 리스트 가져오기 -->
 <select id="productList" parameterType="String" resultType="com.bob.stepy.dto.ProductDto">
-	SELECT * FROM PL WHERE PL_CNUM=#{cnum}
+	SELECT * FROM PL WHERE PL_CNUM=#{c_num}
 </select>
 
 
 <!-- 가게 정보 가져오기 -->
 <select id="getStoreInfo" parameterType="String" resultType="com.bob.stepy.dto.StoreDto">
-	SELECT * FROM S WHERE S_NUM=#{cnum}
+	SELECT * FROM S WHERE S_NUM=#{c_num}
+</select>
+
+
+<!-- 가게 썸네일 가져오기 -->
+<select id="getThumbnail" parameterType="String" resultType="com.bob.stepy.dto.FileUpDto">
+	SELECT * FROM F WHERE F_CNUM=#{c_num} AND F_THUMB='THUMB'
 </select>
 
 
 <!--  -->
+
 
 <!-- 여행 후기 게시판 검색 -->
 <select id="searchTravelReview" parameterType="String" resultType="com.bob.stepy.dto.PostDto">

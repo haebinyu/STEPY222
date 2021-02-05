@@ -8,6 +8,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="resources/css/aSideBarStyle.css">
+<link rel="stylesheet" href="resources/css/style.css">
 </head>
 <div class="col-sm-3 col-md-2 sidebar no-drag">
 	<ul class="nav nav-sidebar">
@@ -30,6 +31,6 @@
 	<ul class="nav nav-sidebar">
 		<li id="event"><a href="aEvent">이벤트 관리 페이지</a></li>
 		<li id="report"><a href="aReport">신고 관리 페이지</a></li>
-		<li id="suggest"><a href="aSuggestList">건의사항 관리 페이지</a></li>
+		<li id="suggest"><a href="aSuggestList">건의사항 리스트 보기</a></li>
 	</ul>
 </div>
