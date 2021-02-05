@@ -3,6 +3,8 @@ package com.bob.stepy;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,11 +16,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dto.CeoDto;
 import com.bob.stepy.dto.EmailDto;
-import com.bob.stepy.dto.FileUpDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.ReportDto;
 import com.bob.stepy.service.AdminService;
-import com.bob.stepy.service.StoreService;
 
 //'컨트롤러'임을 인지, 자동실행 하도록 어노테이션 처리
 @Controller
@@ -199,8 +199,34 @@ public class AdminController {
 	@GetMapping("aEventDetail")
 	public ModelAndView aEventDetail (int e_num) {
 		mv = new ModelAndView();
-		mv = aServ.eventDetail(e_num);
+		mv = aServ.eventDetail(e_num,1);
 		return mv;
+	}
+
+	@GetMapping("aFileDown")
+	public void fileDown(String sysName, HttpServletRequest requst,
+			HttpServletResponse response) {
+		aServ.fileDown(sysName, requst, response);
+	}
+
+	@GetMapping("aEventUpdateFrm")
+	public ModelAndView aEventUpdateFrm (int e_num) {
+		mv = new ModelAndView();
+		mv = aServ.eventDetail(e_num,2);
+		return mv;
+	}
+
+	@PostMapping(value = "aDeleteFile",
+			produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void delFile (int f_num) {
+		aServ.deletePic(f_num);
+	}
+
+	@PostMapping("aUpdateEvent")
+	public String aUpdateEvent (MultipartHttpServletRequest multi, RedirectAttributes rttr) {
+		String view = aServ.updateEvent(multi,rttr);
+		return view;
 	}
 
 	//이벤트 관리 구역 끝//
@@ -304,5 +330,20 @@ public class AdminController {
 		mv = aServ.listSet(pageNum, 9);
 		return mv;
 	}
+
+	@GetMapping("aSuggestDetail")
+	public ModelAndView aSuggestDetail(int sug_num) {
+		mv = new ModelAndView();
+		mv = aServ.suggestDetail(sug_num);
+		return mv;
+	}
+
+	@GetMapping("aDeleteSuggest")
+	public String aDeleteSuggest (int sug_num) {
+		aServ.deleteSuggest(sug_num);
+		return "redirect:aSuggestList";
+	}
+
+
 
 }//컨트롤러 끝
