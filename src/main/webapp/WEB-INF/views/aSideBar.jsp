@@ -8,6 +8,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="resources/css/aSideBarStyle.css">
+<link rel="stylesheet" href="resources/css/style.css">
 </head>
 <div class="col-sm-3 col-md-2 sidebar no-drag">
 	<ul class="nav nav-sidebar">

@@ -33,7 +33,7 @@
 							<td class="hidden-xs col-md-1"
 								style="background-color: #CCFFFF; text-align: center;">종료일</td>
 							<td class="hidden-xs col-md-3"><fmt:formatDate
-									pattern="yyyy-MM-dd hh:mm" value="${event.e_date}" /></td>
+									pattern="yyyy-MM-dd HH:mm:ss" value="${event.e_date}" /></td>
 						</tr>
 
 						<tr>

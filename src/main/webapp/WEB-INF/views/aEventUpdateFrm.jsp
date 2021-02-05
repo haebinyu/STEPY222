@@ -59,7 +59,8 @@
 								첨부된 파일이 없습니다.
 							</c:if> <c:if test="${!empty fList}">
 								<c:forEach var="file" items="${fList}">
-									<a onclick="picDeleteConfirm(${file.f_num});"> <span
+									<a style="cursor: pointer;"
+										onclick="picDeleteConfirm(${file.f_num});"> <span
 										class="file-title">${file.f_oriname}</span></a>&nbsp;&nbsp;
 								</c:forEach>
 							</c:if>
@@ -139,7 +140,6 @@
 				data: objdata,
 				success:
 					function(data){
-					alert(data);
 					location.reload(true);
 					},
 				error:
