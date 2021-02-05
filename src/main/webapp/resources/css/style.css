@@ -50,3 +50,12 @@ body {
 	border: 1px solid #ebebeb;
 	border-radius: 5px;
 }
+
+.text-muted{
+	color: #ddd;
+}
+.ceo-board, .sug-board {
+	color: #ddd;
+	padding: 0 15px;
+	text-decoration: underline;
+}

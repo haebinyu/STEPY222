@@ -32,14 +32,6 @@
 .trip-btn:hover {
 	background: rgba(20,20,20,0.7);
 }
-.text-muted{
-	color: #ddd;
-}
-.ceo-board, .sug-board {
-	color: #ddd;
-	padding: 0 15px;
-	text-decoration: underline;
-}
 .ceo-board:hover, .sug-board:hover {
 	color: #aaa;
 }
