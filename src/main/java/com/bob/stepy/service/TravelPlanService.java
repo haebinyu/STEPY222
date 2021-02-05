@@ -225,9 +225,6 @@ public class TravelPlanService {
 			//여행 내용 등록
 			tDao.regAccompanyPlan(acPlan);
 			
-			//목록 다시 불러오기
-			//mv = pPlanFrm(acPlan.getAp_plannum());
-			
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
