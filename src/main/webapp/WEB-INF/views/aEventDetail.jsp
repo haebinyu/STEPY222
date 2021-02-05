@@ -28,20 +28,25 @@
 								style="background-color: #CCFFFF; text-align: center;">제목</td>
 							<td class="col-md-7 col-xs-9">${event.e_title}
 						</tr>
-					</table>
-					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
+
 						<tr>
 							<td class="hidden-xs col-md-1"
 								style="background-color: #CCFFFF; text-align: center;">종료일</td>
 							<td class="hidden-xs col-md-3"><fmt:formatDate
 									pattern="yyyy-MM-dd hh:mm" value="${event.e_date}" /></td>
 						</tr>
-					</table>
-					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
+
 						<tr>
 							<td class="hidden-xs col-md-1" rowspan="2"
 								style="text-align: center; background-color: #CCFFFF">내용</td>
-							<td class="col-md-7 col-xs-11 " style="height: 450px;">${event.e_contents}</td>
+							<td class="col-md-7 col-xs-11 " style="height: 450px;">${event.e_contents}
+								<c:if test="${!empty fList}">
+									<c:forEach var="f" items="${fList}">
+										<img src="resources/upload/${f.f_sysname}" width="300"
+											style="display: block;">
+									</c:forEach>
+								</c:if>
+							</td>
 						</tr>
 					</table>
 					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
@@ -53,7 +58,7 @@
 								첨부된 파일이 없습니다.
 							</c:if> <c:if test="${!empty fList}">
 									<c:forEach var="file" items="${fList}">
-										<a href="./fileDown?sysName=${file.f_sysname}"> <span
+										<a href="./aFileDown?sysName=${file.f_sysname}"> <span
 											class="file-title">${file.f_oriname}</span></a>&nbsp;&nbsp;
 								</c:forEach>
 								</c:if>
@@ -61,7 +66,7 @@
 						</tr>
 						<c:if test="${!empty fList}">
 							<tr>
-								<th>PREVIEW</th>
+								<th style="text-align: center !important;">PREVIEW</th>
 								<td colspan="5"><c:forEach var="f" items="${fList}">
 										<c:if test="${fn:contains(f.f_sysname, '.jpg')}">
 											<img src="resources/upload/${f.f_sysname}" width="100">

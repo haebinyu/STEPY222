@@ -30,6 +30,6 @@
 	<ul class="nav nav-sidebar">
 		<li id="event"><a href="aEvent">이벤트 관리 페이지</a></li>
 		<li id="report"><a href="aReport">신고 관리 페이지</a></li>
-		<li id="suggest"><a href="aSuggestList">건의사항 관리 페이지</a></li>
+		<li id="suggest"><a href="aSuggestList">건의사항 리스트 보기</a></li>
 	</ul>
 </div>
