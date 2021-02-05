@@ -120,6 +120,11 @@
 		SELECT * FROM F
 		WHERE F_ENUM=#{e_num}
 	</select>
+	<select id="getOriName" parameterType="String"
+		resultType="String">
+		SELECT F_ORINAME FROM F
+		WHERE F_SYSNAME=#{f_sysname}
+	</select>
 
 	<!-- 이벤트 추가/삭제 -->
 	<insert id="InsertEvent"
@@ -136,6 +141,7 @@
 		INSERT INTO E VALUES
 		(${e_num}, #{e_title}, #{e_contents}, #{e_date})
 	</insert>
+	<!-- 파일 업로드 처리, 이벤트 첨부파일이므로 외래키 f_enum만 등록 -->
 	<insert id="fileInsert" parameterType="HashMap">
 		INSERT INTO F
 		(F_NUM,
@@ -150,6 +156,29 @@
 		WHERE
 		E_NUM=#{e_num}
 	</delete>
+
+	<update id="updateEvent"
+		parameterType="com.bob.stepy.dto.EventDto">
+		UPDATE E SET
+		E_TITLE = #{e_title},
+		E_CONTENTS =
+		#{e_contents},
+		E_DATE = ${e_date}
+		WHERE E_NUM=#{e_num}
+	</update>
+	<update id="updatePic"
+		parameterType="com.bob.stepy.dto.FileUpDto">
+		UPDATE F SET
+		F_ORINAME=#{f_oriname},
+		F_SYSNAME=#{f_sysname}
+		WHERE F_NUM=#{f_num}
+	</update>
+	<delete id="deleteFile" parameterType="Integer">
+		DELETE FROM F
+		WHERE
+		F_NUM=#{f_num}
+	</delete>
+
 
 	<!-- 신고 처리 관련 -->
 	<select id="getReportList_C" parameterType="Integer"
@@ -171,7 +200,7 @@
 	</select>
 
 	<select id="getReportCnt" resultType="Integer">
-		SELECT COUNT(*) FROM E
+		SELECT COUNT(*) FROM R
 	</select>
 
 	<select id="getReportRecord" parameterType="Integer"
@@ -208,6 +237,16 @@
 	<select id="getSuggestCnt" resultType="Integer">
 		SELECT COUNT(*) FROM E
 	</select>
+	<select id="getSuggestRecord" parameterType="Integer"
+		resultType="com.bob.stepy.dto.SuggestDto">
+		SELECT * FROM SUG
+		WHERE SUG_NUM=#{sug_num}
+	</select>
+	<delete id="deleteSuggest" parameterType="Integer">
+		DELETE FROM SUG
+		WHERE
+		SUG_NUM=#{sug_num}
+	</delete>
 
 
 

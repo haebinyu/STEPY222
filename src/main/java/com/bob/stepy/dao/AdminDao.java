@@ -59,17 +59,22 @@ public interface AdminDao {
 	//레코드의 데이터 전체가 필요하므로 데이터를 한 곳에 담은 DTO의 리스트로 리턴
 	public List<EventDto> getEventList (Integer pageNum);
 	public int getEventCnt();
-	
+
 	//해당 이벤트 상세보기 - 단독 SELECT
 	//이벤트에 관련된 첨부파일이 있을 수 있으므로 같은 e_num을 근거로 F테이블에서도 SELECT
 	public EventDto getEventRecord (Integer e_num);
 	public List<FileUpDto> getEventFiles(Integer e_num);
+	
+	public String getOriName(String sysName);
 
 	//E테이블에 INSERT
 	public int InsertEvent(EventDto event);
-	
+
 	public boolean fileInsert(Map<String, String> fmap);
 	public int deleteEvent(int e_num);
+
+	public int updateEvent(EventDto event);
+	public void deleteFile(int f_num);
 	
 	//신고된 레코드 조회
 	//C만 RP테이블에서 조회, P,R은 P,R테이블에서 직접 조건 조회
@@ -90,6 +95,13 @@ public interface AdminDao {
 
 	//건의사항 리스트 가져오기 - 다중 SELECT
 	public List<SuggestDto> getSuggestList(Integer num9);
+
+	public SuggestDto getSuggestRecord(int sug_num);
+
+	public void deleteSuggest(int sug_num);
+
+
+
 
 
 
