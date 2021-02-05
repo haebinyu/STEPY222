@@ -1,10 +1,16 @@
 package com.bob.stepy.service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -547,6 +553,17 @@ public class AdminService {
 			//데이터들을 담은 DTO째로 파라미터해 INSERT
 			aDao.InsertEvent(event);
 
+			//check가 1인 상황, 파일이 있는 경우메나 파일 INSERT 처리
+			//파일 업로드 메소드 호출해 처리
+			if (check.equals("1")) {
+				try {
+					//분리한 파일 업로드 메소드 호출해 파일 업로드 처리
+					fileUp(multi,event.getE_num());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
 			//예외가 발생하지 않았다면 플래시 어트리뷰트용 메시지+뷰 지정
 			resStr = "이벤트 등록 성공";
 			view ="redirect:aEventList";
@@ -559,16 +576,7 @@ public class AdminService {
 			view ="redirect:aEventList";
 		}
 
-		//check가 1인 상황, 파일이 있는 경우메나 파일 INSERT 처리
-		//파일 업로드 메소드 호출해 처리
-		if (check.equals("1")) {
-			try {
-				//분리한 파일 업로드 메소드 호출해 파일 업로드 처리
-				fileUp(multi,event.getE_num());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+
 
 		rttr.addFlashAttribute("msg", resStr);
 		//플래시 어트리뷰트를 담고 view 리턴
@@ -629,7 +637,6 @@ public class AdminService {
 			//단, 확장자를 찾기 위해서는 서브스트링(".")으로 .과 이후의 문자열(확장자 포함)만 가져옴
 			String sn = System.currentTimeMillis()+on.substring(on.lastIndexOf("."));
 
-
 			//이름 sn을 맵에 등록
 			fmap.put("sysName", sn);
 
@@ -648,7 +655,7 @@ public class AdminService {
 	}//파일 업로드 처리 메소드 끝
 
 	//선택한 이벤트 상세보기
-	public ModelAndView eventDetail (int e_num) {
+	public ModelAndView eventDetail (int e_num, int select) {
 		mv = new ModelAndView();
 		//이벤트 내용 텍스트 가져오기
 		EventDto event = aDao.getEventRecord(e_num);
@@ -657,11 +664,66 @@ public class AdminService {
 		List<FileUpDto> files = aDao.getEventFiles(e_num);
 		mv.addObject("fList", files);
 
-		mv.setViewName("aEventDetail");
+		switch(select) {
+		case 1:
+			mv.setViewName("aEventDetail");
+			break;
+		case 2:
+			mv.setViewName("aEventUpdateFrm");
+			break;
+		}
 		return mv;
 	}
 
+	public void fileDown(String sysName, HttpServletRequest requst,
+			HttpServletResponse response) {
+		String path = requst.getSession().getServletContext().getRealPath("/");
+
+		path += "resources/uplod/";
+
+		String oriName = aDao.getOriName(sysName);
+		path += sysName;//다운로드할 파일 경로 + 파일명 
+
+		InputStream is = null;
+		OutputStream os = null;
+
+		try {
+			String pFileName = URLEncoder.encode(oriName,"UTF-8");
+
+			//파일 객체 생성
+			File file = new File(path);
+			is = new FileInputStream(file);
+
+			//응답 객체(response)의 헤더 설정
+			//파일 전송용 contentType 설정
+			response.setContentType("application/octet-stream");
+			response.setHeader("content-Disposition", "attachment; filename=\"" + pFileName + "\"");
+			//attachment; filename="가나다라.jpg"
+
+			os = response.getOutputStream();
+
+			//파일전송(byte 단위로 전송)
+			byte[] buffer = new byte[1024];
+			int length;
+			while((length = is.read(buffer)) != -1) {
+				os.write(buffer, 0 , length);
+			}
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try{
+				os.flush();
+				os.close();
+				is.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	//이벤트 중지
+	@Transactional
 	public String deleteEvent(int e_num) {
 		int res = aDao.deleteEvent(e_num);
 		if (res >0) {
@@ -671,6 +733,87 @@ public class AdminService {
 		}
 
 		return "redirect:aEventList";
+	}
+
+	@Transactional
+	public String updateEvent(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
+		String view = null;
+		String resStr = null;
+		//form으로 작성한 내용들 꺼내기
+		//멀티리퀘스트도 일종의 리퀘스트이므로 겟파라미터(NAME)으로 꺼낼 수 있음
+
+		String e_num = multi.getParameter("e_num");
+		//이벤트 제목
+		String title = multi.getParameter("e_title");
+		//이벤트 내용 (textarea = 문자열이므로 string 받음)
+		String contents = multi.getParameter("e_contents");
+		//날짜 가져오기
+		String e_dateStr = multi.getParameter("e_date");
+		System.out.println("입력값 그대로 : "+e_dateStr);
+		String[] dateArray = e_dateStr.split("T");
+		System.out.println("스플릿 후 [0] : "+dateArray[0]);
+		System.out.println("스플릿 후 [1] : "+dateArray[1]);
+		e_dateStr = dateArray[0]+" "+dateArray[1]+":00";
+		System.out.println("날짜+ +시간+:00 >> "+e_dateStr);
+
+		Timestamp e_date = java.sql.Timestamp.valueOf(e_dateStr);
+		System.out.println("타임스탬프화 : "+e_date);
+
+		//파일 업로드 체크, 파일을 등록했다면 1, 아니라면 0이 됨
+		String check = multi.getParameter("fileCheck");
+		System.out.println("파일 체크 : "+check);
+
+		//단, textarea는 입력한 문자열의 앞뒤로 공백이 발생
+		//문자열의 앞뒤 공백 제거하는 명령어가 추가로 필요 (trim())
+		contents = contents.trim();
+
+		//form에서 꺼낸 데이터들을 이벤트DTO에 삽입
+		EventDto event = new EventDto();
+		event.setE_num(Integer.parseInt(e_num));//UPDATE의 탐색에 쓸 이벤트 번호
+		event.setE_title(title);//이벤트 제목
+		event.setE_contents(contents);//이벤트 내용
+		event.setE_date(e_date);
+
+		try {
+			//데이터들을 담은 DTO째로 파라미터해 INSERT
+			aDao.updateEvent(event);
+
+			//check가 1인 상황, 파일이 있는 경우메나 파일 INSERT 처리
+			//파일 업로드 메소드 호출해 처리
+			if (check.equals("1")) {
+				try {
+					//분리한 파일 업로드 메소드 호출해 파일 업로드 처리
+					fileUp(multi,event.getE_num());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			//예외가 발생하지 않았다면 플래시 어트리뷰트용 메시지+뷰 지정
+			resStr = "이벤트 수정 성공";
+			view ="redirect:aEventList";
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+
+			//성공,실패 여부에 상관없이 뷰는 동일, 메시지만 다름
+			resStr = "이벤트 수정 실패";
+			view ="redirect:aEventList";
+		}
+
+
+
+		rttr.addFlashAttribute("msg", resStr);
+		//플래시 어트리뷰트를 담고 view 리턴
+		return view;
+	}
+
+	//수정 도중 사진을 삭제하려는 경우
+	@Transactional
+	public void deletePic (int f_num) {
+		System.out.println("글 수정중 파일 삭제 처리");
+
+		aDao.deleteFile(f_num);
 	}
 
 	//단일 신고글 세부사항 보기
@@ -706,6 +849,19 @@ public class AdminService {
 	public void aReportFinished(int rp_num) {
 		aDao.updateReport(rp_num);
 		System.out.println("업데이트 완료");
+	}
+
+	public ModelAndView suggestDetail(int sug_num) {
+		mv = new ModelAndView();
+		SuggestDto sug = aDao.getSuggestRecord(sug_num);
+		mv.addObject("sug", sug);
+		mv.setViewName("aSuggestDetail");
+		return mv;
+	}
+
+	@Transactional
+	public void deleteSuggest(int sug_num) {
+		aDao.deleteSuggest(sug_num);
 	}
 
 
