@@ -52,6 +52,10 @@
 				<exclude-mapping path="/stLoginProc"/>
 				<exclude-mapping path="/aLoginFrm"/>
 				<exclude-mapping path="/aHome"/>
+				<exclude-mapping path="/bCommunity"/>
+				<exclude-mapping path="/bReviewList"/>
+				<exclude-mapping path="/bFreeList"/>
+				<exclude-mapping path="/bMateList"/>
 				<exclude-mapping path="/resources/**"/>
 				<beans:bean class="com.bob.stepy.util.SessionInterceptor"/>
 		</interceptor>

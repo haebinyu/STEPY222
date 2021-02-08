@@ -156,35 +156,6 @@ a:visited {
 </head>
 <body>
 
-<<<<<<< HEAD
-	<header>
-		
-	</header>
-	<section>
-		<div class="container">
-			<!-- 가게 간단 정보 -->
-			<div class="top">
-				<div class="StoreImg container">
-					<c:if test="${!empty fDto}">
-						<ul class="bxslider">
-							<c:if test="${fn:contains(fDto.f_sysname, '.png')}">
-								<li><img src="resources/upload${fDto.f_sysname}" /></li>
-							</c:if>
-							<c:if test="${fn:contains(fDto.f_sysname, '.jpg')}">
-								<li><img src="resources/upload${fDto.f_sysname}" /></li>
-							</c:if>
-							<c:if test="${!empty photoList}">
-								<c:forEach var="photoList" items="${photoList}">
-									<c:if test="${fn:contains(photoList.f_sysname, '.png')}">
-										<li><img src="resources/upload${photoList.f_sysname}" /></li>
-									</c:if>
-									<c:if test="${fn:contains(photoList.f_sysname, '.jpg')}">
-										<li><img src="resources/upload${photoList.f_sysname}" /></li>
-									</c:if>
-								</c:forEach>
-							</c:if>
-						</ul>
-=======
 	<div class="container center-block" style="width: 900px; box-sizing: border-box;">
 		<div class="container center-block title-zone">
 			<a href="javascript:history.back();">
@@ -197,7 +168,6 @@ a:visited {
 				<ul class="bxslider">
 					<c:if test="${fn:contains(fDto.f_sysname, '.png')}">
 						<li><img src="resources/upload${fDto.f_sysname}" /></li>
->>>>>>> branch 'master' of https://github.com/ghdtjrgus528/STEPY.git
 					</c:if>
 					<c:if test="${fn:contains(fDto.f_sysname, '.jpg')}">
 						<li><img src="resources/upload${fDto.f_sysname}" /></li>

@@ -203,10 +203,11 @@
 		var fixpwd = $("#fixpwd").val();
 		var fixemail = $("#fixemail").val();
 		var wm = $("#gender_wm");
+		var m = $('#gender_m');
 		var tf1 = wm.prop('checked');
 		
 		var m = $("#gender_m");
-		var tf2 = wm.prop('checked');
+		var tf2 = m.prop('checked');
 		
 		if (fixid == 0) {
 			alert("아이디 중복확인 필요");
