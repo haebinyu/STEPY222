@@ -45,7 +45,7 @@ public class ResService {
 		
 		mv.addObject("store", store);
 		mv.addObject("product", product);
-		mv.addObject("member", member);
+		mv.addObject("m_id", member.getM_id());
 		
 		mv.setViewName("rReservation");
 		
@@ -55,25 +55,55 @@ public class ResService {
 	
 	// 예약
 	@Transactional
-	public ModelAndView reservation(ResTicketDto resTicket, RedirectAttributes rttr) {
-		log.info("reservation()");
+	public ModelAndView reservation(ResTicketDto resTicket, String c_num, Integer res_plnum) {
+		log.info("reservation() c_num : " + c_num + ", pl_num : " + res_plnum);
 		
 		mv = new ModelAndView();
 		
 		try {
 			rDao.reservation(resTicket);
+			StoreDto store = rDao.getStoreInfo(c_num);
+			ProductDto product = rDao.getProductInfo(res_plnum);
 			
+			mv.addObject("store", store);
+			mv.addObject("product", product);
+			mv.addObject("checkinDate", resTicket.getRes_checkindate());
+			mv.addObject("checkoutDate", resTicket.getRes_checkoutdate());
+			
+			mv.addObject("message", "예약이 완료되었습니다.");
 			mv.setViewName("rReservationConfirm");
-			rttr.addFlashAttribute("message", "예약되었습니다.");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			
+			mv.addObject("message", "예약에 실패했습니다. 다시 예약해주세요.");
 			mv.setViewName("rReservation");
-			rttr.addFlashAttribute("message", "예약에 실패했습니다.");
 		}
 		
 		return mv;
+	}
+	
+	
+	// 예약 취소
+	public String resCancle(Integer res_num, RedirectAttributes rttr) {
+		log.info("resCancle() res_num : " + res_num);
+		
+		String view = null;
+		
+		try {
+			rDao.resCancle(res_num);
+			
+			view = "redirect:/";
+			rttr.addFlashAttribute("message", "예약이 취소되었습니다.");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			view = "redirect:plProductList";
+			rttr.addFlashAttribute("message", "예약 취소에 실패했습니다.");
+		}
+		
+		return view;
 	}
 
 }

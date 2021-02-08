@@ -59,6 +59,11 @@
 .VAT {
 	font-size: 16px;
 }
+.glyphicon-chevron-down {
+	color: black;
+	background: #808080;
+	border-style: none;
+}
 .price {
 	font-size: 25px;
 	font-weight: bold;
@@ -74,6 +79,7 @@
 	color: white;
 	background: #4375D9;
 	border: 1px solid #4375D9;
+	border-radius: 5px;
 }
 </style>
 </head>
@@ -98,6 +104,9 @@
 					<input class="form-control input-lg infoInput" type="text" id="formGroupInputLarge"
 						placeholder="안심번호로 변경되어 숙소에 전달됩니다." required="required" name="res_phone">
 				</div>
+				<input type="hidden" name="c_num" value="${store.s_num}">
+				<input type="hidden" name="res_mid" value="${m_id}">
+				<input type="hidden" name="res_plnum" value="${product.pl_num}">
 				<hr>
 				
 				<div class="VAT">
@@ -113,24 +122,23 @@
 			<div>
 				<div  class="reservInfo">
 					<div>
-						<input type="hidden" name="pl_num" value="${product.pl_num}">
 						<div class="title">숙소 이름</div> <div class="contents">${store.s_name}</div>
 					</div>
 					<div>
 						<div class="title">객실 타입</div> <div class="contents">${product.pl_name}</div>
 					</div>
 					<div>
-						<div class="title">체크인</div>
+						<div class="title">체크인 (15시)</div>
 						<div class="form-group calendar">
-							<input type="date" id="checkinDate" class="form-control" 
-								required="required" name="res_checkindate">
+							<input type="text" id="checkinDate" class="form-control" 
+								required="required" name="res_checkindate" placeholder="체크인 날짜">
 						</div>
 					</div>
 					<div>
-						<div class="title">체크아웃</div>
+						<div class="title">체크아웃 (11시)</div>
 						<div class="form-group calendar">
-							<input type="date" id="checkoutDate" class="form-control" 
-								required="required" name="res_checkoutdate">
+							<input type="text" id="checkoutDate" class="form-control" 
+								required="required" name="res_checkoutdate" placeholder="체크아웃 날짜">
 						</div>
 					</div>
 					<hr>
@@ -140,13 +148,14 @@
 							<span class="bigTitle">총 결제 금액</span> <span class="VAT">(VAT 포함)</span>
 						</div>
 						<div class="price">
-							<fmt:formatNumber type="number" maxFractionDigits="3" value="${product.pl_price}"/>원
+							<fmt:formatNumber type="number" maxFractionDigits="3" 
+								value="${product.pl_price}"/>원
 						</div>
 					</div>
 				</div>
 				
 				<div>
-					<button type="submit" class="reservBtn">예약하기</button>
+					<input type="submit" class="reservBtn" value="예약하기">
 				</div>
 			</div> <!-- 숙소 정보 -->
 		</form>
@@ -159,7 +168,6 @@
 </body>
 
 <script type="text/javascript">
-/*
 $(function() {
 	// 달력
 	$("#checkinDate").datepicker({
@@ -189,8 +197,8 @@ $(function() {
             $("#checkinDate").datepicker("option", "maxDate", selectedDate);
         }
     });
- 
-});*/
+	
+});
 </script>
 
 </html>
