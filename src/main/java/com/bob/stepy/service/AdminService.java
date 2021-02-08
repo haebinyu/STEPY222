@@ -33,13 +33,14 @@ public class AdminService {
 	@Autowired
 	private AdminDao aDao;
 
-	//특정 데이터들이 담길 모델뷰
+	//특정 데이터들이 담길 모델뷰 (와이어드없이 각 기능마다 new로 빈공간으로 사용)
 	private ModelAndView mv;
 
 	//세션 객체+와이어드
 	@Autowired
 	private HttpSession session;
 
+	//어드민 로그인 처리
 	public String loginProc(MemberDto member, RedirectAttributes rttr) {
 		//목적지가 담길 String view
 		String view =null;
@@ -58,7 +59,7 @@ public class AdminService {
 
 			if (pw.equals(member.getM_pwd())) {
 
-				//단, 어드민 전용 로그인이므로 가져온 id가 미리 등록한 실제 어드민 ID와 같아야 진행
+				//단, 어드민 전용 로그인이므로 가져온(입력한) id까지 미리 등록한 (DB)실제 어드민 ID와 같아야 진행
 				if(id.equals("admin")) {
 					member = aDao.getMemberInfo(member.getM_id());
 
@@ -66,15 +67,13 @@ public class AdminService {
 					session.setAttribute("member", member);
 					view = "aHome";
 				}
-				//id가 admin이 아닌 경우 어드민이 아니라고 판단, 권한 없음 경고
-				else {
+				else {//id가 admin이 아닌 경우 어드민이 아니라고 판단, 권한 없음 경고
 					view = "redirect:aLoginFrm";
 					rttr.addFlashAttribute("msg", "접속 권한이 없습니다");
 				}
 			}//ID도 PW도 맞는 경우의 if 끝
 
-			else {
-				//ID는 맞았으나 비밀번호를 틀린 경우
+			else {//ID는 맞았으나 비밀번호를 틀린 경우
 				//로그인 페이지로 돌아감, 보여줄 메시지를 리다이렉트의 플래시 어트리뷰트에 등록
 				view ="redirect:aLoginFrm";
 
@@ -90,9 +89,6 @@ public class AdminService {
 			view ="redirect:aLoginFrm";
 			rttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다");
 		}
-		//'list'를 받는 대상은 페이지가 아닌
-		//보드 컨트롤의 list맵핑 메소드가 받아
-		//컨트롤러-컨트롤러 연계 처리도 가능함	
 		return view;
 	}//어드민 전용 로그인 Proc 끝
 
