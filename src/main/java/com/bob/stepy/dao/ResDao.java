@@ -16,5 +16,6 @@ public interface ResDao {
 	public void reservation(ResTicketDto resTicket);
 	
 	// 예약 취소
+	public boolean resCancle(Integer res_num);
 
 }

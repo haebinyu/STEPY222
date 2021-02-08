@@ -18,9 +18,15 @@
 
 
 <!-- 예약 -->
-
+<select id="reservation" parameterType="com.bob.stepy.dto.ResTicketDto">
+	INSERT INTO RES VALUES (RESTICKET_SEQ.NEXTVAL, sysdate, #{res_plnum}, #{res_mid}, #{res_name}, #{res_phone},
+		#{res_checkindate}, #{res_checkoutdate}, DEFAULT, DEFAULT)
+</select>
 
 
 <!-- 예약 취소 -->
+<select id="resCancle" parameterType="Integer">
+	DELETE FROM RES WHERE RES_NUM=#{res_num}
+</select>
 
 </mapper>

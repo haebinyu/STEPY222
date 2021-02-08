@@ -1,7 +1,6 @@
 package com.bob.stepy.dto;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import lombok.Data;
 
@@ -11,8 +10,10 @@ public class ResTicketDto {
 	private Date res_date;
 	private String res_plnum;
 	private String res_mid;
-	private Date res_checkindate;
-	private Date res_checkoutdate;
+	private String res_name;
+	private String res_phone;
+	private String res_checkindate;
+	private String res_checkoutdate;
 	private int res_qty;
 	private int res_status;
 }
