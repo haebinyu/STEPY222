@@ -133,27 +133,21 @@ public class AdminController {
 	//일반 회원 (발송 메소드+스위치 1)
 	@PostMapping("aSendMemberMail")
 	public String aSendMemberMail
-	(EmailDto email, RedirectAttributes rttr)
-			throws AddressException, MessagingException {
+	(EmailDto email, RedirectAttributes rttr, MultipartHttpServletRequest multi)
+			throws Exception {
 		System.out.println("메일 전송 서비스 실행");
-
-		String msg = aServ.mailSend(email, 1);
-		rttr.addFlashAttribute(msg);
-
-		return "redirect:aGroupMailFrm";
+		String view = aServ.mailSend(email, 1,rttr, multi);
+		return view;
 	}
 
 	//업체 회원 (발송 메소드+스위치 2)
 	@PostMapping("aSendStoreMail")
 	public String aSendStoreMail
-	(EmailDto email, RedirectAttributes rttr)
-			throws AddressException, MessagingException {
+	(EmailDto email, RedirectAttributes rttr, MultipartHttpServletRequest multi)
+			throws Exception {
 		System.out.println("메일 전송 서비스 실행");
-
-		String msg = aServ.mailSend(email, 2);
-		rttr.addFlashAttribute(msg);
-
-		return "redirect:aGroupMailFrm";
+		String view = aServ.mailSend(email, 2,rttr,multi);
+		return view;
 	}
 	//회원 관리 구역 끝//
 
@@ -298,18 +292,15 @@ public class AdminController {
 	//신고 처리 메일 발송+처리 완료로 RP 레코드 UPDATE
 	@PostMapping("aSendMail")
 	public String aSendMail
-	(EmailDto email, RedirectAttributes rttr, CeoDto ceo, ReportDto report)
-			throws AddressException, MessagingException {
+	(EmailDto email, RedirectAttributes rttr, CeoDto ceo, ReportDto report, MultipartHttpServletRequest multi)
+			throws Exception {
 		System.out.println("(신고 처리) 메일 전송 서비스 실행");
 		System.out.println(email);
-		String view = "redirect:aReport";
 		String c_num = ceo.getC_num();
-		String msg = null;
 
-		msg = aServ.mailSend(email, 3);
+		String view = aServ.mailSend(email, 3, rttr,multi);
 		aBlockStore(c_num);		
 		aServ.aReportFinished(report.getRp_num());
-		rttr.addFlashAttribute("msg", msg);
 
 		return view;
 	}
@@ -365,5 +356,5 @@ public class AdminController {
 		return "redirect:aSuggestList";
 	}
 	//건의사항 구역 끝
-	
+
 }//컨트롤러 끝
