@@ -99,10 +99,13 @@
 	text-align: right;
 	font-size: 30px;
 }
-.btn {
+.resBtn {
 	width: 100%;
+	height: 45px;
 	margin-top: 5px;
 	background-color: #4375D9;	
+	border: 1px solid #4375D9;
+	border-radius: 5px;
 	color: white;
 	font-size: 20px;
 	font-weight: normal;	
@@ -240,7 +243,12 @@ a:visited {
 							<div class="person">최대 ${pt.value.pl_person}인</div>
 							<p class="text-right" style="margin-top: 37px; margin-bottom: 2px;">판매가</p>
 							<p class="price"><fmt:formatNumber type="number" maxFractionDigits="3" value="${pt.value.pl_price}" />원</p>								
-							<input type="submit" class="btn" value="예약">						
+							<div class="divBtn">
+								<div>
+									<input type="button" class="resBtn" value="예약"
+										onclick="location.href='./rReservation?pl_num=${pt.value.pl_num}&c_num=${pt.value.pl_cnum}'">
+								</div>
+							</div>					
 						</div>
 						<hr width="100%">
 					</div>						

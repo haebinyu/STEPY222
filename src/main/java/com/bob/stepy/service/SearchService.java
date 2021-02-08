@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bob.stepy.dao.BoardDao;
 import com.bob.stepy.dao.SearchDao;
 import com.bob.stepy.dto.PostDto;
-import com.bob.stepy.dto.ProductDto;
 import com.bob.stepy.dto.StoreDto;
 import com.bob.stepy.util.Paging;
 
@@ -24,7 +23,7 @@ import lombok.extern.java.Log;
 @Service
 public class SearchService {
 	
-	// DAO 객체
+	// SearchDao
 	@Autowired
 	private SearchDao sDao;
 	
@@ -40,9 +39,10 @@ public class SearchService {
 	private HttpSession session;
 	
 	
+
 	// 숙소 검색
 	public ModelAndView searchHotel(String keyword) {
-		log.info("searchHotel()");
+		log.info("searchHotel() keyword : " + keyword);
 		
 		mv = new ModelAndView();
 
@@ -50,16 +50,13 @@ public class SearchService {
 			List<StoreDto> sList = sDao.searchHotel(keyword);
 			
 			mv.addObject("sList", sList); // DB에서 조회한 데이터 목록을 모델에 추가
-			mv.setViewName("sSearchFrm");
-				
-			if(sList.isEmpty()) {
-				mv.addObject("msg", "검색 결과가 없습니다.");
-				mv.setViewName("sSearchFrm");
-			}
+			mv.addObject("keyword", keyword);
+			
+			mv.setViewName("sSearchHotel");
 		}
 		
 		else {
-			mv.addObject("msg", "검색할 키워드를 입력해주세요.");
+			mv.addObject("message", "검색할 키워드를 입력해주세요.");
 			mv.setViewName("sSearchFrm");
 		}
 		
@@ -77,12 +74,7 @@ public class SearchService {
 			List<StoreDto> sList = sDao.searchRestaurant(keyword);
 			
 			mv.addObject("sList", sList); // DB에서 조회한 데이터 목록을 모델에 추가
-			mv.setViewName("sSearchFrm");
-				
-			if(sList.isEmpty()) {
-				mv.addObject("msg", "검색 결과가 없습니다.");
-				mv.setViewName("sSearchFrm");
-			}
+			mv.setViewName("sSearchRestaurant");
 		}
 		
 		else {
@@ -104,12 +96,7 @@ public class SearchService {
 			List<StoreDto> sList = sDao.searchPlay(keyword);
 			
 			mv.addObject("sList", sList); // DB에서 조회한 데이터 목록을 모델에 추가
-			mv.setViewName("sSearchFrm");
-				
-			if(sList.isEmpty()) {
-				mv.addObject("msg", "검색 결과가 없습니다.");
-				mv.setViewName("sSearchFrm");
-			}
+			mv.setViewName("sSearchPlay");
 		}
 		
 		else {
@@ -120,28 +107,15 @@ public class SearchService {
 		return mv;
 	}
 	
-	
-	// 상품 리스트 가져오기
-	public ModelAndView getProductList(String cnum) {
-		log.info("getProductList() cnum : " + cnum);
 		
-		mv = new ModelAndView();
+	/* ***** */
 		
-		StoreDto store = sDao.getStoreInfo(cnum);
-		List<ProductDto> pList = sDao.productList(cnum);
 		
-		mv.addObject("pList", pList); // 상품 리스트
-		mv.addObject("store", store); // 가게 정보
-		mv.setViewName("plProductList");
-		
-		return mv;
-	}
-	
-	
 	// 여행 후기 게시판 검색
 	public ModelAndView searchTravelReview(@RequestParam(defaultValue = "all") String searchOption, 
 			@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "1") Integer pageNum) {
-		log.info("searchTravelReview() searchOption : " + searchOption + ", keyword : " + keyword);
+		log.info("searchTravelReview() searchOption : " + searchOption + ", keyword : " + keyword
+				+ ", pageNum : " + pageNum);
 		
 		mv = new ModelAndView();
 		
@@ -160,7 +134,7 @@ public class SearchService {
 
 		session.setAttribute("pageNum", num);
 
-		mv.setViewName("bSearchResult");
+		mv.setViewName("bSearchTravelReview");
 		
 		return mv;
 	}
@@ -188,7 +162,7 @@ public class SearchService {
 
 		session.setAttribute("pageNum", num);
 
-		mv.setViewName("bSearchResult");
+		mv.setViewName("bSearcMate");
 		
 		return mv;
 	}
@@ -217,7 +191,7 @@ public class SearchService {
 
 		session.setAttribute("pageNum", num);
 
-		mv.setViewName("bSearchResult");
+		mv.setViewName("bSearchFree");
 		
 		return mv;
 	}
@@ -247,7 +221,7 @@ public class SearchService {
 		}
 
 		// 설정값(페이지 당 글 개수, 그룹 당 페이지 개수)
-		int listCnt = 7;
+		int listCnt = 6;
 		int pageCnt = 5;
 		String listName = str;
 

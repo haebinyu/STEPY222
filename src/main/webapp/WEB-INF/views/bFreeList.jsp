@@ -25,7 +25,6 @@
 
 <style type="text/css">
 .searchFrm {
-	float: right;
 	position: absolute;
 	bottom: 120px;
 }
