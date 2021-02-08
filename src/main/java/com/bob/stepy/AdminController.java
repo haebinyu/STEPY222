@@ -29,11 +29,13 @@ public class AdminController {
 	//모델 데이터,뷰네임을 동시에 기억
 	private ModelAndView mv;
 
+	//어드민 로그인 페이지로 이동
 	@GetMapping("aLoginFrm")
 	public String adminLogin() {
 		System.out.println("어드민 로그인 시도");
 		return "aLoginFrm";
 	}
+
 	//로그인 처리
 	@PostMapping("aHome")
 	public String aLogin(MemberDto member,RedirectAttributes rttr) {
@@ -42,6 +44,7 @@ public class AdminController {
 		System.out.println("결정된 view : "+view);
 		return view;
 	}
+
 	//사이드바 전용 홈 복귀
 	@GetMapping("aHome2")
 	public String aHome2() {
@@ -73,6 +76,7 @@ public class AdminController {
 		mv = aServ.listSet(pageNum, 3);
 		return mv;
 	}
+
 	//승인 대기 업소 리스트 페이지로 이동
 	@GetMapping("aPendingList")
 	public ModelAndView pendingMemberList(Integer pageNum) {
@@ -92,9 +96,7 @@ public class AdminController {
 	//선택한 회원의 데이터를 삭제하기 (일반) (DELETE - 단일 레코드)
 	@GetMapping("aDeleteMember")
 	public String deleteMember (String m_id) {
-
 		String view = aServ.deleteSwitch(m_id, 1);
-
 		return view;
 	}
 
@@ -104,7 +106,6 @@ public class AdminController {
 		String view = aServ.deleteSwitch(c_num, 2);
 		return view;
 	}
-
 	//회원 관리 구역 끝//
 
 	//단체 메일 선택 페이지로 이동
@@ -114,11 +115,14 @@ public class AdminController {
 		return "aGroupMailFrm";
 	}
 
+	//일반 회원 전체 메일 작성으로 이동
 	@GetMapping("aGroupMail_M")
 	public String aGroupMail_M() {
 		System.out.println("단체 메일 작성_M");
 		return "aGroupMailFrm_M";		
 	}
+
+	//업체 회원 전체 메일 작성으로 이동
 	@GetMapping("aGroupMail_C")
 	public String aGroupMail_C() {
 		System.out.println("단체 메일 작성_C");
@@ -126,6 +130,7 @@ public class AdminController {
 	}
 
 	//일반 회원,업체 회원 메일 발송 메소드 - 관련 API 사용
+	//일반 회원 (발송 메소드+스위치 1)
 	@PostMapping("aSendMemberMail")
 	public String aSendMemberMail
 	(EmailDto email, RedirectAttributes rttr)
@@ -138,6 +143,7 @@ public class AdminController {
 		return "redirect:aGroupMailFrm";
 	}
 
+	//업체 회원 (발송 메소드+스위치 2)
 	@PostMapping("aSendStoreMail")
 	public String aSendStoreMail
 	(EmailDto email, RedirectAttributes rttr)
@@ -177,7 +183,7 @@ public class AdminController {
 		return "aEventWriteFrm";
 	}
 
-	//이벤트 실제 추가 DB 연동 INSERT
+	//이벤트 추가 INSERT
 	@PostMapping("aWriteEvent")
 	public String aWriteEvent
 	(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
@@ -187,6 +193,7 @@ public class AdminController {
 		return view;
 	}
 
+	//이벤트 삭제 DELETE
 	@GetMapping("aDeleteEvent")
 	public String aDeleteEvent(int e_num) {
 		System.out.println("이벤트 삭제 실행");
@@ -196,6 +203,7 @@ public class AdminController {
 		return view;
 	}
 
+	//이벤트 상세보기 SELECT
 	@GetMapping("aEventDetail")
 	public ModelAndView aEventDetail (int e_num) {
 		mv = new ModelAndView();
@@ -203,12 +211,14 @@ public class AdminController {
 		return mv;
 	}
 
+	//파일 다운로드 처리
 	@GetMapping("aFileDown")
 	public void fileDown(String sysName, HttpServletRequest requst,
 			HttpServletResponse response) {
 		aServ.fileDown(sysName, requst, response);
 	}
 
+	//이벤트 수정 Frm으로 이동
 	@GetMapping("aEventUpdateFrm")
 	public ModelAndView aEventUpdateFrm (int e_num) {
 		mv = new ModelAndView();
@@ -216,6 +226,7 @@ public class AdminController {
 		return mv;
 	}
 
+	//이벤트 수정도중 파일 삭제 (JSON, 페이지 변화없이 처리)
 	@PostMapping(value = "aDeleteFile",
 			produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -223,12 +234,12 @@ public class AdminController {
 		aServ.deletePic(f_num);
 	}
 
+	//이벤트 수정 UPDATE
 	@PostMapping("aUpdateEvent")
 	public String aUpdateEvent (MultipartHttpServletRequest multi, RedirectAttributes rttr) {
 		String view = aServ.updateEvent(multi,rttr);
 		return view;
 	}
-
 	//이벤트 관리 구역 끝//
 
 	//신고 관리 페이지로 이동
@@ -238,31 +249,35 @@ public class AdminController {
 		return "aReport";
 	}
 
+	//RP테이블 리스트 가져오기 SELECT
 	@GetMapping("aReportStoreList")
 	public ModelAndView aReportStoreList(Integer pageNum) {
 		mv = new ModelAndView();
-		System.out.println("이벤트 리스트 페이지로 이동");
+		System.out.println("신고 업체 페이지로 이동");
 		mv = aServ.listSet(pageNum, 6);
 		return mv;
 	}
 
+	//P테이블에서 신고된 레코드만 가져오기 SELECT
 	@GetMapping("aReportPostList")
 	public ModelAndView aReportPostList(Integer pageNum) {
 		mv = new ModelAndView();
-		System.out.println("이벤트 리스트 페이지로 이동");
+		System.out.println("신고 게시글 페이지로 이동");
 		mv = aServ.listSet(pageNum, 7);
 		return mv;
 	}
 
+	//R테이블에서 신고된 레코드만 가져오기 SELECT
 	@GetMapping("aReportReplyList")
 	public ModelAndView aReportReplyList(Integer pageNum) {
 		mv = new ModelAndView();
-		System.out.println("이벤트 리스트 페이지로 이동");
+		System.out.println("신고 댓글 페이지로 이동");
 
 		mv = aServ.listSet(pageNum, 8);
 		return mv;
 	}
 
+	//신고글(RP테이블) 상세보기
 	@GetMapping("aReportDetail")
 	public ModelAndView aReportDetail (int rp_num) {
 		System.out.println("(컨트롤러) 파라미터된 rp_num : " +rp_num);
@@ -271,6 +286,7 @@ public class AdminController {
 		return mv;
 	}
 
+	//해당 신고글 처리
 	@GetMapping("aReportDispose")
 	public ModelAndView aReportDispose (int rp_num) {
 		mv = aServ.reportDetail(rp_num);
@@ -279,6 +295,7 @@ public class AdminController {
 		return mv;
 	}
 
+	//신고 처리 메일 발송+처리 완료로 RP 레코드 UPDATE
 	@PostMapping("aSendMail")
 	public String aSendMail
 	(EmailDto email, RedirectAttributes rttr, CeoDto ceo, ReportDto report)
@@ -297,6 +314,7 @@ public class AdminController {
 		return view;
 	}
 
+	//신고 처리후 업체 회원 처리 (DELETE)
 	public int aBlockStore(String c_num) {
 		int res = 0;
 		String resStr = aServ.deleteSwitch(c_num, 2);
@@ -307,6 +325,7 @@ public class AdminController {
 		return res;
 	}
 
+	//신고 처리후 게시글 처리 (DELETE)
 	@GetMapping("aBlockPost")
 	public String aBlockPost(Integer p_num, RedirectAttributes rttr) {
 		String view = null;
@@ -314,16 +333,16 @@ public class AdminController {
 		return view; 
 	}
 
+	//신고 처리후 댓글 처리 (DELETE)
 	@GetMapping("aBlockReply")
 	public String aBlockReply(Integer r_num, RedirectAttributes rttr) {
 		String view = null;
 		view = aServ.deletePandR(r_num, 2,rttr);
 		return view; 
 	}
-
 	//신고 관리 구역 끝//
 
-	//건의사항 관리 구역//
+	//건의사항 리스트 보기 SELECT
 	@GetMapping("aSuggestList")
 	public ModelAndView aSuggest(Integer pageNum) {
 		mv = new ModelAndView();
@@ -331,6 +350,7 @@ public class AdminController {
 		return mv;
 	}
 
+	//건의글 상세보기 SELECT
 	@GetMapping("aSuggestDetail")
 	public ModelAndView aSuggestDetail(int sug_num) {
 		mv = new ModelAndView();
@@ -338,12 +358,12 @@ public class AdminController {
 		return mv;
 	}
 
+	//불필요한 글, 강제 삭제 처리 DELETE
 	@GetMapping("aDeleteSuggest")
 	public String aDeleteSuggest (int sug_num) {
 		aServ.deleteSuggest(sug_num);
 		return "redirect:aSuggestList";
 	}
-
-
-
+	//건의사항 구역 끝
+	
 }//컨트롤러 끝
