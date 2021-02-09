@@ -80,8 +80,8 @@ $(function(){
   			</li>
   			<li role="presentation"><a href="./stMyProd">내 상품 관리</a></li>
   			<li role="presentation"><a href="./stResList">예약 현황 보기</a></li>
-  			<li role="presentation"><a href="./stReviewList">가게 후기 보기</a></li>
-  			<li role="presentation"><a href="./stReportList">가게 신고 보기</a></li>
+  			<!-- <li role="presentation"><a href="./stReviewList">가게 후기 보기</a></li>
+  			<li role="presentation"><a href="./stReportList">가게 신고 보기</a></li>  -->
 		</ul>
 		
 		<div class="container center-block" style="width: 60%;">

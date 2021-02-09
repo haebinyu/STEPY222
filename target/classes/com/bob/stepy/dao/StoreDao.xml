@@ -45,7 +45,7 @@
 	
 	<!-- 상품 리스트 가져오기 -->
 	<select id="getProdList" parameterType="String" resultType="com.bob.stepy.dto.ProductDto">
-		SELECT * FROM PL WHERE PL_CNUM=#{pl_cnum} ORDER BY PL_NUM DESC
+		SELECT * FROM PL WHERE PL_CNUM=#{pl_cnum} ORDER BY PL_PRICE ASC
 	</select>
 	<!-- 상품 1개 정보 가져오기 -->
 	<select id="getProdInfo" parameterType="Integer" resultType="com.bob.stepy.dto.ProductDto">
@@ -116,10 +116,19 @@
 	<select id="stDeleteThumb" parameterType="String">
 		DELETE FROM F WHERE F_SYSNAME=#{f_sysname}
 	</select>
-	<!-- 가게 사진 불러오기 -->
+	<!-- 가게 추가사진 불러오기 -->
 	<select id="getPhotos" parameterType="String" resultType="com.bob.stepy.dto.FileUpDto">
 		SELECT * FROM F WHERE F_CNUM=#{f_cnum} AND F_THUMB='OTHER'
 	</select>
+	<!-- 스토어 추가사진만 삭제 -->
+	<delete id="stDeletePhotos" parameterType="String">
+		DELETE FROM F WHERE F_CNUM=#{f_cnum} AND F_THUMB='OTHER'
+	</delete>
+	<!-- 삭제할 스토어 추가사진들의 sysname -->
+	<select id="getPtsSys" parameterType="String" resultType="String">
+		SELECT F_SYSNAME FROM F WHERE F_CNUM=#{f_cnum} AND F_THUMB='OTHER'
+	</select>
+	
 	<!-- 미인증 업체 리스트 불러오기 -->
 	<select id="getAuthList" resultType="com.bob.stepy.dto.CeoDto">
 		SELECT * FROM C WHERE C_JOIN='pending'
@@ -145,6 +154,7 @@
 	<select id="stDeleteProd" parameterType="Integer">
 		DELETE FROM PL WHERE PL_NUM=${pl_num}
 	</select>
+	<!-- 상품 추가사진만 삭제 -->
 	<select id="stDeleteProdPhoto" parameterType="Integer">
 		DELETE FROM F WHERE F_PLNUM=${pl_num}
 	</select>

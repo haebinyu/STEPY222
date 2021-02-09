@@ -3,6 +3,7 @@ package com.bob.stepy.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -123,6 +124,7 @@ public class StoreService {
 				ceo = stDao.getCeoInfo(ceo.getC_num());
 				store = stDao.getStoreInfo(ceo.getC_num());
 				MemberDto member = new MemberDto();
+				//상품 페이지 조회를 위해 사업자 정보도 member로 session에 넣어줌
 				member.setM_id(ceo.getC_num());
 				
 				session.setAttribute("ceo", ceo);
@@ -273,23 +275,22 @@ public class StoreService {
 		//사업주가 올린 상품 리스트
 		List<ProductDto> pList = stDao.getProdList(pl_cnum);
 		List<FileUpDto> tList = new ArrayList<FileUpDto>();
-		Map<String, Object> ptMap = new HashMap<String, Object>();
-		//pList.size() -> 6	
+		Map<String, Object> ptMap = new LinkedHashMap<String, Object>(); //순서 유지를 위해 linkedhashmap으로 받음
 		
 		for(int i = 0; i < pList.size(); i++) {
 			//각 상품의 썸네일
 			FileUpDto fDto = new FileUpDto();
 			fDto = stDao.getProdThumb(pList.get(i).getPl_num());
-			tList.add(i, fDto);			
+			tList.add(i, fDto);	
+			
 			for(int j = 0; j < tList.size(); j++) {
 				ptMap.put(tList.get(j).getF_sysname(), pList.get(j));
 			}
 			fDto = null;			
-		}		
+		}			
 		
-		System.out.println(tList);		
-		
-		if(pList != null) { //상품이 있다면			
+		if(pList != null) { //상품이 있다면	
+			mv.addObject("ceo", ceo);
 			mv.addObject("pList", pList);
 			mv.addObject("tList", tList); 
 			mv.addObject("ptMap", ptMap);
@@ -341,7 +342,7 @@ public class StoreService {
 		return view;
 	}
 	
-	//상품 썸네일 등록
+	//상품 대표사진 등록
 	public boolean stProdThumbUp(MultipartHttpServletRequest multi, int pl_num) throws Exception {
 		
 		String path = multi.getSession().getServletContext().getRealPath("/");
@@ -394,8 +395,6 @@ public class StoreService {
 		String view = null;		
 		String check = multi.getParameter("fileCheck");
 		int plnum = (Integer) session.getAttribute("pl_num");				
-
-		System.out.println(plnum);
 
 		try {
 			if(check.equals("1")) {
@@ -594,8 +593,7 @@ public class StoreService {
 	public ModelAndView stGetPhoto() {
 		mv = new ModelAndView();
 		
-		CeoDto ceo = new CeoDto();
-		ceo = (CeoDto)session.getAttribute("ceo");		
+		CeoDto ceo = (CeoDto)session.getAttribute("ceo");		
 		
 		List<FileUpDto> photoList = stDao.getPhotos(ceo.getC_num()); //사업자가 올린 가게 사진들
 		
@@ -628,6 +626,7 @@ public class StoreService {
 		return view;
 	}	
 	
+	//가게 사진 추가 업로드
 	public boolean stPhotoUp(MultipartHttpServletRequest multi, String pl_cnum) throws Exception {
 		
 		String path = multi.getSession().getServletContext().getRealPath("/");
@@ -660,7 +659,7 @@ public class StoreService {
 		return true;
 	}
 	
-	//가게 썸네일 삭제
+	//스토어 대표사진 삭제
 	@Transactional
 	public String stDeleteThumb(String f_sysname) {
 		String path = session.getServletContext().getRealPath("/");
@@ -699,7 +698,6 @@ public class StoreService {
 			
 			fDto = stDao.getProdThumb(pl_num); //상품 메인사진
 			photoList = stDao.getProdPhotos(pl_num); //상품 추가사진
-			System.out.print(photoList);
 			product = stDao.getProdInfo(pl_num); //상품 정보
 			store = stDao.getStoreInfo(s_num);
 			
@@ -716,25 +714,20 @@ public class StoreService {
 	public ModelAndView plProductList(String c_num) {
 		mv = new ModelAndView();
 		int zzim = -1;
-			
-			//가게 dto, 가게메인사진 dto, 가게사진 list, 상품 list, 상품메인사진 list
-		StoreDto store = new StoreDto(); //가게 정보
-		FileUpDto fDto = new FileUpDto(); //가게 메인사진
-		MemberDto member = new MemberDto();
-		member = (MemberDto) session.getAttribute("member");
-		List<ProductDto> pList = new ArrayList<ProductDto>(); //상품 리스트
-		List<FileUpDto> photoList = new ArrayList<FileUpDto>(); //가게 사진들
+	
+		MemberDto member = (MemberDto) session.getAttribute("member");
 		List<FileUpDto> prodThumbList = new ArrayList<FileUpDto>(); //상품 메인사진 리스트
-		Map<String, Object> ptMap = new HashMap<String, Object>(); //상품번호와 해당 메인사진의 컬렉션
+		Map<String, Object> ptMap = new LinkedHashMap<String, Object>(); //상품번호와 해당 메인사진의 컬렉션
+		
 		InCartDto incart = new InCartDto();
 		incart.setIc_cnum(c_num);
 		incart.setIc_mid(member.getM_id());
 			
 		try {
-			store = stDao.getStoreInfo(c_num);
-			fDto = stDao.getThumb(c_num);
-			pList = stDao.getProdList(c_num);
-			photoList = stDao.getPhotos(c_num);
+			StoreDto store = stDao.getStoreInfo(c_num);
+			FileUpDto fDto = stDao.getThumb(c_num);
+			List<ProductDto> pList = stDao.getProdList(c_num);
+			List<FileUpDto> photoList = stDao.getPhotos(c_num);
 			zzim = stDao.GetIncart(incart);
 			System.out.println(zzim);
 				
@@ -747,23 +740,19 @@ public class StoreService {
 					ptMap.put(prodThumbList.get(j).getF_sysname(), pList.get(j));
 				}
 				prodThumb = null;			
-			} 
-			
+			} 			
 			mv.addObject("store", store);
 			mv.addObject("fDto", fDto);
 			mv.addObject("pList", pList);
 			mv.addObject("photoList", photoList);
 			mv.addObject("ptMap", ptMap);
 			mv.addObject("member", member);
-			mv.addObject("zzim", zzim);
-				
+			mv.addObject("zzim", zzim);				
 			mv.setViewName("plProductList");
 				
 		} catch(Exception e) {
 			e.printStackTrace();		
 		}
-			
-			
 		return mv;
 	}
 		
@@ -771,15 +760,13 @@ public class StoreService {
 	public ModelAndView getAuthList() {
 		mv = new ModelAndView();	
 
-		List<CeoDto> ceoList = new ArrayList<CeoDto>();
-		ceoList = stDao.getAuthList();
+		List<CeoDto> ceoList = stDao.getAuthList();
 		FileUpDto fDto = new FileUpDto();
 		List<FileUpDto> bizList = new ArrayList<FileUpDto>();
 		Map<String, Object> bizMap = new HashMap<String, Object>();
 
 		for(int i = 0; i < ceoList.size(); i++) {
 			fDto = stDao.stGetBiz(ceoList.get(i).getC_num()); //각 사업자들 등록증 가져오고
-			System.out.println(fDto);
 			bizList.add(i, fDto); //사업자 등록증 리스트에 넣어준다
 			for(int j = 0; j < bizList.size(); j++) {
 				bizMap.put(bizList.get(j).getF_sysname(), ceoList.get(j)); //사업자번호와 사업자등록증 파일 매칭
@@ -792,15 +779,11 @@ public class StoreService {
 
 		return mv;		
 	}
-
 		
 	//찜할 때
 	public void stIncart(String m_id, String c_num) {
-
 		InCartDto incart = new InCartDto();
-		MemberDto member = new MemberDto();
-
-		member = (MemberDto)session.getAttribute("member");
+		MemberDto member = (MemberDto)session.getAttribute("member");
 
 		incart.setIc_cnum(c_num);
 		incart.setIc_mid(member.getM_id());
@@ -810,11 +793,8 @@ public class StoreService {
 
 	//찜 제외할 때
 	public void stIncartEmpty(String m_id, String c_num) {
-
 		InCartDto incart = new InCartDto();
-		MemberDto member = new MemberDto();
-
-		member = (MemberDto)session.getAttribute("member");
+		MemberDto member = (MemberDto)session.getAttribute("member");
 
 		incart.setIc_cnum(c_num);
 		incart.setIc_mid(member.getM_id());
@@ -825,11 +805,8 @@ public class StoreService {
 	//상품 정보 및 사진 모두 삭제
 	@Transactional
 	public String stDeleteProd(Integer pl_num) {
-		String result = null;
-		
-		System.out.println(pl_num);
-		List<FileUpDto> prodPhotoList = new ArrayList<FileUpDto>();
-		prodPhotoList = stDao.stGetProdPhotos(pl_num);	
+		String result = null;		
+		List<FileUpDto> prodPhotoList = stDao.stGetProdPhotos(pl_num);	
 		
 		try {
 			for(int i = 0; i < prodPhotoList.size(); i++) {
@@ -854,6 +831,55 @@ public class StoreService {
 			e.printStackTrace();
 		}
 		return view;
+	}
+	
+	//예약 현황 보기
+	public ModelAndView stResList() {		
+		log.info("stResList()");
+		mv = new ModelAndView();
+
+		CeoDto ceo = (CeoDto)session.getAttribute("ceo");
+
+		//실시간 상품 재고
+		List<ProductDto> prodList = stDao.getProdList(ceo.getC_num());
+
+		mv.addObject("prodList", prodList);
+		mv.setViewName("stResList");		
+
+		return mv;
+	}
+
+	//스토어 추가사진 삭제하기
+	@Transactional
+	public String stDeletePhotos(String c_num) {
+		String result = null;
+
+		//스토어 추가사진 파일 삭제
+		List<String> sysList = stDao.getPtsSys(c_num); //sysname들 가져오고
+		System.out.println(sysList);
+
+		try {
+			//파일 삭제			
+			for(int i = 0; i < sysList.size(); i++) {
+				String path = session.getServletContext().getRealPath("/");				
+				path += "resources/" + "upload" + sysList.get(i);
+				System.out.print(path);
+				File file = new File(path);
+				if(file.exists()) {
+					if(file.delete()) {
+						result="success";
+					} else {
+						result = "fail";
+					}
+				}
+				path = "";
+			}
+			//스토어 추가사진 DB 삭제
+			stDao.stDeletePhotos(c_num);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	//인증메일 보내기

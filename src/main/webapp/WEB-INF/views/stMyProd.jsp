@@ -109,8 +109,8 @@ $(function(){
   			<li role="presentation"><a href="./stMyPage">내 정보 관리</a></li>
   			<li role="presentation" class="active"><a href="./stMyProd">내 상품 관리</a></li>
   			<li role="presentation"><a href="./stResList">예약 현황 보기</a></li>
-  			<li role="presentation"><a href="./stReviewList">가게 후기 보기</a></li>
-  			<li role="presentation"><a href="./stReportList">가게 신고 보기</a></li>
+  			<!-- <li role="presentation"><a href="./stReviewList">가게 후기 보기</a></li>
+  			<li role="presentation"><a href="./stReportList">가게 신고 보기</a></li>  -->
 		</ul>
 		
 		<div class="btn-mar">
@@ -158,7 +158,7 @@ $(function(){
         					</div>
         					<p class="text-center">
         						<button type="button" class="btn btn-color2 sub" onclick="del('${pt.value.pl_num}')">
-        						<span class="glyphicon glyphicon-trash"></span>
+        							<span class="glyphicon glyphicon-trash"></span>
         						</button>	
         					</p>        					     						
     					</div>
