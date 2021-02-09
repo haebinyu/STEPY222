@@ -113,35 +113,42 @@ public class StoreService {
 	//사장님 로그인
 	public String stLoginProc(CeoDto ceo, StoreDto store, RedirectAttributes rttr) {
 		log.info("stLoginProc()");
-		String view = null;		
-		
+		String view = null;
+		String join = stDao.getCjoin(ceo.getC_num());
+
 		String stEncPwd = stDao.getStEncPwd(ceo.getC_num());
-		
+
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
-		
-		if(stEncPwd != null) {
-			if(pwdEncoder.matches(ceo.getC_pwd(), stEncPwd)) {
-				ceo = stDao.getCeoInfo(ceo.getC_num());
-				store = stDao.getStoreInfo(ceo.getC_num());
-				MemberDto member = new MemberDto();
-				//상품 페이지 조회를 위해 사업자 정보도 member로 session에 넣어줌
-				member.setM_id(ceo.getC_num());
-				
-				session.setAttribute("ceo", ceo);
-				session.setAttribute("store", store);
-				session.setAttribute("member", member);
-				view = "redirect:stMyPage";
+
+		//메일 승인 받은 업체만 로그인
+		if(join.equals("approve")) {			
+			if(stEncPwd != null) {
+				if(pwdEncoder.matches(ceo.getC_pwd(), stEncPwd)) {
+					ceo = stDao.getCeoInfo(ceo.getC_num());
+					store = stDao.getStoreInfo(ceo.getC_num());
+					MemberDto member = new MemberDto();
+					//상품 페이지 조회를 위해 사업자 정보도 member로 session에 넣어줌
+					member.setM_id(ceo.getC_num());
+
+					session.setAttribute("ceo", ceo);
+					session.setAttribute("store", store);
+					session.setAttribute("member", member);
+					view = "redirect:stMyPage";
+				} else {
+					view = "redirect:stHome";
+					rttr.addFlashAttribute("msg", "비밀번호가 틀립니다");
+				}
 			} else {
 				view = "redirect:stHome";
-				rttr.addFlashAttribute("msg", "비밀번호가 틀립니다");
-			}
+				rttr.addFlashAttribute("msg", "등록된 아이디가 없습니다");
+			}			
 		} else {
 			view = "redirect:stHome";
-			rttr.addFlashAttribute("msg", "등록된 아이디가 없습니다");
-		}		
+			rttr.addFlashAttribute("msg", "STEPY 관리자의 승인 후 로그인 가능합니다. 메일을 확인해주세요.");
+		}				
 		return view;
 	}
-	
+
 	//사업자번호 중복체크
 	public String stIdCheck(String c_num) {
 		log.info("stIdCheck() cnum: " + c_num);

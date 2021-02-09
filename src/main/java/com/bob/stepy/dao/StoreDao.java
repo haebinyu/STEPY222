@@ -22,7 +22,10 @@ public interface StoreDao {
 	public boolean stFileUp(Map<String, String> fmap);
 	
 	//비밀번호 구하기
-	public String getStEncPwd(String c_num);	
+	public String getStEncPwd(String c_num);
+	
+	//로그인 전 c_join 정보 가져오기
+	public String getCjoin(String c_num);
 	
 	//로그인 후 업체 정보 가져오기
 	public CeoDto getCeoInfo(String c_num);

@@ -27,6 +27,10 @@
 	<select id="getStEncPwd" parameterType="String" resultType="String">
 		SELECT C_PWD FROM C WHERE C_NUM=#{c_num}
 	</select>
+	<!-- c_join값 가져오기 -->
+	<select id="getCjoin" parameterType="String" resultType="String">
+		SELECT C_JOIN FROM C WHERE C_NUM=#{c_num}
+	</select>
 
 	<!-- 로그인 정보 가져오기 -->
 	<select id="getCeoInfo" parameterType="String" resultType="com.bob.stepy.dto.CeoDto">
