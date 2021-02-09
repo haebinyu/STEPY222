@@ -73,56 +73,13 @@ function leadingZeros(n, digits) {
       editable: true,
       dayMaxEvents: true,
       events: [
-        {
-          title: 'All Day Event',
-          start: '2020-09-01'
-        },
-        {
-          title: 'Long Event',
-          start: '2020-09-07',
-          end: '2020-09-10'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2020-09-09T16:00:00'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2020-09-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2020-09-11',
-          end: '2020-09-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-09-12T10:30:00',
-          end: '2020-09-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2020-09-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-09-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2020-09-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2020-09-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2020-09-13T07:00:00'
-        },
-       
+    	  <c:forEach var="res" items="${resMap}">
+    	 	{
+              title: '예약번호 : ' +'${res.value.res_num}' + '번',
+              start: '${res.value.res_checkindate}',
+              end: '${res.value.res_checkoutdate}'
+            },    	  
+    	  </c:forEach>       
       ]
     });
 
@@ -153,6 +110,13 @@ body {
 .panel-heading {
   	background-color: #2c3e50!important;
   	color: white!important;
+}
+.b-color {
+	background-color: rgb(118, 130, 142)!important;
+  	color: white;
+}
+.fc-event-title-container {
+	background-color: #4375d9!important;
 }
 
 </style>
@@ -202,22 +166,27 @@ body {
 				<div class="panel panel-default">						
 					<div class="panel-heading">
 						<b>예약 리스트</b>
-					</div>
-					<div class="panel-body">
-						<h6>'결제완료'된 예약을 클릭해 확정을 해주세요:)</h6>
-					</div>
-										
-					<table class="table">
+					</div>										
+					<table class="table">						
 						<tr>
 							<td style="text-align: center;">예약번호</td>
 							<td style="text-align: center;">예약정보</td>
 							<td style="text-align: center;">예약상태</td>							
 						</tr>
+						<c:if test="${empty resMap}">
 						<tr>
-							<td style="text-align: center;">2</td>
-							<td style="text-align: center; cursor: pointer;"><span class="badge" onclick="showInfo();">상세보기</span></td>
-							<td style="text-align: center; cursor: pointer;"><span class="badge">결제대기</span></td>						
+							<td colspan="3" style="text-align: center;">예약 정보가 없습니다.</td>
 						</tr>
+						</c:if>
+						<c:if test="${!empty resMap}">
+							<c:forEach var="res" items="${resMap}">
+							<tr>
+								<td style="text-align: center;">${res.value.res_num}</td>
+								<td style="text-align: center; cursor: pointer;"><span class="badge" onclick="showInfo('${res.value.res_num}');">상세보기</span></td>
+								<td style="text-align: center;"><span class="badge b-color">결제완료</span></td>						
+							</tr>							
+							</c:forEach>							
+						</c:if>						
 					</table>
 				</div>
 			</div>
@@ -232,8 +201,10 @@ body {
 	</footer>
 </body>
 <script type="text/javascript">
-function showInfo(){
-	window.open("stShowInfo", "info", "width=800, height=150, left=100, top=50");
-}
+function showInfo(resNum){
+	var num = resNum;
+	console.log(num);
+	window.open("stShowInfo?res_num=" + num, "info", "width=800, height=150, left=100, top=50");
+};
 </script>
 </html>

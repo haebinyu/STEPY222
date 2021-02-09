@@ -51,6 +51,13 @@ public class StoreController {
 		log.info("stResList()");
 		mv = stServ.stResList();
 		return mv;
+	}	
+
+	@GetMapping("stShowInfo")
+	public ModelAndView stShowInfo(int res_num) {
+		log.info("stShowInfo()");
+		mv = stServ.getResInfo(res_num);
+		return mv;
 	}
 	
 	/*
@@ -295,12 +302,6 @@ public class StoreController {
 		log.info("stAuthorized()");
 		String view = stServ.stAuthorized(c_num, key);
 		return view;
-	}
-
-	@GetMapping("stShowInfo")
-	public String stShowInfo() {
-		log.info("stShowInfo()");
-		return "stShowInfo";
 	}
 	
 	@PostMapping(value = "stAuthMail", produces = "application/json; charset=utf-8")

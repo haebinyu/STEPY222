@@ -3,10 +3,13 @@ package com.bob.stepy.dao;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Store;
+
 import com.bob.stepy.dto.CeoDto;
 import com.bob.stepy.dto.FileUpDto;
 import com.bob.stepy.dto.InCartDto;
 import com.bob.stepy.dto.ProductDto;
+import com.bob.stepy.dto.ResTicketDto;
 import com.bob.stepy.dto.StoreDto;
 
 
@@ -95,11 +98,14 @@ public interface StoreDao {
 		
 	//사업자등록증 가져오기
 	public FileUpDto stGetBiz(String c_num);
-		
-		
-	//우리 가게 후기 불러오기
-		
-	//우리 가게 신고 불러오기
+	
+	
+	//전체 예약 정보 불러오기
+	public List<ResTicketDto> stTotalResList(int res_plnum);	
+	//예약 번호-정보 불러오기
+	public ResTicketDto getResInfo(int res_num);
+	//해당 상품 이름 가져오기
+	public String getPlname(int res_plnum);
 	
 
 }

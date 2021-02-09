@@ -173,6 +173,19 @@
 		SELECT * FROM F WHERE F_CNUM=#{c_num} AND F_THUMB='AUTH'
 	</select>
 	
+	<!-- 전체 예약 정보 불러오기 -->
+	<select id="stTotalResList" parameterType="Integer" resultType="com.bob.stepy.dto.ResTicketDto">
+		SELECT * FROM RES WHERE RES_PLNUM=${res_plnum} AND RES_STATUS=1
+	</select>
+	<!-- 예약번호-정보 불러오기 -->
+	<select id="getResInfo" parameterType="Integer" resultType="com.bob.stepy.dto.ResTicketDto">
+		SELECT * FROM RES WHERE RES_NUM=${res_num}
+	</select>
+	<!-- 해당 상품번호-이름 가져오기 -->
+	<select id="getPlname" parameterType="Integer" resultType="String">
+		SELECT PL_NAME FROM PL WHERE PL_NUM=${res_plnum}
+	
+	</select>
 	
 </mapper>
 

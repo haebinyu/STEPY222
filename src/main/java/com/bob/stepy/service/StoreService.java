@@ -35,6 +35,7 @@ import com.bob.stepy.dto.FileUpDto;
 import com.bob.stepy.dto.InCartDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.ProductDto;
+import com.bob.stepy.dto.ResTicketDto;
 import com.bob.stepy.dto.StoreDto;
 
 import lombok.extern.java.Log;
@@ -838,22 +839,6 @@ public class StoreService {
 		}
 		return view;
 	}
-	
-	//예약 현황 보기
-	public ModelAndView stResList() {		
-		log.info("stResList()");
-		mv = new ModelAndView();
-
-		CeoDto ceo = (CeoDto)session.getAttribute("ceo");
-
-		//실시간 상품 재고
-		List<ProductDto> prodList = stDao.getProdList(ceo.getC_num());
-
-		mv.addObject("prodList", prodList);
-		mv.setViewName("stResList");		
-
-		return mv;
-	}
 
 	//스토어 추가사진 삭제하기
 	@Transactional
@@ -887,8 +872,57 @@ public class StoreService {
 		}
 		return result;
 	}
-
+	
 	//예약 현황 보기
+	public ModelAndView stResList() {		
+		log.info("stResList()");
+		mv = new ModelAndView();
+
+		CeoDto ceo = (CeoDto)session.getAttribute("ceo");
+
+		//상품 재고
+		List<ProductDto> prodList = stDao.getProdList(ceo.getC_num());
+		
+		//결제완료된 예약 리스트
+		List<ResTicketDto> resList = new ArrayList<ResTicketDto>();
+		Map<Integer, Object> resMap = new HashMap<Integer, Object>();
+		
+		for(int i = 0; i < prodList.size(); i++) {
+			resList = stDao.stTotalResList(prodList.get(i).getPl_num());
+			
+			if(resList != null) {				
+				for(int j = 0; j < resList.size(); j++) {
+					resMap.put(resList.get(j).getRes_plnum(), resList.get(j)); //상품번호-상품예약정보
+				}										
+			}
+			resList = null;
+		}
+		mv.addObject("resMap", resMap);
+		mv.addObject("prodList", prodList);
+		mv.setViewName("stResList");		
+
+		return mv;
+	}
+	
+	//예약 리스트 - showinfo
+	public ModelAndView getResInfo(int res_num) {
+		mv = new ModelAndView();
+		String plname = null;
+		
+		ResTicketDto res = stDao.getResInfo(res_num);
+		plname = stDao.getPlname(res.getRes_plnum());
+		
+		try {
+			mv.addObject("res", res);
+			mv.addObject("res_plname", plname);
+			mv.setViewName("stShowInfo");
+		} catch(Exception e) {
+			e.printStackTrace();
+			mv.setViewName("stShowInfo");
+		}		
+		return mv;
+	}
+	
 	
 	
 	
