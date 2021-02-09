@@ -116,7 +116,10 @@ $(function(){
 		<div class="btn-mar">
 			<div class="alert alert-warning" role="alert">
 				<span class="glyphicon glyphicon-bullhorn"></span>&nbsp;&nbsp;
-			한 상품당 최소 하나의 사진을 기본으로 합니다. 더 많은 사진을 넣고 싶다면 아래 상품에서 '+' 를 클릭해주세요:)</div>			
+			한 상품당 최소 하나의 사진을 기본으로 합니다.<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;더 많은 사진을 넣고 싶다면 아래 상품에서 '+' 를 클릭해주세요:)<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;등록된 상품은 가격 순으로 정렬되어 노출됩니다.
+			</div>			
    			<button type="button" class="btn btn-radius" onclick="location.href='./stWriteFrm'" title="상품 추가하기" >
    				<span class="glyphicon glyphicon-pencil"></span></button>
    			<button type="button" class="btn btn-color btn-radius" onclick="location.href='./plProductList?c_num=${ceo.c_num}'" title="전체 페이지 보기">

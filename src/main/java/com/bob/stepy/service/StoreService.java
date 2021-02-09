@@ -287,8 +287,7 @@ public class StoreService {
 				ptMap.put(tList.get(j).getF_sysname(), pList.get(j));
 			}
 			fDto = null;			
-		}			
-		
+		}					
 		if(pList != null) { //상품이 있다면	
 			mv.addObject("ceo", ceo);
 			mv.addObject("pList", pList);
@@ -547,11 +546,11 @@ public class StoreService {
 				stThumbUp(multi, ceo.getC_num());
 			}
 			view = "redirect:stMyThumb";
-			rttr.addFlashAttribute("msg", "가게 썸네일이 등록되었습니다.");			
+			rttr.addFlashAttribute("msg", "스토어 대표사진이 등록되었습니다.");			
 		} catch (Exception e) {
 			e.printStackTrace();
 			view = "redirect:stMyThumb";
-			rttr.addFlashAttribute("msg", "사진 등록에 실패하였습니다.");			
+			rttr.addFlashAttribute("msg", "스토어 대표사진 등록에 실패하였습니다.");			
 		}		
 		return view;
 	}
@@ -617,11 +616,11 @@ public class StoreService {
 				stPhotoUp(multi, ceo.getC_num());
 			}
 			view = "redirect:stExtraPhoto";
-			rttr.addFlashAttribute("msg", "가게 사진이 추가되었습니다.");			
+			rttr.addFlashAttribute("msg", "스토어 사진이 추가되었습니다.");			
 		} catch (Exception e) {
 			e.printStackTrace();
 			view = "redirect:stExtraPhoto";
-			rttr.addFlashAttribute("msg", "사진 등록에 실패하였습니다.");			
+			rttr.addFlashAttribute("msg", "스토어 추가사진 등록에 실패하였습니다.");			
 		}				
 		return view;
 	}	
@@ -882,6 +881,15 @@ public class StoreService {
 		return result;
 	}
 
+	//예약 현황 보기
+	
+	
+	
+	
+	
+	
+	
+	
 	//인증메일 보내기
 	public void stAuthMail(String c_email, String c_num) {
 		Properties p = System.getProperties();
