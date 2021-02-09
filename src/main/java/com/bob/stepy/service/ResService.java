@@ -69,6 +69,7 @@ public class ResService {
 			mv.addObject("product", product);
 			mv.addObject("checkinDate", resTicket.getRes_checkindate());
 			mv.addObject("checkoutDate", resTicket.getRes_checkoutdate());
+			mv.addObject("res_num", resTicket.getRes_num());
 			
 			mv.addObject("message", "예약이 완료되었습니다.");
 			mv.setViewName("rReservationConfirm");
@@ -93,7 +94,7 @@ public class ResService {
 		try {
 			rDao.resCancle(res_num);
 			
-			view = "redirect:/";
+			view = "redirect:plProductList";
 			rttr.addFlashAttribute("message", "예약이 취소되었습니다.");
 			
 		} catch (Exception e) {
