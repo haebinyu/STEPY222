@@ -132,11 +132,10 @@ $(function(){
 	
 	if(message != ""){
 		alert(message);
-		location.reload(true);
 	}
 });
 
-// 별점 : 미완성
+// 별점
 var storeRate = $('.storeRate');
 
 storeRate.each(function(){

@@ -174,7 +174,7 @@ $(function() {
     	nextText: "다음 달", // > 화살표 툴팁
     	prevText: "이전 달", // < 화살표 툴팁
     	
-    	dateFormat: "yy.mm.dd", // 날짜 표기 방식
+    	dateFormat: "yy-mm-dd", // 날짜 표기 방식
     	minDate: 0, // 오늘 이전 날짜 선택 불가
     	
     	onClose: function( selectedDate ) {    
@@ -188,7 +188,7 @@ $(function() {
     	nextText: "다음 달", // > 화살표 툴팁
     	prevText: "이전 달", // < 화살표 툴팁
     	
-    	dateFormat: "yy.mm.dd", // 날짜 표기 방식
+    	dateFormat: "yy-mm-dd", // 날짜 표기 방식
     	minDate: 0, // 오늘 이전 날짜 선택 불가
     	
     	onClose: function( selectedDate ) {

@@ -8,7 +8,7 @@ import lombok.Data;
 public class ResTicketDto {
 	private int res_num;
 	private Date res_date;
-	private String res_plnum;
+	private int res_plnum;
 	private String res_mid;
 	private String res_name;
 	private String res_phone;
