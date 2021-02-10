@@ -21,7 +21,8 @@
 		<div class="col-md-12 text-center">
 			<form action="mSendMessageProc" method="post" onsubmit="return noblank()">
 				<div class="form-group">
-					<label for="exampleFormControlInput1" style="color: white;">받는사람 ID (TO)</label> <input
+					<label for="exampleFormControlInput1" style="color: white;">받는사람 ID (TO)</label> 
+					<input
 						type="text" class="form-control" id="toid" name="ms_mid"
 					><br>
 					<span id="topsign" style="display: none; color: white;"></span>
@@ -72,16 +73,23 @@ $(function(){
 		$('#bottomsign').text("뒤로가기 버튼을 누르면 작성했던 내용이 회복됩니다^^");
 	}
 	
-	var hostid = "${host.m_id}";
-	if(hostid == ""){
-		$("#toid").val("");
-	}if(hostid !== ""){
-		$("#toid").val("${host.m_nickname}(${host.m_id})");
+	if('${host}'!= ''){
+		
+		var hostid = "${host.m_id}";
+		if(hostid == ""){
+			$("#toid").val("");
+		}if(hostid !== ""){
+			$("#toid").val("${host.m_nickname}");
+		}
 	}
+	
 	
 	if("${isthisvaliduser}" != ''){
 		$('#spanalarm').text("${isthisvaliduser}");
 	}
+	
+	
+	
 });
 
 	function noblank(){

@@ -20,7 +20,7 @@
 	<header>
 		<jsp:include page="header.jsp" />
 	</header>
-	<main class="container" style="margin-top: 100px;">
+	<main class="container" style="margin-top: 100px; margin-bottom:200px;">
 
 
 		<div class="list-group col-sm-3">
@@ -29,7 +29,7 @@
 
 				<a href="#" class="list-group-item list-group-item-action"
 					style="color: #4375d9; border: none;"
-				> <h3><b>My Page</b></h3> </a> <a href="./mMyTravleSchedule" class="list-group-item list-group-item-action">나의
+				> <h3><b>My Page</b></h3> </a> <a href="./pPlanList?id=${member.m_id}" class="list-group-item list-group-item-action">나의
 					여행 플랜</a> <a href="./mMyLikedPages" class="list-group-item list-group-item-action">좋아요 한
 					게시글</a> <a href="./mMyCartPages" class="list-group-item list-group-item-action">찜한 상품</a> <a
 					href="./mMyPayment" class="list-group-item list-group-item-action"

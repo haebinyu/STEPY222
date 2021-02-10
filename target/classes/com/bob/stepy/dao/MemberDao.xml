@@ -76,29 +76,28 @@
 	<select id="mGetSendList"
 		resultType="com.bob.stepy.dto.MessageDto">
 		<![CDATA[
-		SELECT * FROM (SELECT MS.MS_NUM, MS.MS_MID, MS.MS_SMID,
-		MS.MS_CONTENTS, MS.MS_DATE,
-		MS.MS_BFREAD, MS.MS_AFREAD,
-		MEMBER.M_NICKNAME, ROWNUM R
-		FROM MS
-		INNER JOIN MEMBER ON MS_MID = MEMBER.M_ID
-		WHERE MS.MS_SMID = #{smid}
-		ORDER BY MS.MS_NUM DESC)
-		WHERE R >= #{page}*5 - 4 AND R <= #{page}*5
+		SELECT * FROM (
+        SELECT MS.*, MEMBER.M_NICKNAME, 
+        ROW_NUMBER() OVER (ORDER BY MS.MS_NUM DESC) AS UR
+        FROM MS
+        INNER JOIN MEMBER ON MS_MID = MEMBER.M_ID
+        WHERE MS.MS_SMID=#{smid}
+        ) MS
+        WHERE UR >= #{page}*5-4 AND UR<= #{page}*5
 		]]>
 	</select>
-
+					
 	<select id="mGetReceiveList"
 		resultType="com.bob.stepy.dto.MessageDto">
 		<![CDATA[
-		SELECT * FROM (SELECT MS.MS_NUM, MS.MS_MID,
-		MS.MS_SMID,MS.MS_CONTENTS, MS.MS_DATE,
-		MS.MS_BFREAD, MS.MS_AFREAD,
-		MEMBER.M_NICKNAME, ROWNUM R
-		FROM MS INNER JOIN MEMBER ON MS_SMID = MEMBER.M_ID
-		WHERE MS.MS_MID = #{mid}
-		ORDER BY MS.MS_NUM DESC)
-		WHERE R >= #{page}*5 - 4 AND R <= #{page}*5 
+		SELECT * FROM (
+        SELECT MS.*, MEMBER.M_NICKNAME, 
+        ROW_NUMBER() OVER (ORDER BY MS.MS_NUM DESC) AS UR
+        FROM MS
+        INNER JOIN MEMBER ON MS_SMID = MEMBER.M_ID
+        WHERE MS.MS_MID=#{mid}
+        ) MS
+        WHERE UR >= #{page}*5-4 AND UR<= #{page}*5
 		]]>
 	</select>
 
@@ -155,12 +154,55 @@
 
 	<select id="mMyCartItems" parameterType="String"
 		resultType="com.bob.stepy.dto.FileUpDto">
-		SELECT F.F_ORINAME, F.F_SYSNAME, F.F_CNUM, F.F_THUMB, S.S_NAME
+		SELECT F.F_ORINAME, F.F_SYSNAME, F.F_CNUM, F.F_THUMB,
+		S.S_NAME
 		FROM IC
 		INNER JOIN F ON F.F_CNUM = IC.IC_CNUM
-		INNER JOIN S ON S.S_NUM = F.F_CNUM
+		INNER JOIN S ON
+		S.S_NUM = F.F_CNUM
 		WHERE F.F_THUMB = 'THUMB' AND IC.IC_MID = #{m_id}
 		ORDER BY ROWNUM DESC
 	</select>
 
+	<select id="mGetLikedPost"
+		resultType="com.bob.stepy.dto.PostDto">
+		<![CDATA[
+		SELECT * FROM (SELECT P.P_NUM, P.P_TITLE, P.P_CONTENTS, P.P_CATEGORY, P.P_DATE, P.P_VIEW, P.P_LIKE, P.P_MID 
+		FROM P
+		INNER JOIN L ON P.P_NUM = L.L_PNUM 
+		WHERE L.L_MID = #{mid} ORDER BY L.L_NUM DESC)
+		WHERE ROWNUM >= #{page}*10-9 AND ROWNUM <= #{page}*10
+		]]>
+	</select>
+
+	<select id="mGetWholeLiked" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*) FROM L WHERE L_MID = #{userid}
+	</select>
+
+	<select id="mGetMyPostList" parameterType="String"
+		resultType="com.bob.stepy.dto.MemberPostDto">
+		SELECT * FROM (
+		SELECT * FROM P
+		FULL OUTER JOIN CON ON
+		P.P_NUM = CON.CON_PNUM
+		WHERE P.P_MID = #{m_id})
+		ORDER BY P_NUM DESC
+	</select>
+
+	<select id="mGetMyReplyList" parameterType="String"
+		resultType="com.bob.stepy.dto.MemberPostDto">
+		SELECT * FROM (
+		SELECT DISTINCT P.*, CON.*, R.* FROM P
+		FULL OUTER JOIN(
+		SELECT DISTINCT CON.CON_PNUM, CON.CON_ORINAME, CON.CON_SYSNAME
+		FROM CON) CON
+		ON P.P_NUM = CON.CON_PNUM
+		INNER JOIN (
+		SELECT DISTINCT R_NUM, R_ID, R_PNUM FROM R) R
+		ON P.P_NUM = R.R_PNUM
+		WHERE R.R_ID = #{m_id})
+		ORDER BY R_NUM DESC
+
+	</select>
 </mapper>

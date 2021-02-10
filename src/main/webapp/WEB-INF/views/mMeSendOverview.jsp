@@ -45,7 +45,7 @@
 		<div class="row spanbody">
 			<div class="col-md-12 text-center">
 				<a href="./mReceiveOverview?hostid=${member.m_id }" id="now" class="spantap"> <span class="align-middle"
-					style="color: black; background-color:#f5f5f5s ;"
+					style="color: black; background-color:#f5f5f5 ;"
 				>받은 메일함</span></a>&nbsp;&nbsp;&nbsp; 
 				<a href="./mMeSendOverview?hostid=${member.m_id }" class="spantap">
 					<span class="align-middle" style="color: black; background-color: #ffdf5e;">보낸 메일함</span>
@@ -75,7 +75,9 @@
 							<th width="1%"><a href="./mMyLittleBlog?blog_id=${sml.ms_mid }" target="_blank">
 							<span class="glyphicon glyphicon-home"></span></a></th>
 							<td width="63%">${sml.ms_contents }</td>
-							<td width="18%">${sml.ms_date }</td>
+							<td width="18%"><fmt:formatDate
+											pattern="yyyy-MM-dd" value="${sml.ms_date}"
+										/></td>
 						</tr>
 					</c:forEach>
 				</tbody>

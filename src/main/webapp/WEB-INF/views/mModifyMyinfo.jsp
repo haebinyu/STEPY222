@@ -45,7 +45,7 @@ li .active{
 
 		<ul class="nav nav-tabs nav-justified">
 			<li class="nav-item"><a class="nav-link" href="./mMyPage">myPage</a></li>
-			<li class="nav-item"><a class="nav-link" href="./mMyTravleSchedule">나의 여행 플랜</a></li>
+			<li class="nav-item"><a class="nav-link" href="./pPlanList?id=${member.m_id}">나의 여행 플랜</a></li>
 			<li class="nav-item"><a class="nav-link" href="./mMyLikedPages">좋아요 한 게시글</a></li>
 			<li class="nav-item"><a class="nav-link" href="./mMyCartPages">찜한 상품</a></li>
 			<li class="nav-item"><a class="nav-link" href="#">내 결제 내역/쿠폰 확인</a></li>

@@ -88,7 +88,10 @@
 							<span class="glyphicon glyphicon-home">
 							</span> </a></th>
 							<td width="63%" class=".crop">${rml.ms_contents }</td>
-							<td width="18%">${rml.ms_date }</td>
+							
+							<td width="18%"> <fmt:formatDate
+											pattern="yyyy-MM-dd" value="${rml.ms_date }"
+										/></td>
 						</tr>
 					</c:forEach>
 				</tbody>

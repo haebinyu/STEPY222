@@ -51,7 +51,16 @@ public class MemberController {
 	static String redirect_uri= "http://localhost/stepy/kakaoLogInProc";
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
+	
 
+	@GetMapping("mMyLikedPages")
+	public ModelAndView mMyLikedPages(Integer pageNum) {
+
+		mv = mServ.mMyLikedPages(pageNum);
+		
+		return mv;
+	}
+	
 	
 	@GetMapping("mMyCartPages")
 	public ModelAndView mMyCartPages() {
@@ -169,9 +178,9 @@ public class MemberController {
 	}
 
 	@GetMapping("mMyLittleBlog")
-	public ModelAndView mMyLittleBlog(String blog_id) {
+	public ModelAndView mMyLittleBlog(String blog_id, Integer sort) {
 
-		mv = mServ.mMyLittleBlog(blog_id);
+		mv = mServ.mMyLittleBlog(blog_id,sort);
 
 		return mv;
 	}
@@ -189,11 +198,6 @@ public class MemberController {
 		return "mMyTravleSchedule";
 	}
 
-	@GetMapping("mMyLikedPages")
-	public String mMyLikedPages() {
-
-		return "mMyLikedPages";
-	}
 
 	@PostMapping("mModifyProc")
 	public String mModifyProc(MemberDto member, RedirectAttributes rttr) {

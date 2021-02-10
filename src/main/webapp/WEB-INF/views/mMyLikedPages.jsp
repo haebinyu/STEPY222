@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +13,22 @@
 <link href="resources/css/style.css" rel="stylesheet">
 <style>
 
+.forblock {
+	display: block;
+	max-width: 600px;
+	padding:40px;
+}
+
+a:link, a:visited, a:hover, a:active {
+	color: black;
+	text-decoration: none;
+}
+
+.shady {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19);
+	text-align: center;
+}
 </style>
 
 </head>
@@ -19,8 +38,44 @@
 	<header>
 		<jsp:include page="header.jsp" />
 	</header>
-	<main class="container">
+	<main class="container text-center center-block" style="margin-bottom: 200px; margin-top: 100px;">
 
+
+		<ul class="nav nav-tabs nav-justified">
+			<li class="nav-item"><a class="nav-link" href="./mMyPage">myPage</a></li>
+			<li class="nav-item"><a class="nav-link" href="./pPlanList?id=${member.m_id}">나의 여행 플랜</a></li>
+			<li class="nav-item active"><a class="nav-link" href="./mMyLikedPages">좋아요 한 게시글</a></li>
+			<li class="nav-item"><a class="nav-link" href="./mMyCartPages">찜한 상품</a></li>
+			<li class="nav-item"><a class="nav-link" href="./mMyPayment">내 결제 내역/ 상품 확인</a></li>
+			<li class="nav-item"><a class="nav-link" href="./mModifyMyinfo">내 정보 수정</a></li>
+		</ul>
+
+		<div class="row" style="margin-top: 90px;">
+
+
+			<c:if test="${!empty pList }">
+				<c:forEach var="p" items="${pList}">
+					<div id="cardBigBody" class="text-center center-block col-sm-6">
+						<div class="card center-block shady"
+							style="margin-bottom: 40px; background-color: #f5f5f5; max-width: 600px; padding: 20px;"
+						>
+							<a class="forblock" href="./contents?pnum=${p.p_num}">
+								<div class="card-body">
+									<h4 class="card-title" style="color:#4375d9;">제목 : ${p.p_title}</h4>
+									<p class="card-text">${fn:substring(p.p_contents,0,30)}···</p>
+									<span>작성자:${p.p_mid }</span>&nbsp;&nbsp;&nbsp;<span>작성일: <fmt:formatDate
+											pattern="yyyy-MM-dd" value="${p.p_date}"
+										/></span>
+								</div>
+							</a>
+						</div>
+					</div>
+				</c:forEach>
+			</c:if>
+
+			<div class="paging">${paging }</div>
+
+		</div>
 
 	</main>
 	<footer>

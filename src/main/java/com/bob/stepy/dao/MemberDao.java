@@ -6,7 +6,10 @@ import org.apache.ibatis.annotations.Param;
 
 import com.bob.stepy.dto.FileUpDto;
 import com.bob.stepy.dto.MemberDto;
+import com.bob.stepy.dto.MemberPostDto;
 import com.bob.stepy.dto.MessageDto;
+import com.bob.stepy.dto.PostDto;
+import com.bob.stepy.dto.PostDto2;
 
 public interface MemberDao {
 
@@ -47,6 +50,14 @@ public interface MemberDao {
 	public void mUpdatePwd(@Param("m_pwd") String m_pwd, @Param("m_id") String m_id );
 
 	public List<FileUpDto> mMyCartItems(String m_id);
+
+	public List<PostDto> mGetLikedPost(@Param("mid") String userid, @Param("page") int num);
+
+	public int mGetWholeLiked(String userid);
+
+	public List<MemberPostDto> mGetMyPostList(String m_id);
+
+	public List<MemberPostDto> mGetMyReplyList(String m_id);
 
 	
 }
