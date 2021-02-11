@@ -86,7 +86,7 @@
         WHERE UR >= #{page}*5-4 AND UR<= #{page}*5
 		]]>
 	</select>
-					
+
 	<select id="mGetReceiveList"
 		resultType="com.bob.stepy.dto.MessageDto">
 		<![CDATA[
@@ -194,8 +194,10 @@
 		resultType="com.bob.stepy.dto.MemberPostDto">
 		SELECT * FROM (
 		SELECT DISTINCT P.*, CON.*, R.* FROM P
-		FULL OUTER JOIN(
-		SELECT DISTINCT CON.CON_PNUM, CON.CON_ORINAME, CON.CON_SYSNAME
+		FULL
+		OUTER JOIN(
+		SELECT DISTINCT CON.CON_PNUM, CON.CON_ORINAME,
+		CON.CON_SYSNAME
 		FROM CON) CON
 		ON P.P_NUM = CON.CON_PNUM
 		INNER JOIN (
@@ -203,6 +205,37 @@
 		ON P.P_NUM = R.R_PNUM
 		WHERE R.R_ID = #{m_id})
 		ORDER BY R_NUM DESC
-
 	</select>
+
+	<select id="mGetPayPendingList" parameterType="String"
+		resultType="com.bob.stepy.dto.MemberPaymentDto">
+		SELECT * FROM
+		(SELECT RES.*, PL.*, S.S_NAME, F.F_SYSNAME FROM RES
+		FULL
+		OUTER JOIN PL ON RES_PLNUM =
+		PL_NUM
+		INNER JOIN S ON PL_CNUM = S_NUM
+		INNER JOIN F ON PL_NUM = F_PLNUM
+		WHERE RES_MID=#{m_id} AND
+		RES_STATUS = 0)
+		ORDER BY RES_NUM DESC
+	</select>
+
+	<select id="mGetPaidList" parameterType="String"
+		resultType="com.bob.stepy.dto.MemberPaymentDto">
+		SELECT * FROM
+		(SELECT RES.*, PL.*, S.S_NAME, F.F_SYSNAME FROM RES
+		FULL
+		OUTER JOIN PL ON RES_PLNUM =
+		PL_NUM
+		INNER JOIN S ON PL_CNUM = S_NUM
+		INNER JOIN F ON PL_NUM = F_PLNUM
+		WHERE RES_MID=#{m_id} AND
+		RES_STATUS = 1)
+		ORDER BY RES_NUM DESC
+	</select>
+
+	<update id="mUpdateToPaidStatement" parameterType="Integer">
+		UPDATE RES SET RES_STATUS = 1 WHERE RES_NUM = #{resnum}
+	</update>
 </mapper>

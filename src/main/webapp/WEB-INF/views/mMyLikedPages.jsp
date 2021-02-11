@@ -12,11 +12,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
 <style>
-
 .forblock {
 	display: block;
 	max-width: 600px;
-	padding:40px;
+	padding: 40px;
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -46,9 +45,10 @@ a:link, a:visited, a:hover, a:active {
 			<li class="nav-item"><a class="nav-link" href="./pPlanList?id=${member.m_id}">나의 여행 플랜</a></li>
 			<li class="nav-item active"><a class="nav-link" href="./mMyLikedPages">좋아요 한 게시글</a></li>
 			<li class="nav-item"><a class="nav-link" href="./mMyCartPages">찜한 상품</a></li>
-			<li class="nav-item"><a class="nav-link" href="./mMyPayment">내 결제 내역/ 상품 확인</a></li>
+			<li class="nav-item"><a class="nav-link" href="./mMyPayment">내 결제 내역/쿠폰 확인</a></li>
 			<li class="nav-item"><a class="nav-link" href="./mModifyMyinfo">내 정보 수정</a></li>
 		</ul>
+		
 
 		<div class="row" style="margin-top: 90px;">
 
@@ -61,7 +61,7 @@ a:link, a:visited, a:hover, a:active {
 						>
 							<a class="forblock" href="./contents?pnum=${p.p_num}">
 								<div class="card-body">
-									<h4 class="card-title" style="color:#4375d9;">제목 : ${p.p_title}</h4>
+									<h4 class="card-title" style="color: #4375d9;">제목 : ${p.p_title}</h4>
 									<p class="card-text">${fn:substring(p.p_contents,0,30)}···</p>
 									<span>작성자:${p.p_mid }</span>&nbsp;&nbsp;&nbsp;<span>작성일: <fmt:formatDate
 											pattern="yyyy-MM-dd" value="${p.p_date}"
@@ -72,10 +72,14 @@ a:link, a:visited, a:hover, a:active {
 					</div>
 				</c:forEach>
 			</c:if>
-
-			<div class="paging">${paging }</div>
+			<c:if test="${empty pList }">
+			아직 좋아요를 누른 게시글이 없습니다!
+			</c:if>
 
 		</div>
+
+		<div class="paging">${paging }</div>
+
 
 	</main>
 	<footer>

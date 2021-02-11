@@ -6,10 +6,12 @@ import org.apache.ibatis.annotations.Param;
 
 import com.bob.stepy.dto.FileUpDto;
 import com.bob.stepy.dto.MemberDto;
+import com.bob.stepy.dto.MemberPaymentDto;
 import com.bob.stepy.dto.MemberPostDto;
 import com.bob.stepy.dto.MessageDto;
 import com.bob.stepy.dto.PostDto;
 import com.bob.stepy.dto.PostDto2;
+import com.bob.stepy.dto.ResTicketDto;
 
 public interface MemberDao {
 
@@ -58,6 +60,12 @@ public interface MemberDao {
 	public List<MemberPostDto> mGetMyPostList(String m_id);
 
 	public List<MemberPostDto> mGetMyReplyList(String m_id);
+
+	public List<MemberPaymentDto> mGetPayPendingList(String m_id);
+
+	public List<MemberPaymentDto> mGetPaidList(String m_id);
+
+	public void mUpdateToPaidStatement(Integer resnum);
 
 	
 }

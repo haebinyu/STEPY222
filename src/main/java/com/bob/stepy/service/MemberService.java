@@ -48,10 +48,12 @@ import com.bob.stepy.dto.MailDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.MemberKaKaoTokenDto;
 import com.bob.stepy.dto.MemberKakaoProfileDto;
+import com.bob.stepy.dto.MemberPaymentDto;
 import com.bob.stepy.dto.MemberPostDto;
 import com.bob.stepy.dto.MessageDto;
 import com.bob.stepy.dto.PostDto;
 import com.bob.stepy.dto.PostDto2;
+import com.bob.stepy.dto.ResTicketDto;
 import com.bob.stepy.util.Paging;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -940,6 +942,38 @@ public class MemberService {
 			mv.setViewName("mMyLikedPages");
 
 			return mv;
+		}
+
+
+
+		public ModelAndView mMyPayment(Integer sort) {
+			
+			int sortnum = (sort == null) ? 1 : sort;
+			mv = new ModelAndView();
+			
+			MemberDto member = (MemberDto)session.getAttribute("member");
+			if(sortnum == 1) {
+				List<MemberPaymentDto> ticket = mDao.mGetPayPendingList(member.getM_id());
+				
+				mv.addObject("sort", sortnum);
+				mv.addObject("tkList", ticket);
+			}else {
+				List<MemberPaymentDto> ticket = mDao.mGetPaidList(member.getM_id());
+				mv.addObject("sort", sortnum);
+				mv.addObject("tkList", ticket);
+			}
+			
+			mv.setViewName("mMyPayment");
+
+			return mv;
+		}
+
+
+		public void mPaiedInFull(Integer resnum) {
+			
+			mDao.mUpdateToPaidStatement(resnum);
+			
+			return;
 		}
 
 

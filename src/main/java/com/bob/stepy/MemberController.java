@@ -52,7 +52,24 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	
+	@ResponseBody
+	@PostMapping(value="mPaiedInFull", produces = "application/text; charset=utf-8")
+	public void mPaiedInFull(Integer resnum) {
+		
+		mServ.mPaiedInFull(resnum);
+		
+		return;
+	}
+	
+	@GetMapping("mMyPayment")
+	public ModelAndView mMyPayment(Integer sort) {
+	
+		mv = mServ.mMyPayment(sort);
+		
+		return mv;
+	}
 
+	
 	@GetMapping("mMyLikedPages")
 	public ModelAndView mMyLikedPages(Integer pageNum) {
 
@@ -93,7 +110,6 @@ public class MemberController {
 		
 		return "mModifyPwd";
 	}
-	
 	
 		
 	@ResponseBody
@@ -183,19 +199,6 @@ public class MemberController {
 		mv = mServ.mMyLittleBlog(blog_id,sort);
 
 		return mv;
-	}
-
-
-	@GetMapping("mMyPayment")
-	public String mMyPayment() {
-	
-		return "mMyPayment";
-	}
-
-	@GetMapping("mMyTravleSchedule")
-	public String mMyTravelSchedule() {
-
-		return "mMyTravleSchedule";
 	}
 
 

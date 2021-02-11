@@ -56,17 +56,17 @@ div.shady {
 			<li class="nav-item"><a class="nav-link" href="./mMyPage">myPage</a></li>
 			<li class="nav-item"><a class="nav-link" href="./pPlanList?id=${member.m_id}">나의 여행 플랜</a></li>
 			<li class="nav-item"><a class="nav-link" href="./mMyLikedPages">좋아요 한 게시글</a></li>
-			<li class="nav-item active"><a class="nav-link" href="#">찜한 상품</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">내 결제 내역/쿠폰 확인</a></li>
-			<li class="nav-item"><a class="nav-link active" href="mModifyMyinfo">내 정보 수정</a></li>
+			<li class="nav-item active"><a class="nav-link" href="./mMyCartPages">찜한 상품</a></li>
+			<li class="nav-item"><a class="nav-link" href="./mMyPayment">내 결제 내역/쿠폰 확인</a></li>
+			<li class="nav-item"><a class="nav-link" href="./mModifyMyinfo">내 정보 수정</a></li>
 		</ul>
 
-		<div class="row text-center center-block" style="width: 1200px;">
+		<div class="row text-center center-block" style="width: 1200px; margin-top:90px;">
 
 			<c:if test="${!empty cartList }">
 				<c:forEach var="c" items="${cartList}">
 					<div class="col-sm-6">
-						<div class="shady" style="width: 500px; margin-top: 90px;">
+						<div class="shady" style="width: 500px;">
 						<div class="card">
 							<img class="card-img-top" src="resources/upload${c.f_sysname}" alt="Card image cap"
 								style="width: 400px; height: 450px; object-fit: cover;"
@@ -82,6 +82,9 @@ div.shady {
 						</div>
 					</div>
 				</c:forEach>
+			</c:if>
+			<c:if test="${empty cartList }">
+			아직 찜한 상품이 없습니다!
 			</c:if>
 
 		</div>

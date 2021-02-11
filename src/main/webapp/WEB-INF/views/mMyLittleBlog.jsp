@@ -241,7 +241,6 @@
 			data : m_id,
 			dataType : "json",
 			success : function(msgCount) {
-				console.log("im sleepy");
 				var bf = msgCount.ms_bfread;
 				var af = msgCount.ms_afread;
 				var newmsg = bf - af;

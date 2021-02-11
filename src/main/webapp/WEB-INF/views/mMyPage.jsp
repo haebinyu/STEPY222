@@ -39,7 +39,7 @@
 					<div>
 				<a href="./mMyLittleBlog?blog_id=${member.m_id }" class="list-group-item list-group-item-action" 
 				style=" background-image:linear-gradient(to bottom right, rgba(67,117,217,1),rgba(67,117,217,0.5));
-				color:white;"><b>나의 게시글</b></a>
+				color:white;"><b>미니 블로그</b></a>
 			</div>
 
 			</div>
