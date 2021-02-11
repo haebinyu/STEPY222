@@ -186,8 +186,6 @@ public class MemberService {
 
 		if(kakaoProfile.getKakao_account().getEmail() == "" || kakaoProfile.getKakao_account().getEmail() == null) {
 			memberDto.setM_email("no_email_detected");
-			System.out.println("emial null is detected");
-			System.out.println("email null memberDto is : "+ memberDto);
 			return memberDto;
 		}
 
@@ -210,10 +208,7 @@ public class MemberService {
 		else {
 			memberDto = mDao.getMemeberInfo(idPreCheck);
 
-			System.out.println("alread singed up member : "+memberDto);
-
 		}
-
 
 		return memberDto;
 	}
@@ -277,7 +272,6 @@ public class MemberService {
 		fileDto.setF_sysname(sysName);
 		fileDto.setF_mnum(userid);
 
-		System.out.println(fileDto);
 
 		mDao.mKakaoThumbUpload(fileDto);
 
@@ -312,7 +306,7 @@ public class MemberService {
 
 		try {
 
-			mOnceCreateProfil();
+			mOnceCreateProfile();
 
 			mDao.memberInsert(member);
 
@@ -337,7 +331,7 @@ public class MemberService {
 	}
 
 
-	private void mOnceCreateProfil() {
+	private void mOnceCreateProfile() {
 
 		String dirpath = session.getServletContext().getRealPath("/");
 		String loadpath = dirpath + "resources/images/";
@@ -345,14 +339,11 @@ public class MemberService {
 
 		File fork = new File(destpath + "stepydefaultprofile.png");
 		if (fork.exists()) {
-
-			System.out.println("already existing file");	
 			return;
 		}
 		File dir = new File(destpath);
 		if(dir.isDirectory() == false) {
 			dir.mkdir();
-			System.out.println("Created profile folder ");
 		}
 
 		File folderInput = new File(loadpath+"stepydefaultprofile.png");
