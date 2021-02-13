@@ -270,9 +270,6 @@
 						$("#sentmail").text("인증번호를 입력해주세요!");
 						authkey = redata.authkey;
 					}
-					if(redata.msg.includes('fail')){
-						$("#sentmail").text("지원하지 않는 이메일 형식입니다. naver 혹은 google 메일을 사용해주세요.");
-					}
 					
 				},
 				error : function(error) {
@@ -280,9 +277,9 @@
 				}
 			});
 		}
-
 	}
 
+	
 	function confirmpass() {
 
 		var pass = $("#password1").val();
@@ -326,11 +323,9 @@
 			$("#checkid").focus();
 			return;
 		}
-
 		var object = {
 			"tempid" : enteredId
 		};
-		console.log(object);
 
 		$.ajax({
 			url : "mIdDuplicationCheck",
@@ -349,7 +344,6 @@
 					$("#idMsg").text("사용가능한 아이디 입니다.");
 					$("#fixid").val(1);
 				}
-
 			},
 			error : function(rtdata) {
 				alert("error occured");

@@ -47,8 +47,7 @@ public class MemberController {
 
 //-----
 	
-	static String restApi = "3a7921c9c86e805003cd07a8e548f149";
-	static String redirect_uri= "http://localhost/stepy/kakaoLogInProc";
+	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	
@@ -227,7 +226,8 @@ public class MemberController {
 	}
 
 	@ResponseBody
-	@PostMapping(value = "mAuthMail", produces = "application/json; charset=utf-8")
+	@PostMapping(value = "mAuthMail", 
+	produces = "application/json; charset=utf-8")
 	public Map<String, String> mAuthMail(String mailaddr) {
 		
 		MailDto mail = new MailDto();
@@ -237,7 +237,8 @@ public class MemberController {
 		Map<String, String> map = mServ.mAuthMail(mailaddr, mail);
 
 		return map;
-	};
+	}
+	
 	
 	@GetMapping("mLogoutProc")
 	public String mLogoutProc() {
@@ -267,9 +268,7 @@ public class MemberController {
 
 		logger.info("mIdDuplicationCheck()");
 
-		System.out.println(tempid);
 		String id = mServ.mIdDuplicationCheck(tempid);
-		System.out.println(id);
 
 		return id;
 	}
@@ -294,6 +293,9 @@ public class MemberController {
 	}
 
 
+	static String restApi = "3a7921c9c86e805003cd07a8e548f149";
+	static String redirect_uri= "http://localhost/stepy/kakaoLogInProc";
+	
 
 	@GetMapping(value = "kakaoLogInProc", produces = "application/json; charset=utf8")
 	public String kakaoLogInProc(String code,RedirectAttributes rttr) {
@@ -307,10 +309,12 @@ public class MemberController {
 	@GetMapping("kakaoLogin")
 	public String mGetAuthorizationUrl(RedirectAttributes rttr) { 
 
-		String kakaoUrl = mServ.mKakaoAutho();
+		String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" + "client_id=" + restApi 
+				+ "&redirect_uri=" + redirect_uri + "&response_type=code";
 
 		return "redirect:"+kakaoUrl; 
 	}
+
 
 
 }
