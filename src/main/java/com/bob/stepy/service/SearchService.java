@@ -71,7 +71,7 @@ public class SearchService {
 		}
 		
 		else {
-			mv.addObject("message", "검색할 키워드를 입력해주세요.");
+			mv.addObject("msg", "검색할 키워드를 입력해주세요.");
 			mv.setViewName("sSearchFrm");
 		}
 		

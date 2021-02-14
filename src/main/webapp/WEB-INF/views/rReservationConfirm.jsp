@@ -12,13 +12,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link href="resources/css/style.css" rel="stylesheet">
 
-<!-- 아임포트 -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-
 <style type="text/css">
 .resConfirm {
 	width: 40%;
+	height: 580px;
 	margin: 0 auto;
 	background: #F8F8F8;
 	padding: 30px;
@@ -43,7 +40,7 @@
 	color: #808080;
 	margin-bottom: 10px;
 }
-.checking {
+.checkin {
 	float: right;
 	color: black;
 	font-weight: bold;
@@ -53,6 +50,11 @@
 	font-size: 23px;
 	font-weight: bold;
 	color: #F2B950;
+}
+.nights {
+	font-size: 20px;
+	color: #808080;
+	font-weight: normal;
 }
 ul {
 	margin: 0;
@@ -84,18 +86,6 @@ li {
 	border-radius: 5px;
 }
 </style>
-
-<script type="text/javascript">
-$(function(){
-	// 메세지 출력
-	var message = ${message};
-	
-	if(message != null){
-		alert(message);
-		location.reload(true);
-	}
-});
-</script>
 </head>
 
 <body>
@@ -118,15 +108,16 @@ $(function(){
 			<div class="storeInfo">${product.pl_name}</div>
 			<hr>
 			<div class="contentsTitle">
-				<span>체크인</span> <span class="checking">${checkinDate} &nbsp;15시</span>
+				<span>체크인</span> <span class="checkin">${resTicket.res_checkindate} &nbsp;(15시)</span>
 			</div>
 			<div class="contentsTitle">
-				<span>체크아웃</span> <span class="checking">${checkoutDate} &nbsp;11시</span>
+				<span>체크아웃</span> <span class="checkin">${resTicket.res_checkoutdate} &nbsp;(11시)</span>
 			</div>
 			<div class="contentsTitle">
 				<span>가격</span>
 				<span class="price">
-					<fmt:formatNumber type="number" maxFractionDigits="3" value="${product.pl_price}"/>원
+					<fmt:formatNumber type="number" maxFractionDigits="3" value="${realPrice}"/>원
+						<span class="nights">&nbsp;/ ${nights}박</span>
 				</span>
 			</div>
 		</div>
@@ -144,8 +135,8 @@ $(function(){
 		
 		<div class="btnStyle">
 			<span><button class="cancleBtn"
-				onclick="location.href='./resCancle?res_num=${res_num}'">예약 취소</button></span>
-			<span><button class="payBtn" onclick="IMP.request_pay()">결제하기</button></span>
+				onclick="location.href='./resCancle?res_num=${resTicket.res_num}'">예약 취소</button></span>
+			<span><button class="payBtn" onclick="pay()">결제하기</button></span>
 		</div>
 	</div>
 </section>
@@ -155,38 +146,60 @@ $(function(){
 </footer>
 </body>
 
+<!-- 아임포트 -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <script type="text/javascript">
-$(function() {
-	// 아임포트
+function pay(){
 	var IMP = window.IMP; // 생략가능
 	IMP.init('imp80721626'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-		
+	
 	IMP.request_pay({
-	    pg : 'kakao', // version 1.1.0부터 지원.
+	    pg : 'kakaopay',
 	    //pay_method : 'kpay',
 	    merchant_uid : 'merchant_' + new Date().getTime(),
-	    name : '주문명:결제테스트',
-	    amount : 14000,
-	    buyer_email : 'iamport@siot.do',
-	    buyer_name : '구매자이름',
-	    buyer_tel : '010-1234-5678',
-	    buyer_addr : '서울특별시 강남구 삼성동',
-	    buyer_postcode : '123-456',
-	    //m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+	    name : '${store.s_name}',
+	    amount : '${realPrice}',
+	    buyer_email : '${member.m_email}',
+	    buyer_name : 'res_name',
+	    buyer_tel : 'res_phone',
+	    buyer_addr : '${member.m_addr}',
+	    //buyer_postcode : '123-456'
 	}, function(rsp) {
 	    if ( rsp.success ) {
-	        var msg = '결제가 완료되었습니다.';
-	        msg += '고유ID : ' + rsp.imp_uid;
-	        msg += '상점 거래ID : ' + rsp.merchant_uid;
-	        msg += '결제 금액 : ' + rsp.paid_amount;
-	        msg += '카드 승인번호 : ' + rsp.apply_num;
+	    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+	    	jQuery.ajax({
+	    		url: "upResStatus?res_num=${resTicket.res_num}", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+	    		type: 'POST',
+	    		dataType: 'json',
+	    		data: {
+		    		imp_uid : rsp.imp_uid
+		    		//기타 필요한 데이터가 있으면 추가 전달
+	    		}
+	    	}).done(function(data) {
+	    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+	    		if ( everythings_fine ) {
+	    			var msg = '결제가 완료되었습니다.';
+	    			//msg += '\n고유ID : ' + rsp.imp_uid;
+	    			//msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+	    			//msg += '\결제 금액 : ' + rsp.paid_amount;
+	    			//msg += '카드 승인번호 : ' + rsp.apply_num;
+
+	    			alert(msg);
+	    		} else {
+	    			//[3] 아직 제대로 결제가 되지 않았습니다.
+	    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+	    		}
+	    	});
 	    } else {
-	        var msg = '결제에 실패하였습니다.';
+	        var msg = '결제에 실패했습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;
+
+	        alert(msg);
 	    }
-	    alert(msg);
 	});
-});
+}
 </script>
 
 </html>

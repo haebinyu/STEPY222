@@ -90,7 +90,7 @@
 		<!-- 검색 결과 출력 -->
 		<div class="container">
 			<c:if test="${empty sList}">
-				<div class="container">해당 가게가 없습니다.s</div>
+				<div class="container">해당 가게가 없습니다.</div>
 			</c:if>
 			<c:if test="${!empty sList}">
 				<c:forEach var="t" items="${tMap}">

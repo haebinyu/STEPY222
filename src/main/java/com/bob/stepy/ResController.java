@@ -38,10 +38,10 @@ public class ResController {
 	
 	// 예약
 	@PostMapping("rReservationConfirm")
-	public ModelAndView rReservationConfirm(ResTicketDto resTicket, String c_num, Integer res_plnum) {
+	public ModelAndView rReservationConfirm(ResTicketDto resTicket, Integer res_plnum, String res_checkindate) {
 		log.info("rReservationConfirm()");
 		
-		mv = rServ.reservation(resTicket, c_num, res_plnum);
+		mv = rServ.reservation(resTicket, res_plnum, res_checkindate);
 		
 		return mv;
 	}
@@ -53,6 +53,17 @@ public class ResController {
 		log.info("resCancle() res_num : " + res_num);
 		
 		String view = rServ.resCancle(res_num, rttr);
+		
+		return view;
+	}
+	
+	
+	// 결제하면 예약 상태 1로 바꾸기
+	@PostMapping("upResStatus")
+	public String upResStatus(Integer res_num, RedirectAttributes rttr) {
+		log.info("upResStatus() res_num : " + res_num);
+		
+		String view = rServ.upResStatus(res_num, rttr);
 		
 		return view;
 	}

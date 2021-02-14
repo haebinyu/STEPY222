@@ -125,24 +125,6 @@ $('#myTab a').click(function (e) {
 	e.preventDefault()
 	$(this).tab('show')
 })
-
-// 메시지 출력
-$(function(){
-	var message = "${message}";
-	
-	if(message != ""){
-		alert(message);
-	}
-});
-
-// 별점
-var storeRate = $('.storeRate');
-
-storeRate.each(function(){
-	var star = $(this).attr('data-rate');
-	console.log(star);
-	$(this).find('span:nth-child(-n+' + star + ')').css({color:'#F2B950'});
-});
 </script>
 
 </html>

@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link href="resources/css/style.css" rel="stylesheet">
 
-<!-- 캘린더 -->
+<!-- datepicker -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -71,9 +71,8 @@
 	margin-top: 10px;
 }
 .reservBtn{
-	margin-top: 50px;
-	margin-left: 30px;
-	width: 30%;
+	margin-top: 10px;
+	width: 280px;
 	height: 50px;
 	font-size: 20px;
 	color: white;
@@ -104,15 +103,14 @@
 					<input class="form-control input-lg infoInput" type="text" id="formGroupInputLarge"
 						placeholder="안심번호로 변경되어 숙소에 전달됩니다." required="required" name="res_phone">
 				</div>
-				<input type="hidden" name="c_num" value="${store.s_num}">
-				<input type="hidden" name="res_mid" value="${m_id}">
+				<input type="hidden" name="res_mid" value="${member.m_id}">
 				<input type="hidden" name="res_plnum" value="${product.pl_num}">
 				<hr>
 				
 				<div class="VAT">
 					<div>
 						<span class="glyphicon glyphicon-ok"></span>
-						<span>결제까지 완료해야 체크인하실 수 있습니다.</span>
+						<span>결제까지 완료되어야 체크인하실 수 있습니다.</span>
 					</div>
 					<div>예약 후 반드시 결제해주세요!</div>
 				</div>
@@ -128,19 +126,20 @@
 						<div class="title">객실 타입</div> <div class="contents">${product.pl_name}</div>
 					</div>
 					<div>
-						<div class="title">체크인 (15시)</div>
+						<div class="title">체크인 (15:00)</div>
 						<div class="form-group calendar">
 							<input type="text" id="checkinDate" class="form-control" 
 								required="required" name="res_checkindate" placeholder="체크인 날짜">
 						</div>
 					</div>
 					<div>
-						<div class="title">체크아웃 (11시)</div>
+						<div class="title">체크아웃 (11:00)</div>
 						<div class="form-group calendar">
 							<input type="text" id="checkoutDate" class="form-control" 
 								required="required" name="res_checkoutdate" placeholder="체크아웃 날짜">
 						</div>
 					</div>
+					<!-- 
 					<hr>
 					
 					<div>
@@ -151,11 +150,11 @@
 							<fmt:formatNumber type="number" maxFractionDigits="3" 
 								value="${product.pl_price}"/>원
 						</div>
+					</div> -->
+					
+					<div>
+						<input type="submit" class="reservBtn" value="예약하기">
 					</div>
-				</div>
-				
-				<div>
-					<input type="submit" class="reservBtn" value="예약하기">
 				</div>
 			</div> <!-- 숙소 정보 -->
 		</form>
@@ -197,7 +196,6 @@ $(function() {
             $("#checkinDate").datepicker("option", "maxDate", selectedDate);
         }
     });
-	
 });
 </script>
 
