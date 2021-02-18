@@ -160,7 +160,7 @@ a:link, a:visited, a:hover, a:active {
 								<div>
 									<div class="row">
 										<div class="col-sm-6">
-											<img src="resources/upload${tk.f_sysname }" style="max-width:100%; height:150px;" >
+											<img src="resources/upload${tk.f_sysname }" style="max-width: 100%; height: 150px;">
 										</div>
 										<div class="col-sm-6">
 											<div class="storeInfo">
@@ -226,7 +226,7 @@ a:link, a:visited, a:hover, a:active {
 								<div>
 									<div class="row">
 										<div class="col-sm-6">
-											<img src="resources/upload${tk.f_sysname }" style="max-width:100%; height:150px;" >
+											<img src="resources/upload${tk.f_sysname }" style="max-width: 100%; height: 150px;">
 										</div>
 										<div class="col-sm-6">
 											<div class="storeInfo">
@@ -266,6 +266,9 @@ a:link, a:visited, a:hover, a:active {
 									<div class="col">
 										<button class="cancleBtn" onclick="location.href='./resCancle?res_num=${res_num}'">결제
 											취소</button>
+										<button class="cancleBtn" style="background: #F2B950;"
+											onclick="location.href='./mWriteReview?cnum=${tk.pl_cnum }'"
+										>결제 후기 작성</button>
 									</div>
 									<br>
 								</div>
@@ -279,12 +282,7 @@ a:link, a:visited, a:hover, a:active {
 				</c:if>
 
 			</c:if>
-
-
-
 		</div>
-
-
 	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />

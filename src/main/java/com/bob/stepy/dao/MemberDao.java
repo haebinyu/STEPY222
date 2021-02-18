@@ -8,10 +8,12 @@ import com.bob.stepy.dto.FileUpDto;
 import com.bob.stepy.dto.MemberDto;
 import com.bob.stepy.dto.MemberPaymentDto;
 import com.bob.stepy.dto.MemberPostDto;
+import com.bob.stepy.dto.MemberRatingDto;
 import com.bob.stepy.dto.MessageDto;
 import com.bob.stepy.dto.PostDto;
 import com.bob.stepy.dto.PostDto2;
 import com.bob.stepy.dto.ResTicketDto;
+import com.bob.stepy.dto.StoreReviewDto;
 
 public interface MemberDao {
 
@@ -66,6 +68,10 @@ public interface MemberDao {
 	public List<MemberPaymentDto> mGetPaidList(String m_id);
 
 	public void mUpdateToPaidStatement(Integer resnum);
+
+	public List<MemberRatingDto> mGetBestReviewStore();
+
+	public void mUploadPostReview(StoreReviewDto srdto);
 
 	
 }

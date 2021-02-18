@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bob.stepy.service.BoardService;
+import com.bob.stepy.service.MemberService;
 
 @Controller
 public class HomeController {
@@ -17,14 +18,16 @@ public class HomeController {
 	@Autowired
 	private BoardService bServ;
 	
+	@Autowired
+	private MemberService mServ;
 	private ModelAndView mv;
 	
 	@GetMapping("/")
 	public ModelAndView home(Integer pageNum) {
-		logger.info("home() - 페이지 이동");
+		logger.info("home()");
 		
 		mv = bServ.HomeList(pageNum);
-		
+		mv = mServ.mGetMainView(mv);
 		return mv;
 	}
 	

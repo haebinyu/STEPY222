@@ -23,7 +23,7 @@
 		SELECT RESTICKET_SEQ.NEXTVAL FROM DUAL
 	</selectKey>
 	INSERT INTO RES VALUES (${res_num}, sysdate, #{res_plnum}, #{res_mid}, #{res_name}, #{res_phone},
-		#{res_checkindate}, #{res_checkoutdate}, DEFAULT, DEFAULT)
+		#{res_checkindate}, #{res_checkoutdate}, DEFAULT, DEFAULT, DEFAULT)
 </insert>
 
 

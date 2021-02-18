@@ -19,7 +19,7 @@
 >
 	<main class="container" style="margin-top: 150px;">
 		<div class="col-md-12 text-center">
-			<form action="mSendMessageProc" method="post" onsubmit="return noblank()">
+			<form action="mSendMessageProc" method="post" onsubmit="return noblank()" id="reviewFrm">
 				<div class="form-group">
 					<label for="exampleFormControlInput1" style="color: white;">받는사람 ID (TO)</label> 
 					<input
@@ -83,12 +83,9 @@ $(function(){
 		}
 	}
 	
-	
 	if("${isthisvaliduser}" != ''){
 		$('#spanalarm').text("${isthisvaliduser}");
 	}
-	
-	
 	
 });
 

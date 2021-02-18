@@ -17,6 +17,7 @@ public class MemberPaymentDto {
 	private String res_checkoutdate;
 	private int res_qty;
 	private int res_status;
+	private int res_review;
 	private String pl_cnum;
 	private int pl_num;
 	private String pl_name;

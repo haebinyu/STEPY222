@@ -50,10 +50,12 @@ import com.bob.stepy.dto.MemberKaKaoTokenDto;
 import com.bob.stepy.dto.MemberKakaoProfileDto;
 import com.bob.stepy.dto.MemberPaymentDto;
 import com.bob.stepy.dto.MemberPostDto;
+import com.bob.stepy.dto.MemberRatingDto;
 import com.bob.stepy.dto.MessageDto;
 import com.bob.stepy.dto.PostDto;
 import com.bob.stepy.dto.PostDto2;
 import com.bob.stepy.dto.ResTicketDto;
+import com.bob.stepy.dto.StoreReviewDto;
 import com.bob.stepy.util.Paging;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -104,7 +106,6 @@ public class MemberService {
 				String.class
 				);
 
-
 		ObjectMapper objectMapper = new ObjectMapper();
 		MemberKaKaoTokenDto tokenDto = null;
 
@@ -138,11 +139,11 @@ public class MemberService {
 	@Transactional
 	public MemberDto mKakaoProfileRequest(MemberKaKaoTokenDto tokenDto) {
 
-
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer "+tokenDto.getAccess_token());
-		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		headers.add("Content-type"
+				, "application/x-www-form-urlencoded;charset=utf-8");
 
 		HttpEntity<MultiValueMap<String,String>> kakaoProfileRequest = 
 				new HttpEntity<>(headers);
@@ -159,7 +160,8 @@ public class MemberService {
 		MemberKakaoProfileDto kakaoProfile = null;
 
 		try {
-			kakaoProfile = objectMapper.readValue(response.getBody(), MemberKakaoProfileDto.class);
+			kakaoProfile = objectMapper.readValue(response.getBody()
+					, MemberKakaoProfileDto.class);
 
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
@@ -168,13 +170,16 @@ public class MemberService {
 		}
 
 		System.out.println("The format of user id for stepy is "
-				+kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
+				+kakaoProfile.getKakao_account().getEmail()
+				+"_"+kakaoProfile.getId());
 
-		String idPreCheck = kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId();
+		String idPreCheck = kakaoProfile.getKakao_account().getEmail()
+				+"_"+kakaoProfile.getId();
 
 		MemberDto memberDto = new MemberDto();
 
-		if(kakaoProfile.getKakao_account().getEmail() == "" || kakaoProfile.getKakao_account().getEmail() == null) {
+		if(kakaoProfile.getKakao_account().getEmail() == "" 
+				|| kakaoProfile.getKakao_account().getEmail() == null) {
 			memberDto.setM_email("no_email_detected");
 			return memberDto;
 		}
@@ -182,26 +187,26 @@ public class MemberService {
 		String dbCheckResult = mIdDuplicationCheck(idPreCheck);
 
 		if(dbCheckResult == "0") {
-			memberDto.setM_id(kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
+			memberDto.setM_id(kakaoProfile.getKakao_account().getEmail()
+					+"_"+kakaoProfile.getId());
 			memberDto.setM_email(kakaoProfile.getKakao_account().getEmail());
-			memberDto.setM_name(kakaoProfile.getKakao_account().getProfile().getNickname());
-			memberDto.setM_nickname(kakaoProfile.getKakao_account().getProfile().getNickname());
-			memberDto.setM_pwd("mustbekeptwithoutanyleak11!!");//default password for users who logged in from kakaotalk
+			memberDto.setM_name(kakaoProfile.getKakao_account()
+					.getProfile().getNickname());
+			memberDto.setM_nickname(kakaoProfile.getKakao_account()
+					.getProfile().getNickname());
+			memberDto.setM_pwd("mustbekeptwithoutanyleak11!!");
+			//default password for users who logged in from kakaotalk
 
 			try {
 				mJoinProc(memberDto);
 				mKakaoProfileUp(kakaoProfile);
-
 			}catch(Exception e){
-				System.out.println("mKakaoProfileRequest Member insult failure" );
+				System.out.println("mKakaoProfileRequest insult failure" );
 			}
-
 		}
 		else {
 			memberDto = mDao.getMemeberInfo(idPreCheck);
-
 		}
-
 		return memberDto;
 	}
 
@@ -766,7 +771,6 @@ public class MemberService {
 			msg = fork;
 		}
 
-
 		return msg;
 	}
 
@@ -960,6 +964,23 @@ public class MemberService {
 	public void mPaiedInFull(Integer resnum) {
 
 		mDao.mUpdateToPaidStatement(resnum);
+
+		return;
+	}
+
+
+	public ModelAndView mGetMainView(ModelAndView mv2) {
+		
+		//OVER 3.5 POINT! 
+		List<MemberRatingDto> srl = mDao.mGetBestReviewStore();
+		mv2.addObject("bss", srl);
+		return mv2;
+	}
+
+
+	public void mPostReview(StoreReviewDto srdto) {
+	
+		mDao.mUploadPostReview(srdto);
 
 		return;
 	}

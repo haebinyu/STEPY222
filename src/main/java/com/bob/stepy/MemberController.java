@@ -28,8 +28,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dto.MailDto;
 import com.bob.stepy.dto.MemberDto;
+import com.bob.stepy.dto.MemberRatingDto;
 import com.bob.stepy.dto.MessageDto;
 import com.bob.stepy.dto.ReplyDto;
+import com.bob.stepy.dto.StoreReviewDto;
 import com.bob.stepy.service.MemberService;
 
 import lombok.extern.java.Log;
@@ -50,6 +52,21 @@ public class MemberController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
+	
+	@PostMapping("mPostReview")
+	public String mPostReview(StoreReviewDto srdto) {
+		log.info("mPostReview()");
+		
+		mServ.mPostReview(srdto);
+		
+		return "mMyPayment";
+	}
+	
+	@GetMapping("mWriteReview")
+	public String mWriteReview(String cnum) {
+		
+		return "mWriteReview";
+	}
 	
 	@ResponseBody
 	@PostMapping(value="mPaiedInFull", produces = "application/text; charset=utf-8")

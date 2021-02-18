@@ -210,11 +210,13 @@
 	<select id="mGetPayPendingList" parameterType="String"
 		resultType="com.bob.stepy.dto.MemberPaymentDto">
 		SELECT * FROM
-		(SELECT RES.*, PL.*, S.S_NAME, F.F_SYSNAME FROM RES
+		(SELECT RES.*, PL.*, S.S_NAME, F.F_SYSNAME
+		FROM RES
 		FULL
 		OUTER JOIN PL ON RES_PLNUM =
 		PL_NUM
-		INNER JOIN S ON PL_CNUM = S_NUM
+		INNER JOIN S ON PL_CNUM
+		= S_NUM
 		INNER JOIN F ON PL_NUM = F_PLNUM
 		WHERE RES_MID=#{m_id} AND
 		RES_STATUS = 0)
@@ -224,11 +226,13 @@
 	<select id="mGetPaidList" parameterType="String"
 		resultType="com.bob.stepy.dto.MemberPaymentDto">
 		SELECT * FROM
-		(SELECT RES.*, PL.*, S.S_NAME, F.F_SYSNAME FROM RES
+		(SELECT RES.*, PL.*, S.S_NAME, F.F_SYSNAME
+		FROM RES
 		FULL
 		OUTER JOIN PL ON RES_PLNUM =
 		PL_NUM
-		INNER JOIN S ON PL_CNUM = S_NUM
+		INNER JOIN S ON PL_CNUM
+		= S_NUM
 		INNER JOIN F ON PL_NUM = F_PLNUM
 		WHERE RES_MID=#{m_id} AND
 		RES_STATUS = 1)
@@ -236,6 +240,27 @@
 	</select>
 
 	<update id="mUpdateToPaidStatement" parameterType="Integer">
-		UPDATE RES SET RES_STATUS = 1 WHERE RES_NUM = #{resnum}
+		UPDATE RES SET
+		RES_STATUS = 1 WHERE RES_NUM = #{resnum}
 	</update>
+
+
+	<select id="mGetBestReviewStore"
+		resultType="com.bob.stepy.dto.MemberRatingDto">
+	<![CDATA[
+		SELECT SR_CNUM, SR_DATE,SR_CONTENTS, F_ORINAME, F_SYSNAME,
+		ROUND(AVER, 1) AS ROU FROM (
+       SELECT SR.*, F.*,
+       AVG(SR_RATE) OVER(PARTITION BY SR_CNUM) AS AVER,
+       ROW_NUMBER() OVER (PARTITION BY SR_CNUM ORDER BY SR_RATE ASC) AS RANG
+       FROM SR
+       INNER JOIN F ON SR_CNUM = F.F_CNUM
+       ORDER BY AVER DESC, SR_DATE DESC)
+       WHERE RANG = 1 AND AVER >= 3.5 AND ROWNUM <= 3 AND F_THUMB='THUMB'
+       ]]>
+	</select>
+	
+	<insert id="mUploadPostReview" parameterType="com.bob.stepy.dto.StoreReviewDto">
+		INSERT INTO SR VALUES(SR_SEQ.NEXTVAL,#{sr_mid}, #{sr_cnum}, #{sr_rate}, SYSDATE, #{sr_contents}, 0)
+	</insert>
 </mapper>

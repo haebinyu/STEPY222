@@ -16,4 +16,5 @@ public class ResTicketDto {
 	private String res_checkoutdate;
 	private int res_qty;
 	private int res_status;
+	private int res_review;
 }
