@@ -16,18 +16,23 @@
 <link rel="stylesheet" href="resources/css/star-rating-svg.css">
 <script src="resources/js/jquery.star-rating-svg.min.js"></script>
 <!-- bar-rating -->
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+>
 <link rel="stylesheet" href="resources/css/fontawesome-stars.css">
 <script type="text/javascript" src="resources/js/jquery.barrating.min.js"></script>
 <link rel="stylesheet" href="resources/css/fontawesome-stars-o.css">
 
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;900&display=swap"
+	rel="stylesheet"
+>
 
 <style>
 body {
-	font-family: 'Noto Sans KR', sans-serif;	
+	font-family: 'Noto Sans KR', sans-serif;
 }
+
 img {
 	width: 1020px;
 	height: 580px;
@@ -39,13 +44,10 @@ img {
 	height: 580px;
 	margin-bottom: 100px;
 }
-<<<<<<< HEAD
-=======
+
 .table th {
 	font-weight: 600;
 }
-
->>>>>>> branch 'master' of https://github.com/haebinyu/STEPY222.git
 </style>
 
 <script>
@@ -57,31 +59,6 @@ img {
 			touchEnabled : false,
 			captions : true
 		});
-
-		var x = document.getElementsByClassName("my-rating");
-		console.log(x);
-		console.log(x.length);
-		console.log(x[0].id);
-
-		$(".my-rating").starRating({
-			totalStars : 5,
-			initialRating : x[0].id,
-			ratedColor : 'orange',
-			activeColor : 'orange',
-			readOnly : true
-		});
-
-		for (var i = 0; i < x.length; i++) {
-			var y = x[i].id;
-			var e1 = document.getElementById(y);
-
-			$(e1).starRating('setRating', y, false);
-		}
-
-		$('#example').barrating({
-			theme : 'fontawesome-stars-o'
-		});
-
 	});
 </script>
 </head>
@@ -107,95 +84,92 @@ img {
 	</div>
 
 	<div class="container text-center center-block">
-		<br> <br>
-		<p style="font-size: 30px;">
-			<span style="color: red;">평점 4점</span> 이상!<br>여행객들이 최근 방문하고 있는 스토어를 소개합니다 !
-		</p>
-
-
-		<c:forEach var="bs" items="${bss}">
-
-			<div class="storerate">
-				<div class="my-rating jq-stars" id="${bs.rou }"></div>
-				<span class="counter"></span><br> <span id="test">5</span>
-				<p>${bs.rou },${bs.sr_cnum}</p>
-
-			</div>
-		</c:forEach>
-
-		<br> <br>
+		<br> <br> <br> <br>
 		<div class="best-review-wrap center-block text-center">
+
+			<c:if test="${!empty bss}">
+			<p style="font-size: 30px;">
+						평점 4점 이상!<br> 최근 스테퍼들이 방문한 스토어를 소개합니다! 
+					</p>
+			</c:if>
+
 			<ul class="slider">
 				<c:if test="${!empty bss}">
 					<c:forEach var="bi" items="${bss }">
-
 						<a href="./plProductList?c_num=${bi.sr_cnum }"><li><img
 								src="resources/upload${bi.f_sysname }" title="이미지를 클릭하면  스토어로 이동합니다 "
 							></li></a>
 					</c:forEach>
 				</c:if>
+				<c:if test="${empty bss }">
+					<li><img src="resources/images/welcometostepy.jpg"
+						title="아직 추천 상품이 없네요! 상품을 구매하고, 평점을 올려주세요!"
+					></li>
+				</c:if>
 			</ul>
 		</div>
+	</div><br><br><br><br><br>
 
-		<div class="container-fluid community-wrap">
-			<div class="community-box-wrap">
-				<div class="community-box">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th width="350"><a href="./bFreeList" class="board-name">자유게시판</a></th>
-							</tr>
-						</thead>
-						<tbody>
+	<div class="container-fluid community-wrap">
+		<div class="community-box-wrap">
+			<div class="community-box">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="350"><a href="./bFreeList" class="board-name">자유게시판</a></th>
+						</tr>
+					</thead>
+					<tbody>
 
-							<c:forEach var="h" items="${homeList_2}">
-								<tr>
-									<td>${h.ptitle}</td>
-								</tr>
-							</c:forEach>
+						<c:forEach var="h" items="${homeList_2}">
+							<tr>
+								<td>${h.ptitle}</td>
+							</tr>
+						</c:forEach>
 
-						</tbody>
-					</table>
-				</div>
-				<div class="community-box">
-					<table class="table table-hover">
-						<thead>
+					</tbody>
+				</table>
+			</div>
+			<div class="community-box">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="350"><a href="./bMateList" class="board-name">여행 동행</a></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="h" items="${homeList_1}">
 							<tr>
-								<th width="350"><a href="./bMateList" class="board-name">여행 동행</a></th>
+								<td>${h.ptitle}</td>
 							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="h" items="${homeList_1}">
-								<tr>
-									<td>${h.ptitle}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-				<div class="community-box">
-					<table class="table table-hover">
-						<thead>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+			<div class="community-box">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="350"><a href="./bReviewList" class="board-name">여행 리뷰</a></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="h" items="${homeList_3}">
 							<tr>
-								<th width="350"><a href="./bReviewList" class="board-name">여행 리뷰</a></th>
+								<td>${h.ptitle}</td>
 							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="h" items="${homeList_3}">
-								<tr>
-									<td>${h.ptitle}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
 
 
+
 	<div class="container-fluid reserve-wrap"
-		style="background-image: url('resources/images/burano.jpg');">
+		style="background-image: url('resources/images/burano.jpg');"
+	>
 		<div class="container">
 			<div class="reserve-btns">
 				<div class="reserve-btn" onclick="location.href='#'">
