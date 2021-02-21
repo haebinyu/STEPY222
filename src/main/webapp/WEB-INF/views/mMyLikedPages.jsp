@@ -48,7 +48,7 @@ a:link, a:visited, a:hover, a:active {
 			<li class="nav-item"><a class="nav-link" href="./mMyPayment">내 결제 내역/쿠폰 확인</a></li>
 			<li class="nav-item"><a class="nav-link" href="./mModifyMyinfo">내 정보 수정</a></li>
 		</ul>
-		
+
 
 		<div class="row" style="margin-top: 90px;">
 
@@ -57,11 +57,13 @@ a:link, a:visited, a:hover, a:active {
 				<c:forEach var="p" items="${pList}">
 					<div id="cardBigBody" class="text-center center-block col-sm-6">
 						<div class="card center-block shady"
-							style="margin-bottom: 40px; background-color: #f5f5f5; max-width: 600px; padding: 20px;"
+							style="margin-bottom: 40px; background-color: #f5f5f5; max-width: 500px; padding: 20px;"
 						>
 							<a class="forblock" href="./contents?pnum=${p.p_num}">
 								<div class="card-body">
-									<h4 class="card-title" style="color: #4375d9;">제목 : ${p.p_title}</h4>
+									<div style="background-color: #4375d9; height:40px;">
+										<h4 class="card-title" style="color: white; line-height:2;">제목 : ${p.p_title}</h4>
+									</div><br>
 									<p class="card-text">${fn:substring(p.p_contents,0,30)}···</p>
 									<span>작성자:${p.p_mid }</span>&nbsp;&nbsp;&nbsp;<span>작성일: <fmt:formatDate
 											pattern="yyyy-MM-dd" value="${p.p_date}"

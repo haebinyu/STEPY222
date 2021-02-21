@@ -67,8 +67,9 @@
 					<table class="table col-xs-12 col-md-8" style="margin-bottom: 0;">
 						<tr>
 							<td class="col-md-1 col-xs-2"
-								style="background-color: #4375d9; text-align: center; color: white;">작성자</td>
-							<td class="col-md-3 col-xs-9">${pList.pmid}</td>
+								style="background-color: #4375d9; text-align: center; color: white;">
+								작성자</td>
+							<td class="col-md-3 col-xs-9"><a href="./mMyLittleBlog?blog_id=${pList.pmid }">${pList.pmid}</a></td>
 							<td class="hidden-xs col-md-1"
 								style="background-color: #4375d9; text-align: center; color: white;">작성일</td>
 							<td class="hidden-xs col-md-3"><fmt:formatDate

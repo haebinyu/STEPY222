@@ -76,8 +76,8 @@
 }
 
 .cancleBtn {
-	width: 240px;
-	height: 45px;
+	width: 100px;
+	height:40px;
 	background: #4375D9;
 	border: 1px solid #4375D9;
 	border-radius: 5px;
@@ -262,13 +262,29 @@ a:link, a:visited, a:hover, a:active {
 									</div>
 								</div>
 
-								<div class="btnStyle row">
-									<div class="col">
-										<button class="cancleBtn" onclick="location.href='./resCancle?res_num=${res_num}'">결제
-											취소</button>
-										<button class="cancleBtn" style="background: #F2B950;"
-											onclick="location.href='./mWriteReview?cnum=${tk.pl_cnum }'"
-										>결제 후기 작성</button>
+								<div class="btnStyle">
+									<div class="row text-center center-block">
+										<div class="col" style="display: inline-block;">
+											<button class="cancleBtn" onclick="location.href='./resCancle?res_num=${res_num}'">결제
+												취소</button>
+										</div>
+
+										<c:if test="${tk.res_review == 0}">
+											<div class="col" style="display:inline-block;">
+												<form id="toReview" method="post" action="mWriteReview">
+													<input type="hidden" name="res_num" value="${tk.res_num}"> <input type="hidden"
+														name="pl_cnum" value="${tk.pl_cnum }"
+													> <input type="hidden" name="res_mid" value="${tk.res_mid }">
+													<input type="hidden" name="f_sysname" value="${tk.f_sysname }">
+													<input type="hidden" name="s_name" value="${tk.s_name }">
+													<input type="hidden" name="pl_name" value="${tk.pl_name }">
+													<button class="cancleBtn" style="background: #F2B950;border: 1px solid #F2B950;"
+														onclick="document.getElementById('toReview').submit();"
+													>후기 작성</button>
+												</form>
+											</div>
+										</c:if>
+										
 									</div>
 									<br>
 								</div>

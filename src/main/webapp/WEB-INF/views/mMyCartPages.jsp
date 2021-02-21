@@ -21,27 +21,31 @@ div.shady {
 		rgba(0, 0, 0, 0.19);
 	text-align: center;
 }
-.card{
-  position: relative;
-  text-align: center;
+
+.card {
+	position: relative;
+	text-align: center;
 }
+
 .centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-   background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding : 50px;
-  display:none;
-  max-width:400px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: rgba(0, 0, 0, 0.7);
+	color: white;
+	padding: 50px;
+	display: none;
+	max-width: 400px;
 }
-.card-img-top:hover + .centered, .centered:hover{
-	display:block;
+
+.card-img-top:hover+.centered, .centered:hover {
+	display: block;
 }
-#hovera:link, #hovera:visited, #hovera:hover, #hovera:active{
-	color:white;
-	text-decoration:none;
+
+#hovera:link, #hovera:visited, #hovera:hover, #hovera:active {
+	color: white;
+	text-decoration: none;
 }
 </style>
 </head>
@@ -61,26 +65,31 @@ div.shady {
 			<li class="nav-item"><a class="nav-link" href="./mModifyMyinfo">내 정보 수정</a></li>
 		</ul>
 
-		<div class="row text-center center-block" style="width: 1200px; margin-top:90px;">
+		<div class="row text-center center-block" style="width: 1200px; margin-top: 90px;">
 
 			<c:if test="${!empty cartList }">
 				<c:forEach var="c" items="${cartList}">
-					<div class="col-sm-6">
-						<div class="shady" style="width: 500px;">
-						<div class="card">
-							<img class="card-img-top" src="resources/upload${c.f_sysname}" alt="Card image cap"
-								style="width: 400px; height: 450px; object-fit: cover;"
-							><div class="centered"><a id="hovera" href="./plProductList?c_num=${c.f_cnum }"><h1>${c.s_name }</h1><br><h4>이동하기</h4></a></div>
-							</div>
-							<div class="card-body">
-							
-								<h2 class="card-title">${c.s_name }</h2>
-								<p class="card-text"></p>
-								
-								<br>
+						<div class="col-sm-6" style="margin-bottom: 45px; padding:20px;">
+							<div class="shady" style="width: 500px; ">
+								<div class="card">
+									<img class="card-img-top" src="resources/upload${c.f_sysname}" alt="Card image cap"
+										style="width: 400px; height: 450px; object-fit: cover;"
+									>
+									<div class="centered">
+										<a id="hovera" href="./plProductList?c_num=${c.f_cnum }"><h1>${c.s_name }</h1>
+											<br>
+										<h4>이동하기</h4></a>
+									</div>
+								</div>
+								<div class="card-body">
+
+									<h2 class="card-title">${c.s_name }</h2>
+									<p class="card-text"></p>
+
+									<br>
+								</div>
 							</div>
 						</div>
-					</div>
 				</c:forEach>
 			</c:if>
 			<c:if test="${empty cartList }">

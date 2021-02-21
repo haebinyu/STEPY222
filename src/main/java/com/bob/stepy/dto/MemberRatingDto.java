@@ -12,7 +12,7 @@ public class MemberRatingDto {
 	private int sr_num;
 	private String sr_mid;
 	private String sr_cnum;
-	private int sr_rate;
+	private double sr_rate;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp sr_date;
 	private String sr_contents;
@@ -20,5 +20,6 @@ public class MemberRatingDto {
 	private float rou;
 	private String f_oriname;
 	private String f_sysname;
+	private int res_num;
 	
 }

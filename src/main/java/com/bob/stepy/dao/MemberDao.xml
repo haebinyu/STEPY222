@@ -51,10 +51,10 @@
 		parameterType="com.bob.stepy.dto.MemberDto">
 		UPDATE M
 		<set>
-			<if test='m_nickname != ""'>M_NICKNAME = #{m_nickname},</if>
-			<if test='m_phone != ""'>M_PHONE = #{m_phone},</if>
-			<if test='m_birth != ""'>M_BIRTH = #{m_birth},</if>
-			<if test='m_addr != ""'>M_ADDR = #{m_addr}</if>
+			<if test='m_nickname != null and m_nickname != ""'>M_NICKNAME = #{m_nickname},</if>
+			<if test='m_phone != null and m_phone != ""'>M_PHONE = #{m_phone},</if>
+			<if test='m_birth != null and m_birth != ""'>M_BIRTH = #{m_birth},</if>
+			M_ADDR = #{m_addr}
 		</set>
 		WHERE M_ID = #{m_id}
 	</update>
@@ -148,6 +148,7 @@
 		ORDER BY MS.MS_NUM
 		DESC)
 	</select>
+	
 	<update id="mUpdatePwd">
 		UPDATE M SET M_PWD = #{m_pwd} WHERE M_ID = #{m_id}
 	</update>
@@ -244,7 +245,6 @@
 		RES_STATUS = 1 WHERE RES_NUM = #{resnum}
 	</update>
 
-
 	<select id="mGetBestReviewStore"
 		resultType="com.bob.stepy.dto.MemberRatingDto">
 	<![CDATA[
@@ -256,11 +256,15 @@
        FROM SR
        INNER JOIN F ON SR_CNUM = F.F_CNUM
        ORDER BY AVER DESC, SR_DATE DESC)
-       WHERE RANG = 1 AND AVER >= 3.5 AND ROWNUM <= 3 AND F_THUMB='THUMB'
+       WHERE RANG = 1 AND AVER >= 4 AND ROWNUM <= 3 AND F_THUMB='THUMB'
        ]]>
 	</select>
 	
-	<insert id="mUploadPostReview" parameterType="com.bob.stepy.dto.StoreReviewDto">
+	<insert id="mUploadPostReview" parameterType="com.bob.stepy.dto.MemberRatingDto">
 		INSERT INTO SR VALUES(SR_SEQ.NEXTVAL,#{sr_mid}, #{sr_cnum}, #{sr_rate}, SYSDATE, #{sr_contents}, 0)
 	</insert>
+	
+	<update id="mUpdateReviewState" parameterType="int">
+	UPDATE RES SET RES_REVIEW = 1 WHERE RES_NUM = #{num}
+	</update>
 </mapper>

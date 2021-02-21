@@ -105,7 +105,7 @@ li .active{
 					<div class="form-group">
 						<label class="col-lg-3 control-label">닉네임: </label>
 						<div class="col-lg-8">
-							<input class="form-control" id="nickname" name="m_nickname" type="text" value="${member.m_nickname }">
+							<input class="form-control" id="nickname" name="m_nickname" type="text" value="${member.m_nickname }" maxlength="10">
 						</div>
 					</div>
 					<div class="form-group">
@@ -209,7 +209,14 @@ li .active{
 			$("#btalarm").text("변경된 사항이 없습니다^^!");
 			return false;
 		}
-		
+		if(nickname ==''){
+			$("#btalarm").text("공백을 입력하실 수 없습니다");
+			return false;
+		}
+		if(phone ==''){
+			$("#btalarm").text("공백을 입력하실 수 없습니다");
+			return false;
+		}
 	}
 	
 

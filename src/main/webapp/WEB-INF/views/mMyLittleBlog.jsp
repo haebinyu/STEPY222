@@ -157,8 +157,8 @@
 		<c:if test="${sort ==2 }">
 			<div class="row text-center center-block" style="margin-top: 50px;">
 
-				<c:if test="${!empty mrList }">
-					<c:forEach var="mr" items="${mrList }">
+				<c:if test="${!empty mpList }">
+					<c:forEach var="mr" items="${mpList }">
 						<div class="card col-sm-4 text-center center-block" style="margin-bottom: 30px;">
 							<div class="shady" style="margin: 10px;">
 								<c:if test="${!empty mr.con_sysname }">
@@ -177,7 +177,7 @@
 				</c:if>
 
 
-				<c:if test="${empty mrList}">
+				<c:if test="${empty mpList}">
 					<p>아직 작성한 댓글이 없습니다!</p>
 				</c:if>
 

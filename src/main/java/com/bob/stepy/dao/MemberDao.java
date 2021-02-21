@@ -71,7 +71,11 @@ public interface MemberDao {
 
 	public List<MemberRatingDto> mGetBestReviewStore();
 
-	public void mUploadPostReview(StoreReviewDto srdto);
+	public void mUploadPostReview(MemberRatingDto srdto);
+
+	public void mUpdateReviewState(int num);
+
+
 
 	
 }

@@ -155,7 +155,6 @@ public class MemberService {
 				String.class
 				);
 
-
 		ObjectMapper objectMapper = new ObjectMapper();
 		MemberKakaoProfileDto kakaoProfile = null;
 
@@ -364,7 +363,6 @@ public class MemberService {
 			msg = "0";
 			//"사용가능한 아이디입니다. (usable id)";
 		}
-
 		return msg;
 	}
 
@@ -511,11 +509,17 @@ public class MemberService {
 		mv.addObject("hostprofile", profile);
 		MemberDto member = mDao.getMemeberInfo(blog_id);
 		mv.addObject("hostaccount", member);
-
+		
+		List<MemberPostDto> mpListori = new ArrayList<MemberPostDto>();
+		List<MemberPostDto> mpList = new ArrayList<MemberPostDto>();
+		
 		if(sortnum == 1) {
-			List<MemberPostDto> mpListori = mDao.mGetMyPostList(blog_id);
-			List<MemberPostDto> mpList = new ArrayList<MemberPostDto>();
-
+			mpListori = mDao.mGetMyPostList(blog_id);
+			mv.addObject("sort",1);
+		}else {
+			mpListori = mDao.mGetMyReplyList(blog_id);
+			mv.addObject("sort",2);
+		}
 			int round = mpListori.size();
 
 			for(int i = 0;  i < round;  i++ ) {
@@ -523,9 +527,11 @@ public class MemberService {
 				int limit = round - (round - j);
 
 				MemberPostDto mp1 = mpListori.get(i);
-
-				MemberPostDto mp2 = mpListori.get(limit);	
-				if(mp1.getP_num() != mp2.getP_num()) {
+				MemberPostDto mp2 = new MemberPostDto();	
+				
+				if(i == 0) {
+					mpList.add(mp1);
+				}else if(mp1.getP_num() != mp2.getP_num()) {
 					if(i == 0) {
 						mpList.add(mp1);
 					}else {
@@ -547,45 +553,8 @@ public class MemberService {
 				j++;
 			}
 			mv.addObject("mpList", mpList);
-			mv.addObject("sort",1);
-		}
-		else {
-			List<MemberPostDto> mrListori = mDao.mGetMyReplyList(blog_id);
-			List<MemberPostDto> mrList = new ArrayList<MemberPostDto>();
-
-			int round = mrListori.size();
-
-			for(int i = 0;  i < round;  i++ ) {
-				int j = 1;
-				int limit = round - (round - j);
-
-				MemberPostDto mp1 = mrListori.get(i);
-
-				MemberPostDto mp2 = mrListori.get(limit);	
-				if(mp1.getP_num() != mp2.getP_num()) {
-					if(i == 0) {
-						mrList.add(mp1);
-					}else {
-						mp2 = mrListori.get(i-1); //실상 mp0
-						if(mp1.getP_num() != mp2.getP_num()) {
-							mrList.add(mp1);
-						}
-					}
-				}else if(mp1.getP_num() == mp2.getP_num()) {
-					if(i == 0) {
-						mrList.add(mp1);
-					}else {
-						mp2 = mrListori.get(i-1);
-						if(mp1.getP_num() != mp2.getP_num()) {
-							mrList.add(mp1);
-						}
-					}
-				}
-				j++;
-			}
-			mv.addObject("mrList", mrList);
-			mv.addObject("sort",2);
-		}
+			mv.setViewName("mMyLittleBlog");
+		
 		return mv;
 	}
 
@@ -630,6 +599,7 @@ public class MemberService {
 		}
 
 		mDao.mModifyUserInfo(member);	
+		member = mDao.getMemeberInfo(member.getM_id());
 		session.setAttribute("member", member);
 
 		msg = "변경사항이 저장되었습니다!";
@@ -784,7 +754,6 @@ public class MemberService {
 		}else {
 			mDao.mUploadAfterView(msg);
 		}
-
 		return;
 	}
 
@@ -841,7 +810,6 @@ public class MemberService {
 		List<MessageDto> searchList = mDao.mRetrieveByContents(msg);
 
 		map.put("searchList", searchList);
-
 
 		return map;
 	}
@@ -971,18 +939,30 @@ public class MemberService {
 
 	public ModelAndView mGetMainView(ModelAndView mv2) {
 		
-		//OVER 3.5 POINT! 
+		//OVER 4 POINT! 
 		List<MemberRatingDto> srl = mDao.mGetBestReviewStore();
 		mv2.addObject("bss", srl);
 		return mv2;
 	}
 
 
-	public void mPostReview(StoreReviewDto srdto) {
+	public void mPostReview(MemberRatingDto review) {
 	
-		mDao.mUploadPostReview(srdto);
+		mDao.mUploadPostReview(review);
+		mDao.mUpdateReviewState(review.getRes_num());
 
 		return;
+	}
+
+
+
+	public ModelAndView mToWriteReveiw(MemberPaymentDto review) {
+		
+		mv = new ModelAndView();
+		mv.addObject("review", review);
+		mv.setViewName("mWriteReview");
+		
+		return mv;
 	}
 
 

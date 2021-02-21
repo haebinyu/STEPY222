@@ -46,35 +46,41 @@ img {
 	<header>
 		<jsp:include page="header.jsp" />
 	</header>
-	<main class="container" style="margin-top: 100px; margin-bottom: 200px;">
-		<div class="container text-center">
+	<main class="container text-center center-block" style="margin-top: 100px; margin-bottom: 200px;">
+		<div class="text-center center-block">
 			<br> <br>
-			<p style="font-size: 30px;">${member.m_nickname } 님, 여행은 어떠셨나요?<br>STEPY는 여러분의 피드백을 환영합니다.</p>
+			<div style="width: 800px; height: 400px; margin: 0 auto;">
+				<img src="resources/upload${review.f_sysname }"
+					style="object-fit: cover;width: 800px; height: 400px;"
+				><br>
+				<br>				
+			</div>
 			<br>
-			<br>
+			<p style="font-size: 30px;">${review.s_name }
+					스토어의 ${review.pl_name } 상품을 이용하셨습니다.<br>여행은 어떠셨나요?
+				</p>
+			<p style="font-size: 25px; color: #4375D9;">STEPY는 여러분의 피드백을 환영합니다.</p>
+			<br> <br>
 
 			<form id="mud" action="mPostReview" method="post" enctype="multipart/form-data">
 				<div class="storerate">
 					<div class="my-rating jq-stars"></div>
 					<br> <span class="counter">0</span><br>
 				</div>
-				<br>
-				<br>
-				
+				<br> <br>
+
 				<textarea class="form-control" name="sr_contents" rows="3" placeholder="500자 이내로 작성해주세요"
 					maxlength="500" onPaste="return false" id="text"
 				></textarea>
-				
-				<input type="hidden" name="sr_rate" id="inputrate" value="0"> <input type="hidden" name="sr_cnum"
-					value="${param.cnum }"
-				> <input type="hidden" name="sr_mid" value="${member.m_id }">
-				
-				<span id="written">(0</span> <span id="space">/ 500)</span> <br> <br>
-				<span id="require"></span><br>
-				<br>
+				<span style="display:none">
+				<input type="number" step="0.01" name="sr_rate" id="inputrate" value="0"> <input type="hidden"
+					name="sr_cnum" value="${review.pl_cnum}"
+				></span> 
+				<input type="hidden" name="res_num" value="${review.res_num }">
+				<input type="hidden" name="sr_mid" value="${review.res_mid }"> <span id="written">(0</span>
+				<span id="space">/ 500)</span> <br> <br> <span id="require"></span><br> <br>
 				<input type="button" id="forsubmit" value="제출"></input>
 
-				
 			</form>
 			<div class="container best-review-wrap">
 				<ul class="slider">
@@ -99,7 +105,6 @@ img {
 
 <script src="resources/js/jquery.serializeObject.js"></script>
 <script>
-
 	$(document).ready(function() {
 		$('.slider').bxSlider({
 			auto : true,
@@ -108,13 +113,13 @@ img {
 			touchEnabled : false,
 			captions : true
 		});
-	
-		
+
 		$(".my-rating").starRating({
 			totalStars : 5,
 			initialRating : 0,
 			ratedColor : 'orange',
 			activeColor : 'orange',
+			disableAfterRate:false,
 			onHover : function(currentIndex, currentRating, $el) {
 				var x = $('#inputrate').val();
 				$(".my-rating").starRating('setRating', x, false);
@@ -122,26 +127,24 @@ img {
 				$('#inputrate').val(currentIndex);
 			}
 		});
-		
-		
-		$('#forsubmit').click(function(){
-		
+
+		$('#forsubmit').click(function() {
+
 			var x = $('#inputrate').val();
 			var y = $('#text').val().length;
-			if(x == 0 || y == 0){
-				if(x == 0){
+			if (x == 0 || y == 0) {
+				if (x == 0) {
 					$('#require').text('0점은 입력이 불가합니다');
-				} else if(y == 0){
+				} else if (y == 0) {
 					$('#require').text('내용을 입력해주세요!');
 				}
-			}else{
-				
+			} else {
+				document.getElementById('mud').submit();
 			}
 		});
 
 	});
 
-	
 	$('textarea').keyup(function() {
 
 		var counter = $(this).val().length;
@@ -154,7 +157,7 @@ img {
 
 		} else {
 			$("#btn").prop("disabled", false);
-			$("#alarm").css("display", "none");
+			$("#alarm").css("display", "none"); 
 		}
 
 	});

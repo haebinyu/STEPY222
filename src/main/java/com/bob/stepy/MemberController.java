@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bob.stepy.dto.MailDto;
 import com.bob.stepy.dto.MemberDto;
+import com.bob.stepy.dto.MemberPaymentDto;
 import com.bob.stepy.dto.MemberRatingDto;
 import com.bob.stepy.dto.MessageDto;
 import com.bob.stepy.dto.ReplyDto;
@@ -54,18 +55,19 @@ public class MemberController {
 
 	
 	@PostMapping("mPostReview")
-	public String mPostReview(StoreReviewDto srdto) {
+	public String mPostReview(MemberRatingDto review,RedirectAttributes rttr) {
 		log.info("mPostReview()");
+		mServ.mPostReview(review);
 		
-		mServ.mPostReview(srdto);
-		
-		return "mMyPayment";
+		return "redirect:mMyPayment?sort=2";
 	}
 	
-	@GetMapping("mWriteReview")
-	public String mWriteReview(String cnum) {
+	@PostMapping("mWriteReview")
+	public ModelAndView mWriteReviewFrm(MemberPaymentDto review) {
 		
-		return "mWriteReview";
+		mv = mServ.mToWriteReveiw(review);
+		
+		return mv;
 	}
 	
 	@ResponseBody
@@ -193,7 +195,7 @@ public class MemberController {
 		return mv;
 	}
 
-	@PostMapping("mSendMessageProc")//이걸...보낸메일 받은 메일 이렇게 구분할까 . 그럼 보낸메일부분에 보내주면 되겠네 redirect 로. 
+	@PostMapping("mSendMessageProc") 
 	public String mSendMessageProc(MessageDto msg, RedirectAttributes rttr) {
 
 		String path = mServ.mSendMessageProc(msg,rttr);
@@ -220,9 +222,10 @@ public class MemberController {
 
 	@PostMapping("mModifyProc")
 	public String mModifyProc(MemberDto member, RedirectAttributes rttr) {
-
+		//System.out.println(member);
 		mServ.mModifyProc(member, rttr);
 		return "redirect:mModifyMyinfo";
+		//return "home";
 	}
 
 
