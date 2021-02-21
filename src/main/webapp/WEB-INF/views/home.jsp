@@ -28,20 +28,54 @@
 
 <style>
 img {
-	width: 1280px;
+	width: 1020px;
 	height: 580px;
 	object-fit: cover;
 }
 
 .best-review-wrap {
-	width: 1280px;
+	width: 1020px;
 	height: 580px;
 	margin-bottom: 100px;
 }
-
 </style>
 
+<script>
+	$(document).ready(function() {
+		$('.slider').bxSlider({
+			auto : true,
+			speed : 500,
+			pause : 4000,
+			touchEnabled : false,
+			captions : true
+		});
 
+		var x = document.getElementsByClassName("my-rating");
+		console.log(x);
+		console.log(x.length);
+		console.log(x[0].id);
+
+		$(".my-rating").starRating({
+			totalStars : 5,
+			initialRating : x[0].id,
+			ratedColor : 'orange',
+			activeColor : 'orange',
+			readOnly : true
+		});
+
+		for (var i = 0; i < x.length; i++) {
+			var y = x[i].id;
+			var e1 = document.getElementById(y);
+
+			$(e1).starRating('setRating', y, false);
+		}
+
+		$('#example').barrating({
+			theme : 'fontawesome-stars-o'
+		});
+
+	});
+</script>
 </head>
 <body>
 
@@ -64,9 +98,36 @@ img {
 		</div>
 	</div>
 
-	<div class="container text-center">
+	<div class="container text-center center-block">
 		<br> <br>
-		
+		<p style="font-size: 30px;">
+			<span style="color: red;">평점 4점</span> 이상!<br>여행객들이 최근 방문하고 있는 스토어를 소개합니다 !
+		</p>
+
+
+		<c:forEach var="bs" items="${bss}">
+
+			<div class="storerate">
+				<div class="my-rating jq-stars" id="${bs.rou }"></div>
+				<span class="counter"></span><br> <span id="test">5</span>
+				<p>${bs.rou },${bs.sr_cnum}</p>
+
+			</div>
+		</c:forEach>
+
+		<br> <br>
+		<div class="best-review-wrap center-block text-center">
+			<ul class="slider">
+				<c:if test="${!empty bss}">
+					<c:forEach var="bi" items="${bss }">
+
+						<a href="./plProductList?c_num=${bi.sr_cnum }"><li><img
+								src="resources/upload${bi.f_sysname }" title="이미지를 클릭하면  스토어로 이동합니다 "
+							></li></a>
+					</c:forEach>
+				</c:if>
+			</ul>
+		</div>
 
 		<div class="container-fluid community-wrap">
 			<div class="community-box-wrap">
@@ -123,8 +184,8 @@ img {
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 	<div class="container-fluid reserve-wrap"
 		style="background-image: url('resources/images/burano.jpg');"
 	>
