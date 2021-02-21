@@ -1,4 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body::-webkit-scrollbar { display: none; }
+li a { font-family: 'S-CoreDream-3Light'; }
+</style>
     
 <div class="jumbotron" style="background-color: white; margin-bottom: 0; height:150px; padding: 20px 0;">
   <img src="resources/images/logo_tp_final01.png" onclick="gohome();"
@@ -45,5 +51,3 @@ function gohome(){
 }	
 </script>
       
-
-

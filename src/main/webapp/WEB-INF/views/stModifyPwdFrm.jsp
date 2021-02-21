@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!doctype html>
 <html lang="en">
@@ -32,6 +31,9 @@ label {
 .input-mt {
 	margin-top: 5px;
 }
+.alert {
+	margin-top: 5px;
+}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -62,8 +64,9 @@ $(function(){
   			<div class="col-12">
     			<label for="inputAddress" class="form-label">새 비밀번호</label><br>
     			<input type="password" class="form-control" id="c_pwd" name="c_pwd" required placeholder="새 비밀번호">
-    			<input type="password" class="form-control input-mt" id="c_pwd2" required placeholder="새 비밀번호 확인">
-    			<input type="hidden" name="nothing" id="nothing" value="">
+    			<input type="password" class="form-control input-mt" id="c_pwd_check" required placeholder="새 비밀번호 확인">
+    			<div class="alert alert-success" id="alert-success">비밀번호가 일치합니다.</div>
+    			<div class="alert alert-danger" id="alert-danger">비밀번호가 틀립니다.</div>
   			</div>
   			<div class="col-12">
   				<h6 class="pwdComp text-right"></h6>
@@ -98,9 +101,27 @@ $("#c_pwd2").on('change paste', function(){
 		$('#c_pwd').val('');
 		$('#c_pwd2').val('');
 		$('#c_pwd').focus();
-	}
+	}	
+});
 
-	
+$(function(){
+	$("#alert-success").hide();
+	$("#alert-danger").hide();
+	$("input").keyup(function(){
+		var pwd1 = $("#c_pwd").val();
+		var pwd2 = $("#c_pwd_check").val();
+		if(pwd1 != "" || pwd2 != ""){
+			if(pwd1 == pwd2){
+				$("#alert-success").show();
+				$("#alert-danger").hide();
+				$("submit").removeAttr("disabled");
+			} else {
+				$("#alert-success").hide();
+				$("#alert-danger").show();
+				$("#submit").attr("disabled", "disabled");
+			}
+		}
+	});	
 });
 
 </script>
