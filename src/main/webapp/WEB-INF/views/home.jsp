@@ -15,18 +15,19 @@
 
 <link rel="stylesheet" href="resources/css/star-rating-svg.css">
 <script src="resources/js/jquery.star-rating-svg.min.js"></script>
-
-
 <!-- bar-rating -->
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <link rel="stylesheet" href="resources/css/fontawesome-stars.css">
 <script type="text/javascript" src="resources/js/jquery.barrating.min.js"></script>
 <link rel="stylesheet" href="resources/css/fontawesome-stars-o.css">
 
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;900&display=swap" rel="stylesheet">
 
 <style>
+body {
+	font-family: 'Noto Sans KR', sans-serif;	
+}
 img {
 	width: 1020px;
 	height: 580px;
@@ -38,6 +39,13 @@ img {
 	height: 580px;
 	margin-bottom: 100px;
 }
+<<<<<<< HEAD
+=======
+.table th {
+	font-weight: 600;
+}
+
+>>>>>>> branch 'master' of https://github.com/haebinyu/STEPY222.git
 </style>
 
 <script>
@@ -187,8 +195,7 @@ img {
 
 
 	<div class="container-fluid reserve-wrap"
-		style="background-image: url('resources/images/burano.jpg');"
-	>
+		style="background-image: url('resources/images/burano.jpg');">
 		<div class="container">
 			<div class="reserve-btns">
 				<div class="reserve-btn" onclick="location.href='#'">
@@ -204,14 +211,6 @@ img {
 		</div>
 	</div>
 
-	<main class="container">
-		<ul>
-			<li><a href="./sSearchFrm">검색</a></li>
-			<li><a href="./aLoginFrm">어드민 전용</a></li>
-			<li><a href="./bCommunity">게시판</a></li>
-			<li><a href="./stAuthMail">업체 메일인증</a></li>
-		</ul>
-	</main>
 	<footer>
 		<jsp:include page="footer.jsp" />
 	</footer>

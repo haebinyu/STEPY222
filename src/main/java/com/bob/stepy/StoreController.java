@@ -1,6 +1,5 @@
 package com.bob.stepy;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,26 +24,8 @@ public class StoreController {
 	@Autowired
 	private StoreService stServ;
 	
-	private ModelAndView mv;
-	
-	
-	@GetMapping("stHome")
-	public String stHome() {
-		log.info("stHome()");
-		return "stHome";
-	}
-	
-	@GetMapping("stJoinFrm")
-	public String stJoinFrm() {
-		log.info("stJoinFrm()");
-		return "stJoinFrm";
-	}
-	
-	@GetMapping("stMyPage")
-	public String stMyPage() {
-		log.info("stMyPage()");
-		return "stMyPage";
-	}
+	private ModelAndView mv;	
+
 	
 	@GetMapping("stResList")
 	public ModelAndView stResList() {
@@ -82,11 +63,23 @@ public class StoreController {
 		return result;
 	}			
 	
+	@GetMapping("stJoinFrm")
+	public String stJoinFrm() {
+		log.info("stJoinFrm()");
+		return "stJoinFrm";
+	}
+	
 	@PostMapping("stJoinProc")
 	public String stJoinProc(CeoDto ceo, StoreDto store, RedirectAttributes rttr, MultipartHttpServletRequest multi) {
 		log.info("stJoinProc()");
 		String view = stServ.stJoinProc(ceo, store, rttr, multi);
 		return view;
+	}
+	
+	@GetMapping("stHome")
+	public String stHome() {
+		log.info("stHome()");
+		return "stHome";
 	}
 	
 	@PostMapping("stLoginProc")
@@ -135,12 +128,25 @@ public class StoreController {
 		return result;
 	}
 	
+	@GetMapping("stLogout")
+	public String stLogout() {
+		log.info("stLogout()");
+		return stServ.stLogout();
+	}
+	
+	@GetMapping("stMyPage")
+	public String stMyPage() {
+		log.info("stMyPage()");
+		return "stMyPage";
+	}	
+	
 	@GetMapping("stMyProd")
 	public ModelAndView getProdList(CeoDto ceo, String pl_cnum) {
 		log.info("getProdList()");
 		mv = stServ.stMyProd(ceo, pl_cnum);
 		return mv;
 	}
+	
 	
 	@GetMapping("stWriteFrm")
 	public String stWriteFrm() {
@@ -152,6 +158,20 @@ public class StoreController {
 	public String stWriteProc(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
 		log.info("stWriteProc()");
 		String view = stServ.stWriteProc(multi, rttr);		
+		return view;
+	}
+	
+	@GetMapping("stAddProdPhotos")
+	public ModelAndView stAddProdPhotos(Integer pl_num) {
+		log.info("stAddProdPhotos()");
+		mv = stServ.stAddProdPhotos(pl_num);		
+		return mv;
+	}
+
+	@PostMapping("stAddProdPhotoProc")
+	public String stAddProdPhotoProc(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
+		log.info("stAddProdPhotoProc()");
+		String view = stServ.stAddProdPhotoProc(multi, rttr);
 		return view;
 	}
 	
@@ -180,16 +200,24 @@ public class StoreController {
 		return view;
 	}
 	
-	@GetMapping("stLogout")
-	public String stLogout() {
-		log.info("stLogout()");
-		return stServ.stLogout();
+	@GetMapping("stAuthMail")
+	public ModelAndView stAuthMail() {
+		log.info("stAuthMail()");
+		mv = stServ.getAuthList();
+		return mv;
 	}
 	
-	@GetMapping("stModifyProdFrm")
-	public String stModifyProdFrm() {
-		log.info("stModifyProdFrm()");
-		return "stModifyProdFrm";
+	@PostMapping(value = "stAuthMail", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void stAuthMail(String c_email, String c_num) throws Exception {	
+		stServ.stAuthMail(c_email, c_num);
+	}
+	
+	@GetMapping("stAuthorized")
+	public String stAuthorized(String c_num, String key) {
+		log.info("stAuthorized()");
+		String view = stServ.stAuthorized(c_num, key);
+		return view;
 	}
 	
 	@GetMapping("stMyThumb")
@@ -212,7 +240,6 @@ public class StoreController {
 		log.info("stDeleteThumb()");
 		String result = null;
 		result = stServ.stDeleteThumb(f_sysname);
-		log.info(result);
 		
 		return result;
 	}
@@ -224,12 +251,6 @@ public class StoreController {
 		return mv;
 	}
 	
-	@GetMapping("stIntro")
-	public String stIntro() {
-		log.info("stIntro()");
-		return "stIntro";
-	}
-	
 	@PostMapping("stExtraPhotoProc")
 	public String stExtraPhotoProc(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
 		log.info("stExtraPhotoProc()");
@@ -237,25 +258,13 @@ public class StoreController {
 		return view;
 	}
 	
-	@GetMapping("stAddProdPhotos")
-	public ModelAndView stAddProdPhotos(Integer pl_num) {
-		log.info("stAddProdPhotos()");
-		mv = stServ.stAddProdPhotos(pl_num);		
-		return mv;
-	}
-
-	@PostMapping("stAddProdPhotoProc")
-	public String stAddProdPhotoProc(MultipartHttpServletRequest multi, RedirectAttributes rttr) {
-		log.info("stAddProdPhotoProc()");
-		String view = stServ.stAddProdPhotoProc(multi, rttr);
-		return view;
-	}
-	
-	@GetMapping("stDetail")
-	public ModelAndView stGetDetail(Integer pl_num, String s_num) {
-		log.info("stGetDetail() pl_num : " + pl_num);
-		mv = stServ.stGetDetail(pl_num, s_num);
-		return mv;
+	@PostMapping(value = "stDelPhotos", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String stDeletePhotos(String c_num) {
+		log.info("stDeletePhotos()");
+		String result = null;
+		result = stServ.stDeletePhotos(c_num);	
+		return result;
 	}
 	
 	@GetMapping("plProductList")
@@ -265,27 +274,18 @@ public class StoreController {
 		return mv;
 	}
 	
-	@GetMapping("stAuthMail")
-	public ModelAndView stAuthMail() {
-		log.info("stAuthMail()");
-		mv = stServ.getAuthList();
-		return mv;
-	}
-	
 	@GetMapping(value="inCartHeart", produces="application/text; charset=utf-8")
 	@ResponseBody
 	public void inCartHeart(String ic_mid, String ic_cnum) {
 		log.info("inCartHeart()");
-		stServ.stIncart(ic_mid, ic_cnum);
-		
+		stServ.stIncart(ic_mid, ic_cnum);		
 	}
 	
 	@GetMapping(value="inCartHeartEmpty", produces="application/text; charset=utf-8")
 	@ResponseBody
 	public void inCartHeartEmpty(String ic_mid, String ic_cnum) {
 		log.info("inCartHeartEmpty()");
-		stServ.stIncartEmpty(ic_mid, ic_cnum);
-		
+		stServ.stIncartEmpty(ic_mid, ic_cnum);		
 	}
 	
 	@PostMapping(value = "delProd", produces = "application/text; charset=utf-8")
@@ -297,27 +297,26 @@ public class StoreController {
 		return result;
 	}
 	
-	@GetMapping("stAuthorized")
-	public String stAuthorized(String c_num, String key) {
-		log.info("stAuthorized()");
-		String view = stServ.stAuthorized(c_num, key);
-		return view;
+	@GetMapping("stModifyProdFrm")
+	public String stModifyProdFrm() {
+		log.info("stModifyProdFrm()");
+		return "stModifyProdFrm";
 	}
 	
-	@PostMapping(value = "stAuthMail", produces = "application/json; charset=utf-8")
-	@ResponseBody
-	public void stAuthMail(String c_email, String c_num, HttpServletRequest request) throws Exception {	
-		stServ.stAuthMail(c_email, c_num);
+	@GetMapping("stIntro")
+	public String stIntro() {
+		log.info("stIntro()");
+		return "stIntro";
 	}	
 	
-	@PostMapping(value = "stDelPhotos", produces = "application/text; charset=utf-8")
-	@ResponseBody
-	public String stDeletePhotos(String c_num) {
-		log.info("stDeletePhotos()");
-		String result = null;
-		result = stServ.stDeletePhotos(c_num);	
-		return result;
+	@GetMapping("stDetail")
+	public ModelAndView stGetDetail(Integer pl_num, String s_num) {
+		log.info("stGetDetail() pl_num : " + pl_num);
+		mv = stServ.stGetDetail(pl_num, s_num);
+		return mv;
 	}
+
 
 
 }//class end
+

@@ -12,25 +12,26 @@
 		INSERT INTO S VALUES (#{s_num}, #{s_phone}, #{s_name}, #{s_addr1}, #{s_addr2}, #{s_addr3}, #{s_summary}, #{s_category}, default)
 	</insert>
 	
-	<!-- 중복체크 -->
-	<select id="stIdCheck" parameterType="String" resultType="Integer">
-		SELECT COUNT(*) FROM C WHERE C_NUM=#{c_num}
-	</select>
-	
 	<!-- 사업자등록증 첨부 -->
 	<insert id="stFileUp" parameterType="HashMap">
 		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_CNUM, F_THUMB)
 		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{c_num}, 'AUTH')
 	</insert>
 	
+	<!-- 중복체크 -->
+	<select id="stIdCheck" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) FROM C WHERE C_NUM=#{c_num}
+	</select>
+	
+	<!-- c_join값 가져오기 -->
+	<select id="getCjoin" parameterType="String" resultType="String">
+		SELECT C_JOIN FROM C WHERE C_NUM=#{c_num}
+	</select>	
 	<!-- 로그인 -->
 	<select id="getStEncPwd" parameterType="String" resultType="String">
 		SELECT C_PWD FROM C WHERE C_NUM=#{c_num}
 	</select>
-	<!-- c_join값 가져오기 -->
-	<select id="getCjoin" parameterType="String" resultType="String">
-		SELECT C_JOIN FROM C WHERE C_NUM=#{c_num}
-	</select>
+
 
 	<!-- 로그인 정보 가져오기 -->
 	<select id="getCeoInfo" parameterType="String" resultType="com.bob.stepy.dto.CeoDto">
@@ -46,43 +47,6 @@
 	<update id="stResetPwdProc" parameterType="com.bob.stepy.dto.CeoDto">
 		UPDATE C SET C_PWD = #{c_pwd} WHERE C_NUM=#{c_num}
 	</update>
-	
-	<!-- 상품 리스트 가져오기 -->
-	<select id="getProdList" parameterType="String" resultType="com.bob.stepy.dto.ProductDto">
-		SELECT * FROM PL WHERE PL_CNUM=#{pl_cnum} ORDER BY PL_PRICE ASC
-	</select>
-	<!-- 상품 1개 정보 가져오기 -->
-	<select id="getProdInfo" parameterType="Integer" resultType="com.bob.stepy.dto.ProductDto">
-		SELECT * FROM PL WHERE PL_NUM=${pl_num}
-	</select>
-	
-	<!-- 상품 등록하기 -->	
-	<insert id="stProdInsert" parameterType="com.bob.stepy.dto.ProductDto"
-		useGeneratedKeys="true" keyProperty="pl_num">
-		<selectKey keyProperty="pl_num" resultType="int" order="BEFORE">
-			SELECT PRODUCTLIST_SEQ.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO PL
-		VALUES (#{pl_cnum}, ${pl_num}, #{pl_name}, #{pl_price}, #{pl_person}, #{pl_qty}, #{pl_text})	
-	</insert>
-	<!-- 상품 메인사진 가져오기 -->
-	<select id="getProdThumb" parameterType="Integer" resultType="com.bob.stepy.dto.FileUpDto">
-		SELECT * FROM F WHERE F_PLNUM=#{f_plnum} AND F_THUMB='THUMB'
-	</select>
-	<!-- 상품 썸네일 첨부 -->
-	<insert id="stProdThumbUp" parameterType="HashMap">
-		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_PLNUM, F_THUMB)
-		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{pl_num}, 'THUMB')	
-	</insert>
-	<!-- 그 외 상품 사진 첨부 -->
-	<insert id="stProdFileUp" parameterType="HashMap">
-		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_PLNUM, F_THUMB)
-		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{pl_num}, 'OTHER')
-	</insert>
-	<!-- 상품 추가 사진 불러오기 -->
-	<select id="getProdPhotos" parameterType="Integer" resultType="com.bob.stepy.dto.FileUpDto">
-		SELECT * FROM F WHERE F_PLNUM=#{f_plnum} AND F_THUMB='OTHER'
-	</select>
 	
 	<!-- 사업주, 매장 정보 변경하기 -->
 	<update id="stModifyCeo" parameterType="com.bob.stepy.dto.CeoDto">
@@ -102,15 +66,63 @@
 	</update>
 	
 	
+	
+	<!-- 상품 리스트 가져오기 -->
+	<select id="getProdList" parameterType="String" resultType="com.bob.stepy.dto.ProductDto">
+		SELECT * FROM PL WHERE PL_CNUM=#{pl_cnum} ORDER BY PL_PRICE ASC
+	</select>
+	<!-- 상품 메인사진 가져오기 -->
+	<select id="getProdThumb" parameterType="Integer" resultType="com.bob.stepy.dto.FileUpDto">
+		SELECT * FROM F WHERE F_PLNUM=#{f_plnum} AND F_THUMB='THUMB'
+	</select>
+	<!-- 상품 1개 정보 가져오기 -->
+	<select id="getProdInfo" parameterType="Integer" resultType="com.bob.stepy.dto.ProductDto">
+		SELECT * FROM PL WHERE PL_NUM=${pl_num}
+	</select>
+	
+	<!-- 상품 등록하기 -->	
+	<insert id="stProdInsert" parameterType="com.bob.stepy.dto.ProductDto"
+		useGeneratedKeys="true" keyProperty="pl_num">
+		<selectKey keyProperty="pl_num" resultType="int" order="BEFORE">
+			SELECT PRODUCTLIST_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO PL
+		VALUES (#{pl_cnum}, ${pl_num}, #{pl_name}, #{pl_price}, #{pl_person}, #{pl_qty}, #{pl_text})	
+	</insert>
+	<!-- 상품 썸네일 첨부 -->
+	<insert id="stProdThumbUp" parameterType="HashMap">
+		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_PLNUM, F_THUMB)
+		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{pl_num}, 'THUMB')	
+	</insert>
+	<!-- 그 외 상품 사진 첨부 -->
+	<insert id="stProdFileUp" parameterType="HashMap">
+		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_PLNUM, F_THUMB)
+		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{pl_num}, 'OTHER')
+	</insert>
+	<!-- 상품 추가 사진 불러오기 -->
+	<select id="getProdPhotos" parameterType="Integer" resultType="com.bob.stepy.dto.FileUpDto">
+		SELECT * FROM F WHERE F_PLNUM=#{f_plnum} AND F_THUMB='OTHER'
+	</select>	
+		
+	
+	<!-- 미인증 업체 리스트 불러오기 -->
+	<select id="getAuthList" resultType="com.bob.stepy.dto.CeoDto">
+		SELECT * FROM C WHERE C_JOIN='pending'
+	</select>
+	<!-- 사업자 등록증 가져오기 -->
+	<select id="stGetBiz" resultType="com.bob.stepy.dto.FileUpDto">
+		SELECT * FROM F WHERE F_CNUM=#{c_num} AND F_THUMB='AUTH'
+	</select>
+	
+	<!-- 업체 메일 인증 업데이트 -->
+	<update id="stUpdateJoin" parameterType="String">
+		UPDATE C SET C_JOIN='approve' WHERE C_NUM=#{c_num}
+	</update>
+		
 	<!-- 가게 썸네일 첨부 -->
 	<insert id="stThumbUp" parameterType="HashMap">
 		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_CNUM, F_THUMB)
 		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{pl_cnum}, 'THUMB')	
-	</insert>
-	<!-- 가게 추가사진 첨부 -->
-	<insert id="stPhotoUp" parameterType="HashMap">
-		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_CNUM, F_THUMB)
-		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{pl_cnum}, 'OTHER')	
 	</insert>
 	<!-- 썸네일 불러오기 -->
 	<select id="getThumb" parameterType="String" resultType="com.bob.stepy.dto.FileUpDto">
@@ -120,6 +132,12 @@
 	<select id="stDeleteThumb" parameterType="String">
 		DELETE FROM F WHERE F_SYSNAME=#{f_sysname}
 	</select>
+	
+	<!-- 가게 추가사진 첨부 -->
+	<insert id="stPhotoUp" parameterType="HashMap">
+		INSERT INTO F (F_NUM, F_ORINAME, F_SYSNAME, F_CNUM, F_THUMB)
+		VALUES (FILEUP_SEQ.NEXTVAL, #{f_oriname}, #{f_sysname}, #{pl_cnum}, 'OTHER')	
+	</insert>
 	<!-- 가게 추가사진 불러오기 -->
 	<select id="getPhotos" parameterType="String" resultType="com.bob.stepy.dto.FileUpDto">
 		SELECT * FROM F WHERE F_CNUM=#{f_cnum} AND F_THUMB='OTHER'
@@ -133,10 +151,9 @@
 		SELECT F_SYSNAME FROM F WHERE F_CNUM=#{f_cnum} AND F_THUMB='OTHER'
 	</select>
 	
-	<!-- 미인증 업체 리스트 불러오기 -->
-	<select id="getAuthList" resultType="com.bob.stepy.dto.CeoDto">
-		SELECT * FROM C WHERE C_JOIN='pending'
-	</select>
+
+	
+	
 	
 	<!-- 업체 찜하기 -->
 	<insert id="stIncart" parameterType="com.bob.stepy.dto.InCartDto">
@@ -163,15 +180,7 @@
 		DELETE FROM F WHERE F_PLNUM=${pl_num}
 	</select>
 	
-	<!-- 업체 메일 인증 업데이트 -->
-	<update id="stUpdateJoin" parameterType="String">
-		UPDATE C SET C_JOIN='approve' WHERE C_NUM=#{c_num}
-	</update>
-	
-	<!-- 사업자 등록증 가져오기 -->
-	<select id="stGetBiz" resultType="com.bob.stepy.dto.FileUpDto">
-		SELECT * FROM F WHERE F_CNUM=#{c_num} AND F_THUMB='AUTH'
-	</select>
+
 	
 	<!-- 전체 예약 정보 불러오기 -->
 	<select id="stTotalResList" parameterType="Integer" resultType="com.bob.stepy.dto.ResTicketDto">
@@ -183,10 +192,11 @@
 	</select>
 	<!-- 해당 상품번호-이름 가져오기 -->
 	<select id="getPlname" parameterType="Integer" resultType="String">
-		SELECT PL_NAME FROM PL WHERE PL_NUM=${res_plnum}
-	
+		SELECT PL_NAME FROM PL WHERE PL_NUM=${res_plnum}	
 	</select>
 	
 </mapper>
+
+
 
 

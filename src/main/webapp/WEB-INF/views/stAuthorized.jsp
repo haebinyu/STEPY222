@@ -11,11 +11,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>내 상품 관리</title>
+<title>인증 완료</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="resources/css/style.css" rel="stylesheet">
+<script type="text/javascript">
+$(function(){	
+	$(".suc").css("display", "none");
+	$(".bef").css("display", "block");	
+	}
+);
+</script>
 </head>
 <body>
 	<header>
@@ -24,7 +31,8 @@
 	
 	<!-- section -->
 	<div class="container center-block" style="width:400px;">
-		<div class="alert alert-success" role="alert"><h2>환영합니다:)</h2><br>STEPY 업체 인증이 완료되었습니다.<br>로그인 후  상품을 등록해주시기 바랍니다.</div>
+		<div class="alert alert-success" role="alert">
+			<h2>환영합니다:)</h2><br>STEPY 업체 인증이 완료되었습니다.<br>로그인 후  상품을 등록해주시기 바랍니다.</div>
 	</div>
 	
 	<footer>
